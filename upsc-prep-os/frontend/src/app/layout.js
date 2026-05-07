@@ -1,5 +1,5 @@
 import "./globals.css";
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export const metadata = {
   title: "PrepOS | Systematic UPSC Preparation",
@@ -16,8 +16,12 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
       <body>
-        {children}
+         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+          {children}
+        </GoogleOAuthProvider>
       </body>
+
     </html>
+    
   );
 }

@@ -3,10 +3,22 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    // Password is only required if authProvider is 'local'
+    password: { 
+        type: String, 
+        required: function() { return this.authProvider === 'local'; } 
+    },
+    
+    // Auth Customizations
+    authProvider: { type: String, enum: ['local', 'google'], default: 'local' },
+    googleId: { type: String, unique: true, sparse: true },
+
+    // OTP Password Reset
+    resetPasswordOTP: String,
+    resetPasswordOTPExpire: Date,
     
     // Admin Control
-    isAdmin: { type: Boolean, default: false }, // Default is false
+    isAdmin: { type: Boolean, default: false },
 
     targetExamYear: { type: Number, default: 2026 },
     platformJoiningDate: { type: Date, default: Date.now },

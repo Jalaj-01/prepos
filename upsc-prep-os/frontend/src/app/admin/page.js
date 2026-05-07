@@ -1,7 +1,10 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, FolderTree, Book, Trash2, LayoutDashboard, Layers, ListPlus } from 'lucide-react';
+import { 
+    Plus, FolderTree, Book, Trash2, LayoutDashboard, 
+    Layers, ListPlus, FilePlus2, Sparkles, ChevronRight 
+} from 'lucide-react';
 import axios from 'axios';
 import Link from 'next/link';
 
@@ -24,7 +27,6 @@ export default function AdminPanel() {
     const handleBulkSubmit = async (type) => {
         setLoading(true);
         const input = type === 'subject' ? subjectInput : topicInput;
-        // Split by new line or comma, then remove empty strings
         const namesArray = input.split(/[\n,]+/).map(n => n.trim()).filter(n => n !== '');
 
         if (namesArray.length === 0) {
@@ -58,29 +60,47 @@ export default function AdminPanel() {
         if(!confirm("Delete this item and its associations?")) return;
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        await axios.delete(`http://localhost:5000/api/taxonomy/${id}`, config);
+        await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/taxonomy/${id}`, config);
         fetchTaxonomy();
     };
 
     return (
         <div className="min-h-screen bg-brand-light p-6 md:p-12">
             <div className="max-w-6xl mx-auto">
+                {/* Header */}
                 <header className="flex justify-between items-center mb-10">
                     <div>
-                        <h1 className="text-3xl font-black text-brand-dark">Content Manager</h1>
-                        <p className="text-brand-muted font-medium">Manage Subjects & Topics side-by-side</p>
+                        <h1 className="text-3xl font-black text-brand-dark tracking-tighter">Admin Command Center</h1>
+                        <p className="text-brand-muted font-medium">Manage syllabus, question banks, and AI imports.</p>
                     </div>
-                    <Link href="/dashboard" className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-brand-border font-bold text-sm hover:bg-brand-light transition-all">
+                    <Link href="/dashboard" className="flex items-center gap-2 bg-white px-5 py-2.5 rounded-2xl border border-brand-border font-bold text-sm hover:bg-brand-light transition-all shadow-sm">
                         <LayoutDashboard size={18} /> Dashboard
                     </Link>
                 </header>
 
+                {/* NEW: QUICK NAVIGATION CARDS */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                    <AdminNavCard 
+                        href="/admin/questions"
+                        icon={<FilePlus2 className="text-brand-accent" />}
+                        title="Single Question Creator"
+                        desc="Add high-quality UPSC questions one by one with detailed explanations."
+                        color="border-brand-accent/20 hover:border-brand-accent"
+                    />
+                    <AdminNavCard 
+                        href="/admin/questions/bulk"
+                        icon={<Sparkles className="text-orange-500" />}
+                        title="AI Bulk Question Importer"
+                        desc="Paste raw text from your PDFs and let the system auto-generate question cards."
+                        color="border-orange-200 hover:border-orange-500"
+                    />
+                </div>
+
+                <div className="h-[1px] bg-brand-border w-full mb-12" />
+
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    
-                    {/* LEFT COLUMN: SEPARATE ADDING CARDS */}
+                    {/* LEFT COLUMN: ADDING SECTION */}
                     <div className="space-y-6 h-fit sticky top-10">
-                        
-                        {/* 1. BULK SUBJECTS CARD */}
                         <div className="bg-white p-6 rounded-[24px] border border-brand-border shadow-premium">
                             <h2 className="text-sm font-black uppercase tracking-widest mb-4 flex items-center gap-2 text-brand-dark">
                                 <Layers size={16} className="text-brand-accent" /> Add Subjects
@@ -99,7 +119,6 @@ export default function AdminPanel() {
                             </button>
                         </div>
 
-                        {/* 2. BULK TOPICS CARD */}
                         <div className="bg-white p-6 rounded-[24px] border border-brand-border shadow-premium">
                             <h2 className="text-sm font-black uppercase tracking-widest mb-4 flex items-center gap-2 text-brand-dark">
                                 <ListPlus size={16} className="text-orange-500" /> Add Topics
@@ -116,7 +135,7 @@ export default function AdminPanel() {
                             </select>
                             <textarea 
                                 className="w-full p-4 bg-brand-light border border-brand-border rounded-2xl focus:ring-2 focus:ring-brand-accent outline-none font-medium text-sm transition-all h-32 resize-none"
-                                placeholder="Fundamental Rights, Preamble, Parliament..."
+                                placeholder="Fundamental Rights, Preamble..."
                                 value={topicInput}
                                 onChange={(e) => setTopicInput(e.target.value)}
                             />
@@ -133,7 +152,7 @@ export default function AdminPanel() {
                     {/* RIGHT COLUMN: ACTIVE STRUCTURE LIST */}
                     <div className="lg:col-span-2 space-y-4">
                         <h2 className="text-sm font-black uppercase tracking-widest mb-4 px-2 flex items-center gap-2 text-brand-muted">
-                            <FolderTree size={16} /> Active Structure
+                            <FolderTree size={16} /> Syllabus Hierarchy
                         </h2>
                         
                         {taxonomies.filter(t => t.level === 'subject').map(subject => (
@@ -156,9 +175,6 @@ export default function AdminPanel() {
                                             </button>
                                         </div>
                                     ))}
-                                    {taxonomies.filter(t => t.parentId?._id === subject._id).length === 0 && (
-                                        <p className="text-[10px] font-bold text-brand-muted uppercase">No topics added yet.</p>
-                                    )}
                                 </div>
                             </div>
                         ))}
@@ -166,5 +182,23 @@ export default function AdminPanel() {
                 </div>
             </div>
         </div>
+    );
+}
+
+// Sub-component for navigation cards
+function AdminNavCard({ href, icon, title, desc, color }) {
+    return (
+        <Link href={href} className={`bg-white p-6 rounded-[32px] border-2 ${color} transition-all group shadow-sm flex items-center justify-between`}>
+            <div className="flex items-center gap-5">
+                <div className="bg-brand-light p-4 rounded-2xl group-hover:scale-110 transition-transform">
+                    {icon}
+                </div>
+                <div>
+                    <h3 className="font-black text-brand-dark leading-tight">{title}</h3>
+                    <p className="text-xs font-medium text-brand-muted mt-1 max-w-[200px]">{desc}</p>
+                </div>
+            </div>
+            <ChevronRight className="text-brand-border group-hover:text-brand-dark transition-colors" />
+        </Link>
     );
 }

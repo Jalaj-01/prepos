@@ -58,5 +58,18 @@ exports.getQuestionsByTopic = async (req, res) => {
         res.json(questions);
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }};
+exports.addBulkQuestions = async (req, res) => {
+    try {
+        const { questions } = req.body;
+        // This takes an array of questions and saves them all at once
+        const createdQuestions = await Question.insertMany(questions);
+        res.status(201).json({ 
+            message: "Bulk upload successful", 
+            count: createdQuestions.length 
+        });
+    } catch (error) {
+        console.error("Bulk Upload Error:", error);
+        res.status(500).json({ message: error.message });
     }
 };

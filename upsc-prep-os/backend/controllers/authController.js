@@ -1,6 +1,11 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+const { OAuth2Client } = require('google-auth-library');
+
+// Initialize Google Client
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Function to generate JWT
 const generateToken = (id) => {
@@ -13,28 +18,24 @@ exports.register = async (req, res) => {
     try {
         const { name, email, password, targetCompletionDate } = req.body;
 
-        // 1. Check if user exists
         const userExists = await User.findOne({ email });
         if (userExists) {
             console.log("❌ User already exists");
             return res.status(400).json({ message: "User already exists" });
         }
 
-        // 2. Hash Password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // 3. Calculate Daily MCQ Target (Smart Planner)
+        // Smart Planner Logic
         const totalPYQs = 5000; 
         const today = new Date();
         const target = new Date(targetCompletionDate);
-        
         const diffTime = target.getTime() - today.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         
         const suggestedDailyTarget = diffDays > 0 ? Math.ceil(totalPYQs / diffDays) : 10;
 
-        // 4. Create User
         const user = await User.create({
             name,
             email,
@@ -99,8 +100,6 @@ exports.updateProfile = async (req, res) => {
         
         if (targetCompletionDate) {
             user.targetCompletionDate = targetCompletionDate;
-            
-            // Recalculate daily target based on new date
             const totalPYQs = 5000; 
             const today = new Date();
             const target = new Date(targetCompletionDate);
@@ -109,20 +108,120 @@ exports.updateProfile = async (req, res) => {
         }
 
         const updatedUser = await user.save();
-        
-        console.log("✅ Profile Updated. New daily target:", updatedUser.dailyMcqTarget);
+        console.log("✅ Profile Updated");
 
         res.json({
             _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
-            isAdmin: updatedUser.isAdmin, // Included so frontend keeps admin status
+            isAdmin: updatedUser.isAdmin,
             dailyMcqTarget: updatedUser.dailyMcqTarget,
             targetCompletionDate: updatedUser.targetCompletionDate,
-            token: req.headers.authorization.split(' ')[1] // Return the existing token
+            token: req.headers.authorization.split(' ')[1] 
         });
     } catch (error) {
         console.error("🔥 Update Profile Error:", error.message);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// --- GOOGLE OAUTH ---
+exports.googleLogin = async (req, res) => {
+    const { token, targetCompletionDate } = req.body; // targetCompletionDate passed from frontend signup
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const { name, email, sub: googleId } = ticket.getPayload();
+
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            // Smart Planner Logic for new Google user
+            const totalPYQs = 5000; 
+            const today = new Date();
+            // If date isn't provided (e.g. login instead of signup), fallback to 1 year
+            const target = new Date(targetCompletionDate || Date.now() + 31536000000); 
+            const diffDays = Math.ceil(Math.abs(target - today) / (1000 * 60 * 60 * 24));
+            const suggestedDailyTarget = diffDays > 0 ? Math.ceil(totalPYQs / diffDays) : 10;
+
+            user = await User.create({
+                name, 
+                email, 
+                googleId, 
+                authProvider: 'google',
+                targetCompletionDate: target,
+                dailyMcqTarget: suggestedDailyTarget
+            });
+            console.log("✅ New Google User Created with Target:", suggestedDailyTarget);
+        }
+
+        res.json({
+            _id: user._id, 
+            name: user.name, 
+            email: user.email,
+            isAdmin: user.isAdmin, 
+            dailyMcqTarget: user.dailyMcqTarget,
+            targetCompletionDate: user.targetCompletionDate,
+            token: generateToken(user._id)
+        });
+    } catch (error) {
+        console.error("🔥 Google Auth Error:", error.message);
+        res.status(400).json({ message: "Google Authentication failed" });
+    }
+};
+
+// --- FORGOT PASSWORD (OTP) ---
+exports.forgotPasswordOTP = async (req, res) => {
+    const { email } = req.body;
+    try {
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ message: "Email not found" });
+
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        user.resetPasswordOTP = otp;
+        user.resetPasswordOTPExpire = Date.now() + 10 * 60 * 1000; 
+        await user.save();
+
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+        });
+
+        await transporter.sendMail({
+            to: user.email,
+            subject: 'PrepOS - Your Password Reset OTP',
+            text: `Your OTP for password reset is: ${otp}. It is valid for 10 minutes.`
+        });
+
+        res.json({ message: "OTP sent to your email" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// --- RESET PASSWORD WITH OTP ---
+exports.resetPasswordWithOTP = async (req, res) => {
+    const { email, otp, newPassword } = req.body;
+    try {
+        const user = await User.findOne({ 
+            email, 
+            resetPasswordOTP: otp,
+            resetPasswordOTPExpire: { $gt: Date.now() }
+        });
+
+        if (!user) return res.status(400).json({ message: "Invalid or expired OTP" });
+
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(newPassword, salt);
+        user.resetPasswordOTP = undefined;
+        user.resetPasswordOTPExpire = undefined;
+        user.authProvider = 'local'; 
+        await user.save();
+
+        res.json({ message: "Password reset successful" });
+    } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
