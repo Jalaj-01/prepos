@@ -7,6 +7,7 @@ const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '30d' });
 };
 
+// @desc    Register a new user
 exports.register = async (req, res) => {
     console.log("📥 New Registration Attempt:", req.body.email);
     try {
@@ -28,11 +29,9 @@ exports.register = async (req, res) => {
         const today = new Date();
         const target = new Date(targetCompletionDate);
         
-        // Calculate difference in days
         const diffTime = target.getTime() - today.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         
-        // Fallback to 10 if date is invalid or too close
         const suggestedDailyTarget = diffDays > 0 ? Math.ceil(totalPYQs / diffDays) : 10;
 
         // 4. Create User
@@ -50,7 +49,9 @@ exports.register = async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            isAdmin: user.isAdmin,
             dailyMcqTarget: user.dailyMcqTarget,
+            targetCompletionDate: user.targetCompletionDate,
             token: generateToken(user._id)
         });
     } catch (error) {
@@ -59,6 +60,7 @@ exports.register = async (req, res) => {
     }
 };
 
+// @desc    Login user
 exports.login = async (req, res) => {
     console.log("📥 Login Attempt:", req.body.email);
     try {
@@ -73,6 +75,7 @@ exports.login = async (req, res) => {
                 email: user.email,
                 isAdmin: user.isAdmin,
                 dailyMcqTarget: user.dailyMcqTarget,
+                targetCompletionDate: user.targetCompletionDate,
                 token: generateToken(user._id)
             });
         } else {
@@ -81,6 +84,45 @@ exports.login = async (req, res) => {
         }
     } catch (error) {
         console.error("🔥 Login Error:", error.message);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Update User Target Date/Profile
+exports.updateProfile = async (req, res) => {
+    console.log("📥 Profile Update Request for:", req.user._id);
+    try {
+        const user = await User.findById(req.user._id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        const { targetCompletionDate } = req.body;
+        
+        if (targetCompletionDate) {
+            user.targetCompletionDate = targetCompletionDate;
+            
+            // Recalculate daily target based on new date
+            const totalPYQs = 5000; 
+            const today = new Date();
+            const target = new Date(targetCompletionDate);
+            const diffDays = Math.ceil(Math.abs(target - today) / (1000 * 60 * 60 * 24));
+            user.dailyMcqTarget = diffDays > 0 ? Math.ceil(totalPYQs / diffDays) : 10;
+        }
+
+        const updatedUser = await user.save();
+        
+        console.log("✅ Profile Updated. New daily target:", updatedUser.dailyMcqTarget);
+
+        res.json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin, // Included so frontend keeps admin status
+            dailyMcqTarget: updatedUser.dailyMcqTarget,
+            targetCompletionDate: updatedUser.targetCompletionDate,
+            token: req.headers.authorization.split(' ')[1] // Return the existing token
+        });
+    } catch (error) {
+        console.error("🔥 Update Profile Error:", error.message);
         res.status(500).json({ message: error.message });
     }
 };
