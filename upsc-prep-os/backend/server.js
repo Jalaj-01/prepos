@@ -22,7 +22,10 @@ const leaderboardRoutes = require('./routes/leaderboardRoutes');
 const app = express();
 
 // 4. Middleware
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:3000", "http://prepos-upsc.vercel.app/"], // Replace the second URL with your actual live Vercel URL
+    credentials: true
+}));
 app.use(express.json());
 
 // 5. API Routes
@@ -33,7 +36,7 @@ app.use('/api/attempts', attemptRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/books', bookRoutes); 
 app.use('/api/revisions', revisionRoutes); 
-app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
+app.use('/api/leaderboard', leaderboardRoutes);
 
 
 // Base Route
