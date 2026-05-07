@@ -9,7 +9,7 @@ dotenv.config();
 // 2. Connect to Database
 connectDB();
 
-// 3. Import Routes (Only once each)
+// 3. Import Routes
 const authRoutes = require('./routes/authRoutes');
 const questionRoutes = require('./routes/questionRoutes');
 const taxonomyRoutes = require('./routes/taxonomyRoutes');
@@ -21,9 +21,9 @@ const leaderboardRoutes = require('./routes/leaderboardRoutes');
 
 const app = express();
 
-// 4. Middleware
+// 4. Middleware - FIXED CORS FOR YOUR URL
 app.use(cors({
-    origin: ["http://localhost:3000", "http://prepos-upsc.vercel.app/"], // Replace the second URL with your actual live Vercel URL
+    origin: ["http://localhost:3000", "https://prepos-upsc.vercel.app"],
     credentials: true
 }));
 app.use(express.json());
@@ -38,7 +38,6 @@ app.use('/api/books', bookRoutes);
 app.use('/api/revisions', revisionRoutes); 
 app.use('/api/leaderboard', leaderboardRoutes);
 
-
 // Base Route
 app.get('/', (req, res) => {
     res.send('UPSC Prep OS API is running...');
@@ -47,5 +46,5 @@ app.get('/', (req, res) => {
 // 6. Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
