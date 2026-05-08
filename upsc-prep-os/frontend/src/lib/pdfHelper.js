@@ -34,23 +34,33 @@ export const extractTextFromPDF = async (file) => {
     if (typeof window === "undefined") return "";
 
     if (!pdfjsLib) {
-        pdfjsLib = await import('pdfjs-dist/legacy/build/pdf');
+        pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.js');
 
-        const PDFJS_VERSION = '4.0.379'; 
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 
+        const PDFJS_VERSION = '4.0.379';
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
             `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.js`;
     }
 
     const arrayBuffer = await file.arrayBuffer();
-    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+
+    const loadingTask = pdfjsLib.getDocument({
+        data: arrayBuffer
+    });
+
     const pdf = await loadingTask.promise;
 
     let fullText = "";
 
     for (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i);
+
         const textContent = await page.getTextContent();
-        const pageText = textContent.items.map(item => item.str).join(" ");
+
+        const pageText = textContent.items
+            .map(item => item.str)
+            .join(" ");
+
         fullText += pageText + "\n";
     }
 
