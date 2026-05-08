@@ -173,6 +173,7 @@ export default function Dashboard() {
                              <QuickLink href="/analytics" icon={<BarChart3 size={18} />} label="Performance Intelligence" />
                              <QuickLink href="/rankings" icon={<Trophy size={18} />} label="Leaderboard & Rankings" />
                              <QuickLink href="/books" icon={<BookOpen size={18} />} label="Book Study Tracker" />
+                             <QuickLink href="/admin/questions/question-library"icon={<BookOpen size={18} />}label="Question Library"/>
                              {user.isAdmin && <QuickLink href="/admin" icon={<Lock size={18} />} label="Admin Manager" />}
                         </div>
                     </div>
