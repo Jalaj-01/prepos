@@ -193,11 +193,11 @@
 
 "use client";
 
-import dynamic from "next/dynamic";
+import nextDynamic from "next/dynamic";
 
 export const dynamic = "force-dynamic";
 
-const BulkImporterLogic = dynamic(
+const BulkImporterLogic = nextDynamic(
     () => import("./BulkImporterLogic"),
     {
         ssr: false,

@@ -227,7 +227,8 @@ export default function BulkImporterLogic() {
                         <button
                             onClick={handleParse}
                             disabled={extracting || !rawText}
-                            className="w-full bg-brand-dark text-white p-5 rounded-[24px] font-black flex items-center justify-center gap-3 hover:bg-brand-accent transition-all shadow-lg cursor-pointer disabled:opacity-30"
+                            // className="w-full bg-brand-dark text-white p-5 rounded-[24px] font-black flex items-center justify-center gap-3 hover:bg-brand-accent transition-all shadow-lg cursor-pointer disabled:opacity-30"
+                            className="w-full bg-brand-dark text-white p-5 rounded-[24px] font-black flex items-center justify-center gap-3 hover:bg-brand-accent transition-all shadow-lg active:scale-95 cursor-pointer"
                         >
 
                             <Wand2 size={20} />
