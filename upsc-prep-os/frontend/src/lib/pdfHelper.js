@@ -31,40 +31,26 @@
 let pdfjsLib = null;
 
 export const extractTextFromPDF = async (file) => {
-    // Prevent server-side execution
-    if (typeof window === "undefined") {
-        throw new Error("PDF extraction only works in browser");
-    }
+    if (typeof window === "undefined") return "";
 
-    // Lazy load only in browser
     if (!pdfjsLib) {
         pdfjsLib = await import('pdfjs-dist/legacy/build/pdf');
 
-        // Worker from CDN
-        pdfjsLib.GlobalWorkerOptions.workerSrc =
-            `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+        const PDFJS_VERSION = '4.0.379'; 
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 
+            `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.js`;
     }
 
     const arrayBuffer = await file.arrayBuffer();
-
-    const loadingTask = pdfjsLib.getDocument({
-        data: arrayBuffer
-    });
-
+    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
     const pdf = await loadingTask.promise;
 
     let fullText = "";
 
     for (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i);
-
         const textContent = await page.getTextContent();
-
-        // Extract text items and join them
-        const pageText = textContent.items
-            .map(item => item.str)
-            .join(" ");
-
+        const pageText = textContent.items.map(item => item.str).join(" ");
         fullText += pageText + "\n";
     }
 
