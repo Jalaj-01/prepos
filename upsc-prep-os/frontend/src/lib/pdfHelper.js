@@ -34,7 +34,7 @@ export const extractTextFromPDF = async (file) => {
     if (typeof window === "undefined") return "";
 
     if (!pdfjsLib) {
-        pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.js');
+        pdfjsLib = await import('pdfjs-dist/build/pdf');
 
         const PDFJS_VERSION = '4.0.379';
 
