@@ -31,10 +31,14 @@
 let pdfjsLib = null;
 
 export const extractTextFromPDF = async (file) => {
+
+    // Prevent SSR execution
     if (typeof window === "undefined") return "";
 
     if (!pdfjsLib) {
-        pdfjsLib = await import('pdfjs-dist/build/pdf');
+
+        // IMPORTANT: Use LEGACY build
+        pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.js');
 
         const PDFJS_VERSION = '4.0.379';
 
@@ -53,6 +57,7 @@ export const extractTextFromPDF = async (file) => {
     let fullText = "";
 
     for (let i = 1; i <= pdf.numPages; i++) {
+
         const page = await pdf.getPage(i);
 
         const textContent = await page.getTextContent();
