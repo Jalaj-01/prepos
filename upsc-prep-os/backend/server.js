@@ -18,7 +18,6 @@ const analyticsRoutes = require('./routes/analyticsRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const revisionRoutes = require('./routes/revisionRoutes');
 const leaderboardRoutes = require('./routes/leaderboardRoutes');
-const aiRoutes = require('./routes/aiRoutes');
 const visionRoutes = require('./routes/visionRoutes');
 
 
@@ -40,7 +39,6 @@ app.use('/api/analytics', analyticsRoutes);
 app.use('/api/books', bookRoutes); 
 app.use('/api/revisions', revisionRoutes); 
 app.use('/api/leaderboard', leaderboardRoutes);
-app.use('/api/ai', aiRoutes);
 app.use('/api/vision', visionRoutes);
 
 // Base Route
