@@ -2,7 +2,8 @@
 
 import {
     useEffect,
-    useState
+    useState,
+    Suspense
 } from "react";
 
 import axios from "axios";
@@ -38,17 +39,22 @@ const MISTAKE_TYPES = [
     "Elimination Failure"
 ];
 
-export default function PracticePage() {
+// =========================
+// INNER COMPONENT
+// (Uses useSearchParams — must be wrapped in Suspense)
+// =========================
+
+function PracticeContent() {
 
     // =========================
     // STATE
     // =========================
 
     const searchParams =
-    useSearchParams();
+        useSearchParams();
 
-const currentMode =
-    searchParams.get("mode") || "GS";
+    const currentMode =
+        searchParams.get("mode") || "GS";
 
     const [
 
@@ -339,7 +345,7 @@ const currentMode =
                     mode:
                         currentMode
                 },
-                
+
 
                 {
 
@@ -912,5 +918,27 @@ const currentMode =
             </AnimatePresence>
 
         </div>
+    );
+}
+
+// =========================
+// MAIN EXPORT (with Suspense)
+// =========================
+
+export default function PracticePage() {
+
+    return (
+
+        <Suspense fallback={
+            <div className="min-h-screen bg-brand-light flex items-center justify-center font-black animate-pulse uppercase tracking-widest text-brand-muted text-sm">
+
+                Loading...
+
+            </div>
+        }>
+
+            <PracticeContent />
+
+        </Suspense>
     );
 }
