@@ -2,7 +2,8 @@
 
 import {
     useState,
-    useEffect
+    useEffect,
+    Suspense
 } from "react";
 
 import {
@@ -24,11 +25,17 @@ import {
 } from "next/navigation";
 
 import Link from "next/link";
+
 import {
     useSearchParams
 } from "next/navigation";
 
-export default function PracticeSetup() {
+// =========================
+// INNER COMPONENT
+// (Uses useSearchParams — must be wrapped in Suspense)
+// =========================
+
+function PracticeSetupContent() {
 
     // =========================
     // STATE
@@ -78,11 +85,12 @@ export default function PracticeSetup() {
 
     const router =
         useRouter();
-    const searchParams =
-    useSearchParams();
 
-const mode =
-    searchParams.get("mode") || "GS";
+    const searchParams =
+        useSearchParams();
+
+    const mode =
+        searchParams.get("mode") || "GS";
 
     // =========================
     // YEARS
@@ -200,7 +208,7 @@ const mode =
                          `Daily ${mode} Preparation`,
 
                     mode,
-                        
+
 
                     selectedYears,
 
@@ -229,8 +237,8 @@ const mode =
 
             router.push(
 
-    `/practice?mode=${mode}`
-);
+                `/practice?mode=${mode}`
+            );
 
         } catch (error) {
 
@@ -537,5 +545,27 @@ const mode =
             </div>
 
         </div>
+    );
+}
+
+// =========================
+// MAIN EXPORT (with Suspense)
+// =========================
+
+export default function PracticeSetup() {
+
+    return (
+
+        <Suspense fallback={
+            <div className="min-h-screen bg-brand-light flex items-center justify-center font-black animate-pulse uppercase tracking-widest text-brand-muted text-sm">
+
+                Loading...
+
+            </div>
+        }>
+
+            <PracticeSetupContent />
+
+        </Suspense>
     );
 }
