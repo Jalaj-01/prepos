@@ -51,9 +51,10 @@ export default function Signup() {
 
     return (
         <div className="min-h-screen bg-brand-light flex items-center justify-center p-4">
-            <motion.div 
+            <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
+                transition={{duration: 0.3}}
                 className="max-w-md w-full bg-white rounded-[40px] shadow-premium p-10 border border-brand-border"
             >
                 <div className="text-center mb-8">
@@ -66,9 +67,9 @@ export default function Signup() {
                     <label className="text-[10px] font-black uppercase text-brand-muted ml-1 tracking-widest flex items-center gap-2 mb-2">
                         <Calendar size={12} /> Target Completion Date
                     </label>
-                    <input 
+                    <input
                         required
-                        type="date" 
+                        type="date"
                         className="w-full p-4 bg-brand-light border border-brand-border rounded-2xl font-bold outline-none focus:border-brand-accent transition-all cursor-pointer"
                         onChange={(e) => setFormData({...formData, targetCompletionDate: e.target.value})}
                     />
@@ -79,11 +80,11 @@ export default function Signup() {
 
                 {/* 2. Google Button */}
                 <div className="flex justify-center mb-8">
-                    <GoogleLogin 
-                        onSuccess={googleSuccess} 
-                        onError={() => alert("Google Sign-In Failed")} 
-                        theme="filled_black" 
-                        shape="pill" 
+                    <GoogleLogin
+                        onSuccess={googleSuccess}
+                        onError={() => alert("Google Sign-In Failed")}
+                        theme="filled_black"
+                        shape="pill"
                         text="signup_with"
                         width="100%"
                     />
@@ -99,9 +100,9 @@ export default function Signup() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="relative">
                         <User className="absolute left-4 top-4 text-brand-muted" size={18} />
-                        <input 
+                        <input
                             required
-                            type="text" 
+                            type="text"
                             className="w-full pl-12 p-4 bg-brand-light border border-brand-border rounded-2xl font-bold outline-none focus:border-brand-accent"
                             placeholder="Full Name"
                             onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -109,9 +110,9 @@ export default function Signup() {
                     </div>
                     <div className="relative">
                         <Mail className="absolute left-4 top-4 text-brand-muted" size={18} />
-                        <input 
+                        <input
                             required
-                            type="email" 
+                            type="email"
                             className="w-full pl-12 p-4 bg-brand-light border border-brand-border rounded-2xl font-bold outline-none focus:border-brand-accent"
                             placeholder="Email Address"
                             onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -119,16 +120,16 @@ export default function Signup() {
                     </div>
                     <div className="relative">
                         <Lock className="absolute left-4 top-4 text-brand-muted" size={18} />
-                        <input 
+                        <input
                             required
-                            type="password" 
+                            type="password"
                             className="w-full pl-12 p-4 bg-brand-light border border-brand-border rounded-2xl font-bold outline-none focus:border-brand-accent"
                             placeholder="Create Password"
                             onChange={(e) => setFormData({...formData, password: e.target.value})}
                         />
                     </div>
-                    
-                    <button 
+
+                    <button
                         disabled={loading}
                         className="w-full bg-brand-dark text-white p-5 rounded-[24px] font-black shadow-lg hover:bg-brand-accent transition-all flex items-center justify-center gap-3 mt-4 disabled:opacity-50"
                     >

@@ -45,3 +45,75 @@ body {
 a, button {
   transition: all 0.2s ease-in-out;
 }
+
+/* =========================
+   SHIMMER ANIMATION FOR SKELETONS
+   ========================= */
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.animate-shimmer {
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* =========================
+   SMOOTH SCROLL
+   ========================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* =========================
+   SELECTION COLOR
+   ========================= */
+
+::selection {
+    background-color: rgba(99, 102, 241, 0.2);
+    color: var(--color-brand-dark, #0A0A0A);
+}
+
+/* =========================
+   CUSTOM SCROLLBAR
+   ========================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-brand-border, #E7E5E4);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-brand-muted, #737373);
+}
+
+/* =========================
+   FOCUS RING (better than default)
+   ========================= */
+
+*:focus-visible {
+    outline: 2px solid var(--color-brand-accent, #6366F1);
+    outline-offset: 2px;
+}
+
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}

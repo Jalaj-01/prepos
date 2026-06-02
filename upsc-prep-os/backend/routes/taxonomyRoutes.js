@@ -1,14 +1,95 @@
-const express = require('express');
-const router = express.Router();
-const { createTaxonomy, getTaxonomy, deleteTaxonomy } = require('../controllers/taxonomyController');
-// FIX: Destructure protect and admin from the middleware object
-const { protect, admin } = require('../middleware/authMiddleware');
+const express =
+    require('express');
 
-// Only admins can create or delete subjects/topics
-router.post('/', protect, admin, createTaxonomy);
-router.delete('/:id', protect, admin, deleteTaxonomy);
+const router =
+    express.Router();
 
-// Everyone can view the taxonomy
-router.get('/', getTaxonomy);
+const {
+
+    createTaxonomy,
+    getTaxonomy,
+    deleteTaxonomy,
+    getSubjects,
+    getTopicsBySubject,
+    getSubtopicsByTopic,
+    updateTaxonomy,
+
+} = require(
+    '../controllers/taxonomyController'
+);
+
+const {
+
+    protect,
+
+    admin
+
+} = require(
+    '../middleware/authMiddleware'
+);
+
+// =========================
+// CREATE
+// =========================
+
+router.post(
+    '/',
+    protect,
+    admin,
+    createTaxonomy
+);
+
+// =========================
+// DELETE
+// =========================
+router.put(
+    '/:id',
+    protect,
+    admin,
+    updateTaxonomy
+);
+
+router.delete(
+    '/:id',
+    protect,
+    admin,
+    deleteTaxonomy
+);
+
+// =========================
+// GET ALL
+// =========================
+
+router.get(
+    '/',
+    getTaxonomy
+);
+
+// =========================
+// SUBJECTS
+// =========================
+
+router.get(
+    '/subjects',
+    getSubjects
+);
+
+// =========================
+// TOPICS
+// =========================
+
+router.get(
+    '/topics/:subjectId',
+    getTopicsBySubject
+);
+
+// =========================
+// SUBTOPICS
+// =========================
+
+router.get(
+    '/subtopics/:topicId',
+    getSubtopicsByTopic
+);
 
 module.exports = router;

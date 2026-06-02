@@ -157,16 +157,47 @@ const QuestionSchema = new mongoose.Schema({
         default: 'Prelims'
     },
 
-    paper: {
-        type: String,
-        default: 'GS1'
-    },
+   paper: {
+
+    type: String,
+
+    enum: [
+        'GS1',
+        'GS2',
+        'GS3',
+        'GS4',
+        'Essay',
+        'Optional',
+        'CSAT'
+    ],
+
+    default: 'GS1'
+},
 
     difficulty: {
         type: String,
         enum: ['Easy', 'Medium', 'Hard'],
         default: 'Medium'
     },
+
+    subjectName: {
+    type: String,
+    default: ''
+},
+
+topicName: {
+    type: String,
+    default: ''
+},
+
+subtopicName: {
+    type: String,
+    default: ''
+},
+
+keywords: [{
+    type: String
+}],
 
     taxonomyIds: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -240,9 +271,14 @@ const QuestionSchema = new mongoose.Schema({
         default: false
     },
 
-    normalizedQuestionHash: {
+    isBookmarked: {
+    type: Boolean,
+    default: false
+},
+
+bookmarkNote: {
     type: String,
-    index: true
+    default: ""
 },
 
     timeEstimate: {
@@ -267,5 +303,43 @@ QuestionSchema.index({ "aiMetadata.subject": 1 });
 QuestionSchema.index({ "aiMetadata.topic": 1 });
 
 QuestionSchema.index({ questionFormat: 1 });
+
+QuestionSchema.index({
+    subjectName: 1
+});
+
+QuestionSchema.index({
+    topicName: 1
+});
+
+QuestionSchema.index({
+    subtopicName: 1
+});
+
+QuestionSchema.index({
+    paper: 1
+});
+
+QuestionSchema.index({
+    examType: 1
+});
+
+QuestionSchema.index({
+    keywords: 1
+});
+
+QuestionSchema.index({
+
+    questionText: 'text',
+
+    subjectName: 'text',
+
+    topicName: 'text',  
+
+    subtopicName: 'text',
+
+    keywords: 'text'
+
+});
 
 module.exports = mongoose.model('Question', QuestionSchema);

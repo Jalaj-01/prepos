@@ -153,6 +153,156 @@ export default function AnalyticsPage() {
                     </div>
                 </div>
 
+                {/* WEAK AREA INTELLIGENCE */}
+
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+
+    {/* WEAK TOPICS */}
+
+    <div className="bg-white p-10 rounded-[40px] border border-brand-border shadow-premium">
+
+        <h2 className="text-sm font-black uppercase tracking-widest text-brand-muted mb-8">
+
+            Weak Topic Intelligence
+
+        </h2>
+
+        {
+
+            data?.weakTopics?.length > 0
+
+                ? (
+
+                    <div className="space-y-5">
+
+                        {
+
+                            data.weakTopics.map(
+
+                                (topic, index) => (
+
+                                    <div
+                                        key={index}
+                                        className="border border-brand-border rounded-3xl p-5 bg-brand-light"
+                                    >
+
+                                        <div className="flex items-center justify-between mb-3">
+
+                                            <h3 className="font-black text-brand-dark text-lg">
+
+                                                {topic.name}
+
+                                            </h3>
+
+                                            <span className="text-xs font-black uppercase text-red-500 tracking-widest">
+
+                                                {topic.accuracy}% Accuracy
+
+                                            </span>
+
+                                        </div>
+
+                                        <div className="w-full bg-black/5 rounded-full h-3 overflow-hidden">
+
+                                            <div
+                                                className="bg-red-500 h-full rounded-full transition-all duration-700"
+                                                style={{
+                                                    width: `${topic.accuracy}%`
+                                                }}
+                                            />
+                                        </div>
+
+                                        <p className="mt-3 text-xs font-bold uppercase tracking-wider text-brand-muted">
+
+                                            Avg Solve Time: {topic.avgTime}s
+
+                                        </p>
+
+                                    </div>
+                                )
+                            )
+                        }
+
+                    </div>
+
+                )
+
+                : (
+
+                    <div className="h-52 flex items-center justify-center text-brand-muted font-bold text-sm italic opacity-50">
+
+                        Solve more questions to unlock topic intelligence.
+
+                    </div>
+                )
+        }
+
+    </div>
+
+    {/* SMART RECOMMENDATIONS */}
+
+    <div className="bg-brand-dark text-white p-10 rounded-[40px] shadow-2xl relative overflow-hidden">
+
+        <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_top_right,white,transparent_40%)]" />
+
+        <div className="relative z-10">
+
+            <h2 className="text-sm font-black uppercase tracking-widest text-white/50 mb-8">
+
+                Smart Recommendations
+
+            </h2>
+
+            {
+
+                data?.recommendations?.length > 0
+
+                    ? (
+
+                        <div className="space-y-5">
+
+                            {
+
+                                data.recommendations.map(
+
+                                    (rec, index) => (
+
+                                        <div
+                                            key={index}
+                                            className="bg-white/5 border border-white/10 rounded-3xl p-5 backdrop-blur-sm"
+                                        >
+
+                                            <p className="font-bold leading-relaxed text-white/90">
+
+                                                {rec}
+
+                                            </p>
+
+                                        </div>
+                                    )
+                                )
+                            }
+
+                        </div>
+
+                    )
+
+                    : (
+
+                        <div className="h-52 flex items-center justify-center text-white/40 font-bold text-sm italic">
+
+                            Recommendations will appear after more practice.
+
+                        </div>
+                    )
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
                 {/* CONSISTENCY ROADMAP (GITHUB STYLE) */}
                 <div className="bg-white p-10 rounded-[40px] border border-brand-border shadow-premium">
                     <h2 className="text-sm font-black uppercase tracking-widest text-brand-muted mb-8 flex items-center gap-2">

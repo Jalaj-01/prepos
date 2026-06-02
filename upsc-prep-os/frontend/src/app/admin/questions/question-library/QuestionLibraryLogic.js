@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import {
-    Search
+    Search,
+    Star,
+    Layers
 } from "lucide-react";
 
 export default function QuestionLibraryLogic() {
@@ -50,6 +52,11 @@ export default function QuestionLibraryLogic() {
         setSearch
     ] = useState("");
 
+    const [
+    repeatedOnly,
+    setRepeatedOnly
+] = useState(false);
+
     // =========================
     // FETCH QUESTIONS
     // =========================
@@ -79,13 +86,17 @@ export default function QuestionLibraryLogic() {
                     selectedPaper;
 
             if (search)
-                params.search =
-                    search;
+    params.q =
+        search;
+
+if (repeatedOnly)
+    params.repeated =
+        true;
 
             const response =
                 await axios.get(
 
-                    "http://localhost:5000/api/questions/explore",
+                     "http://localhost:5000/api/search",
 
                     { params }
                 );
@@ -108,9 +119,167 @@ export default function QuestionLibraryLogic() {
     };
 
     // =========================
+// TOGGLE BOOKMARK
+// =========================
+
+const toggleBookmark = async (
+    questionId
+) => {
+
+    try {
+
+        const rawUserInfo =
+            localStorage.getItem(
+                "userInfo"
+            );
+
+        if (!rawUserInfo) {
+
+            console.error(
+                "No userInfo found in localStorage"
+            );
+
+            return;
+        }
+
+        const userInfo =
+            JSON.parse(
+                rawUserInfo
+            );
+
+        const token =
+            userInfo?.token;
+
+        if (!token) {
+
+            console.error(
+                "No token found"
+            );
+
+            return;
+        }
+
+        await axios.put(
+
+            `http://localhost:5000/api/bookmarks/${questionId}`,
+
+            {},
+
+            {
+                headers: {
+
+                    Authorization:
+                        `Bearer ${token}`
+                }
+            }
+        );
+
+        fetchQuestions();
+
+    } catch (error) {
+
+        console.error(
+            "Bookmark failed",
+            error
+        );
+    }
+};
+
+// =========================
+// SAVE TO PRACTICE SET
+// =========================
+
+const saveToPracticeSet =
+async (
+    questionId
+) => {
+
+    try {
+
+        const title =
+            prompt(
+                "Practice Set Name"
+            );
+
+        if (!title) return;
+
+        const rawUserInfo =
+            localStorage.getItem(
+                "userInfo"
+            );
+
+        if (!rawUserInfo) {
+
+            console.error(
+                "No user info found"
+            );
+
+            return;
+        }
+
+        const userInfo =
+            JSON.parse(
+                rawUserInfo
+            );
+
+        const token =
+            userInfo?.token;
+
+        if (!token) {
+
+            console.error(
+                "No token found"
+            );
+
+            return;
+        }
+
+        await axios.post(
+
+            "http://localhost:5000/api/practice-sets",
+
+            {
+
+                title,
+
+                description:
+                    "Saved from Question Library",
+
+                questions: [
+                    questionId
+                ]
+            },
+
+            {
+                headers: {
+
+                    Authorization:
+                        `Bearer ${token}`
+                }
+            }
+        );
+
+        alert(
+            "Question saved to Practice Set"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Save failed",
+            error
+        );
+
+        alert(
+            "Failed to save question"
+        );
+    }
+};
+    // =========================
     // EFFECT
     // =========================
 
+    
     useEffect(() => {
 
         fetchQuestions();
@@ -120,7 +289,8 @@ export default function QuestionLibraryLogic() {
         selectedSubject,
         selectedTopic,
         selectedPaper,
-        search
+        search,
+        repeatedOnly
     ]);
 
     return (
@@ -296,6 +466,27 @@ export default function QuestionLibraryLogic() {
 
                     {/* SEARCH */}
 
+                    <div className="flex items-center gap-3 mb-6">
+
+    <input
+        type="checkbox"
+        checked={repeatedOnly}
+        onChange={() =>
+            setRepeatedOnly(
+                !repeatedOnly
+            )
+        }
+        className="w-5 h-5 accent-black"
+    />
+
+    <span className="font-bold text-sm text-brand-dark uppercase tracking-wider">
+
+        Only Repeated Themes
+
+    </span>
+
+</div>
+
                     <div className="bg-white rounded-[32px] border border-brand-border p-4 mb-6 flex items-center gap-3">
 
                         <Search
@@ -367,35 +558,80 @@ export default function QuestionLibraryLogic() {
                     className="bg-white rounded-[32px] border border-brand-border p-6"
                 >
 
-                    {/* TAGS */}
+                   {/* HEADER */}
 
-                    <div className="flex items-center gap-3 mb-6 flex-wrap">
+<div className="flex items-start justify-between gap-4 mb-6">
 
-                        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
+    {/* TAGS */}
 
-                            {q.year}
+    <div className="flex items-center gap-3 flex-wrap">
 
-                        </div>
+        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
 
-                        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
+            {q.year}
 
-                            {q.paper || "GS1"}
+        </div>
 
-                        </div>
+        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
 
-                        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
+            {q.paper || "GS1"}
 
-                            {q.subjectName || "General"}
+        </div>
 
-                        </div>
+        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
 
-                        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
+            {q.subjectName || "General"}
 
-                            {q.topicName || "Mixed"}
+        </div>
 
-                        </div>
+        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
 
-                    </div>
+            {q.topicName || "Mixed"}
+
+        </div>
+
+        {
+            q.isRepeatedConcept && (
+
+                <div className="px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-xs font-black uppercase">
+
+                    Repeated Theme
+
+                </div>
+            )
+        }
+
+    </div>
+
+    {/* BOOKMARK */}
+
+    <button
+
+        onClick={() =>
+            toggleBookmark(
+                q._id
+            )
+        }
+
+        className={`w-12 h-12 rounded-2xl border flex items-center justify-center transition-all ${
+            q.isBookmarked
+                ? "bg-yellow-100 border-yellow-300 text-yellow-600"
+                : "bg-white border-brand-border text-brand-muted"
+        }`}
+    >
+
+        <Star
+            size={20}
+            fill={
+                q.isBookmarked
+                    ? "currentColor"
+                    : "none"
+            }
+        />
+
+    </button>
+
+</div>
 
                     {/* QUESTION */}
 
@@ -457,6 +693,22 @@ export default function QuestionLibraryLogic() {
                             }
 
                         </button>
+                        <button
+
+    onClick={() =>
+        saveToPracticeSet(
+            q._id
+        )
+    }
+
+    className="ml-3 px-5 py-3 rounded-2xl bg-brand-accent text-white font-bold text-sm hover:opacity-90 transition-all inline-flex items-center gap-2"
+>
+
+    <Layers size={16} />
+
+    Save To Practice Set
+
+</button>
 
                         {
                             expandedQuestion === q._id && (

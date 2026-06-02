@@ -31,7 +31,7 @@ export default function Login() {
 
     return (
         <div className="min-h-screen bg-brand-light flex items-center justify-center p-4">
-            <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} className="max-w-md w-full bg-white rounded-[40px] p-10 shadow-premium border border-brand-border">
+            <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} transition={{duration: 0.3}} className="max-w-md w-full bg-white rounded-[40px] p-10 shadow-premium border border-brand-border">
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-black text-brand-dark tracking-tight">Welcome Back</h1>
                     <p className="text-brand-muted text-sm font-medium mt-2">Resume your systematic preparation</p>

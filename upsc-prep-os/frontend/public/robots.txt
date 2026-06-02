@@ -1,0 +1,17 @@
+# Robots configuration for PrepOS
+User-agent: *
+Allow: /
+
+# Block private routes from indexing
+Disallow: /admin
+Disallow: /api
+Disallow: /vault
+Disallow: /(auth)/
+
+# Allow community library to be indexed
+Allow: /library
+Allow: /mains
+Allow: /about
+
+# Sitemap location (Google reads this)
+Sitemap: https://prepos-upsc.vercel.app/

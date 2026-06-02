@@ -5,6 +5,7 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+
   theme: {
     extend: {
       colors: {
@@ -15,16 +16,20 @@ module.exports = {
           muted: "#737373",
           border: "#E5E5E5",
         },
+
         status: {
           success: "#22C55E",
           warning: "#F59E0B",
           error: "#EF4444",
-        }
+        },
       },
+
       boxShadow: {
-        'premium': '0 1px 3px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.05)',
+        premium:
+          "0 1px 3px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.05)",
       },
     },
   },
+
   plugins: [],
 };

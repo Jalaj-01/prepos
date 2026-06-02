@@ -1,76 +1,125 @@
 const Question = require('../models/Question');
-const mongoose = require('mongoose');
-const crypto = require('crypto');
 
+const mongoose = require('mongoose');
 
 const {
     findOrCreateTaxonomyHierarchy
 } = require('./taxonomyController');
 
+const CryptoJS =
+    require("crypto-js");
+
 
 // =========================
-// NORMALIZED HASH GENERATOR
+// NORMALIZE QUESTION
+// =========================
+const normalizeQuestion =
+(
+    text = ""
+) => {
+
+    return text
+
+        .toLowerCase()
+
+        // remove punctuation
+
+        .replace(/[^\w\s]/gi, "")
+
+        // collapse spaces
+
+        .replace(/\s+/g, " ")
+
+        .trim();
+};
+
+// =========================
+// HASH QUESTION
 // =========================
 
-const generateQuestionHash = (
+const generateQuestionHash =
+(
     questionText
 ) => {
 
     const normalized =
-        questionText
+        normalizeQuestion(
+            questionText
+        );
 
-            .toLowerCase()
-
-            .replace(/[^\w\s]/g, '')
-
-            .replace(/\s+/g, ' ')
-
-            .trim();
-
-    return crypto
-        .createHash('sha256')
-        .update(normalized)
-        .digest('hex');
+    return CryptoJS.SHA256(
+        normalized
+    ).toString();
 };
-
-
 // =========================
 // CREATE SINGLE QUESTION
 // =========================
 
-exports.createQuestion = async (req, res) => {
+exports.createQuestion = async (
+    req,
+    res
+) => {
 
     try {
 
         let images = [];
 
-        // Handle uploaded images
-        if (req.files && req.files.length > 0) {
+        // IMAGE HANDLING
 
-            images = req.files.map(file => ({
-                url: file.path,
-                cloudinaryId: file.filename,
-                caption: '',
-                pageNumber: null
-            }));
+        if (
+            req.files &&
+            req.files.length > 0
+        ) {
+
+            images =
+                req.files.map(file => ({
+
+                    url: file.path,
+
+                    cloudinaryId:
+                        file.filename,
+
+                    caption: '',
+
+                    pageNumber: null
+                }));
         }
 
         const payload = {
+
             ...req.body,
+
             images
         };
 
-        // Parse stringified arrays
-        if (typeof payload.options === 'string') {
-            payload.options = JSON.parse(payload.options);
+        // =========================
+        // PARSE ARRAYS
+        // =========================
+
+        if (
+            typeof payload.options ===
+            'string'
+        ) {
+
+            payload.options =
+                JSON.parse(
+                    payload.options
+                );
         }
 
-        if (typeof payload.taxonomyIds === 'string') {
-            payload.taxonomyIds = JSON.parse(payload.taxonomyIds);
+        if (
+            typeof payload.taxonomyIds ===
+            'string'
+        ) {
+
+            payload.taxonomyIds =
+                JSON.parse(
+                    payload.taxonomyIds
+                );
         }
 
         // =========================
-        // DUPLICATE HASH
+        // HASH
         // =========================
 
         payload.normalizedQuestionHash =
@@ -78,8 +127,10 @@ exports.createQuestion = async (req, res) => {
                 payload.questionText
             );
 
-        // SAME QUESTION + SAME YEAR
-        // BLOCK INSERT
+
+        // =========================
+        // DUPLICATE BLOCK
+        // =========================
 
         const existingQuestion =
             await Question.findOne({
@@ -100,8 +151,9 @@ exports.createQuestion = async (req, res) => {
             });
         }
 
-        // SAME QUESTION + DIFFERENT YEAR
-        // MARK REPEATED CONCEPT
+        // =========================
+        // REPEATED CONCEPT
+        // =========================
 
         const repeatedQuestion =
             await Question.findOne({
@@ -116,13 +168,55 @@ exports.createQuestion = async (req, res) => {
 
         if (repeatedQuestion) {
 
-            payload.isRepeatedConcept = true;
+            payload.isRepeatedConcept =
+                true;
         }
 
-        const question =
-            await Question.create(payload);
+        // =========================
+        // AUTO TAXONOMY LINKING
+        // =========================
 
-        res.status(201).json(question);
+        if (payload.aiMetadata) {
+
+            const taxonomyIds =
+                await findOrCreateTaxonomyHierarchy(
+
+                    payload.aiMetadata.subject,
+
+                    payload.aiMetadata.topic,
+
+                    payload.aiMetadata.subtopic
+                );
+
+            payload.taxonomyIds =
+                taxonomyIds;
+
+            payload.subjectName =
+                payload.aiMetadata.subject;
+
+            payload.topicName =
+                payload.aiMetadata.topic;
+
+            payload.subtopicName =
+                payload.aiMetadata.subtopic;
+
+            payload.keywords =
+                payload.aiMetadata.keywords || [];
+        }
+
+        // =========================
+        // CREATE
+        // =========================
+
+        const question =
+            await Question.create(
+                payload,
+                
+            );
+
+        res.status(201).json(
+            question
+        );
 
     } catch (error) {
 
@@ -132,11 +226,12 @@ exports.createQuestion = async (req, res) => {
         );
 
         res.status(500).json({
-            message: error.message
+
+            message:
+                error.message
         });
     }
 };
-
 
 // =========================
 // BULK QUESTION INSERT
@@ -149,7 +244,9 @@ exports.addBulkQuestions = async (
 
     try {
 
-        const { questions } = req.body;
+        const {
+            questions
+        } = req.body;
 
         if (
             !questions ||
@@ -157,75 +254,74 @@ exports.addBulkQuestions = async (
         ) {
 
             return res.status(400).json({
+
                 message:
                     "Questions array is required"
             });
         }
 
-        let filteredQuestions = [];
+        const finalQuestions = [];
 
-        for (let question of questions) {
+        let skipped = 0;
+
+        for (const question of questions) {
 
             // =========================
-            // NORMALIZED HASH
+            // HASH
             // =========================
 
-            const questionHash =
+            const hash =
                 generateQuestionHash(
                     question.questionText
                 );
 
             question.normalizedQuestionHash =
-                questionHash;
+                hash;
 
             // =========================
-            // EXACT DUPLICATE CHECK
-            // SAME QUESTION + SAME YEAR
+            // DUPLICATE CHECK
             // =========================
 
-            const existingQuestion =
+            const exists =
                 await Question.findOne({
 
                     normalizedQuestionHash:
-                        questionHash,
+                        hash,
 
                     year:
                         question.year
                 });
 
-            if (existingQuestion) {
+            if (exists) {
 
-                console.log(
-                    `Duplicate blocked: ${question.questionText}`
-                );
+                skipped++;
 
                 continue;
             }
 
             // =========================
-            // REPEATED CONCEPT CHECK
-            // SAME QUESTION + DIFFERENT YEAR
+            // REPEATED CONCEPT
             // =========================
 
-            const repeatedConcept =
+            const repeated =
                 await Question.findOne({
 
                     normalizedQuestionHash:
-                        questionHash,
+                        hash,
 
                     year: {
                         $ne: question.year
                     }
                 });
 
-            if (repeatedConcept) {
+            if (repeated) {
 
                 question.isRepeatedConcept =
                     true;
             }
 
             // =========================
-            // AUTO TAXONOMY LINKING
+            // TAXONOMY LINKING
             // =========================
 
             if (question.aiMetadata) {
@@ -242,43 +338,33 @@ exports.addBulkQuestions = async (
 
                 question.taxonomyIds =
                     taxonomyIds;
+
+                question.subjectName =
+                    question.aiMetadata.subject;
+
+                question.topicName =
+                    question.aiMetadata.topic;
+
+                question.subtopicName =
+                    question.aiMetadata.subtopic;
+
+                question.keywords =
+                    question.aiMetadata.keywords || [];
             }
 
-            filteredQuestions.push(question);
+            finalQuestions.push(
+                question
+            );
         }
 
-        const finalQuestions = [];
+        // =========================
+        // INSERT
+        // =========================
 
-for (const question of questions) {
-
-    const hash =
-        generateQuestionHash(
-            question.questionText
-        );
-
-    const exists =
-        await Question.findOne({
-
-            normalizedQuestionHash: hash,
-
-            year: question.year
-        });
-
-    if (!exists) {
-
-        finalQuestions.push({
-
-            ...question,
-
-            normalizedQuestionHash: hash
-        });
-    }
-}
-
-const createdQuestions =
-    await Question.insertMany(
-        finalQuestions
-    );
+        const createdQuestions =
+            await Question.insertMany(
+                finalQuestions
+            );
 
         res.status(201).json({
 
@@ -288,9 +374,7 @@ const createdQuestions =
             inserted:
                 createdQuestions.length,
 
-            skipped:
-                questions.length -
-                filteredQuestions.length,
+            skipped,
 
             data:
                 createdQuestions
@@ -304,17 +388,19 @@ const createdQuestions =
         );
 
         res.status(500).json({
-            message: error.message
+
+            message:
+                error.message
         });
     }
 };
-
 
 // =========================
 // GET QUESTIONS BY TOPIC
 // =========================
 
-exports.getQuestionsByTopic = async (
+exports.getQuestionsByTopic =
+async (
     req,
     res
 ) => {
@@ -333,17 +419,19 @@ exports.getQuestionsByTopic = async (
     } catch (error) {
 
         res.status(500).json({
-            message: error.message
+
+            message:
+                error.message
         });
     }
 };
-
 
 // =========================
 // DAILY RANDOM QUESTIONS
 // =========================
 
-exports.getDailyQuestions = async (
+exports.getDailyQuestions =
+async (
     req,
     res
 ) => {
@@ -351,52 +439,71 @@ exports.getDailyQuestions = async (
     try {
 
         const {
+
             limit,
+
             subjects,
+
             topics,
+
             years
+
         } = req.query;
 
         let matchQuery = {};
 
-        // Topic filter
+        // TOPICS
+
         if (topics) {
 
-            const topicIds = topics
-                .split(',')
-                .map(id =>
-                    new mongoose.Types.ObjectId(
-                        id.trim()
-                    )
-                );
+            const topicIds =
+                topics
+
+                    .split(',')
+
+                    .map(id =>
+
+                        new mongoose.Types.ObjectId(
+                            id.trim()
+                        )
+                    );
 
             matchQuery.taxonomyIds = {
                 $in: topicIds
             };
         }
 
-        // Subject filter
+        // SUBJECTS
+
         else if (subjects) {
 
-            const subjectIds = subjects
-                .split(',')
-                .map(id =>
-                    new mongoose.Types.ObjectId(
-                        id.trim()
-                    )
-                );
+            const subjectIds =
+                subjects
+
+                    .split(',')
+
+                    .map(id =>
+
+                        new mongoose.Types.ObjectId(
+                            id.trim()
+                        )
+                    );
 
             matchQuery.taxonomyIds = {
                 $in: subjectIds
             };
         }
 
-        // Year filter
+        // YEARS
+
         if (years) {
 
-            const yearArray = years
-                .split(',')
-                .map(Number);
+            const yearArray =
+                years
+
+                    .split(',')
+
+                    .map(Number);
 
             matchQuery.year = {
                 $in: yearArray
@@ -409,11 +516,15 @@ exports.getDailyQuestions = async (
         const questions =
             await Question.aggregate([
 
-                { $match: matchQuery },
+                {
+                    $match:
+                        matchQuery
+                },
 
                 {
                     $sample: {
-                        size: countLimit
+                        size:
+                            countLimit
                     }
                 }
             ]);
@@ -428,17 +539,19 @@ exports.getDailyQuestions = async (
         );
 
         res.status(500).json({
-            message: error.message
+
+            message:
+                error.message
         });
     }
 };
-
 
 // =========================
 // GET QUESTIONS BY REVIEW STATUS
 // =========================
 
-exports.getQuestionsByReviewStatus = async (
+exports.getQuestionsByReviewStatus =
+async (
     req,
     res
 ) => {
@@ -446,13 +559,20 @@ exports.getQuestionsByReviewStatus = async (
     try {
 
         const status =
-            req.query.status || 'Pending';
+            req.query.status ||
+            'Pending';
 
         const questions =
             await Question.find({
-                reviewStatus: status
+
+                reviewStatus:
+                    status
             })
-            .populate('taxonomyIds')
+
+            .populate(
+                'taxonomyIds'
+            )
+
             .sort({
                 createdAt: -1
             });
@@ -462,17 +582,19 @@ exports.getQuestionsByReviewStatus = async (
     } catch (error) {
 
         res.status(500).json({
-            message: error.message
+
+            message:
+                error.message
         });
     }
 };
-
 
 // =========================
 // UPDATE REVIEW STATUS
 // =========================
 
-exports.updateReviewStatus = async (
+exports.updateReviewStatus =
+async (
     req,
     res
 ) => {
@@ -491,6 +613,7 @@ exports.updateReviewStatus = async (
         if (!question) {
 
             return res.status(404).json({
+
                 message:
                     "Question not found"
             });
@@ -508,6 +631,7 @@ exports.updateReviewStatus = async (
         await question.save();
 
         res.json({
+
             message:
                 "Review updated"
         });
@@ -515,29 +639,39 @@ exports.updateReviewStatus = async (
     } catch (error) {
 
         res.status(500).json({
-            message: error.message
+
+            message:
+                error.message
         });
     }
 };
 
-exports.exploreQuestions = async (
+// =========================
+// EXPLORE QUESTIONS
+// =========================
+
+exports.exploreQuestions =
+async (
     req,
     res
 ) => {
 
     try {
-const {
-    year,
-    subject,
-    topic,
-    paper,
-    search
-} = req.query;
-        // const query = {
 
-        //     reviewStatus: "Approved"
-        // };
-// later we will un comment this ablove 
+        const {
+
+            year,
+
+            subject,
+
+            topic,
+
+            paper,
+
+            search
+
+        } = req.query;
+
         const query = {};
 
         // YEAR
@@ -553,7 +687,9 @@ const {
         if (subject) {
 
             query.subjectName = {
+
                 $regex: subject,
+
                 $options: "i"
             };
         }
@@ -563,22 +699,28 @@ const {
         if (topic) {
 
             query.topicName = {
+
                 $regex: topic,
+
                 $options: "i"
             };
         }
 
+        // PAPER
+
         if (paper) {
 
-    query.paper = paper;
-}
+            query.paper = paper;
+        }
 
         // SEARCH
 
         if (search) {
 
             query.questionText = {
+
                 $regex: search,
+
                 $options: "i"
             };
         }
@@ -587,7 +729,9 @@ const {
             await Question.find(query)
 
             .sort({
+
                 year: -1,
+
                 createdAt: -1
             })
 
