@@ -1,5 +1,3 @@
-const path = require("path");
-
 const withPWA = require("@ducanh2912/next-pwa").default({
 
     dest: "public",
@@ -14,17 +12,6 @@ const nextConfig = {
 
     reactStrictMode: true,
 
-    // =========================
-    // OUTPUT TRACING (Vercel monorepo)
-    // =========================
-
-    outputFileTracingRoot:
-        path.join(__dirname, "../"),
-
-    // =========================
-    // WEBPACK FIX: pdfjs-dist canvas issue
-    // =========================
-
     webpack: (config) => {
 
         config.resolve.alias = {
@@ -38,10 +25,6 @@ const nextConfig = {
 
         return config;
     },
-
-    // =========================
-    // IMAGES
-    // =========================
 
     images: {
 
