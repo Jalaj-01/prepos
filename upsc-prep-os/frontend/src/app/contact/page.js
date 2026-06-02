@@ -13,13 +13,11 @@ import {
     Send,
     MapPin,
     Clock,
-    Twitter,
-    Github,
-    Linkedin,
     Loader2,
     CheckCircle,
     User,
-    AtSign
+    AtSign,
+    Globe
 } from "lucide-react";
 
 import Footer from "@/components/layout/Footer";
@@ -50,17 +48,68 @@ export default function ContactPage() {
             return;
         }
 
+        // Basic email validation
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(form.email)) {
+
+            showToast.error("Please enter a valid email");
+
+            return;
+        }
+
+        if (form.message.length < 10) {
+
+            showToast.error("Message must be at least 10 characters");
+
+            return;
+        }
+
         setSubmitting(true);
 
-        // Simulate sending — replace with real API call when ready
+        try {
 
-        setTimeout(() => {
+            const response = await fetch(
 
-            setSubmitting(false);
+                `${process.env.NEXT_PUBLIC_API_URL}/api/contact/submit`,
+
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        name: form.name.trim(),
+
+                        email: form.email.trim(),
+
+                        subject: form.subject,
+
+                        message: form.message.trim()
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message || "Failed to send message"
+                );
+            }
+
+            // SUCCESS
 
             setSubmitted(true);
 
-            showToast.success("Message sent! We'll get back to you soon.");
+            showToast.success(
+                "Message sent! Check your inbox for confirmation."
+            );
 
             setForm({
                 name: "",
@@ -69,7 +118,18 @@ export default function ContactPage() {
                 message: ""
             });
 
-        }, 1500);
+        } catch (err) {
+
+            console.error("Contact form error:", err);
+
+            showToast.error(
+                err.message || "Failed to send. Please try again."
+            );
+
+        } finally {
+
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -157,10 +217,10 @@ export default function ContactPage() {
                             <ContactCard
                                 icon={Mail}
                                 title="Email Us"
-                                value="support@prepos.app"
+                                value="janug2902@gmail.com"
                                 description="For all queries, feedback, or support"
                                 color="from-blue-500 to-cyan-500"
-                                link="mailto:support@prepos.app"
+                                link="mailto:janug2902@gmail.com"
                             />
 
                             <ContactCard
@@ -192,21 +252,27 @@ export default function ContactPage() {
                                 <div className="flex gap-2">
 
                                     <SocialButton
-                                        icon={Twitter}
                                         href="https://twitter.com/prepos"
                                         label="Twitter"
+                                        emoji="𝕏"
                                     />
 
                                     <SocialButton
-                                        icon={Github}
                                         href="https://github.com/prepos"
                                         label="GitHub"
+                                        emoji="</>"
                                     />
 
                                     <SocialButton
-                                        icon={Linkedin}
                                         href="https://linkedin.com/company/prepos"
                                         label="LinkedIn"
+                                        emoji="in"
+                                    />
+
+                                    <SocialButton
+                                        href="https://prepos.app"
+                                        label="Website"
+                                        icon={Globe}
                                     />
 
                                 </div>
@@ -449,7 +515,7 @@ function ContactCard({ icon: Icon, title, value, description, color, link }) {
                 {title}
             </p>
 
-            <p className="font-black text-brand-dark text-sm mb-1">
+            <p className="font-black text-brand-dark text-sm mb-1 break-all">
                 {value}
             </p>
 
@@ -472,7 +538,7 @@ function ContactCard({ icon: Icon, title, value, description, color, link }) {
     return content;
 }
 
-function SocialButton({ icon: Icon, href, label }) {
+function SocialButton({ href, label, emoji, icon: Icon }) {
 
     return (
 
@@ -481,9 +547,10 @@ function SocialButton({ icon: Icon, href, label }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
-            className="flex-1 flex items-center justify-center py-3 bg-brand-light hover:bg-brand-dark hover:text-white rounded-xl transition-all"
+            title={label}
+            className="flex-1 flex items-center justify-center py-3 bg-brand-light hover:bg-brand-dark hover:text-white rounded-xl transition-all font-black text-sm"
         >
-            <Icon size={16} />
+            {Icon ? <Icon size={16} /> : <span>{emoji}</span>}
         </a>
     );
 }
