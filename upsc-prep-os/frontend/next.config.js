@@ -15,7 +15,7 @@ const nextConfig = {
     reactStrictMode: true,
 
     // =========================
-    // OUTPUT TRACING (Vercel)
+    // OUTPUT TRACING (Vercel monorepo)
     // =========================
 
     outputFileTracingRoot:
