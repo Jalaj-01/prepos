@@ -7,59 +7,93 @@ import axios from "axios";
 import {
     Search,
     Star,
-    Layers
+    Layers,
+    X
 } from "lucide-react";
+
+import Sidebar from "@/components/layout/Sidebar";
+
+import TopHeader from "@/components/layout/TopHeader";
+
+import Footer from "@/components/layout/Footer";
+
+import MobileNav from "@/components/layout/MobileNav";
+
+import { showToast } from "@/components/ui/Toast";
+
+import { GridSkeleton } from "@/components/ui/Skeleton";
+
+import EmptyState from "@/components/ui/EmptyState";
+
+import PageHeader from "@/components/ui/PageHeader";
 
 export default function QuestionLibraryLogic() {
 
-    const [
-        questions,
-        setQuestions
-    ] = useState([]);
+    const [user, setUser] = useState(null);
 
-    const [
-        loading,
-        setLoading
-    ] = useState(true);
+    const [questions, setQuestions] = useState([]);
 
-    const [
-        expandedQuestion,
-        setExpandedQuestion
-    ] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const [
+    const [expandedQuestion, setExpandedQuestion] = useState(null);
+
+    const [selectedYear, setSelectedYear] = useState("");
+
+    const [selectedSubject, setSelectedSubject] = useState("");
+
+    const [selectedTopic, setSelectedTopic] = useState("");
+
+    const [selectedPaper, setSelectedPaper] = useState("");
+
+    const [search, setSearch] = useState("");
+
+    const [repeatedOnly, setRepeatedOnly] = useState(false);
+
+    const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+    // PER-USER bookmark tracking
+
+    const [bookmarkedIds, setBookmarkedIds] = useState(new Set());
+
+    // =========================
+    // AUTH
+    // =========================
+
+    useEffect(() => {
+
+        const info = localStorage.getItem("userInfo");
+
+        if (!info) {
+            window.location.href = "/login";
+            return;
+        }
+
+        setUser(JSON.parse(info));
+
+    }, []);
+
+    // =========================
+    // FETCH QUESTIONS + BOOKMARKS
+    // =========================
+
+    useEffect(() => {
+
+        if (user) {
+
+            fetchQuestions();
+
+            fetchMyBookmarkIds();
+        }
+
+    }, [
+        user,
         selectedYear,
-        setSelectedYear
-    ] = useState("");
-
-    const [
         selectedSubject,
-        setSelectedSubject
-    ] = useState("");
-
-    const [
         selectedTopic,
-        setSelectedTopic
-    ] = useState("");
-
-    const [
         selectedPaper,
-        setSelectedPaper
-    ] = useState("");
-
-    const [
         search,
-        setSearch
-    ] = useState("");
-
-    const [
-    repeatedOnly,
-    setRepeatedOnly
-] = useState(false);
-
-    // =========================
-    // FETCH QUESTIONS
-    // =========================
+        repeatedOnly
+    ]);
 
     const fetchQuestions = async () => {
 
@@ -69,48 +103,32 @@ export default function QuestionLibraryLogic() {
 
             const params = {};
 
-            if (selectedYear)
-                params.year =
-                    selectedYear;
+            if (selectedYear) params.year = selectedYear;
 
-            if (selectedSubject)
-                params.subject =
-                    selectedSubject;
+            if (selectedSubject) params.subject = selectedSubject;
 
-            if (selectedTopic)
-                params.topic =
-                    selectedTopic;
+            if (selectedTopic) params.topic = selectedTopic;
 
-            if (selectedPaper)
-                params.paper =
-                    selectedPaper;
+            if (selectedPaper) params.paper = selectedPaper;
 
-            if (search)
-    params.q =
-        search;
+            if (search) params.q = search;
 
-if (repeatedOnly)
-    params.repeated =
-        true;
+            if (repeatedOnly) params.repeated = true;
 
-            const response =
-                await axios.get(
+            const response = await axios.get(
 
-                     "http://localhost:5000/api/search",
+                `${process.env.NEXT_PUBLIC_API_URL}/api/search`,
 
-                    { params }
-                );
-
-            setQuestions(
-                response.data
+                { params }
             );
+
+            setQuestions(response.data);
 
         } catch (error) {
 
-            console.error(
-                "Failed to fetch questions",
-                error
-            );
+            console.error("Failed to fetch questions", error);
+
+            showToast.error("Failed to load questions");
 
         } finally {
 
@@ -119,653 +137,531 @@ if (repeatedOnly)
     };
 
     // =========================
-// TOGGLE BOOKMARK
-// =========================
+    // FETCH USER'S BOOKMARKED IDS
+    // =========================
 
-const toggleBookmark = async (
-    questionId
-) => {
+    const fetchMyBookmarkIds = async () => {
+
+        try {
+
+            const { data } = await axios.get(
+
+                `${process.env.NEXT_PUBLIC_API_URL}/api/bookmarks`,
+
+                {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`
+                    }
+                }
+            );
+
+            // Create a Set of bookmarked question IDs for fast lookup
+
+            const ids = new Set(
+                data.map(q => q._id)
+            );
+
+            setBookmarkedIds(ids);
+
+        } catch (error) {
+
+            console.error("Failed to fetch bookmark IDs", error);
+        }
+    };
+
+    // =========================
+    // TOGGLE BOOKMARK (PER-USER)
+    // =========================
+
+  const toggleBookmark = async (questionId) => {
 
     try {
 
-        const rawUserInfo =
-            localStorage.getItem(
-                "userInfo"
-            );
+        const { data } = await axios.put(
 
-        if (!rawUserInfo) {
-
-            console.error(
-                "No userInfo found in localStorage"
-            );
-
-            return;
-        }
-
-        const userInfo =
-            JSON.parse(
-                rawUserInfo
-            );
-
-        const token =
-            userInfo?.token;
-
-        if (!token) {
-
-            console.error(
-                "No token found"
-            );
-
-            return;
-        }
-
-        await axios.put(
-
-            `http://localhost:5000/api/bookmarks/${questionId}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/bookmarks/${questionId}`,
 
             {},
 
             {
                 headers: {
-
-                    Authorization:
-                        `Bearer ${token}`
+                    Authorization: `Bearer ${user.token}`
                 }
             }
         );
 
-        fetchQuestions();
+        // Update local state
+
+        setBookmarkedIds(prev => {
+
+            const newSet = new Set(prev);
+
+            if (data.isBookmarked) {
+
+                newSet.add(questionId);
+
+            } else {
+
+                newSet.delete(questionId);
+            }
+
+            return newSet;
+        });
+
+        // Show toast OUTSIDE the state updater
+
+        if (data.isBookmarked) {
+
+            showToast.success("Bookmarked!");
+
+        } else {
+
+            showToast.success("Bookmark removed");
+        }
 
     } catch (error) {
 
-        console.error(
-            "Bookmark failed",
-            error
-        );
+        console.error("Bookmark failed", error);
+
+        showToast.error("Failed to bookmark");
     }
 };
 
-// =========================
-// SAVE TO PRACTICE SET
-// =========================
+    // =========================
+    // SAVE TO PRACTICE SET
+    // =========================
 
-const saveToPracticeSet =
-async (
-    questionId
-) => {
+    const saveToPracticeSet = async (questionId) => {
 
-    try {
-
-        const title =
-            prompt(
-                "Practice Set Name"
-            );
+        const title = prompt("Practice Set Name");
 
         if (!title) return;
 
-        const rawUserInfo =
-            localStorage.getItem(
-                "userInfo"
-            );
+        try {
 
-        if (!rawUserInfo) {
+            await axios.post(
 
-            console.error(
-                "No user info found"
-            );
+                `${process.env.NEXT_PUBLIC_API_URL}/api/practice-sets`,
 
-            return;
-        }
+                {
+                    title,
+                    description: "Saved from Question Library",
+                    questions: [questionId]
+                },
 
-        const userInfo =
-            JSON.parse(
-                rawUserInfo
-            );
-
-        const token =
-            userInfo?.token;
-
-        if (!token) {
-
-            console.error(
-                "No token found"
-            );
-
-            return;
-        }
-
-        await axios.post(
-
-            "http://localhost:5000/api/practice-sets",
-
-            {
-
-                title,
-
-                description:
-                    "Saved from Question Library",
-
-                questions: [
-                    questionId
-                ]
-            },
-
-            {
-                headers: {
-
-                    Authorization:
-                        `Bearer ${token}`
+                {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`
+                    }
                 }
-            }
-        );
+            );
 
-        alert(
-            "Question saved to Practice Set"
-        );
+            showToast.success("Saved to Practice Set!");
 
-    } catch (error) {
+        } catch (error) {
 
-        console.error(
-            "Save failed",
-            error
-        );
+            console.error("Save failed", error);
 
-        alert(
-            "Failed to save question"
-        );
-    }
-};
+            showToast.error("Failed to save");
+        }
+    };
+
     // =========================
-    // EFFECT
+    // CHECK IF BOOKMARKED
     // =========================
 
-    
-    useEffect(() => {
+    const isBookmarked = (questionId) => {
 
-        fetchQuestions();
+        return bookmarkedIds.has(questionId);
+    };
 
-    }, [
-        selectedYear,
-        selectedSubject,
-        selectedTopic,
-        selectedPaper,
-        search,
-        repeatedOnly
-    ]);
+    if (!user) return null;
 
     return (
 
-        <div className="min-h-screen bg-brand-light p-8">
+        <div className="min-h-screen bg-brand-light flex">
 
-            {/* HEADER */}
+            <Sidebar isAdmin={user.isAdmin} />
 
-            <div className="mb-8">
+            <MobileNav
+                isOpen={mobileNavOpen}
+                onClose={() => setMobileNavOpen(false)}
+            />
 
-                <h1 className="text-5xl font-black text-brand-dark">
+            <div className="flex-1 flex flex-col min-h-screen min-w-0">
 
-                    Question Library
+                <TopHeader
+                    user={user}
+                    onMenuClick={() => setMobileNavOpen(true)}
+                />
 
-                </h1>
+                <main className="flex-1 p-3 sm:p-6 lg:p-10 max-w-[1600px] w-full mx-auto">
 
-                <p className="text-brand-muted mt-2 text-lg">
+                    {/* HEADER */}
 
-                    Explore UPSC PYQs by year,
-                    subject, topic, and paper.
+                    <PageHeader
+                        icon={Search}
+                        iconBg="bg-brand-accent/10"
+                        iconColor="text-brand-accent"
+                        title="Question Library"
+                        description="Explore UPSC PYQs by year, subject, topic, and paper."
+                    />
 
-                </p>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
 
-            </div>
+                        {/* SIDEBAR FILTERS */}
 
-            <div className="grid grid-cols-12 gap-6">
+                        <div className="lg:col-span-3">
 
-                {/* SIDEBAR */}
+                            <div className="bg-white rounded-2xl sm:rounded-3xl border border-brand-border p-4 sm:p-6 lg:sticky lg:top-24">
 
-                <div className="col-span-3 bg-white rounded-[32px] border border-brand-border p-6 h-fit sticky top-6">
+                                <h2 className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-4 sm:mb-6">
 
-                    <h2 className="text-sm font-black uppercase tracking-widest text-brand-muted mb-6">
+                                    Filters
 
-                        Filters
+                                </h2>
 
-                    </h2>
+                                {/* YEAR */}
 
-                    {/* YEAR */}
+                                <div className="mb-4 sm:mb-6">
 
-                    <div className="mb-6">
+                                    <label className="text-[10px] font-black uppercase text-brand-muted mb-2 block">
 
-                        <label className="text-xs font-black uppercase text-brand-muted mb-2 block">
+                                        Year
 
-                            Year
+                                    </label>
 
-                        </label>
-
-                        <select
-                            value={selectedYear}
-                            onChange={(e) =>
-                                setSelectedYear(
-                                    e.target.value
-                                )
-                            }
-                            className="w-full rounded-2xl border border-brand-border px-4 py-3 bg-brand-light font-bold"
-                        >
-
-                            <option value="">
-                                All Years
-                            </option>
-
-                            {
-                                [
-                                    2024,
-                                    2023,
-                                    2022,
-                                    2021,
-                                    2020
-                                ].map(year => (
-
-                                    <option
-                                        key={year}
-                                        value={year}
+                                    <select
+                                        value={selectedYear}
+                                        onChange={(e) => setSelectedYear(e.target.value)}
+                                        className="w-full rounded-xl border border-brand-border px-3 py-2.5 bg-brand-light font-bold text-sm"
                                     >
+                                        <option value="">All Years</option>
+                                        {[2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017].map(year => (
+                                            <option key={year} value={year}>{year}</option>
+                                        ))}
+                                    </select>
 
-                                        {year}
+                                </div>
 
-                                    </option>
-                                ))
-                            }
+                                {/* PAPER */}
 
-                        </select>
+                                <div className="mb-4 sm:mb-6">
 
-                    </div>
+                                    <label className="text-[10px] font-black uppercase text-brand-muted mb-2 block">
 
-                    {/* PAPER */}
+                                        Paper
 
-                    <div className="mb-6">
+                                    </label>
 
-                        <label className="text-xs font-black uppercase text-brand-muted mb-2 block">
+                                    <select
+                                        value={selectedPaper}
+                                        onChange={(e) => setSelectedPaper(e.target.value)}
+                                        className="w-full rounded-xl border border-brand-border px-3 py-2.5 bg-brand-light font-bold text-sm"
+                                    >
+                                        <option value="">All Papers</option>
+                                        <option value="GS1">GS1</option>
+                                        <option value="CSAT">CSAT</option>
+                                    </select>
 
-                            Paper
+                                </div>
 
-                        </label>
+                                {/* SUBJECT */}
 
-                        <select
-                            value={selectedPaper}
-                            onChange={(e) =>
-                                setSelectedPaper(
-                                    e.target.value
-                                )
-                            }
-                            className="w-full rounded-2xl border border-brand-border px-4 py-3 bg-brand-light font-bold"
-                        >
+                                <div className="mb-4 sm:mb-6">
 
-                            <option value="">
-                                All Papers
-                            </option>
+                                    <label className="text-[10px] font-black uppercase text-brand-muted mb-2 block">
 
-                            <option value="GS1">
-                                GS1
-                            </option>
+                                        Subject
 
-                            <option value="CSAT">
-                                CSAT
-                            </option>
+                                    </label>
 
-                        </select>
+                                    <input
+                                        value={selectedSubject}
+                                        onChange={(e) => setSelectedSubject(e.target.value)}
+                                        placeholder="History"
+                                        className="w-full rounded-xl border border-brand-border px-3 py-2.5 bg-brand-light font-bold text-sm"
+                                    />
 
-                    </div>
+                                </div>
 
-                    {/* SUBJECT */}
+                                {/* TOPIC */}
 
-                    <div className="mb-6">
+                                <div className="mb-4 sm:mb-6">
 
-                        <label className="text-xs font-black uppercase text-brand-muted mb-2 block">
+                                    <label className="text-[10px] font-black uppercase text-brand-muted mb-2 block">
 
-                            Subject
+                                        Topic
 
-                        </label>
+                                    </label>
 
-                        <input
-                            value={selectedSubject}
-                            onChange={(e) =>
-                                setSelectedSubject(
-                                    e.target.value
-                                )
-                            }
-                            placeholder="History"
-                            className="w-full rounded-2xl border border-brand-border px-4 py-3 bg-brand-light font-bold"
-                        />
+                                    <input
+                                        value={selectedTopic}
+                                        onChange={(e) => setSelectedTopic(e.target.value)}
+                                        placeholder="Buddhism"
+                                        className="w-full rounded-xl border border-brand-border px-3 py-2.5 bg-brand-light font-bold text-sm"
+                                    />
 
-                    </div>
+                                </div>
 
-                    {/* TOPIC */}
+                                {/* REPEATED ONLY */}
 
-                    <div>
+                                <label className="flex items-center gap-3 cursor-pointer p-3 bg-brand-light rounded-xl border border-brand-border">
 
-                        <label className="text-xs font-black uppercase text-brand-muted mb-2 block">
+                                    <input
+                                        type="checkbox"
+                                        checked={repeatedOnly}
+                                        onChange={() => setRepeatedOnly(!repeatedOnly)}
+                                        className="w-4 h-4 accent-brand-dark"
+                                    />
 
-                            Topic
+                                    <span className="font-bold text-xs text-brand-dark uppercase tracking-wider">
 
-                        </label>
-
-                        <input
-                            value={selectedTopic}
-                            onChange={(e) =>
-                                setSelectedTopic(
-                                    e.target.value
-                                )
-                            }
-                            placeholder="Buddhism"
-                            className="w-full rounded-2xl border border-brand-border px-4 py-3 bg-brand-light font-bold"
-                        />
-
-                    </div>
-
-                </div>
-
-                {/* MAIN */}
-
-                <div className="col-span-9">
-
-                    {/* SEARCH */}
-
-                    <div className="flex items-center gap-3 mb-6">
-
-    <input
-        type="checkbox"
-        checked={repeatedOnly}
-        onChange={() =>
-            setRepeatedOnly(
-                !repeatedOnly
-            )
-        }
-        className="w-5 h-5 accent-black"
-    />
-
-    <span className="font-bold text-sm text-brand-dark uppercase tracking-wider">
-
-        Only Repeated Themes
-
-    </span>
-
-</div>
-
-                    <div className="bg-white rounded-[32px] border border-brand-border p-4 mb-6 flex items-center gap-3">
-
-                        <Search
-                            size={20}
-                            className="text-brand-muted"
-                        />
-
-                        <input
-                            value={search}
-                            onChange={(e) =>
-                                setSearch(
-                                    e.target.value
-                                )
-                            }
-                            placeholder="Search questions..."
-                            className="w-full outline-none bg-transparent font-bold"
-                        />
-
-                    </div>
-
-                    {/* QUESTIONS */}
-
-                    {
-                        loading ? (
-
-                            <div className="text-brand-muted font-black uppercase tracking-widest animate-pulse">
-
-                                Loading Questions...
-
-                            </div>
-
-                        ) : (
-
-                           questions.length === 0 ? (
-
-    <div className="bg-white border border-brand-border rounded-[32px] p-16 flex flex-col items-center justify-center text-center">
-
-        <div className="w-20 h-20 rounded-full bg-brand-light flex items-center justify-center mb-6 text-4xl">
-
-            📭
-
-        </div>
-
-        <h2 className="text-3xl font-black text-brand-dark mb-3">
-
-            No Questions Found
-
-        </h2>
-
-        <p className="text-brand-muted font-medium max-w-md leading-relaxed">
-
-            No questions match the selected
-            filters. Try changing the year,
-            paper, subject, topic, or search query.
-
-        </p>
-
-    </div>
-
-) : (
-
-    <div className="space-y-6">
-
-        {
-            questions.map((q) => (
-
-                <div
-                    key={q._id}
-                    className="bg-white rounded-[32px] border border-brand-border p-6"
-                >
-
-                   {/* HEADER */}
-
-<div className="flex items-start justify-between gap-4 mb-6">
-
-    {/* TAGS */}
-
-    <div className="flex items-center gap-3 flex-wrap">
-
-        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
-
-            {q.year}
-
-        </div>
-
-        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
-
-            {q.paper || "GS1"}
-
-        </div>
-
-        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
-
-            {q.subjectName || "General"}
-
-        </div>
-
-        <div className="px-3 py-1 rounded-full bg-brand-light text-xs font-black uppercase">
-
-            {q.topicName || "Mixed"}
-
-        </div>
-
-        {
-            q.isRepeatedConcept && (
-
-                <div className="px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-xs font-black uppercase">
-
-                    Repeated Theme
-
-                </div>
-            )
-        }
-
-    </div>
-
-    {/* BOOKMARK */}
-
-    <button
-
-        onClick={() =>
-            toggleBookmark(
-                q._id
-            )
-        }
-
-        className={`w-12 h-12 rounded-2xl border flex items-center justify-center transition-all ${
-            q.isBookmarked
-                ? "bg-yellow-100 border-yellow-300 text-yellow-600"
-                : "bg-white border-brand-border text-brand-muted"
-        }`}
-    >
-
-        <Star
-            size={20}
-            fill={
-                q.isBookmarked
-                    ? "currentColor"
-                    : "none"
-            }
-        />
-
-    </button>
-
-</div>
-
-                    {/* QUESTION */}
-
-                    <h2 className="text-xl font-black text-brand-dark leading-relaxed mb-6">
-
-                        {q.questionText}
-
-                    </h2>
-
-                    {/* OPTIONS */}
-
-                    <div className="grid grid-cols-2 gap-4">
-
-                        {
-                            q.options?.map((option) => (
-
-                                <div
-                                    key={option.label}
-                                    className="border border-brand-border rounded-2xl p-4 font-bold"
-                                >
-
-                                    <span className="text-brand-accent mr-2">
-
-                                        {option.label}.
+                                        Repeated Only
 
                                     </span>
 
-                                    {option.text}
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        {/* MAIN CONTENT */}
+
+                        <div className="lg:col-span-9">
+
+                            {/* SEARCH */}
+
+                            <div className="bg-white rounded-2xl sm:rounded-3xl border border-brand-border p-3 sm:p-4 mb-4 sm:mb-6 flex items-center gap-3">
+
+                                <Search size={18} className="text-brand-muted shrink-0" />
+
+                                <input
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    placeholder="Search questions..."
+                                    className="w-full outline-none bg-transparent font-bold text-sm min-w-0"
+                                />
+
+                                {search && (
+
+                                    <button
+                                        onClick={() => setSearch("")}
+                                        className="p-1 hover:bg-brand-light rounded-lg"
+                                    >
+                                        <X size={14} className="text-brand-muted" />
+                                    </button>
+                                )}
+
+                            </div>
+
+                            {/* QUESTIONS LIST */}
+
+                            {loading ? (
+
+                                <GridSkeleton count={4} columns={2} />
+
+                            ) : questions.length === 0 ? (
+
+                                <EmptyState
+                                    emoji="📭"
+                                    title="No Questions Found"
+                                    description="No questions match the selected filters. Try changing the year, paper, subject, topic, or search query."
+                                />
+
+                            ) : (
+
+                                <div className="space-y-4 sm:space-y-6">
+
+                                    {questions.map((q) => (
+
+                                        <div
+                                            key={q._id}
+                                            className="bg-white rounded-2xl sm:rounded-3xl border border-brand-border p-4 sm:p-6"
+                                        >
+
+                                            {/* HEADER */}
+
+                                            <div className="flex items-start justify-between gap-3 mb-4 sm:mb-6">
+
+                                                {/* TAGS */}
+
+                                                <div className="flex items-center gap-2 flex-wrap">
+
+                                                    <span className="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 text-[9px] font-black uppercase tracking-widest">
+
+                                                        {q.year}
+
+                                                    </span>
+
+                                                    <span className="px-2.5 py-1 rounded-full bg-brand-light text-brand-muted text-[9px] font-black uppercase tracking-widest">
+
+                                                        {q.paper || "GS1"}
+
+                                                    </span>
+
+                                                    <span className="px-2.5 py-1 rounded-full bg-brand-light text-brand-dark text-[9px] font-black uppercase tracking-widest">
+
+                                                        {q.subjectName || "General"}
+
+                                                    </span>
+
+                                                    <span className="px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 text-[9px] font-black uppercase tracking-widest">
+
+                                                        {q.topicName || "Mixed"}
+
+                                                    </span>
+
+                                                    {q.isRepeatedConcept && (
+
+                                                        <span className="px-2.5 py-1 rounded-full bg-yellow-100 text-yellow-700 text-[9px] font-black uppercase tracking-widest">
+
+                                                            Repeated
+
+                                                        </span>
+                                                    )}
+
+                                                </div>
+
+                                                {/* BOOKMARK STAR (PER-USER) */}
+
+                                                <button
+                                                    onClick={() => toggleBookmark(q._id)}
+                                                    title={isBookmarked(q._id) ? "Remove bookmark" : "Bookmark this question"}
+                                                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl border flex items-center justify-center transition-all shrink-0 ${
+                                                        isBookmarked(q._id)
+                                                            ? "bg-yellow-100 border-yellow-300 text-yellow-600"
+                                                            : "bg-white border-brand-border text-brand-muted hover:border-yellow-300 hover:text-yellow-600"
+                                                    }`}
+                                                >
+                                                    <Star
+                                                        size={18}
+                                                        fill={
+                                                            isBookmarked(q._id)
+                                                                ? "currentColor"
+                                                                : "none"
+                                                        }
+                                                    />
+                                                </button>
+
+                                            </div>
+
+                                            {/* QUESTION TEXT */}
+
+                                            <h2 className="text-base sm:text-xl font-black text-brand-dark leading-relaxed mb-4 sm:mb-6">
+
+                                                {q.questionText}
+
+                                            </h2>
+
+                                            {/* OPTIONS */}
+
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+
+                                                {q.options?.map((option) => (
+
+                                                    <div
+                                                        key={option.label}
+                                                        className="border border-brand-border rounded-xl sm:rounded-2xl p-3 sm:p-4 font-bold text-sm"
+                                                    >
+                                                        <span className="text-brand-accent mr-2 font-black">
+
+                                                            {option.label}.
+
+                                                        </span>
+
+                                                        {option.text}
+
+                                                    </div>
+                                                ))}
+
+                                            </div>
+
+                                            {/* ACTION BUTTONS */}
+
+                                            <div className="mt-4 sm:mt-6 flex flex-wrap gap-2 sm:gap-3">
+
+                                                <button
+                                                    onClick={() =>
+                                                        setExpandedQuestion(
+                                                            expandedQuestion === q._id
+                                                                ? null
+                                                                : q._id
+                                                        )
+                                                    }
+                                                    className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-brand-dark text-white font-bold text-xs sm:text-sm hover:opacity-90 transition-all"
+                                                >
+                                                    {expandedQuestion === q._id
+                                                        ? "Hide Explanation"
+                                                        : "Show Answer & Explanation"}
+                                                </button>
+
+                                                <button
+                                                    onClick={() => saveToPracticeSet(q._id)}
+                                                    className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-brand-accent text-white font-bold text-xs sm:text-sm hover:opacity-90 transition-all inline-flex items-center gap-2"
+                                                >
+                                                    <Layers size={14} />
+                                                    <span className="hidden sm:inline">Save To Practice Set</span>
+                                                    <span className="sm:hidden">Save</span>
+                                                </button>
+
+                                            </div>
+
+                                            {/* EXPANDED ANSWER */}
+
+                                            {expandedQuestion === q._id && (
+
+                                                <div className="mt-4 border border-brand-border rounded-2xl sm:rounded-3xl p-4 sm:p-6 bg-brand-light">
+
+                                                    <div className="mb-4">
+
+                                                        <span className="text-[10px] uppercase font-black text-brand-muted tracking-widest">
+
+                                                            Correct Answer
+
+                                                        </span>
+
+                                                        <h3 className="text-xl sm:text-2xl font-black text-green-600 mt-1">
+
+                                                            {q.correctOption}
+
+                                                        </h3>
+
+                                                    </div>
+
+                                                    <div>
+
+                                                        <span className="text-[10px] uppercase font-black text-brand-muted tracking-widest">
+
+                                                            Explanation
+
+                                                        </span>
+
+                                                        <p className="mt-2 text-brand-dark leading-relaxed font-medium text-sm">
+
+                                                            {q.explanation || "Explanation not available."}
+
+                                                        </p>
+
+                                                    </div>
+
+                                                </div>
+                                            )}
+
+                                        </div>
+                                    ))}
 
                                 </div>
-                            ))
-                        }
+                            )}
+
+                        </div>
 
                     </div>
 
-                    {/* ANSWER */}
+                </main>
 
-                    <div className="mt-6">
-
-                        <button
-
-                            onClick={() =>
-
-                                setExpandedQuestion(
-
-                                    expandedQuestion === q._id
-                                        ? null
-                                        : q._id
-                                )
-                            }
-
-                            className="px-5 py-3 rounded-2xl bg-brand-dark text-white font-bold text-sm hover:opacity-90 transition-all"
-                        >
-
-                            {
-                                expandedQuestion === q._id
-                                    ? "Hide Explanation"
-                                    : "Show Answer & Explanation"
-                            }
-
-                        </button>
-                        <button
-
-    onClick={() =>
-        saveToPracticeSet(
-            q._id
-        )
-    }
-
-    className="ml-3 px-5 py-3 rounded-2xl bg-brand-accent text-white font-bold text-sm hover:opacity-90 transition-all inline-flex items-center gap-2"
->
-
-    <Layers size={16} />
-
-    Save To Practice Set
-
-</button>
-
-                        {
-                            expandedQuestion === q._id && (
-
-                                <div className="mt-4 border border-brand-border rounded-3xl p-6 bg-brand-light">
-
-                                    <div className="mb-4">
-
-                                        <span className="text-xs uppercase font-black text-brand-muted">
-
-                                            Correct Answer
-
-                                        </span>
-
-                                        <h3 className="text-2xl font-black text-green-600 mt-1">
-
-                                            {q.correctOption}
-
-                                        </h3>
-
-                                    </div>
-
-                                    <div>
-
-                                        <span className="text-xs uppercase font-black text-brand-muted">
-
-                                            Explanation
-
-                                        </span>
-
-                                        <p className="mt-2 text-brand-dark leading-relaxed font-medium">
-
-                                            {
-                                                q.explanation
-                                                    || "Explanation not available."
-                                            }
-
-                                        </p>
-
-                                    </div>
-
-                                </div>
-                            )
-                        }
-
-                    </div>
-
-                </div>
-            ))
-        }
-
-    </div>
-)
-                        )
-                    }
-
-                </div>
+                <Footer />
 
             </div>
 

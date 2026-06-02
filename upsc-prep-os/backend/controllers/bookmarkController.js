@@ -1,58 +1,98 @@
+const User =
+    require("../models/User");
+
 const Question =
-    require('../models/Question');
+    require("../models/Question");
 
 // =========================
-// TOGGLE BOOKMARK
+// TOGGLE BOOKMARK (PER-USER)
 // =========================
 
-exports.toggleBookmark =
-async (
+exports.toggleBookmark = async (
     req,
     res
 ) => {
 
     try {
 
+        const questionId = req.params.id;
+
+        const userId = req.user._id;
+
+        // Verify question exists
+
         const question =
-            await Question.findById(
-                req.params.id
-            );
+            await Question.findById(questionId);
 
         if (!question) {
 
             return res.status(404).json({
-
-                message:
-                    "Question not found"
+                message: "Question not found"
             });
         }
 
-        question.isBookmarked =
-            !question.isBookmarked;
+        // Get user
 
-        // OPTIONAL NOTE
+        const user =
+            await User.findById(userId);
 
-        if (
-            req.body.bookmarkNote !==
-            undefined
-        ) {
+        if (!user) {
 
-            question.bookmarkNote =
-                req.body.bookmarkNote;
+            return res.status(404).json({
+                message: "User not found"
+            });
         }
 
-        await question.save();
+        // Check if already bookmarked
 
-        res.json({
+        const isAlreadyBookmarked =
+            user.bookmarkedQuestions.some(
+                id => id.toString() === questionId.toString()
+            );
 
-            success: true,
+        if (isAlreadyBookmarked) {
 
-            isBookmarked:
-                question.isBookmarked,
+            // REMOVE bookmark
 
-            bookmarkNote:
-                question.bookmarkNote
-        });
+            user.bookmarkedQuestions =
+                user.bookmarkedQuestions.filter(
+                    id => id.toString() !== questionId.toString()
+                );
+
+            await user.save();
+
+            return res.json({
+
+                success: true,
+
+                isBookmarked: false,
+
+                message: "Bookmark removed",
+
+                totalBookmarks:
+                    user.bookmarkedQuestions.length
+            });
+
+        } else {
+
+            // ADD bookmark
+
+            user.bookmarkedQuestions.push(questionId);
+
+            await user.save();
+
+            return res.json({
+
+                success: true,
+
+                isBookmarked: true,
+
+                message: "Question bookmarked",
+
+                totalBookmarks:
+                    user.bookmarkedQuestions.length
+            });
+        }
 
     } catch (error) {
 
@@ -62,36 +102,50 @@ async (
         );
 
         res.status(500).json({
-
-            message:
-                error.message
+            message: error.message
         });
     }
 };
 
 // =========================
-// GET BOOKMARKED QUESTIONS
+// GET MY BOOKMARKED QUESTIONS (PER-USER)
 // =========================
 
-exports.getBookmarkedQuestions =
-async (
+exports.getBookmarkedQuestions = async (
     req,
     res
 ) => {
 
     try {
 
-        const questions =
-            await Question.find({
+        const userId = req.user._id;
 
-                isBookmarked: true
-            })
+        // Get user with populated bookmarks
 
-            .sort({
-                updatedAt: -1
+        const user =
+            await User.findById(userId)
+                .populate({
+                    path: "bookmarkedQuestions",
+                    options: {
+                        sort: { year: -1 }
+                    }
+                });
+
+        if (!user) {
+
+            return res.status(404).json({
+                message: "User not found"
             });
+        }
 
-        res.json(questions);
+        // Filter out any null references (deleted questions)
+
+        const validBookmarks =
+            user.bookmarkedQuestions.filter(
+                q => q !== null && q !== undefined
+            );
+
+        res.json(validBookmarks);
 
     } catch (error) {
 
@@ -101,9 +155,63 @@ async (
         );
 
         res.status(500).json({
+            message: error.message
+        });
+    }
+};
 
-            message:
-                error.message
+// =========================
+// CHECK IF QUESTION IS BOOKMARKED (for frontend)
+// =========================
+
+exports.checkBookmarkStatus = async (
+    req,
+    res
+) => {
+
+    try {
+
+        const questionIds =
+            req.body.questionIds || [];
+
+        const userId = req.user._id;
+
+        const user =
+            await User.findById(userId)
+                .select("bookmarkedQuestions");
+
+        if (!user) {
+
+            return res.json({
+                bookmarkedIds: []
+            });
+        }
+
+        const bookmarkedSet =
+            new Set(
+                user.bookmarkedQuestions.map(
+                    id => id.toString()
+                )
+            );
+
+        const bookmarkedIds =
+            questionIds.filter(
+                id => bookmarkedSet.has(id.toString())
+            );
+
+        res.json({
+            bookmarkedIds
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Check Bookmark Error:",
+            error
+        );
+
+        res.status(500).json({
+            message: error.message
         });
     }
 };

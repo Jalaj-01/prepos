@@ -1,48 +1,49 @@
-const express =
-    require('express');
+const express = require("express");
 
-const router =
-    express.Router();
+const router = express.Router();
 
 const {
 
     toggleBookmark,
 
-    getBookmarkedQuestions
+    getBookmarkedQuestions,
 
-} = require(
-    '../controllers/bookmarkController'
-);
+    checkBookmarkStatus
+
+} = require("../controllers/bookmarkController");
 
 const {
-
-    protect,
-    admin
-
-} = require(
-    '../middleware/authMiddleware'
-);
+    protect
+} = require("../middleware/authMiddleware");
 
 // =========================
-// ROUTES
+// GET MY BOOKMARKS (any logged-in user)
 // =========================
-
-// GET ALL BOOKMARKS
 
 router.get(
-    '/',
+    "/",
     protect,
-    admin,
     getBookmarkedQuestions
 );
 
-// TOGGLE BOOKMARK
+// =========================
+// TOGGLE BOOKMARK (any logged-in user)
+// =========================
 
 router.put(
-    '/:id',
+    "/:id",
     protect,
-    admin,
     toggleBookmark
+);
+
+// =========================
+// CHECK BOOKMARK STATUS (bulk check)
+// =========================
+
+router.post(
+    "/check",
+    protect,
+    checkBookmarkStatus
 );
 
 module.exports = router;
