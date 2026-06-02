@@ -56,12 +56,24 @@ export default function TopHeader({
 
     }, []);
 
-    const handleLogout = () => {
+   const handleLogout = () => {
 
-        localStorage.removeItem("userInfo");
+    localStorage.removeItem("userInfo");
 
-        window.location.href = "/login";
-    };
+    // Clear all PrepOS related data on logout
+
+    localStorage.removeItem("just-signed-up");
+
+    localStorage.removeItem("prepos-onboarding-completed");
+
+    localStorage.removeItem("dismissed-announcements");
+
+    localStorage.removeItem("sidebar-collapsed");
+
+    // Redirect to landing page
+
+    window.location.href = "/";
+};
 
     if (!user) return null;
 

@@ -59,13 +59,27 @@ const isNewUser = () => {
             return false;
         }
 
-        // New user — show tour
+        // CRITICAL: Only show for users who JUST signed up
+
+        const justSignedUp =
+            localStorage.getItem("just-signed-up");
+
+        if (justSignedUp !== "true") {
+
+            // Mark as completed so we never check again
+
+            localStorage.setItem(ONBOARDING_KEY, "true");
+
+            return false;
+        }
+
+        // Remove the flag so tour doesn't appear again
+
+        localStorage.removeItem("just-signed-up");
 
         return true;
 
     } catch (err) {
-
-        // localStorage blocked? Don't show tour
 
         console.warn("Cannot access localStorage:", err);
 
