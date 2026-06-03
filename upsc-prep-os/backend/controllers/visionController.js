@@ -15,22 +15,38 @@ Your job is to extract ALL questions from the given content with EXTREME accurac
 
 RULES:
 1. Extract EVERY question — do not skip any
-2. For each question, identify the CORRECT answer if available
-3. Classify each question's subject and topic based on UPSC syllabus
-4. Detect question type: Factual, Conceptual, Statement Based, Match the Following, Assertion Reason, Map Based, Chronology, Table Based
-5. Estimate difficulty: Easy, Medium, Hard
-6. Extract relevant keywords for each question
-7. If a question has statements (Consider the following statements), extract them as part of questionText
-8. For Match the Following questions, include the matching table in questionText
-9. Preserve ALL original text exactly — do not rephrase
-10. If answer/explanation is not available, leave those fields empty string
+2. For each question, identify the CORRECT answer
+3. DETECT the exam YEAR from the content (look for year mentions, header, footer)
+4. DETECT the PAPER type (GS1 or CSAT) based on question style:
+   - GS1 = History, Geography, Polity, Economy, Environment, Science, Current Affairs
+   - CSAT = Comprehension, Logical Reasoning, Decision Making, Math, Data Interpretation
+5. Classify each question's subject and topic based on UPSC syllabus
+6. Detect question type: Factual, Conceptual, Statement Based, Match the Following, Assertion Reason, Map Based, Chronology, Table Based
+7. Estimate difficulty: Easy, Medium, Hard
+8. Extract relevant keywords
+9. If a question has statements, include them in questionText
+10. Preserve ALL original text exactly — do not rephrase
+11. If answer/explanation is not available, leave empty string
+
+YEAR DETECTION:
+- Look for patterns like "UPSC 2024", "CSE 2023", "Prelims 2022"
+- Check headers, footers, watermarks in the text
+- If year is mentioned anywhere, use it for ALL questions
+- If year cannot be determined, set year to null
+
+PAPER DETECTION:
+- GS1 questions are about: History, Geography, Polity, Economy, Environment, Science, Art & Culture, Current Affairs
+- CSAT questions are about: Comprehension passages, Logical Reasoning, Mathematical ability, Data Interpretation, Decision Making
+- Detect automatically from question content
 
 OUTPUT FORMAT (strict JSON):
 
 {
+  "detectedYear": 2024,
+  "detectedPaper": "GS1",
   "questions": [
     {
-      "questionText": "Full question text including any statements or table data",
+      "questionText": "Full question text",
       "options": [
         { "label": "A", "text": "Option A text" },
         { "label": "B", "text": "Option B text" },
@@ -38,7 +54,7 @@ OUTPUT FORMAT (strict JSON):
         { "label": "D", "text": "Option D text" }
       ],
       "correctOption": "A",
-      "explanation": "Detailed explanation of why this answer is correct",
+      "explanation": "Detailed explanation",
       "year": 2024,
       "paper": "GS1",
       "subjectName": "History",
@@ -46,35 +62,30 @@ OUTPUT FORMAT (strict JSON):
       "subtopicName": "Freedom Struggle",
       "questionType": "Statement Based",
       "difficulty": "Medium",
-      "keywords": ["freedom struggle", "gandhi", "civil disobedience"]
+      "keywords": ["freedom struggle", "gandhi"]
     }
   ]
 }
 
-SUBJECT CLASSIFICATION GUIDE:
+SUBJECT CLASSIFICATION:
 - History: Ancient, Medieval, Modern Indian History, World History, Art & Culture
 - Geography: Physical, Indian, World, Environmental Geography
 - Polity: Constitution, Governance, Panchayati Raj, Public Policy
 - Economy: Indian Economy, Banking, International Trade, Budget
-- Environment: Ecology, Biodiversity, Climate Change, Environmental Laws
-- Science & Technology: Space, Defense, Biotechnology, IT, Nuclear
-- International Relations: India's Foreign Policy, International Organizations
+- Environment: Ecology, Biodiversity, Climate Change
+- Science & Technology: Space, Defense, Biotechnology, IT
+- International Relations: Foreign Policy, International Organizations
 - Current Affairs: Recent events, Government Schemes
-- Ethics: Aptitude, Integrity, Case Studies (for GS4)
-
-PAPER CLASSIFICATION:
-- GS1 = History, Geography, Art & Culture, Society
-- CSAT = Comprehension, Logical Reasoning, Decision Making, Math, Data Interpretation
+- Ethics: Aptitude, Integrity, Case Studies (GS4)
 
 IMPORTANT:
-- Return ONLY valid JSON — no markdown, no explanations, no text outside JSON
-- If you cannot determine a field, use empty string ""
-- correctOption must be one of: "A", "B", "C", "D"
-- year must be a number like 2024, 2023, etc.
+- Return ONLY valid JSON
+- correctOption must be: "A", "B", "C", or "D"
+- Auto-detect year and paper — do NOT leave them empty if detectable
 `;
 
 // =========================
-// EXTRACT FROM IMAGE (Gemini Vision)
+// EXTRACT FROM IMAGE
 // =========================
 
 exports.extractQuestionsFromImage = async (req, res) => {
@@ -84,7 +95,6 @@ exports.extractQuestionsFromImage = async (req, res) => {
         const { image } = req.body;
 
         if (!image) {
-
             return res.status(400).json({
                 message: "Image is required"
             });
@@ -107,7 +117,6 @@ exports.extractQuestionsFromImage = async (req, res) => {
         ]);
 
         const response = await result.response;
-
         const text = response.text();
 
         const cleaned = text
@@ -118,17 +127,14 @@ exports.extractQuestionsFromImage = async (req, res) => {
         const parsed = JSON.parse(cleaned);
 
         console.log(
-            `✅ Gemini Vision extracted ${parsed.questions?.length || 0} questions`
+            `✅ Vision: ${parsed.questions?.length || 0} questions (Year: ${parsed.detectedYear}, Paper: ${parsed.detectedPaper})`
         );
 
         res.json(parsed);
 
     } catch (error) {
 
-        console.error(
-            "Gemini Vision Extraction Error:",
-            error
-        );
+        console.error("Gemini Vision Error:", error);
 
         res.status(500).json({
             message: "Vision extraction failed: " + error.message
@@ -137,27 +143,24 @@ exports.extractQuestionsFromImage = async (req, res) => {
 };
 
 // =========================
-// EXTRACT FROM TEXT (Gemini Text)
-// NEW — For pasting raw text from PDFs
+// EXTRACT FROM TEXT
 // =========================
 
 exports.extractQuestionsFromText = async (req, res) => {
 
     try {
 
-        const { text, year, paper } = req.body;
+        const { text } = req.body;
 
         if (!text || !text.trim()) {
-
             return res.status(400).json({
                 message: "Text content is required"
             });
         }
 
         if (text.length > 50000) {
-
             return res.status(400).json({
-                message: "Text too long. Maximum 50,000 characters. Try splitting into smaller sections."
+                message: "Text too long. Maximum 50,000 characters."
             });
         }
 
@@ -165,26 +168,13 @@ exports.extractQuestionsFromText = async (req, res) => {
             model: "gemini-1.5-flash"
         });
 
-        // Add context about year and paper if provided
+        const fullPrompt =
+            EXTRACTION_PROMPT +
+            "\n\nHere is the raw text to extract questions from:\n\n" +
+            text;
 
-        let contextPrompt = EXTRACTION_PROMPT;
-
-        if (year) {
-
-            contextPrompt += `\n\nIMPORTANT CONTEXT: These questions are from UPSC ${year} exam.`;
-        }
-
-        if (paper) {
-
-            contextPrompt += `\nPaper: ${paper}`;
-        }
-
-        contextPrompt += `\n\nHere is the raw text to extract questions from:\n\n${text}`;
-
-        const result = await model.generateContent(contextPrompt);
-
+        const result = await model.generateContent(fullPrompt);
         const response = await result.response;
-
         const responseText = response.text();
 
         const cleaned = responseText
@@ -195,51 +185,36 @@ exports.extractQuestionsFromText = async (req, res) => {
         let parsed;
 
         try {
-
             parsed = JSON.parse(cleaned);
-
         } catch (parseErr) {
-
-            // Try to extract JSON from the response
-
             const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
-
             if (jsonMatch) {
-
                 parsed = JSON.parse(jsonMatch[0]);
-
             } else {
-
                 throw new Error("AI response was not valid JSON");
             }
         }
 
-        // Ensure year and paper are set if provided
+        // Apply detected year/paper to questions that don't have them
 
         if (parsed.questions && Array.isArray(parsed.questions)) {
 
             parsed.questions = parsed.questions.map(q => ({
-
                 ...q,
-
-                year: q.year || (year ? parseInt(year) : null),
-
-                paper: q.paper || paper || "GS1"
+                year: q.year || parsed.detectedYear || null,
+                paper: q.paper || parsed.detectedPaper || "GS1"
             }));
         }
 
         console.log(
-            `✅ Gemini Text extracted ${parsed.questions?.length || 0} questions`
+            `✅ Text: ${parsed.questions?.length || 0} questions (Year: ${parsed.detectedYear}, Paper: ${parsed.detectedPaper})`
         );
 
         res.json(parsed);
 
     } catch (error) {
 
-        console.error(
-            "Gemini Text Extraction Error:",
-            error
-        );
+        console.error("Gemini Text Error:", error);
 
         res.status(500).json({
             message: "Text extraction failed: " + error.message
@@ -248,25 +223,22 @@ exports.extractQuestionsFromText = async (req, res) => {
 };
 
 // =========================
-// EXTRACT FROM PDF PAGES (Multiple images)
-// NEW — Process multiple pages at once
+// EXTRACT FROM MULTIPLE PAGES
 // =========================
 
 exports.extractQuestionsFromPages = async (req, res) => {
 
     try {
 
-        const { pages, year, paper } = req.body;
+        const { pages } = req.body;
 
         if (!pages || !Array.isArray(pages) || pages.length === 0) {
-
             return res.status(400).json({
                 message: "Pages array is required"
             });
         }
 
         if (pages.length > 20) {
-
             return res.status(400).json({
                 message: "Maximum 20 pages per batch"
             });
@@ -277,8 +249,9 @@ exports.extractQuestionsFromPages = async (req, res) => {
         });
 
         const allQuestions = [];
-
         const errors = [];
+        let detectedYear = null;
+        let detectedPaper = null;
 
         for (let i = 0; i < pages.length; i++) {
 
@@ -286,17 +259,9 @@ exports.extractQuestionsFromPages = async (req, res) => {
 
             try {
 
-                let contextPrompt = EXTRACTION_PROMPT;
-
-                if (year) {
-                    contextPrompt += `\n\nContext: UPSC ${year} exam`;
-                }
-
-                if (paper) {
-                    contextPrompt += `, Paper: ${paper}`;
-                }
-
-                contextPrompt += `\nPage ${page.pageNumber || i + 1} of ${pages.length}`;
+                const pagePrompt =
+                    EXTRACTION_PROMPT +
+                    `\n\nPage ${page.pageNumber || i + 1} of ${pages.length}`;
 
                 const imagePart = {
                     inlineData: {
@@ -306,12 +271,11 @@ exports.extractQuestionsFromPages = async (req, res) => {
                 };
 
                 const result = await model.generateContent([
-                    contextPrompt,
+                    pagePrompt,
                     imagePart
                 ]);
 
                 const response = await result.response;
-
                 const text = response.text();
 
                 const cleaned = text
@@ -322,33 +286,32 @@ exports.extractQuestionsFromPages = async (req, res) => {
                 let parsed;
 
                 try {
-
                     parsed = JSON.parse(cleaned);
-
                 } catch {
-
                     const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
-
                     if (jsonMatch) {
-
                         parsed = JSON.parse(jsonMatch[0]);
-
                     } else {
-
                         throw new Error("Invalid JSON from AI");
                     }
+                }
+
+                // Capture detected year/paper from first successful page
+
+                if (!detectedYear && parsed.detectedYear) {
+                    detectedYear = parsed.detectedYear;
+                }
+
+                if (!detectedPaper && parsed.detectedPaper) {
+                    detectedPaper = parsed.detectedPaper;
                 }
 
                 if (parsed.questions) {
 
                     const questionsWithMeta = parsed.questions.map(q => ({
-
                         ...q,
-
-                        year: q.year || (year ? parseInt(year) : null),
-
-                        paper: q.paper || paper || "GS1",
-
+                        year: q.year || parsed.detectedYear || detectedYear || null,
+                        paper: q.paper || parsed.detectedPaper || detectedPaper || "GS1",
                         sourcePage: page.pageNumber || i + 1
                     }));
 
@@ -359,19 +322,13 @@ exports.extractQuestionsFromPages = async (req, res) => {
                     `✅ Page ${i + 1}/${pages.length}: ${parsed.questions?.length || 0} questions`
                 );
 
-                // Small delay between API calls to avoid rate limiting
-
                 if (i < pages.length - 1) {
-
                     await new Promise(r => setTimeout(r, 1000));
                 }
 
             } catch (pageErr) {
 
-                console.error(
-                    `❌ Page ${i + 1} failed:`,
-                    pageErr.message
-                );
+                console.error(`❌ Page ${i + 1} failed:`, pageErr.message);
 
                 errors.push({
                     page: i + 1,
@@ -381,26 +338,21 @@ exports.extractQuestionsFromPages = async (req, res) => {
         }
 
         console.log(
-            `✅ Total: ${allQuestions.length} questions from ${pages.length} pages (${errors.length} errors)`
+            `✅ Total: ${allQuestions.length} questions from ${pages.length} pages (Year: ${detectedYear}, Paper: ${detectedPaper})`
         );
 
         res.json({
-
+            detectedYear,
+            detectedPaper,
             questions: allQuestions,
-
             totalPages: pages.length,
-
             successPages: pages.length - errors.length,
-
             errors
         });
 
     } catch (error) {
 
-        console.error(
-            "Gemini Pages Extraction Error:",
-            error
-        );
+        console.error("Gemini Pages Error:", error);
 
         res.status(500).json({
             message: "Pages extraction failed: " + error.message

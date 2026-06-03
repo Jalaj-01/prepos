@@ -76,13 +76,11 @@ export default function BulkImporterLogic() {
 
     // Text method
     const [rawText, setRawText] = useState("");
-    const [textYear, setTextYear] = useState("2024");
-    const [textPaper, setTextPaper] = useState("GS1");
+   
 
     // Vision method
     const [pdfImages, setPdfImages] = useState([]);
-    const [visionYear, setVisionYear] = useState("2024");
-    const [visionPaper, setVisionPaper] = useState("GS1");
+    
 
     const listRef = useRef(null);
     const fileInputRef = useRef(null);
@@ -153,7 +151,7 @@ export default function BulkImporterLogic() {
 
     // ─── METHOD 2: AI TEXT EXTRACTION ───
 
-    const handleTextExtract = async () => {
+        const handleTextExtract = async () => {
         if (!rawText.trim()) {
             showToast.warning("Please paste some text first");
             return;
@@ -165,7 +163,7 @@ export default function BulkImporterLogic() {
         try {
             const { data } = await axios.post(
                 `${process.env.NEXT_PUBLIC_API_URL}/api/vision/extract-text`,
-                { text: rawText, year: parseInt(textYear), paper: textPaper },
+                { text: rawText },
                 { headers: { Authorization: `Bearer ${user.token}` } }
             );
 
@@ -176,7 +174,11 @@ export default function BulkImporterLogic() {
 
             const prepared = processAIResponse(data.questions);
             setParsedQuestions(prev => [...prev, ...prepared]);
-            setExtractProgress(`✅ ${prepared.length} questions extracted`);
+
+            const yearInfo = data.detectedYear ? ` (${data.detectedYear})` : "";
+            const paperInfo = data.detectedPaper ? ` ${data.detectedPaper}` : "";
+
+            setExtractProgress(`✅ ${prepared.length} questions extracted${yearInfo}${paperInfo}`);
             showToast.success(`${prepared.length} questions extracted by AI!`);
 
         } catch (err) {
@@ -185,7 +187,6 @@ export default function BulkImporterLogic() {
             setExtracting(false);
         }
     };
-
     // ─── METHOD 3: AI VISION (PDF IMAGES) ───
 
     const handleImageUpload = async (e) => {
@@ -205,7 +206,7 @@ export default function BulkImporterLogic() {
         showToast.info(`${images.length} images added. Click "Extract" when ready.`);
     };
 
-    const handleVisionExtract = async () => {
+        const handleVisionExtract = async () => {
         if (pdfImages.length === 0) {
             showToast.warning("Upload some images first");
             return;
@@ -217,7 +218,7 @@ export default function BulkImporterLogic() {
         try {
             const { data } = await axios.post(
                 `${process.env.NEXT_PUBLIC_API_URL}/api/vision/extract-pages`,
-                { pages: pdfImages, year: parseInt(visionYear), paper: visionPaper },
+                { pages: pdfImages },
                 {
                     headers: { Authorization: `Bearer ${user.token}` },
                     timeout: 120000
@@ -232,7 +233,10 @@ export default function BulkImporterLogic() {
             const prepared = processAIResponse(data.questions);
             setParsedQuestions(prev => [...prev, ...prepared]);
 
-            const msg = `✅ ${prepared.length} questions from ${data.successPages}/${data.totalPages} pages`;
+            const yearInfo = data.detectedYear ? ` (${data.detectedYear})` : "";
+            const paperInfo = data.detectedPaper ? ` ${data.detectedPaper}` : "";
+
+            const msg = `✅ ${prepared.length} questions from ${data.successPages}/${data.totalPages} pages${yearInfo}${paperInfo}`;
             setExtractProgress(msg);
             showToast.success(msg);
 
@@ -248,7 +252,6 @@ export default function BulkImporterLogic() {
             setExtracting(false);
         }
     };
-
     // ─── FIELD UPDATERS ───
 
     const updateField = (idx, field, value) => {
@@ -468,32 +471,24 @@ export default function BulkImporterLogic() {
                                 </motion.div>
                             )}
 
-                            {/* ═══ TEXT METHOD ═══ */}
+                                                       {/* ═══ TEXT METHOD ═══ */}
                             {activeMethod === "text" && (
                                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
 
                                     <div className="bg-white rounded-2xl border border-brand-border p-5">
-                                        <div className="flex gap-3 mb-4">
-                                            <div className="flex-1">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-1.5 block">Year</label>
-                                                <select value={textYear} onChange={(e) => setTextYear(e.target.value)} className="w-full p-2.5 bg-brand-light border border-brand-border rounded-xl font-bold text-sm">
-                                                    {[2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017].map(y => <option key={y} value={y}>{y}</option>)}
-                                                </select>
-                                            </div>
-                                            <div className="flex-1">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-1.5 block">Paper</label>
-                                                <select value={textPaper} onChange={(e) => setTextPaper(e.target.value)} className="w-full p-2.5 bg-brand-light border border-brand-border rounded-xl font-bold text-sm">
-                                                    <option value="GS1">GS1</option>
-                                                    <option value="CSAT">CSAT</option>
-                                                </select>
-                                            </div>
+
+                                        <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 mb-4 flex items-start gap-2">
+                                            <Brain size={14} className="text-blue-600 shrink-0 mt-0.5" />
+                                            <p className="text-[10px] font-bold text-blue-900 leading-relaxed">
+                                                <strong>AI auto-detects</strong> the year, paper (GS1/CSAT), subject, topic, correct answer, and difficulty from your text. Just paste and extract!
+                                            </p>
                                         </div>
 
                                         <textarea
                                             value={rawText}
                                             onChange={(e) => setRawText(e.target.value)}
-                                            placeholder="Paste raw question text from PDF here...&#10;&#10;Example:&#10;1. Consider the following statements:&#10;1. Statement one here.&#10;2. Statement two here.&#10;Which of the above is/are correct?&#10;(a) 1 only&#10;(b) 2 only&#10;(c) Both&#10;(d) Neither&#10;Answer: C"
-                                            className="w-full h-56 sm:h-72 p-4 bg-brand-light border border-brand-border rounded-2xl font-mono text-xs outline-none focus:border-brand-accent resize-none"
+                                            placeholder={"Paste raw question text from PDF here...\n\nThe AI will automatically detect:\n• Exam year (2024, 2023, etc.)\n• Paper type (GS1 or CSAT)\n• Subject & topic\n• Correct answers\n\nJust paste the text and click Extract!"}
+                                            className="w-full h-64 sm:h-80 p-4 bg-brand-light border border-brand-border rounded-2xl font-mono text-xs outline-none focus:border-brand-accent resize-none"
                                         />
 
                                         <div className="flex items-center justify-between mt-3">
@@ -514,25 +509,17 @@ export default function BulkImporterLogic() {
                                 </motion.div>
                             )}
 
-                            {/* ═══ VISION METHOD ═══ */}
+                                                        {/* ═══ VISION METHOD ═══ */}
                             {activeMethod === "vision" && (
                                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
 
                                     <div className="bg-white rounded-2xl border border-brand-border p-5">
-                                        <div className="flex gap-3 mb-4">
-                                            <div className="flex-1">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-1.5 block">Year</label>
-                                                <select value={visionYear} onChange={(e) => setVisionYear(e.target.value)} className="w-full p-2.5 bg-brand-light border border-brand-border rounded-xl font-bold text-sm">
-                                                    {[2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017].map(y => <option key={y} value={y}>{y}</option>)}
-                                                </select>
-                                            </div>
-                                            <div className="flex-1">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-1.5 block">Paper</label>
-                                                <select value={visionPaper} onChange={(e) => setVisionPaper(e.target.value)} className="w-full p-2.5 bg-brand-light border border-brand-border rounded-xl font-bold text-sm">
-                                                    <option value="GS1">GS1</option>
-                                                    <option value="CSAT">CSAT</option>
-                                                </select>
-                                            </div>
+
+                                        <div className="bg-orange-50 border border-orange-100 rounded-xl p-3 mb-4 flex items-start gap-2">
+                                            <Wand2 size={14} className="text-orange-600 shrink-0 mt-0.5" />
+                                            <p className="text-[10px] font-bold text-orange-900 leading-relaxed">
+                                                <strong>Upload screenshots</strong> of UPSC question paper pages. AI will auto-detect year, paper type, subjects, correct answers, and everything else!
+                                            </p>
                                         </div>
 
                                         <div className="bg-brand-light p-6 rounded-2xl border-2 border-dashed border-brand-border hover:border-brand-accent transition-all text-center relative group">
@@ -577,7 +564,6 @@ export default function BulkImporterLogic() {
                                     </button>
                                 </motion.div>
                             )}
-
                             {/* PROGRESS */}
                             {extractProgress && !extracting && (
                                 <div className="bg-green-50 border border-green-100 rounded-2xl p-4 flex items-center gap-3">
