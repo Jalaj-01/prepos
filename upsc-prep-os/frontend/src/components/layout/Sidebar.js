@@ -135,15 +135,9 @@ const navSections = [
             },
 
             {
-                href: "/intelligence/repeated-themes",
+                href: "/intelligence",
                 icon: Brain,
-                label: "Repeated Themes"
-            },
-
-            {
-                href: "/intelligence/trends",
-                icon: TrendingUp,
-                label: "Trends"
+                label: "PYQ Intelligence"
             },
 
             {
@@ -411,18 +405,7 @@ export default function Sidebar({
                                 {!collapsed && <span>Announcements</span>}
                             </Link>
 
-                            <Link
-                                href="/admin/email-test"
-                                title={collapsed ? "Email Test" : ""}
-                                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all ${
-                                    pathname.startsWith("/admin/email-test")
-                                        ? "bg-brand-dark text-white"
-                                        : "text-brand-muted hover:bg-brand-light hover:text-brand-dark"
-                                } ${collapsed ? "justify-center" : ""}`}
-                            >
-                                <Mail size={18} className="shrink-0" />
-                                {!collapsed && <span>Email Test</span>}
-                            </Link>
+                            
 
                         </div>
 

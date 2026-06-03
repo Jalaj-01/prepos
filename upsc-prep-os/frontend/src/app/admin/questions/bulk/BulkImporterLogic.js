@@ -1,799 +1,1137 @@
-import { toDBFormat } from "@/lib/importMapper";
-import { mapImportedQuestion } from "@/lib/importMapper";
-import { useState, useEffect, useCallback, useRef } from "react";
+"use client";
+
+import { toDBFormat, mapImportedQuestion } from "@/lib/importMapper";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  FileText,
-  Wand2,
-  Save,
-  Trash2,
-  CheckCircle,
-  FileUp,
-  Loader2,
-  ArrowLeft,
-  AlertTriangle,
-  Download,
-  ChevronRight,
-  ChevronLeft,
-  Eye,
-  RotateCcw,
+    FileText, Wand2, Save, Trash2, CheckCircle, FileUp,
+    Loader2, ArrowLeft, AlertTriangle, Download, RotateCcw,
+    Brain, Image, Type, Upload, X, Sparkles, ChevronDown
 } from "lucide-react";
 import axios from "axios";
 import Link from "next/link";
+import Sidebar from "@/components/layout/Sidebar";
+import TopHeader from "@/components/layout/TopHeader";
+import Footer from "@/components/layout/Footer";
+import MobileNav from "@/components/layout/MobileNav";
+import { showToast } from "@/components/ui/Toast";
+import { confirmAction } from "@/components/ui/ConfirmModal";
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CONSTANTS
-// ─────────────────────────────────────────────────────────────────────────────
+// ─── CONSTANTS ───
 
 const FILTER_TABS = ["All", "Pending", "Approved", "Rejected", "Malformed"];
 
 const WARNING_LABELS = {
-  MISSING_QUESTION_TEXT: "No question text",
-  INSUFFICIENT_OPTIONS: "< 2 options",
-  INCOMPLETE_OPTIONS: "Incomplete options",
-  MISSING_ANSWER: "No correct answer",
-  MISSING_EXPLANATION: "No explanation",
-  MISSING_YEAR: "No year",
+    MISSING_QUESTION_TEXT: "No question text",
+    INCOMPLETE_OPTIONS: "< 4 options",
+    MISSING_ANSWER: "No correct answer",
+    MISSING_YEAR: "No year",
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// HELPERS
-// ─────────────────────────────────────────────────────────────────────────────
+const METHODS = [
+    { id: "json", label: "Upload JSON", icon: FileUp, desc: "Upload pre-formatted JSON file" },
+    { id: "text", label: "AI Text Extract", icon: Type, desc: "Paste raw text → AI structures it" },
+    { id: "vision", label: "AI PDF Vision", icon: Image, desc: "Upload PDF images → AI extracts" },
+];
+
+// ─── HELPERS ───
 
 function countByStatus(questions) {
-  return FILTER_TABS.reduce((acc, filter) => {
-    if (filter === "All") {
-      acc[filter] = questions.length;
-    } else if (filter === "Malformed") {
-      acc[filter] = questions.filter((q) => q.isMalformed).length;
-    } else {
-      acc[filter] = questions.filter((q) => q.reviewStatus === filter).length;
-    }
-    return acc;
-  }, {});
+    return FILTER_TABS.reduce((acc, f) => {
+        if (f === "All") acc[f] = questions.length;
+        else if (f === "Malformed") acc[f] = questions.filter(q => q.isMalformed).length;
+        else acc[f] = questions.filter(q => q.reviewStatus === f).length;
+        return acc;
+    }, {});
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// MAIN COMPONENT
-// ─────────────────────────────────────────────────────────────────────────────
+function validateQuestion(q) {
+    const w = [];
+    if (!q.questionText?.trim()) w.push("MISSING_QUESTION_TEXT");
+    if (!q.options || q.options.length < 4) w.push("INCOMPLETE_OPTIONS");
+    if (!q.correctOption) w.push("MISSING_ANSWER");
+    if (!q.year) w.push("MISSING_YEAR");
+    return w;
+}
+
+// ─── MAIN COMPONENT ───
 
 export default function BulkImporterLogic() {
-  // ── State ──────────────────────────────────────────────────────────────────
-  const [rawText, setRawText] = useState("");
-  const [parsedQuestions, setParsedQuestions] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [reviewFilter, setReviewFilter] = useState("All");
-  const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
 
-  // Extraction states
-  const [extractStatus, setExtractStatus] = useState(null);
-  // null | 'extracting' | 'ocr' | 'parsing' | 'done' | 'error'
-  const [extractProgress, setExtractProgress] = useState("");
+    const [user, setUser] = useState(null);
+    const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
+    // Method
+    const [activeMethod, setActiveMethod] = useState("json");
 
-  const listRef = useRef(null);
+    // Questions
+    const [parsedQuestions, setParsedQuestions] = useState([]);
+    const [reviewFilter, setReviewFilter] = useState("All");
+    const [selectedIdx, setSelectedIdx] = useState(0);
 
-  // ── Derived ────────────────────────────────────────────────────────────────
-  const counts = countByStatus(parsedQuestions);
+    // States
+    const [extracting, setExtracting] = useState(false);
+    const [extractProgress, setExtractProgress] = useState("");
+    const [saving, setSaving] = useState(false);
 
-  const visibleQuestions = parsedQuestions.filter((q) => {
-    if (reviewFilter === "All") return true;
-    if (reviewFilter === "Malformed") return q.isMalformed;
-    return q.reviewStatus === reviewFilter;
-  });
+    // Text method
+    const [rawText, setRawText] = useState("");
+    const [textYear, setTextYear] = useState("2024");
+    const [textPaper, setTextPaper] = useState("GS1");
 
-  const validateQuestion = (q) => {
-  const warnings = [];
+    // Vision method
+    const [pdfImages, setPdfImages] = useState([]);
+    const [visionYear, setVisionYear] = useState("2024");
+    const [visionPaper, setVisionPaper] = useState("GS1");
 
-  if (!q.questionText?.trim())
-    warnings.push("MISSING_QUESTION_TEXT");
+    const listRef = useRef(null);
+    const fileInputRef = useRef(null);
 
-  if (!q.options || q.options.length < 4)
-    warnings.push("INCOMPLETE_OPTIONS");
+    // ─── AUTH ───
 
-  if (!q.correctOption)
-    warnings.push("MISSING_ANSWER");
+    useEffect(() => {
+        const info = localStorage.getItem("userInfo");
+        if (!info) { window.location.href = "/login"; return; }
+        const parsed = JSON.parse(info);
+        if (!parsed.isAdmin) {
+            showToast.error("Admin access only");
+            window.location.href = "/dashboard";
+            return;
+        }
+        setUser(parsed);
+    }, []);
 
-  if (!q.year)
-    warnings.push("MISSING_YEAR");
+    const counts = countByStatus(parsedQuestions);
 
-  return warnings;
-};
-
-const handleJsonUpload = async (e) => {
-  const file = e.target.files?.[0];
-
-  if (!file) return;
-
-  try {
-    setExtractStatus("extracting");
-    setExtractProgress("Loading JSON...");
-
-    const text = await file.text();
-
-    const json = JSON.parse(text);
-
-    const questions =
-      Array.isArray(json)
-        ? json
-        : json.questions || [];
-
-    const prepared =
-      questions.map((q, index) => {
-        const mapped =
-          mapImportedQuestion(q);
-
-        const warnings =
-          validateQuestion(mapped);
-
-        return {
-          ...mapped,
-
-          id:
-            mapped.id ||
-            `json_${Date.now()}_${index}`,
-
-          parseWarnings:
-            warnings,
-
-          isMalformed:
-            warnings.length > 0,
-
-          reviewStatus:
-            warnings.length
-              ? "Pending"
-              : "Approved"
-        };
-      });
-
-    setParsedQuestions(prepared);
-
-    setExtractStatus("done");
-
-    setExtractProgress(
-      `${prepared.length} questions loaded`
-    );
-  } catch (err) {
-    setExtractStatus("error");
-
-    setExtractProgress(
-      err.message
-    );
-  }
-};
-  
-const handleParse = () => {
-  alert(
-    "Text extraction will be connected to GPT in the next phase."
-  );
-};
-
-
-  // ── Field Updaters ─────────────────────────────────────────────────────────
-  const updateField = (index, field, value) => {
-    setParsedQuestions((prev) => {
-      const updated = [...prev];
-      updated[index] = { ...updated[index], [field]: value };
-      return updated;
+    const visibleQuestions = parsedQuestions.filter(q => {
+        if (reviewFilter === "All") return true;
+        if (reviewFilter === "Malformed") return q.isMalformed;
+        return q.reviewStatus === reviewFilter;
     });
-  };
 
-  const updateOption = (qIndex, optIndex, value) => {
-    setParsedQuestions((prev) => {
-      const updated = [...prev];
-      const opts = [...updated[qIndex].options];
-      opts[optIndex] = { ...opts[optIndex], text: value };
-      updated[qIndex] = { ...updated[qIndex], options: opts };
-      return updated;
-    });
-  };
+    // ─── PROCESS AI RESPONSE ───
 
-  const updateStatus = (index, status) => updateField(index, "reviewStatus", status);
-
-  const deleteQuestion = (index) => {
-    setParsedQuestions((prev) => prev.filter((_, i) => i !== index));
-    setSelectedQuestionIndex((prev) => Math.max(0, prev - 1));
-  };
-
-  // ── Bulk Actions ───────────────────────────────────────────────────────────
-  const approveValid = () => {
-    setParsedQuestions((prev) =>
-      prev.map((q) => ({
-        ...q,
-        reviewStatus: q.isMalformed ? q.reviewStatus : "Approved",
-      }))
-    );
-  };
-
-  const rejectAll = () => {
-    setParsedQuestions((prev) =>
-      prev.map((q) => ({ ...q, reviewStatus: "Rejected" }))
-    );
-  };
-
-  const reset = () => {
-  setParsedQuestions([]);
-  setExtractStatus(null);
-  setExtractProgress("");
-};
-
-  // ── Export to JSON ─────────────────────────────────────────────────────────
-  const exportJSON = () => {
-    const data = toDBFormat(parsedQuestions);
-    const blob = new Blob([JSON.stringify(data, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `upsc_questions_${Date.now()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  // ── Save to DB ─────────────────────────────────────────────────────────────
-  const handleUploadToDB = async () => {
-    const approved = parsedQuestions.filter(
-      (q) => q.reviewStatus === "Approved" && !q.isMalformed
-    );
-
-    if (approved.length === 0) {
-      alert("No approved questions to upload. Please approve some questions first.");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
-      if (!userInfo.token) throw new Error("Not authenticated.");
-
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/questions/bulk`,
-        { questions: toDBFormat(approved) },
-        { headers: { Authorization: `Bearer ${userInfo.token}` } }
-      );
-
-      alert(`✅ Successfully uploaded ${approved.length} questions!`);
-      reset();
-    } catch (err) {
-      console.error("[BulkImporter] DB upload error:", err);
-      alert("Upload failed: " + (err.response?.data?.message || err.message));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ── Keyboard Shortcuts ─────────────────────────────────────────────────────
-  useEffect(() => {
-    const handler = (e) => {
-      if (parsedQuestions.length === 0) return;
-      // Don't hijack shortcuts when user is typing in a textarea/input
-      if (
-        document.activeElement.tagName === "TEXTAREA" ||
-        document.activeElement.tagName === "INPUT" ||
-        document.activeElement.tagName === "SELECT"
-      )
-        return;
-
-      const idx = selectedQuestionIndex;
-
-      if (e.key === "a") updateStatus(idx, "Approved");
-      if (e.key === "r") updateStatus(idx, "Rejected");
-      if (e.key === "Delete") deleteQuestion(idx);
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        setSelectedQuestionIndex((p) => Math.min(p + 1, parsedQuestions.length - 1));
-      }
-      if (e.key === "ArrowUp") {
-        e.preventDefault();
-        setSelectedQuestionIndex((p) => Math.max(p - 1, 0));
-      }
+    const processAIResponse = (questions) => {
+        return questions.map((q, i) => {
+            const mapped = mapImportedQuestion(q);
+            const warnings = validateQuestion(mapped);
+            return {
+                ...mapped,
+                id: mapped.id || `ai_${Date.now()}_${i}`,
+                parseWarnings: warnings,
+                isMalformed: warnings.length > 0,
+                reviewStatus: warnings.length ? "Pending" : "Approved"
+            };
+        });
     };
 
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [parsedQuestions, selectedQuestionIndex]);
+    // ─── METHOD 1: JSON UPLOAD ───
 
-  // ── Auto-scroll selected question into view ────────────────────────────────
-  useEffect(() => {
-    if (!listRef.current) return;
-    const cards = listRef.current.querySelectorAll("[data-question-card]");
-    if (cards[selectedQuestionIndex]) {
-      cards[selectedQuestionIndex].scrollIntoView({ block: "nearest", behavior: "smooth" });
-    }
-  }, [selectedQuestionIndex]);
+    const handleJsonUpload = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // RENDER
-  // ─────────────────────────────────────────────────────────────────────────
-  return (
-    <div className="min-h-screen bg-brand-light p-6 md:p-12">
-      <div className="max-w-7xl mx-auto">
+        try {
+            setExtracting(true);
+            setExtractProgress("Reading JSON...");
 
-        {/* ── Header ── */}
-        <header className="mb-10">
-          <Link
-            href="/admin"
-            className="flex items-center gap-2 text-brand-muted hover:text-brand-dark mb-4 font-bold text-sm transition-all"
-          >
-            <ArrowLeft size={16} />
-            Back to Admin
-          </Link>
+            const text = await file.text();
+            const json = JSON.parse(text);
+            const questions = Array.isArray(json) ? json : json.questions || [];
+            const prepared = processAIResponse(questions);
 
-          <div className="flex items-end justify-between flex-wrap gap-4">
-            <div>
-              <h1 className="text-4xl font-black text-brand-dark tracking-tight">
-                Bulk Question Importer
-              </h1>
-              <p className="text-brand-muted font-medium mt-1">
-                Upload UPSC PDFs, Json · Extract · Review · Save
-              </p>
-            </div>
+            setParsedQuestions(prepared);
+            setExtractProgress(`${prepared.length} questions loaded`);
+            showToast.success(`${prepared.length} questions loaded from JSON`);
 
-            {parsedQuestions.length > 0 && (
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={exportJSON}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black border border-brand-border hover:border-brand-accent text-brand-muted hover:text-brand-accent transition-all"
-                >
-                  <Download size={14} />
-                  Export JSON
-                </button>
-                <button
-                  onClick={reset}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black border border-brand-border hover:border-red-400 text-brand-muted hover:text-red-500 transition-all"
-                >
-                  <RotateCcw size={14} />
-                  Reset
-                </button>
-              </div>
-            )}
-          </div>
-        </header>
+        } catch (err) {
+            showToast.error("Invalid JSON: " + err.message);
+        } finally {
+            setExtracting(false);
+        }
+    };
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+    // ─── METHOD 2: AI TEXT EXTRACTION ───
 
-          {/* ════════════════════════════════ LEFT PANEL ════════════════════ */}
-          <div className="space-y-6">
+    const handleTextExtract = async () => {
+        if (!rawText.trim()) {
+            showToast.warning("Please paste some text first");
+            return;
+        }
 
-            {/* Upload Zone */}
-            <div className="bg-white p-8 rounded-[40px] border-2 border-dashed border-brand-border hover:border-brand-accent transition-all text-center relative group shadow-sm">
-              <input
-  type="file"
-  accept=".json"
-  onChange={handleJsonUpload}
-  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-/>
+        setExtracting(true);
+        setExtractProgress("🧠 AI is analyzing your text...");
 
-              <div className="flex flex-col items-center py-2">
-                <div className="bg-brand-accent/5 p-4 rounded-2xl text-brand-accent mb-3 group-hover:scale-110 transition-transform">
-                  {extractStatus === "extracting"  ? (
-                    <Loader2 className="animate-spin" size={28} />
-                  ) : (
-                    <FileUp size={28} />
-                  )}
-                </div>
+        try {
+            const { data } = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/vision/extract-text`,
+                { text: rawText, year: parseInt(textYear), paper: textPaper },
+                { headers: { Authorization: `Bearer ${user.token}` } }
+            );
 
-                <h3 className="font-black text-brand-dark text-sm uppercase tracking-widest">
-                  {extractStatus === "extracting"
-  ? "Loading JSON..."
-  : extractStatus === "done"
-  ? "Upload Another File"
-  : extractStatus === "error"
-  ? "Error - Try Again"
-  : "Upload JSON File"}
-                </h3>
+            if (!data.questions?.length) {
+                showToast.error("AI couldn't find any questions in the text");
+                return;
+            }
 
-                {extractProgress && (
-                  <p className={`text-xs font-medium mt-2 ${extractStatus === "error" ? "text-red-500" : "text-brand-muted"}`}>
-                    {extractProgress}
-                  </p>
-                )}
+            const prepared = processAIResponse(data.questions);
+            setParsedQuestions(prev => [...prev, ...prepared]);
+            setExtractProgress(`✅ ${prepared.length} questions extracted`);
+            showToast.success(`${prepared.length} questions extracted by AI!`);
 
-      
-              </div>
-            </div>
+        } catch (err) {
+            showToast.error(err.response?.data?.message || "AI extraction failed");
+        } finally {
+            setExtracting(false);
+        }
+    };
 
-            {/* Raw Text Area */}
-            <div className="bg-white p-8 rounded-[40px] border border-brand-border shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2 text-[10px] font-black text-brand-muted uppercase tracking-widest">
-                  <FileText size={14} />
-                  Raw Content
-                </div>
-                <button
-                  onClick={() =>
-                    setRawText(
-                      (prev) =>
-                        prev +
-                        `\n\n1. Consider the following statements regarding [Topic]:\n1. Statement one here.\n2. Statement two here.\nWhich of the above statements is/are correct?\n(a) 1 only\n(b) 2 only\n(c) Both 1 and 2\n(d) Neither 1 nor 2\nAns: C\nExplanation: Your explanation here.\n`
-                    )
-                  }
-                  className="text-xs font-black text-brand-accent hover:underline"
-                >
-                  + Template
-                </button>
-              </div>
+    // ─── METHOD 3: AI VISION (PDF IMAGES) ───
 
-              <textarea
-                className="w-full h-80 p-6 bg-brand-light border border-brand-border rounded-[32px] font-mono text-xs outline-none focus:border-brand-accent resize-none"
-                placeholder="Paste UPSC question text here, or upload a PDF above..."
-                value={rawText}
-                onChange={(e) => setRawText(e.target.value)}
-              />
-            </div>
+    const handleImageUpload = async (e) => {
+        const files = Array.from(e.target.files || []);
+        if (!files.length) return;
 
-            {/* Parse Button */}
-            <button
-              onClick={handleParse}
-              disabled={!rawText.trim() || extractStatus === "parsing"}
-              className="w-full bg-brand-dark text-white p-5 rounded-[24px] font-black flex items-center justify-center gap-3 hover:bg-brand-accent transition-all shadow-lg active:scale-95 cursor-pointer disabled:opacity-30"
-            >
-              {extractStatus === "parsing" ? (
-                <Loader2 size={20} className="animate-spin" />
-              ) : (
-                <Wand2 size={20} />
-              )}
-              Extract Questions
-            </button>
+        const images = [];
+        for (const file of files) {
+            const reader = new FileReader();
+            const dataUrl = await new Promise((resolve) => {
+                reader.onload = () => resolve(reader.result);
+                reader.readAsDataURL(file);
+            });
+            images.push({ pageNumber: images.length + 1, image: dataUrl });
+        }
+        setPdfImages(prev => [...prev, ...images]);
+        showToast.info(`${images.length} images added. Click "Extract" when ready.`);
+    };
 
-            {/* Keyboard shortcuts hint */}
-            {parsedQuestions.length > 0 && (
-              <div className="bg-brand-dark/5 rounded-2xl p-4 text-[10px] font-bold text-brand-muted space-y-1">
-                <p className="font-black text-brand-dark text-xs uppercase tracking-widest mb-2">⌨ Keyboard Shortcuts</p>
-                <p><kbd className="bg-white border border-brand-border px-1.5 py-0.5 rounded text-[10px] mr-1">A</kbd> Approve selected</p>
-                <p><kbd className="bg-white border border-brand-border px-1.5 py-0.5 rounded text-[10px] mr-1">R</kbd> Reject selected</p>
-                <p><kbd className="bg-white border border-brand-border px-1.5 py-0.5 rounded text-[10px] mr-1">Del</kbd> Delete selected</p>
-                <p><kbd className="bg-white border border-brand-border px-1.5 py-0.5 rounded text-[10px] mr-1">↑↓</kbd> Navigate list</p>
-              </div>
-            )}
-          </div>
+    const handleVisionExtract = async () => {
+        if (pdfImages.length === 0) {
+            showToast.warning("Upload some images first");
+            return;
+        }
 
-          {/* ════════════════════════════════ RIGHT PANEL ═══════════════════ */}
-          <div className="space-y-4">
+        setExtracting(true);
+        setExtractProgress(`🧠 Processing ${pdfImages.length} pages...`);
 
-            {/* Filter + Bulk Actions Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 px-1">
-              {/* Filter tabs */}
-              <div className="flex flex-wrap gap-1.5">
-                {FILTER_TABS.map((f) => (
-                  <button
-                    key={f}
-                    onClick={() => setReviewFilter(f)}
-                    className={`px-3 py-1.5 rounded-full text-[10px] font-black uppercase transition-all flex items-center gap-1.5 ${
-                      reviewFilter === f
-                        ? "bg-brand-dark text-white"
-                        : "bg-white border border-brand-border text-brand-muted hover:border-brand-accent"
-                    }`}
-                  >
-                    {f}
-                    {counts[f] > 0 && (
-                      <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full ${
-                        reviewFilter === f ? "bg-white/20" : "bg-brand-light"
-                      }`}>
-                        {counts[f]}
-                      </span>
-                    )}
-                  </button>
-                ))}
-              </div>
+        try {
+            const { data } = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/vision/extract-pages`,
+                { pages: pdfImages, year: parseInt(visionYear), paper: visionPaper },
+                {
+                    headers: { Authorization: `Bearer ${user.token}` },
+                    timeout: 120000
+                }
+            );
 
-              {/* Action buttons */}
-              {parsedQuestions.length > 0 && (
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={approveValid}
-                    className="text-xs font-black text-green-700 flex items-center gap-1 hover:underline"
-                  >
-                    <CheckCircle size={12} />
-                    Approve Valid
-                  </button>
+            if (!data.questions?.length) {
+                showToast.error("AI couldn't extract questions from images");
+                return;
+            }
 
-                  <button
-                    onClick={handleUploadToDB}
-                    disabled={loading || counts.Approved === 0}
-                    className="text-xs font-black text-brand-accent flex items-center gap-1 hover:underline disabled:opacity-40"
-                  >
-                    <Save size={13} />
-                    {loading ? "Saving..." : `Save ${counts.Approved} to DB`}
-                  </button>
-                </div>
-              )}
-            </div>
+            const prepared = processAIResponse(data.questions);
+            setParsedQuestions(prev => [...prev, ...prepared]);
 
-            {/* Question List */}
-            <div
-              ref={listRef}
-              className="max-h-[800px] overflow-y-auto pr-1 space-y-4 custom-scrollbar"
-            >
-              <AnimatePresence>
-                {visibleQuestions.length === 0 ? (
-                  <motion.div
-                    key="empty"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="bg-white/40 border-2 border-dashed border-brand-border rounded-[40px] p-24 text-center"
-                  >
-                    <p className="text-brand-muted font-bold text-sm opacity-50">
-                      {parsedQuestions.length === 0
-                        ? "No questions parsed yet."
-                        : `No ${reviewFilter.toLowerCase()} questions.`}
-                    </p>
-                  </motion.div>
-                ) : (
-                  visibleQuestions.map((q, visIdx) => {
-                    // Map visible index back to global index
-                    const globalIdx = parsedQuestions.indexOf(q);
-                    const isSelected = globalIdx === selectedQuestionIndex;
+            const msg = `✅ ${prepared.length} questions from ${data.successPages}/${data.totalPages} pages`;
+            setExtractProgress(msg);
+            showToast.success(msg);
 
-                    return (
-                      <motion.div
-                        data-question-card
-                        key={q.id}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.15 }}
-                        onClick={() => setSelectedQuestionIndex(globalIdx)}
-                        className={`bg-white p-6 rounded-[32px] border shadow-sm group transition-all cursor-pointer ${
-                          isSelected
-                            ? "border-brand-accent ring-2 ring-brand-accent/20"
-                            : "border-brand-border hover:border-brand-accent/50"
-                        }`}
-                      >
-                        {/* Card Header */}
-                        <div className="flex justify-between items-start mb-3">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-[10px] font-black text-brand-accent uppercase">
-                              Q{globalIdx + 1}
-                            </span>
+            if (data.errors?.length) {
+                showToast.warning(`${data.errors.length} pages had errors`);
+            }
 
-                            {/* Type badge */}
-                            <span className="text-[9px] px-2 py-0.5 rounded-full font-black uppercase bg-brand-light text-brand-muted border border-brand-border">
-                              {q.type}
-                            </span>
+            setPdfImages([]);
 
-                            {/* Status badge */}
-                            <span className={`text-[9px] px-2 py-0.5 rounded-full font-black uppercase ${
-                              q.reviewStatus === "Approved"
-                                ? "bg-green-100 text-green-700"
-                                : q.reviewStatus === "Rejected"
-                                ? "bg-red-100 text-red-700"
-                                : "bg-yellow-100 text-yellow-700"
-                            }`}>
-                              {q.reviewStatus}
-                            </span>
+        } catch (err) {
+            showToast.error(err.response?.data?.message || "Vision extraction failed");
+        } finally {
+            setExtracting(false);
+        }
+    };
 
-                            {/* Malformed indicator */}
-                            {q.isMalformed && (
-                              <span className="text-[9px] px-2 py-0.5 rounded-full font-black uppercase bg-orange-100 text-orange-600 flex items-center gap-1">
-                                <AlertTriangle size={8} /> Malformed
-                              </span>
-                            )}
-                          </div>
+    // ─── FIELD UPDATERS ───
 
-                          <button
-                            onClick={(e) => { e.stopPropagation(); deleteQuestion(globalIdx); }}
-                            className="text-brand-muted hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all p-1"
-                          >
-                            <Trash2 size={15} />
-                          </button>
-                        </div>
+    const updateField = (idx, field, value) => {
+        setParsedQuestions(prev => {
+            const updated = [...prev];
+            updated[idx] = { ...updated[idx], [field]: value };
+            return updated;
+        });
+    };
 
-                        {/* Subject / Topic chips */}
-                        <div className="flex gap-1.5 mb-3 flex-wrap">
-                          <span className="text-[9px] px-2 py-0.5 bg-brand-accent/10 text-brand-accent rounded-full font-black">
-                            {q.subject}
-                          </span>
-                          <span className="text-[9px] px-2 py-0.5 bg-brand-light text-brand-muted rounded-full font-bold border border-brand-border">
-                            {q.topic}
-                          </span>
-                          {q.year && (
-                            <span className="text-[9px] px-2 py-0.5 bg-brand-light text-brand-muted rounded-full font-bold border border-brand-border">
-                              {q.year}
-                            </span>
-                          )}
-                        </div>
+    const updateOption = (qIdx, optIdx, value) => {
+        setParsedQuestions(prev => {
+            const updated = [...prev];
+            const opts = [...updated[qIdx].options];
+            opts[optIdx] = { ...opts[optIdx], text: value };
+            updated[qIdx] = { ...updated[qIdx], options: opts };
+            return updated;
+        });
+    };
 
-                        {/* Question Text */}
-                        <textarea
-                          value={q.questionText}
-                          onChange={(e) => updateField(globalIdx, "questionText", e.target.value)}
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-full bg-brand-light border border-brand-border rounded-2xl p-4 text-sm font-bold text-brand-dark outline-none focus:border-brand-accent resize-none mb-4"
-                          rows={3}
-                        />
+    const updateStatus = (idx, status) => updateField(idx, "reviewStatus", status);
 
-                        {/* Statements (for statement-type questions) */}
-                        {q.statements && q.statements.length > 0 && (
-                          <div className="mb-4 space-y-1.5">
-                            {q.statements.map((stmt, si) => (
-                              <div key={si} className="flex gap-2 items-start bg-brand-light rounded-xl p-3 border border-brand-border">
-                                <span className="text-[10px] font-black text-brand-accent mt-0.5 shrink-0">
-                                  {si + 1}.
-                                </span>
-                                <p className="text-xs font-medium text-brand-dark">{stmt}</p>
-                              </div>
-                            ))}
-                          </div>
-                        )}
+    const deleteQuestion = async (idx) => {
+        const confirmed = await confirmAction({
+            title: "Delete question?",
+            message: "Remove this question from the list.",
+            type: "warning",
+            confirmText: "Delete"
+        });
+        if (!confirmed) return;
+        setParsedQuestions(prev => prev.filter((_, i) => i !== idx));
+        setSelectedIdx(prev => Math.max(0, prev - 1));
+    };
 
-                        {/* Match pairs */}
-                        {q.matchPairs && q.matchPairs.length > 0 && (
-                          <div className="mb-4 overflow-x-auto rounded-2xl border border-brand-border">
-                            <table className="min-w-full text-xs">
-                              <thead className="bg-brand-light">
-                                <tr>
-                                  <th className="px-4 py-2 text-left font-black text-brand-muted border-r border-brand-border">List I</th>
-                                  <th className="px-4 py-2 text-left font-black text-brand-muted">List II</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {q.matchPairs.map((pair, pi) => (
-                                  <tr key={pi} className="border-t border-brand-border">
-                                    <td className="px-4 py-2 border-r border-brand-border">{pair.leftLabel}. {pair.left}</td>
-                                    <td className="px-4 py-2">{pair.rightLabel}. {pair.right}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        )}
+    // ─── BULK ACTIONS ───
 
-                        {/* Table data */}
-                        {q.tableData && (
-                          <div className="mb-4 overflow-x-auto rounded-2xl border border-brand-border">
-                            <table className="min-w-full text-xs">
-                              <thead className="bg-brand-light">
-                                <tr>
-                                  {q.tableData.headers.map((h, hi) => (
-                                    <th key={hi} className="px-4 py-2 text-left font-black border-b border-brand-border">{h}</th>
-                                  ))}
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {q.tableData.rows.map((row, ri) => (
-                                  <tr key={ri} className="border-t border-brand-border">
-                                    {row.map((cell, ci) => (
-                                      <td key={ci} className="px-4 py-2">{cell}</td>
-                                    ))}
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        )}
+    const approveValid = () => {
+        setParsedQuestions(prev =>
+            prev.map(q => ({
+                ...q,
+                reviewStatus: q.isMalformed ? q.reviewStatus : "Approved"
+            }))
+        );
+        showToast.success("All valid questions approved");
+    };
 
-                        {/* Options */}
-                        <div className="grid grid-cols-2 gap-2 mb-4">
-                          {q.options.map((o, oi) => (
-                            <div
-                              key={o.label}
-                              className={`p-3 rounded-xl border transition-all ${
-                                q.correctOption === o.label
-                                  ? "bg-green-50 border-green-300"
-                                  : "bg-brand-light border-brand-border"
-                              }`}
-                            >
-                              <div className="text-[10px] font-black text-brand-accent mb-1">
-                                ({o.label})
-                              </div>
-                              <textarea
-                                value={o.text}
-                                onChange={(e) => updateOption(globalIdx, oi, e.target.value)}
-                                onClick={(e) => e.stopPropagation()}
-                                className="w-full bg-transparent text-xs font-bold outline-none resize-none text-brand-dark"
-                                rows={2}
-                                placeholder={`Option ${o.label}...`}
-                              />
+    const reset = async () => {
+        const confirmed = await confirmAction({
+            title: "Reset everything?",
+            message: "Clear all extracted questions.",
+            type: "warning"
+        });
+        if (!confirmed) return;
+        setParsedQuestions([]);
+        setRawText("");
+        setPdfImages([]);
+        setExtractProgress("");
+    };
+
+    const exportJSON = () => {
+        const data = toDBFormat(parsedQuestions);
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `upsc_questions_${Date.now()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast.success("JSON exported");
+    };
+
+    const handleUploadToDB = async () => {
+        const approved = parsedQuestions.filter(q => q.reviewStatus === "Approved" && !q.isMalformed);
+
+        if (approved.length === 0) {
+            showToast.warning("No approved questions to upload");
+            return;
+        }
+
+        const confirmed = await confirmAction({
+            title: `Upload ${approved.length} questions?`,
+            message: "These will be saved to the question database.",
+            type: "info",
+            confirmText: "Upload"
+        });
+        if (!confirmed) return;
+
+        setSaving(true);
+        try {
+            await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/questions/bulk`,
+                { questions: toDBFormat(approved) },
+                { headers: { Authorization: `Bearer ${user.token}` } }
+            );
+            showToast.success(`${approved.length} questions uploaded!`);
+            setParsedQuestions([]);
+        } catch (err) {
+            showToast.error("Upload failed: " + (err.response?.data?.message || err.message));
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    // ─── KEYBOARD SHORTCUTS ───
+
+    useEffect(() => {
+        const handler = (e) => {
+            if (!parsedQuestions.length) return;
+            const el = document.activeElement?.tagName;
+            if (el === "TEXTAREA" || el === "INPUT" || el === "SELECT") return;
+            if (e.key === "a") updateStatus(selectedIdx, "Approved");
+            if (e.key === "r") updateStatus(selectedIdx, "Rejected");
+            if (e.key === "ArrowDown") { e.preventDefault(); setSelectedIdx(p => Math.min(p + 1, parsedQuestions.length - 1)); }
+            if (e.key === "ArrowUp") { e.preventDefault(); setSelectedIdx(p => Math.max(p - 1, 0)); }
+        };
+        window.addEventListener("keydown", handler);
+        return () => window.removeEventListener("keydown", handler);
+    }, [parsedQuestions, selectedIdx]);
+
+    if (!user) return null;
+
+    // ─── RENDER ───
+
+    return (
+        <div className="min-h-screen bg-brand-light flex">
+            <Sidebar isAdmin={user.isAdmin} />
+            <MobileNav isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
+
+            <div className="flex-1 flex flex-col min-h-screen min-w-0">
+                <TopHeader user={user} onMenuClick={() => setMobileNavOpen(true)} />
+
+                <main className="flex-1 p-3 sm:p-6 lg:p-10 max-w-[1600px] w-full mx-auto">
+
+                    {/* HEADER */}
+                    <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                        <div>
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="bg-brand-accent/10 p-3 rounded-2xl">
+                                    <Sparkles className="text-brand-accent" size={24} />
+                                </div>
+                                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-brand-dark tracking-tighter">
+                                    Question Importer
+                                </h1>
                             </div>
-                          ))}
+                            <p className="text-brand-muted font-medium text-sm">
+                                Upload JSON, paste text, or use AI vision to extract UPSC questions
+                            </p>
                         </div>
 
-                        {/* Correct Answer + Subject/Topic overrides */}
-                        <div className="flex flex-wrap items-center gap-3 mb-3">
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-black text-brand-accent uppercase">Answer:</span>
-                            <select
-                              value={q.correctOption}
-                              onChange={(e) => updateField(globalIdx, "correctOption", e.target.value)}
-                              onClick={(e) => e.stopPropagation()}
-                              className="bg-brand-light border border-brand-border rounded-xl px-3 py-1 text-xs font-bold outline-none"
+                        {parsedQuestions.length > 0 && (
+                            <div className="flex gap-2 shrink-0">
+                                <button onClick={exportJSON} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black border border-brand-border hover:border-brand-accent text-brand-muted hover:text-brand-accent transition-all">
+                                    <Download size={12} /> Export
+                                </button>
+                                <button onClick={reset} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black border border-brand-border hover:border-red-400 text-brand-muted hover:text-red-500 transition-all">
+                                    <RotateCcw size={12} /> Reset
+                                </button>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                        {/* ═══════ LEFT: IMPORT METHODS ═══════ */}
+                        <div className="space-y-4">
+
+                            {/* METHOD TABS */}
+                            <div className="bg-white rounded-2xl border border-brand-border p-3 flex gap-1">
+                                {METHODS.map(m => {
+                                    const Icon = m.icon;
+                                    const isActive = activeMethod === m.id;
+                                    return (
+                                        <button
+                                            key={m.id}
+                                            onClick={() => setActiveMethod(m.id)}
+                                            className={`flex-1 flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all ${
+                                                isActive
+                                                    ? "bg-brand-dark text-white"
+                                                    : "text-brand-muted hover:bg-brand-light"
+                                            }`}
+                                        >
+                                            <Icon size={18} />
+                                            <span className="text-[10px] font-black uppercase tracking-widest">{m.label}</span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            {/* ═══ JSON METHOD ═══ */}
+                            {activeMethod === "json" && (
+                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+                                    <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-dashed border-brand-border hover:border-brand-accent transition-all text-center relative group">
+                                        <input
+                                            type="file"
+                                            accept=".json"
+                                            onChange={handleJsonUpload}
+                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                        />
+                                        <div className="flex flex-col items-center">
+                                            <div className="bg-brand-accent/10 p-4 rounded-2xl mb-3 group-hover:scale-110 transition-transform">
+                                                {extracting ? <Loader2 className="animate-spin text-brand-accent" size={28} /> : <FileUp className="text-brand-accent" size={28} />}
+                                            </div>
+                                            <h3 className="font-black text-brand-dark text-sm">{extracting ? "Processing..." : "Upload JSON File"}</h3>
+                                            <p className="text-xs text-brand-muted font-medium mt-1">Supports any AI-generated JSON format</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-brand-light rounded-2xl p-4 border border-brand-border">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-2">💡 How to get JSON</p>
+                                        <ol className="text-xs font-medium text-brand-dark space-y-1.5 list-decimal list-inside">
+                                            <li>Give your UPSC PDF to ChatGPT/Claude/Gemini</li>
+                                            <li>Ask: "Extract all MCQs as JSON with questionText, options, correctOption, explanation, year, subjectName, topicName"</li>
+                                            <li>Copy the JSON output → save as .json file</li>
+                                            <li>Upload here → review → save to database</li>
+                                        </ol>
+                                    </div>
+                                </motion.div>
+                            )}
+
+                            {/* ═══ TEXT METHOD ═══ */}
+                            {activeMethod === "text" && (
+                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+
+                                    <div className="bg-white rounded-2xl border border-brand-border p-5">
+                                        <div className="flex gap-3 mb-4">
+                                            <div className="flex-1">
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-1.5 block">Year</label>
+                                                <select value={textYear} onChange={(e) => setTextYear(e.target.value)} className="w-full p-2.5 bg-brand-light border border-brand-border rounded-xl font-bold text-sm">
+                                                    {[2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017].map(y => <option key={y} value={y}>{y}</option>)}
+                                                </select>
+                                            </div>
+                                            <div className="flex-1">
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-1.5 block">Paper</label>
+                                                <select value={textPaper} onChange={(e) => setTextPaper(e.target.value)} className="w-full p-2.5 bg-brand-light border border-brand-border rounded-xl font-bold text-sm">
+                                                    <option value="GS1">GS1</option>
+                                                    <option value="CSAT">CSAT</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <textarea
+                                            value={rawText}
+                                            onChange={(e) => setRawText(e.target.value)}
+                                            placeholder="Paste raw question text from PDF here...&#10;&#10;Example:&#10;1. Consider the following statements:&#10;1. Statement one here.&#10;2. Statement two here.&#10;Which of the above is/are correct?&#10;(a) 1 only&#10;(b) 2 only&#10;(c) Both&#10;(d) Neither&#10;Answer: C"
+                                            className="w-full h-56 sm:h-72 p-4 bg-brand-light border border-brand-border rounded-2xl font-mono text-xs outline-none focus:border-brand-accent resize-none"
+                                        />
+
+                                        <div className="flex items-center justify-between mt-3">
+                                            <p className="text-[10px] text-brand-muted font-bold">
+                                                {rawText.length} chars · {rawText.split('\n').filter(l => l.trim()).length} lines
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        onClick={handleTextExtract}
+                                        disabled={extracting || !rawText.trim()}
+                                        className="w-full bg-gradient-to-r from-brand-accent to-purple-600 text-white p-4 rounded-2xl font-black flex items-center justify-center gap-3 hover:opacity-90 transition-all disabled:opacity-30"
+                                    >
+                                        {extracting ? <Loader2 size={18} className="animate-spin" /> : <Brain size={18} />}
+                                        {extracting ? "AI is analyzing..." : "Extract with Gemini AI"}
+                                    </button>
+                                </motion.div>
+                            )}
+
+                            {/* ═══ VISION METHOD ═══ */}
+                            {activeMethod === "vision" && (
+                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+
+                                    <div className="bg-white rounded-2xl border border-brand-border p-5">
+                                        <div className="flex gap-3 mb-4">
+                                            <div className="flex-1">
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-1.5 block">Year</label>
+                                                <select value={visionYear} onChange={(e) => setVisionYear(e.target.value)} className="w-full p-2.5 bg-brand-light border border-brand-border rounded-xl font-bold text-sm">
+                                                    {[2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017].map(y => <option key={y} value={y}>{y}</option>)}
+                                                </select>
+                                            </div>
+                                            <div className="flex-1">
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-1.5 block">Paper</label>
+                                                <select value={visionPaper} onChange={(e) => setVisionPaper(e.target.value)} className="w-full p-2.5 bg-brand-light border border-brand-border rounded-xl font-bold text-sm">
+                                                    <option value="GS1">GS1</option>
+                                                    <option value="CSAT">CSAT</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-brand-light p-6 rounded-2xl border-2 border-dashed border-brand-border hover:border-brand-accent transition-all text-center relative group">
+                                            <input
+                                                ref={fileInputRef}
+                                                type="file"
+                                                accept="image/*"
+                                                multiple
+                                                onChange={handleImageUpload}
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                            />
+                                            <Image size={24} className="text-brand-muted mx-auto mb-2" />
+                                            <p className="text-xs font-black text-brand-dark">{pdfImages.length > 0 ? `${pdfImages.length} images uploaded` : "Upload PDF page images"}</p>
+                                            <p className="text-[10px] text-brand-muted font-medium mt-1">PNG, JPG — screenshot each page</p>
+                                        </div>
+
+                                        {pdfImages.length > 0 && (
+                                            <div className="mt-3 flex gap-2 overflow-x-auto pb-2">
+                                                {pdfImages.map((p, i) => (
+                                                    <div key={i} className="relative shrink-0 w-16 h-20 rounded-lg overflow-hidden border border-brand-border">
+                                                        <img src={p.image} alt={`Page ${i + 1}`} className="w-full h-full object-cover" />
+                                                        <button
+                                                            onClick={() => setPdfImages(prev => prev.filter((_, idx) => idx !== i))}
+                                                            className="absolute top-0.5 right-0.5 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center"
+                                                        >
+                                                            <X size={8} />
+                                                        </button>
+                                                        <span className="absolute bottom-0.5 left-0.5 bg-black/60 text-white text-[8px] font-black px-1 rounded">{i + 1}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <button
+                                        onClick={handleVisionExtract}
+                                        disabled={extracting || pdfImages.length === 0}
+                                        className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 rounded-2xl font-black flex items-center justify-center gap-3 hover:opacity-90 transition-all disabled:opacity-30"
+                                    >
+                                        {extracting ? <Loader2 size={18} className="animate-spin" /> : <Wand2 size={18} />}
+                                        {extracting ? extractProgress : `Extract from ${pdfImages.length} pages`}
+                                    </button>
+                                </motion.div>
+                            )}
+
+                            {/* PROGRESS */}
+                            {extractProgress && !extracting && (
+                                <div className="bg-green-50 border border-green-100 rounded-2xl p-4 flex items-center gap-3">
+                                    <CheckCircle size={18} className="text-green-600 shrink-0" />
+                                    <p className="text-xs font-bold text-green-800">{extractProgress}</p>
+                                </div>
+                            )}
+
+                            {/* KEYBOARD HINTS */}
+                            {parsedQuestions.length > 0 && (
+                                <div className="bg-brand-dark/5 rounded-2xl p-4 text-[10px] font-bold text-brand-muted space-y-1">
+                                    <p className="font-black text-brand-dark text-xs uppercase tracking-widest mb-2">⌨ Shortcuts</p>
+                                    <p><kbd className="bg-white border border-brand-border px-1.5 py-0.5 rounded mr-1">A</kbd> Approve</p>
+                                    <p><kbd className="bg-white border border-brand-border px-1.5 py-0.5 rounded mr-1">R</kbd> Reject</p>
+                                    <p><kbd className="bg-white border border-brand-border px-1.5 py-0.5 rounded mr-1">↑↓</kbd> Navigate</p>
+                                </div>
+                            )}
+                        </div>
+
+                                               {/* ═══════ RIGHT: REVIEW PANEL ═══════ */}
+                        <div className="space-y-4">
+
+                            {/* STATS BAR */}
+
+                            {parsedQuestions.length > 0 && (
+
+                                <div className="grid grid-cols-4 gap-2">
+
+                                    <StatBadge
+                                        label="Total"
+                                        count={counts.All}
+                                        color="bg-brand-light text-brand-dark border-brand-border"
+                                    />
+
+                                    <StatBadge
+                                        label="Approved"
+                                        count={counts.Approved}
+                                        color="bg-green-50 text-green-700 border-green-200"
+                                    />
+
+                                    <StatBadge
+                                        label="Pending"
+                                        count={counts.Pending}
+                                        color="bg-yellow-50 text-yellow-700 border-yellow-200"
+                                    />
+
+                                    <StatBadge
+                                        label="Malformed"
+                                        count={counts.Malformed}
+                                        color="bg-red-50 text-red-700 border-red-200"
+                                    />
+
+                                </div>
+                            )}
+
+                            {/* FILTER + ACTIONS */}
+
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+
+                                <div className="flex flex-wrap gap-1">
+
+                                    {FILTER_TABS.map(f => (
+
+                                        <button
+                                            key={f}
+                                            onClick={() => setReviewFilter(f)}
+                                            className={`px-2.5 py-1.5 rounded-full text-[10px] font-black uppercase transition-all ${
+                                                reviewFilter === f
+                                                    ? "bg-brand-dark text-white"
+                                                    : "bg-white border border-brand-border text-brand-muted hover:border-brand-accent"
+                                            }`}
+                                        >
+                                            {f}
+                                            {counts[f] > 0 && (
+                                                <span className="ml-1 opacity-60">{counts[f]}</span>
+                                            )}
+                                        </button>
+                                    ))}
+
+                                </div>
+
+                                {parsedQuestions.length > 0 && (
+
+                                    <div className="flex gap-2 items-center">
+
+                                        <button
+                                            onClick={approveValid}
+                                            className="text-[10px] font-black text-green-700 flex items-center gap-1 hover:underline"
+                                        >
+                                            <CheckCircle size={11} />
+                                            Approve Valid
+                                        </button>
+
+                                        <span className="text-brand-border">|</span>
+
+                                        <button
+                                            onClick={handleUploadToDB}
+                                            disabled={saving || counts.Approved === 0}
+                                            className="text-[10px] font-black text-brand-accent flex items-center gap-1 hover:underline disabled:opacity-40"
+                                        >
+                                            {saving ? (
+                                                <Loader2 size={11} className="animate-spin" />
+                                            ) : (
+                                                <Save size={11} />
+                                            )}
+                                            {saving ? "Saving..." : `Save ${counts.Approved} to DB`}
+                                        </button>
+
+                                    </div>
+                                )}
+
+                            </div>
+
+                            {/* QUESTION CARDS */}
+
+                            <div
+                                ref={listRef}
+                                className="max-h-[680px] overflow-y-auto pr-1 space-y-3 custom-scrollbar"
                             >
-                              {["A", "B", "C", "D"].map((v) => (
-                                <option key={v} value={v}>{v}</option>
-                              ))}
-                            </select>
-                          </div>
 
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-black text-brand-muted uppercase">Year:</span>
-                            <input
-                              type="number"
-                              value={q.year || ""}
-                              onChange={(e) => updateField(globalIdx, "year", parseInt(e.target.value) || null)}
-                              onClick={(e) => e.stopPropagation()}
-                              className="bg-brand-light border border-brand-border rounded-xl px-3 py-1 text-xs font-bold outline-none w-20"
-                              placeholder="Year"
-                            />
-                          </div>
+                                <AnimatePresence>
+
+                                    {visibleQuestions.length === 0 ? (
+
+                                        <motion.div
+                                            key="empty"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            className="bg-white/40 border-2 border-dashed border-brand-border rounded-2xl p-16 text-center"
+                                        >
+                                            <div className="text-5xl mb-4 opacity-30">📋</div>
+                                            <p className="text-brand-muted font-bold text-sm">
+                                                {parsedQuestions.length === 0
+                                                    ? "No questions yet. Use the left panel to import."
+                                                    : `No ${reviewFilter.toLowerCase()} questions.`}
+                                            </p>
+                                        </motion.div>
+
+                                    ) : (
+
+                                        visibleQuestions.map((q, visIdx) => {
+
+                                            const globalIdx = parsedQuestions.indexOf(q);
+                                            const isSelected = globalIdx === selectedIdx;
+
+                                            return (
+
+                                                <QuestionCard
+                                                    key={q.id}
+                                                    q={q}
+                                                    globalIdx={globalIdx}
+                                                    isSelected={isSelected}
+                                                    onSelect={() => setSelectedIdx(globalIdx)}
+                                                    onDelete={() => deleteQuestion(globalIdx)}
+                                                    onFieldChange={(field, value) => updateField(globalIdx, field, value)}
+                                                    onOptionChange={(optIdx, value) => updateOption(globalIdx, optIdx, value)}
+                                                    onStatusChange={(status) => updateStatus(globalIdx, status)}
+                                                />
+                                            );
+                                        })
+                                    )}
+
+                                </AnimatePresence>
+
+                            </div>
+
                         </div>
 
-                        {/* Subject / Topic */}
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          <input
-                            value={q.subject}
-                            onChange={(e) => updateField(globalIdx, "subject", e.target.value)}
-                            onClick={(e) => e.stopPropagation()}
-                            className="bg-brand-light border border-brand-border rounded-xl px-3 py-1.5 text-[11px] font-bold outline-none focus:border-brand-accent"
-                            placeholder="Subject"
-                          />
-                          <input
-                            value={q.topic}
-                            onChange={(e) => updateField(globalIdx, "topic", e.target.value)}
-                            onClick={(e) => e.stopPropagation()}
-                            className="bg-brand-light border border-brand-border rounded-xl px-3 py-1.5 text-[11px] font-bold outline-none focus:border-brand-accent"
-                            placeholder="Topic"
-                          />
+                    </div>
+
+                </main>
+
+                <Footer />
+
+            </div>
+
+        </div>
+    );
+}
+
+// =========================
+// STAT BADGE
+// =========================
+
+function StatBadge({ label, count, color }) {
+
+    return (
+
+        <div className={`rounded-xl border p-2 sm:p-3 text-center ${color}`}>
+
+            <p className="text-lg sm:text-2xl font-black leading-none">
+                {count}
+            </p>
+
+            <p className="text-[9px] font-black uppercase tracking-widest mt-0.5 opacity-70">
+                {label}
+            </p>
+
+        </div>
+    );
+}
+
+// =========================
+// QUESTION CARD (Full Detail)
+// =========================
+
+function QuestionCard({
+    q,
+    globalIdx,
+    isSelected,
+    onSelect,
+    onDelete,
+    onFieldChange,
+    onOptionChange,
+    onStatusChange
+}) {
+
+    const [showExplanation, setShowExplanation] = useState(false);
+
+    return (
+
+        <motion.div
+            data-question-card
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.15 }}
+            onClick={onSelect}
+            className={`bg-white rounded-2xl border shadow-sm group transition-all cursor-pointer ${
+                isSelected
+                    ? "border-brand-accent ring-2 ring-brand-accent/20"
+                    : "border-brand-border hover:border-brand-accent/50"
+            }`}
+        >
+
+            {/* ── CARD HEADER ── */}
+
+            <div className="flex justify-between items-start p-4 pb-0">
+
+                <div className="flex items-center gap-1.5 flex-wrap">
+
+                    <span className="text-[10px] font-black text-brand-accent">
+                        Q{globalIdx + 1}
+                    </span>
+
+                    <span className={`text-[9px] px-2 py-0.5 rounded-full font-black uppercase ${
+                        q.reviewStatus === "Approved"
+                            ? "bg-green-100 text-green-700"
+                            : q.reviewStatus === "Rejected"
+                            ? "bg-red-100 text-red-700"
+                            : "bg-yellow-100 text-yellow-700"
+                    }`}>
+                        {q.reviewStatus}
+                    </span>
+
+                    {q.isMalformed && (
+                        <span className="text-[9px] px-2 py-0.5 rounded-full font-black bg-orange-100 text-orange-600 flex items-center gap-0.5">
+                            <AlertTriangle size={8} /> Fix needed
+                        </span>
+                    )}
+
+                    {q.correctOption && (
+                        <span className="text-[9px] px-2 py-0.5 rounded-full font-black bg-blue-50 text-blue-700">
+                            Ans: {q.correctOption}
+                        </span>
+                    )}
+
+                </div>
+
+                <button
+                    onClick={(e) => { e.stopPropagation(); onDelete(); }}
+                    className="text-brand-muted hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all p-1"
+                >
+                    <Trash2 size={14} />
+                </button>
+
+            </div>
+
+            {/* ── METADATA TAGS ── */}
+
+            <div className="flex gap-1 px-4 mt-2 flex-wrap">
+
+                {q.subject && (
+                    <span className="text-[9px] px-2 py-0.5 bg-brand-accent/10 text-brand-accent rounded-full font-black">
+                        {q.subject}
+                    </span>
+                )}
+
+                {q.topic && (
+                    <span className="text-[9px] px-2 py-0.5 bg-brand-light text-brand-muted rounded-full font-bold border border-brand-border">
+                        {q.topic}
+                    </span>
+                )}
+
+                {q.year && (
+                    <span className="text-[9px] px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full font-bold">
+                        {q.year}
+                    </span>
+                )}
+
+                {q.paper && (
+                    <span className="text-[9px] px-2 py-0.5 bg-purple-50 text-purple-700 rounded-full font-bold">
+                        {q.paper}
+                    </span>
+                )}
+
+                {q.difficulty && (
+                    <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold ${
+                        q.difficulty === "Hard" ? "bg-red-50 text-red-600" :
+                        q.difficulty === "Medium" ? "bg-yellow-50 text-yellow-600" :
+                        "bg-green-50 text-green-600"
+                    }`}>
+                        {q.difficulty}
+                    </span>
+                )}
+
+            </div>
+
+            {/* ── QUESTION TEXT ── */}
+
+            <div className="px-4 mt-3">
+
+                <label className="text-[9px] font-black uppercase tracking-widest text-brand-muted mb-1 block">
+                    Question
+                </label>
+
+                <textarea
+                    value={q.questionText}
+                    onChange={(e) => onFieldChange("questionText", e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-full bg-brand-light border border-brand-border rounded-xl p-3 text-xs font-bold text-brand-dark outline-none focus:border-brand-accent resize-none"
+                    rows={3}
+                />
+
+            </div>
+
+            {/* ── OPTIONS ── */}
+
+            <div className="px-4 mt-3 grid grid-cols-2 gap-1.5">
+
+                {(q.options || []).map((o, oi) => (
+
+                    <div
+                        key={o.label || oi}
+                        className={`p-2.5 rounded-xl border transition-all ${
+                            q.correctOption === o.label
+                                ? "bg-green-50 border-green-300"
+                                : "bg-brand-light border-brand-border"
+                        }`}
+                    >
+                        <div className="flex items-center gap-1 mb-1">
+
+                            <span className="text-[9px] font-black text-brand-accent">
+                                ({o.label || String.fromCharCode(65 + oi)})
+                            </span>
+
+                            {q.correctOption === o.label && (
+                                <CheckCircle size={10} className="text-green-600" />
+                            )}
+
                         </div>
 
-                        {/* Approve / Reject */}
-                        <div className="flex gap-2 mb-3">
-                          <button
-                            onClick={(e) => { e.stopPropagation(); updateStatus(globalIdx, "Approved"); }}
-                            className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase transition-all ${
-                              q.reviewStatus === "Approved"
-                                ? "bg-green-600 text-white"
-                                : "bg-green-100 text-green-700 hover:bg-green-200"
-                            }`}
-                          >
-                            Approve
-                          </button>
-                          <button
-                            onClick={(e) => { e.stopPropagation(); updateStatus(globalIdx, "Rejected"); }}
-                            className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase transition-all ${
-                              q.reviewStatus === "Rejected"
-                                ? "bg-red-600 text-white"
-                                : "bg-red-100 text-red-700 hover:bg-red-200"
-                            }`}
-                          >
-                            Reject
-                          </button>
-                        </div>
-
-                        {/* Explanation */}
                         <textarea
-                          value={q.explanation || ""}
-                          onChange={(e) => updateField(globalIdx, "explanation", e.target.value)}
-                          onClick={(e) => e.stopPropagation()}
-                          placeholder="Explanation (optional but recommended)..."
-                          className="w-full bg-brand-light border border-brand-border rounded-2xl p-3 text-xs text-brand-muted outline-none resize-none focus:border-brand-accent"
-                          rows={3}
+                            value={o.text}
+                            onChange={(e) => onOptionChange(oi, e.target.value)}
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-full bg-transparent text-[10px] font-bold outline-none resize-none text-brand-dark"
+                            rows={2}
+                            placeholder={`Option ${o.label || String.fromCharCode(65 + oi)}`}
                         />
 
-                        {/* Parse warnings */}
-                        {q.parseWarnings && q.parseWarnings.length > 0 && (
-                          <div className="mt-3 flex flex-wrap gap-1.5">
-                            {q.parseWarnings.map((w, wi) => (
-                              <span
-                                key={wi}
-                                className="px-2 py-1 rounded-full bg-yellow-100 text-yellow-700 text-[9px] font-black uppercase flex items-center gap-1"
-                              >
-                                <AlertTriangle size={8} />
-                                {WARNING_LABELS[w] || w}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </motion.div>
-                    );
-                  })
-                )}
-              </AnimatePresence>
+                    </div>
+                ))}
+
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+
+            {/* ── CONTROLS ROW ── */}
+
+            <div className="px-4 mt-3 flex flex-wrap items-center gap-2">
+
+                {/* Correct Answer */}
+
+                <div className="flex items-center gap-1.5 bg-brand-light rounded-lg px-2 py-1.5 border border-brand-border">
+
+                    <span className="text-[9px] font-black text-brand-muted">ANS:</span>
+
+                    <select
+                        value={q.correctOption || ""}
+                        onChange={(e) => onFieldChange("correctOption", e.target.value)}
+                        onClick={(e) => e.stopPropagation()}
+                        className="bg-transparent text-[10px] font-black text-brand-dark outline-none"
+                    >
+                        <option value="">?</option>
+                        {["A", "B", "C", "D"].map(v => <option key={v} value={v}>{v}</option>)}
+                    </select>
+
+                </div>
+
+                {/* Year */}
+
+                <input
+                    type="number"
+                    value={q.year || ""}
+                    onChange={(e) => onFieldChange("year", parseInt(e.target.value) || null)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="bg-brand-light border border-brand-border rounded-lg px-2 py-1.5 text-[10px] font-bold outline-none focus:border-brand-accent w-16"
+                    placeholder="Year"
+                />
+
+                {/* Paper */}
+
+                <select
+                    value={q.paper || "GS1"}
+                    onChange={(e) => onFieldChange("paper", e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="bg-brand-light border border-brand-border rounded-lg px-2 py-1.5 text-[10px] font-bold outline-none focus:border-brand-accent"
+                >
+                    <option value="GS1">GS1</option>
+                    <option value="CSAT">CSAT</option>
+                </select>
+
+                {/* Difficulty */}
+
+                <select
+                    value={q.difficulty || "Medium"}
+                    onChange={(e) => onFieldChange("difficulty", e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="bg-brand-light border border-brand-border rounded-lg px-2 py-1.5 text-[10px] font-bold outline-none focus:border-brand-accent"
+                >
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+
+            </div>
+
+            {/* ── SUBJECT / TOPIC ── */}
+
+            <div className="px-4 mt-2 flex gap-2">
+
+                <input
+                    value={q.subject || ""}
+                    onChange={(e) => onFieldChange("subject", e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="bg-brand-light border border-brand-border rounded-lg px-2 py-1.5 text-[10px] font-bold outline-none focus:border-brand-accent flex-1 min-w-0"
+                    placeholder="Subject"
+                />
+
+                <input
+                    value={q.topic || ""}
+                    onChange={(e) => onFieldChange("topic", e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="bg-brand-light border border-brand-border rounded-lg px-2 py-1.5 text-[10px] font-bold outline-none focus:border-brand-accent flex-1 min-w-0"
+                    placeholder="Topic"
+                />
+
+                <input
+                    value={q.subTopic || ""}
+                    onChange={(e) => onFieldChange("subTopic", e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="bg-brand-light border border-brand-border rounded-lg px-2 py-1.5 text-[10px] font-bold outline-none focus:border-brand-accent flex-1 min-w-0"
+                    placeholder="Subtopic"
+                />
+
+            </div>
+
+            {/* ── EXPLANATION (TOGGLE) ── */}
+
+            <div className="px-4 mt-3">
+
+                <button
+                    onClick={(e) => { e.stopPropagation(); setShowExplanation(!showExplanation); }}
+                    className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-brand-muted hover:text-brand-dark transition-all"
+                >
+                    <ChevronDown
+                        size={12}
+                        className={`transition-transform ${showExplanation ? "rotate-180" : ""}`}
+                    />
+                    {showExplanation ? "Hide" : "Show"} Explanation
+                </button>
+
+                {showExplanation && (
+
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="mt-2"
+                    >
+
+                        <textarea
+                            value={q.explanation || ""}
+                            onChange={(e) => onFieldChange("explanation", e.target.value)}
+                            onClick={(e) => e.stopPropagation()}
+                            placeholder="Add explanation for why this answer is correct..."
+                            className="w-full bg-brand-light border border-brand-border rounded-xl p-3 text-[10px] text-brand-dark outline-none resize-none focus:border-brand-accent"
+                            rows={3}
+                        />
+
+                    </motion.div>
+                )}
+
+            </div>
+
+            {/* ── APPROVE / REJECT ── */}
+
+            <div className="p-4 pt-3 flex gap-2 border-t border-brand-border mt-3">
+
+                <button
+                    onClick={(e) => { e.stopPropagation(); onStatusChange("Approved"); }}
+                    className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase transition-all flex items-center justify-center gap-1 ${
+                        q.reviewStatus === "Approved"
+                            ? "bg-green-600 text-white"
+                            : "bg-green-100 text-green-700 hover:bg-green-200"
+                    }`}
+                >
+                    <CheckCircle size={11} />
+                    Approve
+                </button>
+
+                <button
+                    onClick={(e) => { e.stopPropagation(); onStatusChange("Rejected"); }}
+                    className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase transition-all flex items-center justify-center gap-1 ${
+                        q.reviewStatus === "Rejected"
+                            ? "bg-red-600 text-white"
+                            : "bg-red-100 text-red-700 hover:bg-red-200"
+                    }`}
+                >
+                    <Trash2 size={11} />
+                    Reject
+                </button>
+
+            </div>
+
+            {/* ── WARNINGS ── */}
+
+            {q.parseWarnings?.length > 0 && (
+
+                <div className="px-4 pb-4 flex flex-wrap gap-1">
+
+                    {q.parseWarnings.map((w, wi) => (
+
+                        <span
+                            key={wi}
+                            className="px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 text-[8px] font-black flex items-center gap-0.5"
+                        >
+                            <AlertTriangle size={7} />
+                            {WARNING_LABELS[w] || w}
+                        </span>
+                    ))}
+
+                </div>
+            )}
+
+        </motion.div>
+    );
 }
