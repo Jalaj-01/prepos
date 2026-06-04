@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import DateTimeBadge from "@/components/dashboard/DateTimeBadge";
 import {
   Target,
   Flame,
@@ -168,31 +169,34 @@ export default function UnifiedDashboard() {
 
           {/* ── HERO ── */}
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
-          >
-            <div className="min-w-0 flex-1">
-              <p className="text-brand-muted font-bold text-xs sm:text-sm tracking-tight">
-                {greetingTime()},
-              </p>
-              <h1 className="text-2xl sm:text-3xl lg:text-5xl font-black text-brand-dark tracking-tighter mt-1 truncate">
-                {user.name.split(" ")[0]} 👋
-              </h1>
-              <p className="text-brand-muted font-medium mt-2 text-xs sm:text-sm lg:text-base">
-                Your UPSC command center — Prelims & Mains, all in one view.
-              </p>
-            </div>
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+>
+    <div className="min-w-0 flex-1">
+        <p className="text-brand-muted font-bold text-xs sm:text-sm tracking-tight">
+            {greetingTime()},
+        </p>
+        <h1 className="text-2xl sm:text-3xl lg:text-5xl font-black text-brand-dark tracking-tighter mt-1 truncate">
+            {user.name.split(" ")[0]} 👋
+        </h1>
+        <p className="text-brand-muted font-medium mt-2 text-xs sm:text-sm lg:text-base">
+            Your UPSC command center — Prelims & Mains, all in one view.
+        </p>
+    </div>
 
-            <button
-              data-tour="adjust-target"
-              onClick={() => setShowSettings(true)}
-              className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 bg-white border border-brand-border rounded-2xl text-[10px] sm:text-xs font-black uppercase tracking-widest text-brand-muted hover:text-brand-dark hover:border-brand-accent transition-all shrink-0"
-            >
-              <Settings size={14} />
-              Adjust Target
-            </button>
-          </motion.div>
+    <div className="flex flex-col sm:items-end gap-2 sm:gap-3 shrink-0">
+        <DateTimeBadge />
+        <button
+            data-tour="adjust-target"
+            onClick={() => setShowSettings(true)}
+            className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 bg-white border border-brand-border rounded-2xl text-[10px] sm:text-xs font-black uppercase tracking-widest text-brand-muted hover:text-brand-dark hover:border-brand-accent transition-all"
+        >
+            <Settings size={14} />
+            Adjust Target
+        </button>
+    </div>
+</motion.div>
 
           {/* ── KPI GRID ── */}
           <div

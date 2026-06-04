@@ -1,22 +1,26 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     Plus,
-    Calendar,
     Layers,
-    AlertCircle,
     Search,
-    Filter,
+    LayoutGrid,
+    List,
+    Calendar,
 } from "lucide-react";
+import { format, isSameDay } from "date-fns";
+
 import Sidebar from "@/components/layout/Sidebar";
 import TopHeader from "@/components/layout/TopHeader";
 import Footer from "@/components/layout/Footer";
 import MobileNav from "@/components/layout/MobileNav";
 import TaskCard from "@/components/planner/TaskCard";
 import TaskDrawer from "@/components/planner/TaskDrawer";
+import PlannerCalendar from "@/components/planner/PlannerCalendar";
+import DateTimeBadge from "@/components/dashboard/DateTimeBadge";
 import { DashboardSkeleton } from "@/components/ui/Skeleton";
 
 const VIEWS = [
@@ -36,6 +40,7 @@ const CATEGORY_LABELS = {
 export default function PlannerPage() {
     const [user, setUser] = useState(null);
     const [tasks, setTasks] = useState([]);
+    const [allTasks, setAllTasks] = useState([]); // for calendar dots
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
     const [view, setView] = useState("today");
@@ -46,6 +51,10 @@ export default function PlannerPage() {
 
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
+
+    // ─── Calendar state — default to today so tasks are visible on load ───
+    const [layout, setLayout] = useState("calendar"); // "calendar" | "list"
+    const [selectedDate, setSelectedDate] = useState(() => new Date());
 
     const baseUrl = process.env.NEXT_PUBLIC_API_URL;
     const getConfig = () => {
@@ -72,14 +81,22 @@ export default function PlannerPage() {
             if (search.trim()) params.append("search", search.trim());
             if (!showDone) params.append("status", "pending");
 
-            const [tRes, sRes] = await Promise.all([
+            const allParams = new URLSearchParams();
+            allParams.append("view", "all");
+
+            const [tRes, allRes, sRes] = await Promise.all([
                 axios.get(
                     `${baseUrl}/api/tasks?${params.toString()}`,
+                    getConfig()
+                ),
+                axios.get(
+                    `${baseUrl}/api/tasks?${allParams.toString()}`,
                     getConfig()
                 ),
                 axios.get(`${baseUrl}/api/tasks/stats`, getConfig()),
             ]);
             setTasks(tRes.data.tasks || []);
+            setAllTasks(allRes.data.tasks || []);
             setStats(sRes.data);
         } catch (e) {
             console.warn("Tasks fetch:", e.message);
@@ -120,8 +137,8 @@ export default function PlannerPage() {
         setDrawerOpen(true);
     };
 
-    const handleNew = () => {
-        setEditingTask("new");
+    const handleNew = (presetDate = null) => {
+        setEditingTask(presetDate ? { presetDate } : "new");
         setDrawerOpen(true);
     };
 
@@ -132,14 +149,23 @@ export default function PlannerPage() {
         } catch (e) {}
     };
 
+    // Tasks for the selected day (from allTasks so any date works)
+    const dayTasks = useMemo(() => {
+        if (!selectedDate) return [];
+        const source = showDone
+            ? allTasks
+            : allTasks.filter((t) => t.status !== "done");
+        return source.filter(
+            (t) => t.dueDate && isSameDay(new Date(t.dueDate), selectedDate)
+        );
+    }, [allTasks, selectedDate, showDone]);
+
     if (!user || loading) {
         return (
             <div className="min-h-screen bg-brand-light flex">
                 {user && <Sidebar isAdmin={user.isAdmin} />}
                 <div className="flex-1 flex flex-col min-h-screen min-w-0">
-                    {user && (
-                        <TopHeader user={user} readinessScore={0} onMenuClick={() => {}} />
-                    )}
+                    {user && <TopHeader user={user} onMenuClick={() => {}} />}
                     <main className="flex-1 p-4 sm:p-6 lg:p-10 max-w-[1600px] w-full mx-auto">
                         <DashboardSkeleton />
                     </main>
@@ -159,7 +185,6 @@ export default function PlannerPage() {
             <div className="flex-1 flex flex-col min-h-screen min-w-0">
                 <TopHeader
                     user={user}
-                    readinessScore={0}
                     onMenuClick={() => setMobileNavOpen(true)}
                 />
 
@@ -182,13 +207,16 @@ export default function PlannerPage() {
                             </p>
                         </div>
 
-                        <button
-                            onClick={handleNew}
-                            className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 bg-brand-dark text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-brand-accent transition-all"
-                        >
-                            <Plus size={14} />
-                            New Task
-                        </button>
+                        <div className="flex flex-col sm:items-end gap-2 sm:gap-3 shrink-0">
+                            <DateTimeBadge />
+                            <button
+                                onClick={() => handleNew()}
+                                className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 bg-brand-dark text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-brand-accent transition-all"
+                            >
+                                <Plus size={14} />
+                                New Task
+                            </button>
+                        </div>
                     </motion.div>
 
                     {/* STATS BAR */}
@@ -215,8 +243,9 @@ export default function PlannerPage() {
 
                     {/* MAIN GRID */}
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
-                        {/* SIDEBAR */}
+                        {/* LEFT SIDEBAR — Categories + Filters + Task List */}
                         <aside className="lg:col-span-3 space-y-4">
+                            {/* Categories */}
                             <div className="bg-white border border-brand-border rounded-2xl p-4 sm:p-5">
                                 <p className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-3">
                                     Categories
@@ -241,6 +270,7 @@ export default function PlannerPage() {
                                 </div>
                             </div>
 
+                            {/* Filters */}
                             <div className="bg-white border border-brand-border rounded-2xl p-4 sm:p-5">
                                 <p className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-3">
                                     Filters
@@ -257,18 +287,77 @@ export default function PlannerPage() {
                                     </span>
                                 </label>
                             </div>
+
+                            {/* TASK LIST — below filters in left column */}
+                            <div className="bg-white border border-brand-border rounded-2xl p-4 sm:p-5">
+                                <div className="flex items-center justify-between mb-3">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-muted">
+                                        {layout === "calendar" && selectedDate
+                                            ? isSameDay(selectedDate, new Date())
+                                                ? "Today's Tasks"
+                                                : format(selectedDate, "d MMM")
+                                            : "Tasks"}
+                                    </p>
+                                    <span className="text-[10px] font-black text-brand-muted">
+                                        {layout === "calendar"
+                                            ? dayTasks.length
+                                            : tasks.length}
+                                    </span>
+                                </div>
+
+                                <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1">
+                                    <AnimatePresence>
+                                        {(layout === "calendar" ? dayTasks : tasks).length ===
+                                        0 ? (
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                className="text-center py-8"
+                                            >
+                                                <Layers
+                                                    size={20}
+                                                    className="text-brand-muted mx-auto mb-2 opacity-50"
+                                                />
+                                                <p className="text-[11px] font-black text-brand-dark">
+                                                    Nothing here
+                                                </p>
+                                                <p className="text-[10px] font-bold text-brand-muted mt-1">
+                                                    {layout === "calendar"
+                                                        ? "No tasks for this date"
+                                                        : view === "today"
+                                                        ? "Enjoy the breather"
+                                                        : "Create your first task"}
+                                                </p>
+                                            </motion.div>
+                                        ) : (
+                                            (layout === "calendar" ? dayTasks : tasks).map(
+                                                (t) => (
+                                                    <TaskCard
+                                                        key={t._id}
+                                                        task={t}
+                                                        onToggle={handleToggle}
+                                                        onEdit={handleEdit}
+                                                        onDelete={handleDelete}
+                                                        onToggleSubtask={handleSubtaskToggle}
+                                                    />
+                                                )
+                                            )
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            </div>
                         </aside>
 
-                        {/* MAIN */}
+                        {/* MAIN — Calendar */}
                         <div className="lg:col-span-9 space-y-4">
-                            {/* VIEWS + SEARCH */}
+                            {/* CONTROL BAR */}
                             <div className="bg-white border border-brand-border rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-                                <div className="flex gap-1 bg-brand-light rounded-xl p-1">
+                                <div className="flex gap-1 bg-brand-light rounded-xl p-1 overflow-x-auto">
                                     {VIEWS.map((v) => (
                                         <button
                                             key={v.id}
                                             onClick={() => setView(v.id)}
-                                            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all ${
+                                            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${
                                                 view === v.id
                                                     ? "bg-brand-dark text-white"
                                                     : "text-brand-muted hover:text-brand-dark"
@@ -279,57 +368,103 @@ export default function PlannerPage() {
                                     ))}
                                 </div>
 
-                                <div className="relative flex-1 sm:max-w-xs">
-                                    <Search
-                                        size={14}
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-muted"
-                                    />
-                                    <input
-                                        type="text"
-                                        value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
-                                        placeholder="Search tasks..."
-                                        className="w-full pl-9 pr-3 py-2 bg-brand-light border border-brand-border rounded-xl text-sm font-bold outline-none focus:border-brand-accent transition-all"
-                                    />
+                                <div className="flex items-center gap-2 sm:flex-1 sm:justify-end">
+                                    <div className="relative flex-1 sm:max-w-xs">
+                                        <Search
+                                            size={14}
+                                            className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-muted"
+                                        />
+                                        <input
+                                            type="text"
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                            placeholder="Search tasks..."
+                                            className="w-full pl-9 pr-3 py-2 bg-brand-light border border-brand-border rounded-xl text-sm font-bold outline-none focus:border-brand-accent transition-all"
+                                        />
+                                    </div>
+
+                                    <div className="flex bg-brand-light rounded-xl p-1 gap-0.5">
+                                        <button
+                                            onClick={() => setLayout("calendar")}
+                                            className={`p-1.5 rounded-lg transition-all ${
+                                                layout === "calendar"
+                                                    ? "bg-white text-brand-dark shadow-sm"
+                                                    : "text-brand-muted hover:text-brand-dark"
+                                            }`}
+                                            title="Calendar view"
+                                        >
+                                            <LayoutGrid size={14} />
+                                        </button>
+                                        <button
+                                            onClick={() => setLayout("list")}
+                                            className={`p-1.5 rounded-lg transition-all ${
+                                                layout === "list"
+                                                    ? "bg-white text-brand-dark shadow-sm"
+                                                    : "text-brand-muted hover:text-brand-dark"
+                                            }`}
+                                            title="List view"
+                                        >
+                                            <List size={14} />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* TASK LIST */}
-                            <div className="space-y-2">
-                                <AnimatePresence>
-                                    {tasks.length === 0 ? (
-                                        <motion.div
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            className="bg-white border-2 border-dashed border-brand-border rounded-2xl p-12 text-center"
-                                        >
-                                            <Layers
-                                                size={32}
-                                                className="text-brand-muted mx-auto mb-3"
-                                            />
-                                            <p className="text-sm font-black text-brand-dark">
-                                                No tasks here
-                                            </p>
-                                            <p className="text-xs font-bold text-brand-muted mt-1">
-                                                {view === "today"
-                                                    ? "Nothing scheduled for today. Enjoy the breather."
-                                                    : "Click 'New Task' to get started."}
-                                            </p>
-                                        </motion.div>
-                                    ) : (
-                                        tasks.map((t) => (
-                                            <TaskCard
-                                                key={t._id}
-                                                task={t}
-                                                onToggle={handleToggle}
-                                                onEdit={handleEdit}
-                                                onDelete={handleDelete}
-                                                onToggleSubtask={handleSubtaskToggle}
-                                            />
-                                        ))
-                                    )}
-                                </AnimatePresence>
-                            </div>
+                            {/* CALENDAR or LIST */}
+                            {layout === "calendar" ? (
+                                <PlannerCalendar
+                                    tasks={allTasks}
+                                    selectedDate={selectedDate}
+                                    onSelectDate={(d) => {
+                                        if (
+                                            selectedDate &&
+                                            isSameDay(selectedDate, d)
+                                        ) {
+                                            setSelectedDate(new Date());
+                                        } else {
+                                            setSelectedDate(d);
+                                        }
+                                    }}
+                                    onNewTaskOnDate={(d) => handleNew(d)}
+                                />
+                            ) : (
+                                /* LIST VIEW — full task list shown here */
+                                <div className="space-y-2">
+                                    <AnimatePresence>
+                                        {tasks.length === 0 ? (
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                className="bg-white border-2 border-dashed border-brand-border rounded-2xl p-12 text-center"
+                                            >
+                                                <Layers
+                                                    size={32}
+                                                    className="text-brand-muted mx-auto mb-3"
+                                                />
+                                                <p className="text-sm font-black text-brand-dark">
+                                                    No tasks here
+                                                </p>
+                                                <p className="text-xs font-bold text-brand-muted mt-1">
+                                                    {view === "today"
+                                                        ? "Nothing scheduled for today. Enjoy the breather."
+                                                        : "Click 'New Task' to get started."}
+                                                </p>
+                                            </motion.div>
+                                        ) : (
+                                            tasks.map((t) => (
+                                                <TaskCard
+                                                    key={t._id}
+                                                    task={t}
+                                                    onToggle={handleToggle}
+                                                    onEdit={handleEdit}
+                                                    onDelete={handleDelete}
+                                                    onToggleSubtask={handleSubtaskToggle}
+                                                />
+                                            ))
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </main>
@@ -349,17 +484,21 @@ export default function PlannerPage() {
 
 function StatBox({ label, value, accent }) {
     const accents = {
-        blue: "text-blue-600 bg-blue-50",
-        red: "text-red-600 bg-red-50",
-        purple: "text-purple-600 bg-purple-50",
-        green: "text-green-600 bg-green-50",
+        blue: "text-blue-600",
+        red: "text-red-600",
+        purple: "text-purple-600",
+        green: "text-green-600",
     };
     return (
-        <div className={`rounded-2xl p-4 border border-brand-border bg-white`}>
+        <div className="rounded-2xl p-4 border border-brand-border bg-white">
             <p className="text-[10px] font-black uppercase tracking-widest text-brand-muted">
                 {label}
             </p>
-            <p className={`text-2xl sm:text-3xl font-black mt-1 ${accents[accent]?.split(" ")[0]}`}>
+            <p
+                className={`text-2xl sm:text-3xl font-black mt-1 ${
+                    accents[accent] || "text-brand-dark"
+                }`}
+            >
                 {value || 0}
             </p>
         </div>

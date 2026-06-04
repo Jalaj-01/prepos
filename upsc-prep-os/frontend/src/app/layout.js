@@ -1,12 +1,15 @@
 import "./globals.css";
 
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import { ToastProvider } from "@/components/ui/Toast";
 import { ConfirmModalProvider } from "@/components/ui/ConfirmModal";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
 import { generateMetadata as genMeta } from "@/lib/seo";
+
+import { FocusTimerProvider } from "@/components/focus/FocusTimerProvider";
+import FocusTimer from "@/components/focus/FocusTimer";
 
 export const metadata = {
     ...genMeta({
@@ -103,9 +106,7 @@ export const metadata = {
     },
 
     verification: {
-        // Add these once you set up the respective consoles (see SEO section below)
         // google: "your-google-search-console-verification-code",
-        // yandex: "your-yandex-verification-code",
     },
 };
 
@@ -121,10 +122,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
-                <link
-                    rel="preconnect"
-                    href="https://fonts.googleapis.com"
-                />
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link
                     rel="preconnect"
                     href="https://fonts.gstatic.com"
@@ -135,7 +133,6 @@ export default function RootLayout({ children }) {
                     rel="stylesheet"
                 />
 
-                {/* PWA / Mobile Tags */}
                 <meta name="application-name" content="PrepOS" />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <meta
@@ -146,7 +143,6 @@ export default function RootLayout({ children }) {
                 <meta name="mobile-web-app-capable" content="yes" />
                 <link rel="apple-touch-icon" href="/icon-512x512.png" />
 
-                {/* Structured Data — JSON-LD for Google */}
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -179,7 +175,10 @@ export default function RootLayout({ children }) {
                     <GoogleOAuthProvider
                         clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
                     >
-                        {children}
+                        <FocusTimerProvider>
+                            {children}
+                            <FocusTimer />
+                        </FocusTimerProvider>
                     </GoogleOAuthProvider>
 
                     <ToastProvider />
