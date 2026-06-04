@@ -165,6 +165,8 @@ app.use("/api/tasks", taskRoutes);
 // syllabus
 app.use("/api/syllabus", require("./routes/syllabusRoutes"));
 
+app.use("/api/admin/users", require("./routes/adminUserRoutes"));
+
 // =========================
 // 9. BASE ROUTE
 // =========================

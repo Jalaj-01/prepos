@@ -21,6 +21,17 @@ const UserSchema = new mongoose.Schema({
     // Admin Control
     isAdmin: { type: Boolean, default: false },
 
+    isDeleted: {
+    type: Boolean,
+    default: false,
+    index: true
+},
+
+deletedAt: {
+    type: Date,
+    default: null
+},
+
     targetExamYear: { type: Number, default: 2026 },
     platformJoiningDate: { type: Date, default: Date.now },
     targetCompletionDate: { type: Date },

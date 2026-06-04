@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Target,
   Flame,
-  BookOpen,
   Calendar,
   Trophy,
   Settings,
@@ -17,12 +16,8 @@ import {
   Library,
   FolderOpen,
   GraduationCap,
-  RotateCcw,
-  CheckCircle2,
   AlertCircle,
   BarChart3,
-  PenSquare,
-  Layers,
 } from "lucide-react";
 import Link from "next/link";
 import axios from "axios";
@@ -43,7 +38,6 @@ import { DashboardSkeleton } from "@/components/ui/Skeleton";
 export default function UnifiedDashboard() {
   const [user, setUser] = useState(null);
   const [unified, setUnified] = useState(null);
-  const [revisionWidget, setRevisionWidget] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [newDate, setNewDate] = useState("");
@@ -74,20 +68,14 @@ export default function UnifiedDashboard() {
     }
 
     try {
-      const [unifiedRes, revisionRes] = await Promise.all([
-        axios
-          .get(`${baseUrl}/api/analytics/unified-dashboard`, config)
-          .catch((e) => {
-            console.warn("Unified API:", e.message);
-            return { data: null };
-          }),
-        axios
-          .get(`${baseUrl}/api/revisions/widget?mode=GS`, config)
-          .catch(() => ({ data: null })),
-      ]);
+      const unifiedRes = await axios
+        .get(`${baseUrl}/api/analytics/unified-dashboard`, config)
+        .catch((e) => {
+          console.warn("Unified API:", e.message);
+          return { data: null };
+        });
 
       if (unifiedRes.data) setUnified(unifiedRes.data);
-      if (revisionRes.data) setRevisionWidget(revisionRes.data);
     } catch (err) {
       console.error("Unified Dashboard Fetch Error:", err);
       if (err.response?.status === 401) {
@@ -125,9 +113,7 @@ export default function UnifiedDashboard() {
       <div className="min-h-screen bg-brand-light flex">
         {user && <Sidebar isAdmin={user.isAdmin} />}
         <div className="flex-1 flex flex-col min-h-screen min-w-0">
-          {user && (
-            <TopHeader user={user} readinessScore={0} onMenuClick={() => {}} />
-          )}
+          {user && <TopHeader user={user} onMenuClick={() => {}} />}
           <main className="flex-1 p-4 sm:p-6 lg:p-10 max-w-[1600px] w-full mx-auto">
             <DashboardSkeleton />
           </main>
@@ -161,16 +147,11 @@ export default function UnifiedDashboard() {
       />
 
       <div className="flex-1 flex flex-col min-h-screen min-w-0">
-        <TopHeader
-          user={user}
-          readinessScore={overall.readinessScore || 0}
-          onMenuClick={() => setMobileNavOpen(true)}
-        />
+        <TopHeader user={user} onMenuClick={() => setMobileNavOpen(true)} />
 
         <main className="flex-1 p-3 sm:p-6 lg:p-10 max-w-[1600px] w-full mx-auto">
           <AnnouncementBanner />
 
-          {/* API Error Banner */}
           {apiError && (
             <div className="mb-4 flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 rounded-2xl p-4 text-sm font-bold">
               <AlertCircle size={16} className="shrink-0" />
@@ -213,7 +194,7 @@ export default function UnifiedDashboard() {
             </button>
           </motion.div>
 
-          {/* ── KPI GRID — 4 UNIFIED CARDS ── */}
+          {/* ── KPI GRID ── */}
           <div
             data-tour="kpi-cards"
             className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8"
@@ -250,13 +231,10 @@ export default function UnifiedDashboard() {
 
           {/* ── MAIN GRID ── */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
-
-            {/* ════ LEFT — 8 cols ════ */}
+            {/* ════ LEFT — 8 cols (Primary actions) ════ */}
             <div className="lg:col-span-8 space-y-4 sm:space-y-6">
-
-              {/* TWO DOMAIN CARDS — SIDE BY SIDE */}
+              {/* PRELIMS + MAINS — side by side */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-
                 {/* PRELIMS CARD */}
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -449,56 +427,11 @@ export default function UnifiedDashboard() {
                 </motion.div>
               </div>
 
-              {/* MAINS PAPER SNAPSHOT — only shown when data exists */}
-              {/* {(mains.weakestPaper || mains.strongestPaper) && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-brand-border"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="bg-green-500/10 p-2 rounded-xl">
-                      <BarChart3 className="text-green-600" size={16} />
-                    </div>
-                    <h2 className="text-sm sm:text-base font-black text-brand-dark">
-                      Mains Paper Snapshot
-                    </h2>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {mains.strongestPaper && (
-                      <div className="bg-green-50 border border-green-100 rounded-2xl p-4">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-green-600 mb-1">
-                          Strongest Paper
-                        </p>
-                        <p className="text-base font-black text-brand-dark">
-                          {mains.strongestPaper.name}
-                        </p>
-                        <p className="text-2xl font-black text-green-600 mt-1">
-                          {mains.strongestPaper.percentage}%
-                        </p>
-                      </div>
-                    )}
-                    {mains.weakestPaper && (
-                      <div className="bg-red-50 border border-red-100 rounded-2xl p-4">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-red-600 mb-1">
-                          Needs Attention
-                        </p>
-                        <p className="text-base font-black text-brand-dark">
-                          {mains.weakestPaper.name}
-                        </p>
-                        <p className="text-2xl font-black text-red-600 mt-1">
-                          {mains.weakestPaper.percentage}%
-                        </p>
-                        <p className="text-[10px] text-brand-muted font-medium mt-1">
-                          {mains.weakestPaper.done}/{mains.weakestPaper.total}{" "}
-                          done
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              )} */}
+              {/* PLANNER + STICKY NOTES — side by side */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <PlannerWidget />
+                <StickyNotesWidget />
+              </div>
 
               {/* CONSISTENCY CARD */}
               <motion.div
@@ -545,51 +478,8 @@ export default function UnifiedDashboard() {
               </motion.div>
             </div>
 
-            {/* ════ RIGHT — 4 cols ════ */}
+            {/* ════ RIGHT — 4 cols (Quick refs & passive widgets) ════ */}
             <div className="lg:col-span-4 space-y-4 sm:space-y-6">
-
-              {/* TARGET CARD
-              <motion.div
-                data-tour="exam-target"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white border border-brand-border rounded-2xl sm:rounded-3xl p-5 sm:p-6 relative overflow-hidden"
-              >
-                <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand-accent/5 rounded-full" />
-                <div className="relative z-10">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Calendar size={14} className="text-brand-accent" />
-                    <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-brand-muted">
-                      Prelims Target
-                    </p>
-                  </div>
-
-                  <p className="text-3xl sm:text-4xl font-black text-brand-dark leading-none mb-1">
-                    {user.dailyMcqTarget}
-                  </p>
-                  <p className="text-[11px] sm:text-xs font-bold text-brand-muted mb-4">
-                    questions/day to finish on time
-                  </p>
-
-                  <div className="border-t border-brand-border pt-4">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-muted">
-                      Target Date
-                    </p>
-                    <p className="font-black text-brand-dark mt-1 text-sm">
-                      {user.targetCompletionDate
-                        ? new Date(
-                            user.targetCompletionDate
-                          ).toLocaleDateString("en-IN", {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                          })
-                        : "Not Set"}
-                    </p>
-                  </div>
-                </div>
-              </motion.div> */}
-
               {/* QUICK ACCESS */}
               <motion.div
                 data-tour="quick-access"
@@ -638,96 +528,20 @@ export default function UnifiedDashboard() {
                     label="Revision"
                     color="bg-yellow-50 text-yellow-600"
                   />
-                  <QuickAccessTile
-                    href="/rankings"
-                    icon={Trophy}
-                    label="Rankings"
-                    color="bg-orange-50 text-orange-600"
-                  />
                 </div>
               </motion.div>
-
-                {/* RECENTLY VIEWED */}
-              <RecentlyViewedWidget />
-
-              {/* PLANNER WIDGET */}
-              <PlannerWidget />
-
-              {/* STICKY NOTES WIDGET */}
-              <StickyNotesWidget />
-
-              {/* REVISION WIDGET */}
-              {/* {revisionWidget && revisionWidget.hasTrack && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-brand-dark text-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 relative overflow-hidden"
-                >
-                  <div className="flex items-center gap-2 mb-4">
-                    <RotateCcw size={14} className="text-brand-accent" />
-                    <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-white/60">
-                      Due Revisions
-                    </p>
-                  </div>
-
-                  {revisionWidget.dueToday > 0 ? (
-                    <>
-                      <div className="flex items-baseline gap-2 mb-1">
-                        <span className="text-4xl sm:text-5xl font-black tracking-tighter leading-none">
-                          {revisionWidget.dueToday}
-                        </span>
-                        <span className="text-[10px] font-black opacity-50 uppercase tracking-widest">
-                          Today
-                        </span>
-                      </div>
-                      <p className="text-[11px] font-bold opacity-60 mb-5">
-                        {revisionWidget.upcoming7Days} more due in next 7 days
-                      </p>
-                      <Link
-                        href="/revision?mode=GS"
-                        className="block w-full bg-brand-accent text-white py-3 rounded-xl font-black text-[11px] uppercase tracking-widest text-center hover:opacity-90 transition-all"
-                      >
-                        Revise Now
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <div className="flex items-center gap-3 mb-4">
-                        <CheckCircle2
-                          size={20}
-                          className="text-brand-accent shrink-0"
-                        />
-                        <div>
-                          <p className="text-sm font-black">All Caught Up</p>
-                          <p className="text-[11px] opacity-60 font-bold">
-                            {revisionWidget.mastered} mastered ·{" "}
-                            {revisionWidget.totalInQueue} in queue
-                          </p>
-                        </div>
-                      </div>
-                      <Link
-                        href="/revision?mode=GS"
-                        className="block w-full bg-white/10 border border-white/20 text-white py-3 rounded-xl font-black text-[11px] uppercase tracking-widest text-center hover:bg-white/20 transition-all"
-                      >
-                        View Pipeline
-                      </Link>
-                    </>
-                  )}
-                </motion.div>
-              )} */}
-
-              
-
-              {/* STORAGE WIDGET */}
-              <div data-tour="storage">
-                <StorageWidget />
-              </div>
-
-            
 
               {/* LEADERBOARD */}
               <div data-tour="leaderboard">
                 <LeaderboardWidget />
+              </div>
+
+              {/* RECENTLY VIEWED */}
+              <RecentlyViewedWidget />
+
+              {/* STORAGE WIDGET */}
+              <div data-tour="storage">
+                <StorageWidget />
               </div>
             </div>
           </div>
