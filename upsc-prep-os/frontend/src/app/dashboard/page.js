@@ -199,13 +199,15 @@ export default function UnifiedDashboard() {
             data-tour="kpi-cards"
             className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8"
           >
-            <KpiCard
+            {/* <KpiCard
               icon={Flame}
               label="Current Streak"
               value={overall.currentStreak || 0}
               color="from-orange-500 to-red-500"
               sub={`longest: ${overall.longestStreak || 0} days`}
-            />
+              <StorageWidget />
+            /> */}
+            
             <KpiCard
               icon={Award}
               label="Overall Readiness"
@@ -227,7 +229,10 @@ export default function UnifiedDashboard() {
               color="from-green-500 to-emerald-500"
               sub={`${mains.completionPercentage || 0}% of pool`}
             />
+            <RecentlyViewedWidget />
+            
           </div>
+          
 
           {/* ── MAIN GRID ── */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
@@ -537,7 +542,7 @@ export default function UnifiedDashboard() {
               </div>
 
               {/* RECENTLY VIEWED */}
-              <RecentlyViewedWidget />
+              {/* <RecentlyViewedWidget /> */}
 
               {/* STORAGE WIDGET */}
               <div data-tour="storage">

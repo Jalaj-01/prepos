@@ -149,10 +149,10 @@ export default function TopHeader({ user, onMenuClick }) {
                         </button>
 
                         {/* NOTIFICATIONS */}
-                        <button className="p-2 hover:bg-brand-light rounded-xl transition-all relative">
+                        {/* <button className="p-2 hover:bg-brand-light rounded-xl transition-all relative">
                             <Bell size={16} className="text-brand-muted" />
                             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
-                        </button>
+                        </button> */}
 
                         {/* PROFILE */}
                         <div className="relative" data-tour="profile">
