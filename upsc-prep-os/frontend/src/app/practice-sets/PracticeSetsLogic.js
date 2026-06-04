@@ -53,7 +53,7 @@ export default function PracticeSetsLogic() {
             const response =
                 await axios.get(
 
-                    "http://localhost:5000/api/practice-sets",
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/practice-sets`,
 
                     {
                         headers: {
@@ -99,7 +99,7 @@ export default function PracticeSetsLogic() {
 
             await axios.delete(
 
-                `http://localhost:5000/api/practice-sets/${id}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/api/practice-sets/${id}`,
 
                 {
                     headers: {

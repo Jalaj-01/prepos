@@ -753,3 +753,55 @@ async (
         });
     }
 };
+// =========================
+// GET QUESTION FILTER OPTIONS
+// (For dropdowns in free practice)
+// =========================
+
+exports.getQuestionFilters = async (
+    req,
+    res
+) => {
+
+    try {
+
+        const [
+            subjects,
+            topics,
+            years,
+            papers
+        ] = await Promise.all([
+
+            Question.distinct("subjectName"),
+
+            Question.distinct("topicName"),
+
+            Question.distinct("year"),
+
+            Question.distinct("paper")
+        ]);
+
+        res.json({
+
+            subjects:
+                subjects.filter(Boolean).sort(),
+
+            topics:
+                topics.filter(Boolean).sort(),
+
+            years:
+                years.filter(Boolean).sort((a, b) => b - a),
+
+            papers:
+                papers.filter(Boolean).sort()
+        });
+
+    } catch (error) {
+
+        console.error("Question Filters Error:", error);
+
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};

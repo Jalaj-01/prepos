@@ -2,6 +2,8 @@ const Attempt = require('../models/Attempt');
 const Question = require('../models/Question');
 const Taxonomy = require('../models/Taxonomy');
 const PreparationTrack = require('../models/PreparationTrack');
+const MainsAttempt = require('../models/MainsAttempt');
+const MainsQuestion = require('../models/MainsQuestion');
 
 exports.getDashboardAnalytics = async (req, res) => {
 
@@ -664,16 +666,26 @@ exports.getSmartRecommendations = async (req, res) => {
         }
 
         const recommendations = [];
-
         if (track.wrongQuestions.length > 0) {
-            recommendations.push({
-                type: 'revision',
-                priority: 'high',
-                title: 'Revision Needed',
-                description: `${track.wrongQuestions.length} questions need revision. Focus on these to improve retention.`,
-                action: 'Start Sunday Revision',
-                actionUrl: '/revision'
-            });
+
+            // Count only questions actually due today (not all wrongs)
+            const {
+                getDueQuestions
+            } = require("../utils/revisionLogic");
+
+            const { totalDue } = getDueQuestions(track.wrongQuestions, 999);
+
+            if (totalDue > 0) {
+
+                recommendations.push({
+                    type: 'revision',
+                    priority: 'high',
+                    title: `${totalDue} Revisions Due Today`,
+                    description: `You have ${totalDue} questions due for revision. Tackle them now to lock in your memory.`,
+                    action: 'Start Revision',
+                    actionUrl: '/revision'
+                });
+            }
         }
 
         if (track.remainingQuestionIds.length > 0) {
@@ -735,5 +747,271 @@ exports.getSmartRecommendations = async (req, res) => {
         res.status(500).json({
             message: error.message
         });
+    }
+};
+
+// =========================================================
+// UNIFIED DASHBOARD — Prelims + Mains combined snapshot
+// =========================================================
+
+exports.getUnifiedDashboard = async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        // -------------------------
+        // TIME BOUNDARIES
+        // -------------------------
+        const now = new Date();
+        const startOfDay = new Date(now);
+        startOfDay.setHours(0, 0, 0, 0);
+
+        const startOfWeek = new Date(now);
+        startOfWeek.setDate(now.getDate() - now.getDay());
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+        // =====================================================
+        // PRELIMS BLOCK
+        // =====================================================
+        const [
+            gsTrack,
+            csatTrack,
+            prelimsTodayCount,
+            prelimsTotalSolved,
+            prelimsPoolSize
+        ] = await Promise.all([
+            PreparationTrack.findOne({ userId, mode: 'GS', isActive: true }),
+            PreparationTrack.findOne({ userId, mode: 'CSAT', isActive: true }),
+            Attempt.countDocuments({
+                userId,
+                createdAt: { $gte: startOfDay }
+            }),
+            Attempt.countDocuments({ userId }),
+            Question.countDocuments({ reviewStatus: 'Approved' }).catch(() => 0)
+        ]);
+
+        // Count revisions due across both tracks
+        let prelimsRevisionsDue = 0;
+        try {
+            const { getDueQuestions } = require('../utils/revisionLogic');
+
+            if (gsTrack?.wrongQuestions?.length) {
+                const { totalDue } = getDueQuestions(gsTrack.wrongQuestions, 999);
+                prelimsRevisionsDue += totalDue;
+            }
+            if (csatTrack?.wrongQuestions?.length) {
+                const { totalDue } = getDueQuestions(csatTrack.wrongQuestions, 999);
+                prelimsRevisionsDue += totalDue;
+            }
+        } catch (e) {
+            // revisionLogic optional — silently skip if missing
+        }
+
+        // Weakest subject from GS track (fallback to CSAT)
+        let weakestPrelims = null;
+        try {
+            const gsWeak = gsTrack ? await getWeakAreaIntelligenceInternal(userId, 'GS') : null;
+            const csatWeak = csatTrack && !gsWeak?.weakestSubject ? await getWeakAreaIntelligenceInternal(userId, 'CSAT') : null;
+            weakestPrelims = gsWeak?.weakestSubject || csatWeak?.weakestSubject || null;
+        } catch (e) {
+            weakestPrelims = null;
+        }
+
+        // Daily target from user
+        const dailyTarget = req.user.dailyMcqTarget || 0;
+
+        // Prelims completion %
+        const prelimsCompletionPercentage = prelimsPoolSize > 0
+            ? Math.round((prelimsTotalSolved / prelimsPoolSize) * 100)
+            : 0;
+
+        // Prelims readiness (accuracy + volume)
+        const prelimsAttempts = await Attempt.find({ userId }).select('isCorrect');
+        const prelimsCorrect = prelimsAttempts.filter(a => a.isCorrect).length;
+        const prelimsAccuracy = prelimsAttempts.length > 0 ? (prelimsCorrect / prelimsAttempts.length) : 0;
+        const prelimsReadiness = prelimsAttempts.length > 0
+            ? Math.round((prelimsAccuracy * 70) + (Math.min(prelimsAttempts.length / 500, 1) * 30))
+            : 0;
+
+        // =====================================================
+        // MAINS BLOCK
+        // =====================================================
+        const [
+            mainsTotalAvailable,
+            mainsTotalDone,
+            mainsTodayDone,
+            mainsThisWeekDone,
+            mainsThisMonthDone
+        ] = await Promise.all([
+            MainsQuestion.countDocuments({ reviewStatus: 'Approved' }),
+            MainsAttempt.countDocuments({ userId, completed: true }),
+            MainsAttempt.countDocuments({
+                userId,
+                completed: true,
+                completedAt: { $gte: startOfDay }
+            }),
+            MainsAttempt.countDocuments({
+                userId,
+                completed: true,
+                completedAt: { $gte: startOfWeek }
+            }),
+            MainsAttempt.countDocuments({
+                userId,
+                completed: true,
+                completedAt: { $gte: startOfMonth }
+            })
+        ]);
+
+        const mainsCompletionPercentage = mainsTotalAvailable > 0
+            ? Math.round((mainsTotalDone / mainsTotalAvailable) * 100)
+            : 0;
+
+        // Per-paper progress — find weakest & strongest paper
+        const papers = ['GS1', 'GS2', 'GS3', 'GS4', 'Essay', 'Optional'];
+        const paperProgress = [];
+
+        for (const paper of papers) {
+            const total = await MainsQuestion.countDocuments({
+                paper,
+                reviewStatus: 'Approved'
+            });
+
+            if (total === 0) continue;
+
+            const completedAgg = await MainsAttempt.aggregate([
+                { $match: { userId, completed: true } },
+                {
+                    $lookup: {
+                        from: 'mainsquestions',
+                        localField: 'questionId',
+                        foreignField: '_id',
+                        as: 'q'
+                    }
+                },
+                { $unwind: '$q' },
+                { $match: { 'q.paper': paper } },
+                { $count: 'count' }
+            ]);
+
+            const done = completedAgg[0]?.count || 0;
+            paperProgress.push({
+                paper,
+                total,
+                done,
+                percentage: Math.round((done / total) * 100)
+            });
+        }
+
+        const sortedPapers = [...paperProgress].sort((a, b) => a.percentage - b.percentage);
+        const weakestPaper = sortedPapers[0] || null;
+        const strongestPaper = sortedPapers[sortedPapers.length - 1] || null;
+
+        // =====================================================
+        // COMBINED STREAK — any day with Prelims OR Mains activity
+        // =====================================================
+        const [prelimsDates, mainsDates] = await Promise.all([
+            Attempt.distinct('createdAt', { userId }),
+            MainsAttempt.distinct('completedAt', { userId, completed: true })
+        ]);
+
+        const allDateStrings = new Set();
+        prelimsDates.forEach(d => {
+            if (d) allDateStrings.add(new Date(d).toISOString().split('T')[0]);
+        });
+        mainsDates.forEach(d => {
+            if (d) allDateStrings.add(new Date(d).toISOString().split('T')[0]);
+        });
+
+        const sortedAllDates = [...allDateStrings].sort();
+
+        let combinedCurrentStreak = 0;
+        let combinedLongestStreak = 0;
+        let runningStreak = 0;
+
+        for (let i = 0; i < sortedAllDates.length; i++) {
+            const cur = new Date(sortedAllDates[i]);
+            const prev = i > 0 ? new Date(sortedAllDates[i - 1]) : null;
+            const diff = prev ? Math.floor((cur - prev) / (1000 * 60 * 60 * 24)) : 0;
+
+            if (i === 0 || diff === 1) {
+                runningStreak++;
+            } else if (diff === 0) {
+                // same day, no change
+            } else {
+                runningStreak = 1;
+            }
+
+            combinedLongestStreak = Math.max(combinedLongestStreak, runningStreak);
+
+            const today = new Date();
+            const yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
+
+            const isToday = cur.toDateString() === today.toDateString();
+            const isYesterday = cur.toDateString() === yesterday.toDateString();
+
+            if (isToday || isYesterday) {
+                combinedCurrentStreak = runningStreak;
+            }
+        }
+
+        const consistencyDays = sortedAllDates.length;
+
+        // =====================================================
+        // OVERALL READINESS (60% prelims + 40% mains completion)
+        // =====================================================
+        const overallReadiness = Math.round(
+            (prelimsReadiness * 0.6) + (mainsCompletionPercentage * 0.4)
+        );
+
+        // =====================================================
+        // RESPONSE
+        // =====================================================
+        res.json({
+            prelims: {
+                todaySolved: prelimsTodayCount,
+                dailyTarget,
+                totalSolved: prelimsTotalSolved,
+                totalAvailable: prelimsPoolSize,
+                completionPercentage: prelimsCompletionPercentage,
+                revisionsDue: prelimsRevisionsDue,
+                weakestSubject: weakestPrelims ? {
+                    name: weakestPrelims.name,
+                    accuracy: weakestPrelims.accuracy
+                } : null,
+                hasGsTrack: !!gsTrack,
+                hasCsatTrack: !!csatTrack,
+                readinessScore: prelimsReadiness
+            },
+            mains: {
+                todayDone: mainsTodayDone,
+                totalDone: mainsTotalDone,
+                totalAvailable: mainsTotalAvailable,
+                completionPercentage: mainsCompletionPercentage,
+                doneThisWeek: mainsThisWeekDone,
+                doneThisMonth: mainsThisMonthDone,
+                weakestPaper: weakestPaper ? {
+                    name: weakestPaper.paper,
+                    percentage: weakestPaper.percentage,
+                    done: weakestPaper.done,
+                    total: weakestPaper.total
+                } : null,
+                strongestPaper: strongestPaper ? {
+                    name: strongestPaper.paper,
+                    percentage: strongestPaper.percentage
+                } : null
+            },
+            overall: {
+                readinessScore: overallReadiness,
+                currentStreak: combinedCurrentStreak,
+                longestStreak: combinedLongestStreak,
+                consistencyDays
+            }
+        });
+
+    } catch (error) {
+        console.error('Unified Dashboard Error:', error);
+        res.status(500).json({ message: error.message });
     }
 };

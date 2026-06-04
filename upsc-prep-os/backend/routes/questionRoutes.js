@@ -1,7 +1,5 @@
 const express = require('express');
-
 const router = express.Router();
-
 
 const {
     createQuestion,
@@ -11,7 +9,7 @@ const {
     getQuestionsByReviewStatus,
     updateReviewStatus,
     exploreQuestions,
-    
+    getQuestionFilters
 } = require('../controllers/questionController');
 
 const {
@@ -21,12 +19,10 @@ const {
 
 const upload = require('../middleware/uploadMiddleware');
 
+// FILTERS (must be before parameterized routes)
+router.get('/filters', getQuestionFilters);
 
-// =========================
 // CREATE SINGLE QUESTION
-// Supports image upload
-// =========================
-
 router.post(
     '/add',
     protect,
@@ -35,11 +31,7 @@ router.post(
     createQuestion
 );
 
-
-// =========================
 // BULK QUESTIONS
-// =========================
-
 router.post(
     '/bulk',
     protect,
@@ -47,28 +39,26 @@ router.post(
     addBulkQuestions
 );
 
-
-// =========================
 // QUESTIONS BY TOPIC
-// =========================
-
 router.get(
     '/topic/:topicId',
     getQuestionsByTopic
 );
 
-
-// =========================
 // DAILY RANDOM QUESTIONS
-// =========================
-
 router.get(
     '/daily',
     protect,
     getDailyQuestions
 );
 
-router.get('/review', protect, admin, getQuestionsByReviewStatus);
+// REVIEW
+router.get(
+    '/review',
+    protect,
+    admin,
+    getQuestionsByReviewStatus
+);
 
 router.put(
     '/review/:id',
@@ -77,8 +67,10 @@ router.put(
     updateReviewStatus
 );
 
+// EXPLORE
 router.get(
     '/explore',
     exploreQuestions
 );
+
 module.exports = router;

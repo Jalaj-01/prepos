@@ -21,17 +21,32 @@ import {
     Brain,
     Info,
     LayoutDashboard,
-    AlertTriangle
+    AlertTriangle,
+    Flame,
+    Target,
+    Trophy,
+    Clock,
+    BarChart3,
+    ArrowLeft,
+    RotateCcw,
+    Sparkles
 } from "lucide-react";
 
 import Link from "next/link";
 
-import {
-    useSearchParams
-} from "next/navigation";
+import { useSearchParams } from "next/navigation";
+
+import Sidebar from "@/components/layout/Sidebar";
+
+import TopHeader from "@/components/layout/TopHeader";
+
+import Footer from "@/components/layout/Footer";
+
+import MobileNav from "@/components/layout/MobileNav";
+
+import { showToast } from "@/components/ui/Toast";
 
 const MISTAKE_TYPES = [
-
     "Conceptual",
     "Factual Confusion",
     "Silly Mistake",
@@ -41,184 +56,147 @@ const MISTAKE_TYPES = [
 
 // =========================
 // INNER COMPONENT
-// (Uses useSearchParams — must be wrapped in Suspense)
 // =========================
 
 function PracticeContent() {
 
-    // =========================
-    // STATE
-    // =========================
+    const searchParams = useSearchParams();
 
-    const searchParams =
-        useSearchParams();
+    const currentMode = searchParams.get("mode") || "GS";
 
-    const currentMode =
-        searchParams.get("mode") || "GS";
+    const [user, setUser] = useState(null);
 
-    const [
+    const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
-        question,
-        setQuestion
+    // Question state
 
-    ] = useState(null);
+    const [question, setQuestion] = useState(null);
 
-    const [
+    const [loading, setLoading] = useState(true);
 
-        loading,
-        setLoading
+    const [submitted, setSubmitted] = useState(false);
 
-    ] = useState(true);
+    const [selectedOption, setSelectedOption] = useState(null);
 
-    const [
+    // Status states
 
-        submitted,
-        setSubmitted
+    const [practiceStatus, setPracticeStatus] = useState(null);
 
-    ] = useState(false);
+    const [dailySession, setDailySession] = useState(null);
 
-    const [
+    const [progress, setProgress] = useState(null);
 
-        selectedOption,
-        setSelectedOption
+    const [statusMessage, setStatusMessage] = useState("");
 
-    ] = useState(null);
+    // Session results (running total)
 
-    const [
-
-        completed,
-        setCompleted
-
-    ] = useState(false);
-
-    const [
-
-        progress,
-        setProgress
-
-    ] = useState(null);
-
-    const [
-
-        results,
-        setResults
-
-    ] = useState({
-
+    const [results, setResults] = useState({
         correct: 0,
         wrong: 0
     });
 
-    const [
+    const [showMistakeModal, setShowMistakeModal] = useState(false);
 
-        showMistakeModal,
-        setShowMistakeModal
+    const [timeLeft, setTimeLeft] = useState(60);
 
-    ] = useState(false);
+    const [mode, setMode] = useState("GS");
 
-    const [
+    // =========================
+    // AUTH
+    // =========================
 
-        timeLeft,
-        setTimeLeft
+    useEffect(() => {
 
-    ] = useState(45);
+        const info = localStorage.getItem("userInfo");
 
-    const [
+        if (!info) {
+            window.location.href = "/login";
+            return;
+        }
 
-        mode,
-        setMode
+        setUser(JSON.parse(info));
 
-    ] = useState("GS");
+    }, []);
 
     // =========================
     // FETCH NEXT QUESTION
     // =========================
 
-    const fetchNextQuestion =
-    async () => {
+    useEffect(() => {
+
+        if (user) {
+            fetchNextQuestion();
+        }
+
+    }, [user]);
+
+    const fetchNextQuestion = async () => {
 
         try {
 
             setLoading(true);
 
-            const userInfo =
-                JSON.parse(
+            const { data } = await axios.get(
 
-                    localStorage.getItem(
-                        "userInfo"
-                    )
-                );
+                `${process.env.NEXT_PUBLIC_API_URL}/api/preparation-track/next-question?mode=${currentMode}`,
 
-            const { data } =
-                await axios.get(
-
-                    `${process.env.NEXT_PUBLIC_API_URL}/api/preparation-track/next-question?mode=${currentMode}`,
-
-                    {
-
-                        headers: {
-
-                            Authorization:
-                                `Bearer ${userInfo.token}`
-                        }
+                {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`
                     }
-                );
+                }
+            );
 
-            // =========================
-            // COMPLETION
-            // =========================
+            // Handle different statuses
 
-            if (data.completed) {
+            setPracticeStatus(data.status || (data.completed ? "pool_exhausted" : "continue"));
 
-                setCompleted(true);
+            setDailySession(data.dailySession || null);
 
-                setQuestion(null);
+            setProgress(data.progress || null);
 
-                return;
-            }
+            setStatusMessage(data.message || "");
 
-            // =========================
-            // REVISION MODE
-            // =========================
+            if (data.status === "continue" && data.question) {
 
-            if (
+                // Revision mode check
 
-                data.mode === "REVISION" &&
-                data.questions?.length > 0
+                if (data.mode === "REVISION" && data.questions?.length > 0) {
 
-            ) {
+                    setQuestion(data.questions[0]);
 
-                setQuestion(
-                    data.questions[0]
-                );
+                } else {
+
+                    setQuestion(data.question);
+                }
+
+                setMode(data.mode);
+
+                setSelectedOption(null);
+
+                setSubmitted(false);
+
+                setTimeLeft(60);
 
             } else {
 
-                setQuestion(
-                    data.question
-                );
+                setQuestion(null);
             }
-
-            setMode(
-                data.mode
-            );
-
-            setProgress(
-                data.progress
-            );
-
-            setSelectedOption(null);
-
-            setSubmitted(false);
-
-            setTimeLeft(45);
 
         } catch (error) {
 
-            console.error(
-                "Fetch Question Error:",
-                error
-            );
+            console.error("Fetch Question Error:", error);
+
+            if (error.response?.status === 404) {
+
+                setPracticeStatus("no_track");
+
+                setStatusMessage("No active preparation track. Set one up first.");
+
+            } else {
+
+                showToast.error("Failed to load question");
+            }
 
         } finally {
 
@@ -227,67 +205,31 @@ function PracticeContent() {
     };
 
     // =========================
-    // INITIAL LOAD
-    // =========================
-
-    useEffect(() => {
-
-        fetchNextQuestion();
-
-    }, []);
-
-    // =========================
     // TIMER
     // =========================
 
     useEffect(() => {
 
-        if (
-
-            loading ||
-
-            submitted ||
-
-            completed ||
-
-            !question
-
-        ) return;
+        if (loading || submitted || !question || practiceStatus !== "continue") return;
 
         if (timeLeft <= 0) {
-
             handleSubmit();
-
             return;
         }
 
-        const timer =
-            setInterval(() => {
+        const timer = setInterval(() => {
+            setTimeLeft(prev => prev - 1);
+        }, 1000);
 
-                setTimeLeft(prev => prev - 1);
+        return () => clearInterval(timer);
 
-            }, 1000);
-
-        return () =>
-            clearInterval(timer);
-
-    }, [
-
-        timeLeft,
-        loading,
-        submitted,
-        completed,
-        question
-    ]);
+    }, [timeLeft, loading, submitted, question, practiceStatus]);
 
     // =========================
     // HANDLE ANSWER
     // =========================
 
-    const handleAnswer =
-    (
-        label
-    ) => {
+    const handleAnswer = (label) => {
 
         if (submitted) return;
 
@@ -298,14 +240,10 @@ function PracticeContent() {
     // FINALIZE ANSWER
     // =========================
 
-    const finalizeAnswer =
-    async (
-        mistakeCategory = "None"
-    ) => {
+    const finalizeAnswer = async (mistakeCategory = "None") => {
 
         const isCorrect =
-            selectedOption ===
-            question.correctOption;
+            selectedOption === question.correctOption;
 
         setSubmitted(true);
 
@@ -313,114 +251,72 @@ function PracticeContent() {
 
         try {
 
-            const userInfo =
-                JSON.parse(
-
-                    localStorage.getItem(
-                        "userInfo"
-                    )
-                );
-
-            // =========================
-            // TRACK SUBMISSION
-            // =========================
-
-            await axios.post(
+            const { data } = await axios.post(
 
                 `${process.env.NEXT_PUBLIC_API_URL}/api/preparation-track/submit-answer`,
 
                 {
-
-                    questionId:
-                        question._id,
-
+                    questionId: question._id,
                     isCorrect,
-
-                    subjectName:
-                        question.subjectName,
-
-                    topicName:
-                        question.topicName,
-
-                    mode:
-                        currentMode
+                    subjectName: question.subjectName,
+                    topicName: question.topicName,
+                    mode: currentMode,
+                    timeTaken: 60 - timeLeft
                 },
 
-
                 {
-
                     headers: {
-
-                        Authorization:
-                            `Bearer ${userInfo.token}`
+                        Authorization: `Bearer ${user.token}`
                     }
                 }
             );
 
-            // =========================
-            // ATTEMPT LOGGING
-            // =========================
+            // Also log to Attempt model
 
             await axios.post(
 
                 `${process.env.NEXT_PUBLIC_API_URL}/api/attempts/log`,
 
                 {
-
-                    questionId:
-                        question._id,
-
+                    questionId: question._id,
                     isCorrect,
-
                     selectedOption,
-
                     mistakeCategory,
-
-                    timeTaken:
-                        45 - timeLeft
+                    timeTaken: 60 - timeLeft
                 },
 
                 {
-
                     headers: {
-
-                        Authorization:
-                            `Bearer ${userInfo.token}`
+                        Authorization: `Bearer ${user.token}`
                     }
                 }
             );
 
-            // =========================
-            // RESULTS
-            // =========================
+            // Update local results
 
             if (isCorrect) {
-
-                setResults(prev => ({
-
-                    ...prev,
-
-                    correct:
-                        prev.correct + 1
-                }));
-
+                setResults(prev => ({ ...prev, correct: prev.correct + 1 }));
             } else {
+                setResults(prev => ({ ...prev, wrong: prev.wrong + 1 }));
+            }
 
-                setResults(prev => ({
+            // Update daily session from response
 
-                    ...prev,
+            if (data.dailySession) {
+                setDailySession(data.dailySession);
+            }
 
-                    wrong:
-                        prev.wrong + 1
-                }));
+            // Check if daily target is now complete
+
+            if (data.dailyComplete) {
+                setPracticeStatus("daily_complete");
             }
 
         } catch (error) {
 
-            console.error(
-                "Submit Error:",
-                error
-            );
+            console.error("Submit Error:", error);
+
+            showToast.error("Failed to submit answer");
         }
     };
 
@@ -428,28 +324,19 @@ function PracticeContent() {
     // HANDLE SUBMIT
     // =========================
 
-    const handleSubmit =
-    () => {
+    const handleSubmit = () => {
 
         if (!selectedOption) {
-
-            finalizeAnswer(
-                "Time Pressure"
-            );
-
+            finalizeAnswer("Time Pressure");
             return;
         }
 
         const isCorrect =
-            selectedOption ===
-            question.correctOption;
+            selectedOption === question.correctOption;
 
         if (isCorrect) {
-
             finalizeAnswer("None");
-
         } else {
-
             setShowMistakeModal(true);
         }
     };
@@ -458,124 +345,346 @@ function PracticeContent() {
     // NEXT QUESTION
     // =========================
 
-    const nextQuestion =
-    () => {
+    const nextQuestion = () => {
 
         fetchNextQuestion();
+    };
+
+    // =========================
+    // FORMAT TIME
+    // =========================
+
+    const formatTime = (seconds) => {
+
+        const mins = Math.floor(seconds / 60);
+
+        const secs = seconds % 60;
+
+        return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
     };
 
     // =========================
     // LOADING
     // =========================
 
-    if (loading) {
+    if (loading || !user) {
 
         return (
 
-            <div className="min-h-screen bg-brand-light flex items-center justify-center font-black animate-pulse uppercase tracking-widest text-brand-muted">
+            <div className="min-h-screen bg-brand-light flex items-center justify-center">
 
-                Initializing PrepOS Engine...
+                <div className="text-center">
 
-            </div>
-        );
-    }
+                    <div className="w-12 h-12 border-4 border-brand-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
 
-    // =========================
-    // COMPLETED
-    // =========================
-
-    if (completed) {
-
-        return (
-
-            <div className="min-h-screen bg-brand-light flex items-center justify-center p-6">
-
-                <motion.div
-
-                    initial={{
-                        scale: 0.9,
-                        opacity: 0
-                    }}
-
-                    animate={{
-                        scale: 1,
-                        opacity: 1
-                    }}
-
-                    className="max-w-md w-full bg-white p-10 rounded-[40px] shadow-premium text-center border border-brand-border"
-
-                >
-
-                    <h2 className="text-3xl font-black mb-2">
-
-                        Track Completed
-
-                    </h2>
-
-                    <p className="text-brand-muted font-medium mb-8">
-
-                        Entire preparation pool solved.
+                    <p className="text-sm font-black text-brand-muted uppercase tracking-widest">
+                        Loading...
                     </p>
 
-                    <div className="grid grid-cols-2 gap-4 mb-8">
-
-                        <div className="bg-green-50 p-6 rounded-3xl border border-green-100">
-
-                            <p className="text-xs font-black uppercase mb-1 text-green-600">
-
-                                Correct
-
-                            </p>
-
-                            <p className="text-3xl font-black">
-
-                                {results.correct}
-
-                            </p>
-
-                        </div>
-
-                        <div className="bg-red-50 p-6 rounded-3xl border border-red-100">
-
-                            <p className="text-xs font-black uppercase mb-1 text-red-600">
-
-                                Wrong
-
-                            </p>
-
-                            <p className="text-3xl font-black">
-
-                                {results.wrong}
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <Link
-
-                        href="/dashboard"
-
-                        className="block w-full bg-brand-dark text-white p-4 rounded-2xl font-bold"
-
-                    >
-
-                        Back To Dashboard
-
-                    </Link>
-
-                </motion.div>
+                </div>
 
             </div>
         );
     }
+
+    // =========================
+    // NO TRACK SETUP
+    // =========================
+
+    if (practiceStatus === "no_track") {
+
+        return (
+
+            <div className="min-h-screen bg-brand-light flex">
+
+                <Sidebar isAdmin={user.isAdmin} />
+
+                <MobileNav isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
+
+                <div className="flex-1 flex flex-col min-h-screen min-w-0">
+
+                    <TopHeader user={user} onMenuClick={() => setMobileNavOpen(true)} />
+
+                    <main className="flex-1 flex items-center justify-center p-6">
+
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            className="max-w-md w-full bg-white p-8 sm:p-10 rounded-3xl shadow-xl text-center border border-brand-border"
+                        >
+
+                            <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                <Target size={28} className="text-blue-600" />
+                            </div>
+
+                            <h2 className="text-2xl font-black text-brand-dark mb-3">
+                                No Active Track
+                            </h2>
+
+                            <p className="text-brand-muted font-medium mb-6 leading-relaxed">
+                                Set up a preparation track to start your daily practice session.
+                            </p>
+
+                            <Link
+                                href={`/practice/setup?mode=${currentMode}`}
+                                className="block w-full bg-brand-dark text-white py-3.5 rounded-2xl font-black text-sm hover:bg-brand-accent transition-all"
+                            >
+                                Setup Practice Track
+                            </Link>
+
+                        </motion.div>
+
+                    </main>
+
+                    <Footer />
+
+                </div>
+
+            </div>
+        );
+    }
+
+    // =========================
+    // DAILY TARGET COMPLETED
+    // =========================
+
+    if (practiceStatus === "daily_complete") {
+
+        const accuracy =
+            dailySession?.attempted > 0
+                ? Math.round((dailySession.correct / dailySession.attempted) * 100)
+                : 0;
+
+        const avgTime =
+            dailySession?.attempted > 0
+                ? Math.round(dailySession.totalTimeTaken / dailySession.attempted)
+                : 0;
+
+        return (
+
+            <div className="min-h-screen bg-brand-light flex">
+
+                <Sidebar isAdmin={user.isAdmin} />
+
+                <MobileNav isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
+
+                <div className="flex-1 flex flex-col min-h-screen min-w-0">
+
+                    <TopHeader user={user} onMenuClick={() => setMobileNavOpen(true)} />
+
+                    <main className="flex-1 flex items-center justify-center p-6">
+
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            className="max-w-lg w-full bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-brand-border"
+                        >
+
+                            <div className="text-center mb-8">
+
+                                <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-500 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                                    <Trophy size={36} className="text-white" />
+                                </div>
+
+                                <h2 className="text-3xl font-black text-brand-dark mb-2">
+                                    Daily Target Done! 🎉
+                                </h2>
+
+                                <p className="text-brand-muted font-medium">
+                                    You've completed today's practice session
+                                </p>
+
+                            </div>
+
+                            {/* Stats Grid */}
+
+                            <div className="grid grid-cols-2 gap-3 mb-6">
+
+                                <div className="bg-green-50 border border-green-100 rounded-2xl p-4 text-center">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-green-700 mb-1">Correct</p>
+                                    <p className="text-3xl font-black text-green-600">{dailySession?.correct || results.correct}</p>
+                                </div>
+
+                                <div className="bg-red-50 border border-red-100 rounded-2xl p-4 text-center">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-red-700 mb-1">Wrong</p>
+                                    <p className="text-3xl font-black text-red-600">{dailySession?.wrong || results.wrong}</p>
+                                </div>
+
+                                <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 text-center">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-blue-700 mb-1">Accuracy</p>
+                                    <p className="text-3xl font-black text-blue-600">{accuracy}%</p>
+                                </div>
+
+                                <div className="bg-purple-50 border border-purple-100 rounded-2xl p-4 text-center">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-purple-700 mb-1">Avg Time</p>
+                                    <p className="text-3xl font-black text-purple-600">{avgTime}s</p>
+                                </div>
+
+                            </div>
+
+                            {/* Overall Progress */}
+
+                            {progress && (
+
+                                <div className="bg-brand-light rounded-2xl p-4 border border-brand-border mb-6">
+
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-xs font-black text-brand-muted uppercase tracking-widest">Overall Progress</span>
+                                        <span className="text-xs font-black text-brand-accent">
+                                            {progress.total > 0
+                                                ? Math.round((progress.solved / progress.total) * 100)
+                                                : 0}%
+                                        </span>
+                                    </div>
+
+                                    <div className="w-full bg-white h-2.5 rounded-full overflow-hidden">
+                                        <div
+                                            className="h-full bg-gradient-to-r from-brand-accent to-purple-500 rounded-full"
+                                            style={{ width: `${progress.total > 0 ? (progress.solved / progress.total) * 100 : 0}%` }}
+                                        />
+                                    </div>
+
+                                    <p className="text-[10px] font-bold text-brand-muted mt-2">
+                                        {progress.solved} / {progress.total} questions completed
+                                    </p>
+
+                                </div>
+                            )}
+
+                            {/* Actions */}
+
+                            <div className="flex gap-3">
+
+                                <Link
+                                    href="/dashboard"
+                                    className="flex-1 bg-brand-light text-brand-dark py-3.5 rounded-2xl font-black text-sm text-center hover:bg-brand-border transition-all"
+                                >
+                                    Dashboard
+                                </Link>
+
+                                <Link
+                                    href="/analytics"
+                                    className="flex-1 bg-brand-dark text-white py-3.5 rounded-2xl font-black text-sm text-center hover:bg-brand-accent transition-all"
+                                >
+                                    View Analytics
+                                </Link>
+
+                            </div>
+
+                            <p className="text-[10px] text-brand-muted text-center mt-4 font-bold">
+                                Come back tomorrow for your next session! 🌅
+                            </p>
+
+                        </motion.div>
+
+                    </main>
+
+                    <Footer />
+
+                </div>
+
+            </div>
+        );
+    }
+
+    // =========================
+    // POOL EXHAUSTED
+    // =========================
+
+    if (practiceStatus === "pool_exhausted" || practiceStatus === "no_questions") {
+
+        return (
+
+            <div className="min-h-screen bg-brand-light flex">
+
+                <Sidebar isAdmin={user.isAdmin} />
+
+                <MobileNav isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
+
+                <div className="flex-1 flex flex-col min-h-screen min-w-0">
+
+                    <TopHeader user={user} onMenuClick={() => setMobileNavOpen(true)} />
+
+                    <main className="flex-1 flex items-center justify-center p-6">
+
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            className="max-w-md w-full bg-white p-8 sm:p-10 rounded-3xl shadow-xl text-center border border-brand-border"
+                        >
+
+                            <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                <CheckCircle2 size={28} className="text-green-600" />
+                            </div>
+
+                            <h2 className="text-2xl font-black text-brand-dark mb-3">
+                                {practiceStatus === "no_questions"
+                                    ? "No Questions Found"
+                                    : "Track Completed!"}
+                            </h2>
+
+                            <p className="text-brand-muted font-medium mb-6 leading-relaxed">
+                                {statusMessage || "Create a new track to continue practicing."}
+                            </p>
+
+                            {progress && (
+
+                                <div className="grid grid-cols-2 gap-3 mb-6">
+                                    <div className="bg-green-50 p-4 rounded-2xl border border-green-100 text-center">
+                                        <p className="text-xs font-black uppercase mb-1 text-green-600">Solved</p>
+                                        <p className="text-2xl font-black">{progress.solved}</p>
+                                    </div>
+                                    <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100 text-center">
+                                        <p className="text-xs font-black uppercase mb-1 text-blue-600">Total</p>
+                                        <p className="text-2xl font-black">{progress.total}</p>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="flex gap-3">
+
+                                <Link
+                                    href={`/practice/setup?mode=${currentMode}`}
+                                    className="flex-1 bg-brand-dark text-white py-3.5 rounded-2xl font-black text-sm hover:bg-brand-accent transition-all"
+                                >
+                                    New Track
+                                </Link>
+
+                                <Link
+                                    href="/dashboard"
+                                    className="flex-1 bg-brand-light text-brand-dark py-3.5 rounded-2xl font-black text-sm hover:bg-brand-border transition-all"
+                                >
+                                    Dashboard
+                                </Link>
+
+                            </div>
+
+                        </motion.div>
+
+                    </main>
+
+                    <Footer />
+
+                </div>
+
+            </div>
+        );
+    }
+
+    // =========================
+    // NO QUESTION (safety)
+    // =========================
 
     if (!question) return null;
 
     // =========================
-    // UI
+    // ACTIVE PRACTICE UI
     // =========================
+
+    const dailyProgress =
+        dailySession
+            ? Math.round((dailySession.attempted / (progress?.dailyTarget || 10)) * 100)
+            : 0;
 
     return (
 
@@ -583,43 +692,55 @@ function PracticeContent() {
 
             {/* HEADER */}
 
-            <div className="bg-white border-b border-brand-border p-4 sticky top-0 z-50">
+            <div className="bg-white border-b border-brand-border p-3 sm:p-4 sticky top-0 z-50">
 
                 <div className="max-w-4xl mx-auto flex items-center justify-between px-2">
 
                     <Link
                         href="/dashboard"
-                        className="text-brand-muted"
+                        className="text-brand-muted p-1"
                     >
-
-                        <LayoutDashboard size={20} />
-
+                        <LayoutDashboard size={18} />
                     </Link>
 
-                    <div className="flex-1 mx-8">
+                    {/* Progress bar */}
+
+                    <div className="flex-1 mx-4 sm:mx-8">
+
+                        <div className="flex items-center justify-between mb-1">
+
+                            <span className="text-[9px] font-black text-brand-muted uppercase tracking-widest">
+                                Today: {dailySession?.attempted || 0}/{progress?.dailyTarget || 10}
+                            </span>
+
+                            <span className="text-[9px] font-black text-brand-accent uppercase tracking-widest">
+                                {dailyProgress}%
+                            </span>
+
+                        </div>
 
                         <div className="h-2 bg-brand-light rounded-full overflow-hidden border border-brand-border">
 
                             <motion.div
-
-                                animate={{
-                                    width:
-                                        `${((progress?.solved || 0) / (progress?.total || 1)) * 100}%`
-                                }}
-
-                                className="h-full bg-brand-accent"
-
+                                animate={{ width: `${dailyProgress}%` }}
+                                className="h-full bg-gradient-to-r from-brand-accent to-purple-500"
                             />
 
                         </div>
 
                     </div>
 
-                    <div className={`flex items-center gap-2 font-black text-xs ${timeLeft < 10 ? "text-red-500 animate-pulse" : "text-brand-muted"}`}>
+                    {/* Timer */}
 
-                        <Timer size={16} />
+                    <div className={`flex items-center gap-1.5 font-black text-xs px-3 py-1.5 rounded-full ${
+                        timeLeft < 15
+                            ? "text-red-500 bg-red-50 animate-pulse"
+                            : "text-brand-muted bg-brand-light"
+                    }`}>
 
-                        00:{timeLeft < 10 ? `0${timeLeft}` : timeLeft}
+                        <Timer size={14} />
+
+                        {formatTime(timeLeft)}
 
                     </div>
 
@@ -629,137 +750,100 @@ function PracticeContent() {
 
             {/* CONTENT */}
 
-            <main className="max-w-3xl mx-auto p-6 mt-10">
+            <main className="max-w-3xl mx-auto p-4 sm:p-6 mt-6 sm:mt-10">
 
                 <AnimatePresence mode="wait">
 
                     <motion.div
-
                         key={question._id}
-
-                        initial={{
-                            opacity: 0,
-                            x: 20
-                        }}
-
-                        animate={{
-                            opacity: 1,
-                            x: 0
-                        }}
-
-                        exit={{
-                            opacity: 0,
-                            x: -20
-                        }}
-
-                        className="space-y-8"
-
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        className="space-y-6 sm:space-y-8"
                     >
 
-                        {/* QUESTION */}
+                        {/* QUESTION CARD */}
 
-                        <div className="bg-white p-8 md:p-12 rounded-[40px] shadow-premium border border-brand-border">
+                        <div className="bg-white p-6 sm:p-10 rounded-3xl shadow-sm border border-brand-border">
 
-                            <div className="flex items-center gap-2 mb-4 text-[10px] font-black uppercase tracking-widest text-brand-accent">
+                            <div className="flex items-center gap-2 mb-4 text-[10px] font-black uppercase tracking-widest text-brand-accent flex-wrap">
 
                                 <Brain size={12} />
 
                                 {mode}
-                                {" • "}
+                                {" · "}
                                 {question.year}
-                                {" • "}
-                                {question.subjectName}
+                                {" · "}
+                                {question.subjectName || "General"}
+
+                                {question.topicName && (
+                                    <span className="text-brand-muted">
+                                        · {question.topicName}
+                                    </span>
+                                )}
 
                             </div>
 
-                            <h2 className="text-xl md:text-2xl font-bold leading-relaxed text-brand-dark">
-
+                            <h2 className="text-base sm:text-xl font-bold leading-relaxed text-brand-dark">
                                 {question.questionText}
-
                             </h2>
 
                         </div>
 
                         {/* OPTIONS */}
 
-                        <div className="grid grid-cols-1 gap-4">
+                        <div className="grid grid-cols-1 gap-3">
 
                             {question.options.map(opt => {
 
-                                const isCorrect =
-                                    opt.label ===
-                                    question.correctOption;
-
-                                const isSelected =
-                                    selectedOption ===
-                                    opt.label;
+                                const isCorrect = opt.label === question.correctOption;
+                                const isSelected = selectedOption === opt.label;
 
                                 return (
 
                                     <button
-
                                         key={opt.label}
-
-                                        onClick={() =>
-                                            handleAnswer(
-                                                opt.label
-                                            )
-                                        }
-
-                                        className={`
-
-                                            p-5 rounded-3xl text-left font-bold transition-all border-2 flex items-center justify-between
-
-                                            ${isSelected
+                                        onClick={() => handleAnswer(opt.label)}
+                                        disabled={submitted}
+                                        className={`p-4 sm:p-5 rounded-2xl text-left font-bold transition-all border-2 flex items-center justify-between ${
+                                            isSelected
                                                 ? "border-brand-accent bg-indigo-50/30"
                                                 : "border-brand-border bg-white"
-                                            }
-
-                                            ${submitted && isCorrect
+                                        } ${
+                                            submitted && isCorrect
                                                 ? "!border-green-500 bg-green-50"
                                                 : ""
-                                            }
-
-                                            ${submitted && isSelected && !isCorrect
+                                        } ${
+                                            submitted && isSelected && !isCorrect
                                                 ? "!border-red-500 bg-red-50"
                                                 : ""
-                                            }
-                                        `}
+                                        }`}
                                     >
 
-                                        <div className="flex items-center gap-4">
+                                        <div className="flex items-center gap-3 sm:gap-4">
 
-                                            <span className={`w-10 h-10 rounded-xl flex items-center justify-center border-2
-
-                                                ${isSelected
+                                            <span className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center border-2 text-sm font-black ${
+                                                isSelected
                                                     ? "bg-brand-accent text-white border-brand-accent"
                                                     : "bg-brand-light border-brand-border"
-                                                }
-                                            `}>
-
+                                            }`}>
                                                 {opt.label}
-
                                             </span>
 
-                                            <span>
-
+                                            <span className="text-sm">
                                                 {opt.text}
-
                                             </span>
 
                                         </div>
 
-                                        {submitted && isCorrect &&
-                                            <CheckCircle2 className="text-green-600" />
-                                        }
+                                        {submitted && isCorrect && <CheckCircle2 className="text-green-600 shrink-0" size={20} />}
 
-                                        {submitted && isSelected && !isCorrect &&
-                                            <XCircle className="text-red-600" />
-                                        }
+                                        {submitted && isSelected && !isCorrect && <XCircle className="text-red-600 shrink-0" size={20} />}
 
                                     </button>
                                 );
                             })}
+
                         </div>
 
                         {/* EXPLANATION */}
@@ -767,72 +851,45 @@ function PracticeContent() {
                         {submitted && (
 
                             <motion.div
-
-                                initial={{
-                                    opacity: 0,
-                                    y: 20
-                                }}
-
-                                animate={{
-                                    opacity: 1,
-                                    y: 0
-                                }}
-
-                                className="space-y-6"
-
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="space-y-4 sm:space-y-6"
                             >
 
-                                <div className="bg-brand-dark text-white p-8 rounded-[40px] shadow-xl">
+                                <div className="bg-brand-dark text-white p-6 sm:p-8 rounded-3xl shadow-xl">
 
-                                    <h4 className="flex items-center gap-2 font-black text-xs uppercase tracking-widest mb-4 opacity-60">
-
+                                    <h4 className="flex items-center gap-2 font-black text-[10px] sm:text-xs uppercase tracking-widest mb-4 opacity-60">
                                         <Info size={14} />
-
                                         Explanation
-
                                     </h4>
 
-                                    <p className="text-sm font-medium leading-relaxed opacity-90">
-
-                                        {question.explanation}
-
+                                    <p className="text-xs sm:text-sm font-medium leading-relaxed opacity-90">
+                                        {question.explanation || "Explanation not available."}
                                     </p>
 
                                 </div>
 
                                 <button
-
                                     onClick={nextQuestion}
-
-                                    className="w-full bg-brand-accent text-white p-5 rounded-[24px] font-black flex items-center justify-center gap-3"
-
+                                    className="w-full bg-brand-accent text-white p-4 sm:p-5 rounded-2xl font-black flex items-center justify-center gap-3 hover:opacity-90 transition-all text-sm sm:text-base"
                                 >
-
-                                    Continue
-
-                                    <ArrowRight size={20} />
-
+                                    Next Question
+                                    <ArrowRight size={18} />
                                 </button>
 
                             </motion.div>
                         )}
 
-                        {/* SUBMIT */}
+                        {/* SUBMIT BUTTON */}
 
                         {!submitted && (
 
                             <button
-
                                 onClick={handleSubmit}
-
                                 disabled={!selectedOption}
-
-                                className="w-full bg-brand-dark text-white p-5 rounded-[24px] font-black disabled:opacity-30"
-
+                                className="w-full bg-brand-dark text-white p-4 sm:p-5 rounded-2xl font-black disabled:opacity-30 text-sm sm:text-base hover:bg-brand-accent transition-all"
                             >
-
                                 Submit Answer
-
                             </button>
                         )}
 
@@ -848,63 +905,41 @@ function PracticeContent() {
 
                 {showMistakeModal && (
 
-                    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+                    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6">
 
                         <motion.div
-
-                            initial={{
-                                y: 40,
-                                opacity: 0
-                            }}
-
-                            animate={{
-                                y: 0,
-                                opacity: 1
-                            }}
-
-                            exit={{
-                                y: 40,
-                                opacity: 0
-                            }}
-
-                            className="bg-white w-full max-w-md rounded-[40px] p-8 shadow-2xl"
-
+                            initial={{ y: 40, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: 40, opacity: 0 }}
+                            className="bg-white w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl"
                         >
 
-                            <div className="text-center mb-8">
+                            <div className="text-center mb-6 sm:mb-8">
 
-                                <div className="bg-red-50 w-16 h-16 rounded-3xl flex items-center justify-center mx-auto mb-4 text-red-500">
-
-                                    <AlertTriangle size={32} />
-
+                                <div className="bg-red-50 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-red-500">
+                                    <AlertTriangle size={28} />
                                 </div>
 
-                                <h3 className="text-2xl font-black">
-
-                                    Analyze Mistake
-
+                                <h3 className="text-xl sm:text-2xl font-black">
+                                    What went wrong?
                                 </h3>
+
+                                <p className="text-xs text-brand-muted font-medium mt-2">
+                                    This helps us understand your mistake patterns
+                                </p>
 
                             </div>
 
-                            <div className="grid gap-3">
+                            <div className="grid gap-2 sm:gap-3">
 
                                 {MISTAKE_TYPES.map(type => (
 
                                     <button
-
                                         key={type}
-
-                                        onClick={() =>
-                                            finalizeAnswer(type)
-                                        }
-
-                                        className="p-4 bg-brand-light hover:bg-brand-accent hover:text-white rounded-2xl text-left font-bold text-sm transition-all"
-
+                                        onClick={() => finalizeAnswer(type)}
+                                        className="p-3 sm:p-4 bg-brand-light hover:bg-brand-accent hover:text-white rounded-xl sm:rounded-2xl text-left font-bold text-xs sm:text-sm transition-all"
                                     >
-
                                         {type}
-
                                     </button>
                                 ))}
 
@@ -930,9 +965,18 @@ export default function PracticePage() {
     return (
 
         <Suspense fallback={
-            <div className="min-h-screen bg-brand-light flex items-center justify-center font-black animate-pulse uppercase tracking-widest text-brand-muted text-sm">
 
-                Loading...
+            <div className="min-h-screen bg-brand-light flex items-center justify-center">
+
+                <div className="text-center">
+
+                    <div className="w-12 h-12 border-4 border-brand-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+
+                    <p className="text-sm font-black text-brand-muted uppercase tracking-widest">
+                        Loading...
+                    </p>
+
+                </div>
 
             </div>
         }>

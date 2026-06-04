@@ -1,163 +1,349 @@
-const Attempt = require('../models/Attempt');
-const PreparationTrack = require('../models/PreparationTrack');
-const Question = require('../models/Question');
+const PreparationTrack = require("../models/PreparationTrack");
+const Question = require("../models/Question");
+const Attempt = require("../models/Attempt");
 
-// Get all questions due for revision today
+const {
+    calculateNextRevision,
+    getDueQuestions,
+    getStageBreakdown,
+    getNextDueInfo,
+    getUpcomingCount
+} = require("../utils/revisionLogic");
+
+// =========================
+// HELPERS
+// =========================
+
+const getActiveTrack = async (userId, mode) => {
+
+    return await PreparationTrack.findOne({
+        userId,
+        mode,
+        isActive: true
+    });
+};
+
+// =========================
+// GET DUE REVISIONS
+// Returns batch of questions due today for revision
+//
+// Query: ?mode=GS&limit=20
+// =========================
+
 exports.getDueRevisions = async (req, res) => {
+
     try {
-        const today = new Date();
+
         const userId = req.user._id;
+        const mode   = req.query.mode || "GS";
+        const limit  = parseInt(req.query.limit) || 20;
 
-        // Find attempts where nextRevisionDate is today or past, and not yet mastered
-        const dueAttempts = await Attempt.find({
-            userId,
-            nextRevisionDate: { $lte: today },
-            isCorrect: false // We revise what we got wrong
-        }).populate('questionId');
-
-        res.json(dueAttempts);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-// Update the revision stage after a revision attempt
-exports.processRevisionResult = async (req, res) => {
-    try {
-        const { attemptId, isCorrectNow } = req.body;
-        const attempt = await Attempt.findById(attemptId);
-
-        if (!attempt) return res.status(404).json({ message: "Attempt record not found" });
-
-        // Spaced Repetition Intervals (in days)
-        const intervals = [1, 3, 7, 21, 60];
-
-        if (isCorrectNow) {
-            // Move to next stage
-            attempt.revisionStage = (attempt.revisionStage || 0) + 1;
-            const daysToAdd = intervals[attempt.revisionStage] || 60;
-            attempt.nextRevisionDate = new Date(Date.now() + daysToAdd * 24 * 60 * 60 * 1000);
-
-            // If they reach the last stage, mark as mastered (optional logic)
-            if (attempt.revisionStage >= 4) attempt.nextRevisionDate = null;
-        } else {
-            // Reset to Stage 0 (try again tomorrow)
-            attempt.revisionStage = 0;
-            attempt.nextRevisionDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
-        }
-
-        await attempt.save();
-        res.json({ message: "Revision cycle updated", nextDate: attempt.nextRevisionDate });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-// Get revision statistics and dashboard data
-exports.getRevisionDashboard = async (req, res) => {
-    try {
-        const userId = req.user._id;
-        const mode = req.query.mode || 'GS';
-
-        const track = await PreparationTrack.findOne({
-            userId,
-            mode,
-            isActive: true
-        });
+        const track = await getActiveTrack(userId, mode);
 
         if (!track) {
-            return res.status(404).json({ message: 'No active preparation track found' });
+            return res.status(404).json({
+                status: "no_track",
+                message: "No active preparation track found. Create one to start practicing."
+            });
         }
 
-        const wrongQuestions = track.wrongQuestions;
-        const wrongQuestionIds = wrongQuestions.map(wq => wq.questionId);
+        // =========================
+        // GET DUE FROM TRACK
+        // =========================
 
-        const wrongQuestionsData = await Question.find({
-            _id: { $in: wrongQuestionIds }
-        }).select('_id subjectName topicName year questionText');
+        const { dueNow, totalDue, hasMore } =
+            getDueQuestions(track.wrongQuestions, limit);
 
-        const subjectBreakdown = {};
-        const topicBreakdown = {};
+        if (dueNow.length === 0) {
 
-        wrongQuestionsData.forEach(q => {
-            if (q.subjectName) {
-                subjectBreakdown[q.subjectName] = (subjectBreakdown[q.subjectName] || 0) + 1;
-            }
-            if (q.topicName) {
-                topicBreakdown[q.topicName] = (topicBreakdown[q.topicName] || 0) + 1;
-            }
-        });
+            const nextDueInfo = getNextDueInfo(track.wrongQuestions);
+            const breakdown   = getStageBreakdown(track.wrongQuestions);
 
-        const today = new Date();
-        const isSunday = today.getDay() === 0;
+            return res.json({
+                status:    "caught_up",
+                message:   "All caught up! No revisions due today.",
+                questions: [],
+                totalDue:  0,
+                hasMore:   false,
+                nextDue:   nextDueInfo,
+                mastered:  breakdown.mastered
+            });
+        }
 
-        const dueRevisions = await Attempt.countDocuments({
-            userId,
-            nextRevisionDate: { $lte: today },
-            isCorrect: false
-        });
+        // =========================
+        // FETCH FULL QUESTION DATA
+        // =========================
 
-        const masteredRevisions = await Attempt.countDocuments({
-            userId,
-            nextRevisionDate: null,
-            isCorrect: false
-        });
+        const questionIds = dueNow.map(wq => wq.questionId);
 
-        res.json({
-            totalWrongQuestions: wrongQuestions.length,
-            dueForRevision: dueRevisions,
-            masteredCount: masteredRevisions,
-            isSundayRevisionDay: isSunday,
-            subjectBreakdown: Object.entries(subjectBreakdown).map(([name, count]) => ({ name, count })),
-            topicBreakdown: Object.entries(topicBreakdown).map(([name, count]) => ({ name, count })),
-            recentWrongQuestions: wrongQuestions.slice(-5).map(wq => ({
-                questionId: wq.questionId,
-                wrongCount: wq.wrongCount,
-                wrongDate: wq.wrongDate
-            }))
+        const questions =
+            await Question.find({ _id: { $in: questionIds } });
+
+        // =========================
+        // ATTACH REVISION META TO EACH QUESTION
+        // (so frontend knows current stage, wrongCount etc.)
+        // =========================
+
+        const wrongMap = new Map(
+            track.wrongQuestions.map(wq => [wq.questionId.toString(), wq])
+        );
+
+        // Preserve due-order (oldest first)
+        const orderedQuestions = dueNow
+            .map(due => {
+                const q = questions.find(
+                    qq => qq._id.toString() === due.questionId.toString()
+                );
+                if (!q) return null;
+
+                const meta = wrongMap.get(due.questionId.toString());
+
+                return {
+                    ...q.toObject(),
+                    revisionMeta: {
+                        currentStage:     meta.revisionStage || 0,
+                        wrongCount:       meta.wrongCount,
+                        lastRevisedAt:    meta.lastRevisedAt,
+                        nextRevisionDate: meta.nextRevisionDate
+                    }
+                };
+            })
+            .filter(Boolean);
+
+        return res.json({
+            status:    "ready",
+            mode,
+            questions: orderedQuestions,
+            totalDue,
+            fetched:   orderedQuestions.length,
+            hasMore
         });
 
     } catch (error) {
-        console.error('Revision Dashboard Error:', error);
-        res.status(500).json({ message: error.message });
+
+        console.error("Get Due Revisions Error:", error);
+
+        res.status(500).json({
+            message: error.message
+        });
     }
 };
 
-// Get revision queue for practice
-exports.getRevisionQueue = async (req, res) => {
+// =========================
+// PROCESS REVISION ANSWER
+// Updates stage / resets / masters the question
+//
+// Body: { questionId, isCorrect, mode, timeTaken, selectedOption, mistakeCategory }
+// =========================
+
+exports.processRevision = async (req, res) => {
+
     try {
+
         const userId = req.user._id;
-        const mode = req.query.mode || 'GS';
-        const limit = parseInt(req.query.limit) || 10;
 
-        const track = await PreparationTrack.findOne({
-            userId,
-            mode,
-            isActive: true
-        });
+        const {
+            questionId,
+            isCorrect,
+            mode = "GS",
+            timeTaken = 0,
+            selectedOption = "",
+            mistakeCategory = "None"
+        } = req.body;
 
-        if (!track) {
-            return res.status(404).json({ message: 'No active preparation track found' });
+        if (!questionId) {
+            return res.status(400).json({
+                message: "questionId is required"
+            });
         }
 
-        const sortedWrongQuestions = [...track.wrongQuestions]
-            .sort((a, b) => b.wrongCount - a.wrongCount)
-            .slice(0, limit);
+        const track = await getActiveTrack(userId, mode);
 
-        const revisionQuestionIds = sortedWrongQuestions.map(wq => wq.questionId);
+        if (!track) {
+            return res.status(404).json({
+                message: "No active preparation track found"
+            });
+        }
 
-        const revisionQuestions = await Question.find({
-            _id: { $in: revisionQuestionIds }
-        }).sort({ year: -1 });
+        // =========================
+        // FIND THE WRONG QUESTION ENTRY
+        // =========================
 
-        res.json({
-            questions: revisionQuestions,
-            totalInQueue: track.wrongQuestions.length,
-            inThisBatch: revisionQuestions.length
+        const wrongEntry = track.wrongQuestions.find(
+            wq => wq.questionId.toString() === questionId.toString()
+        );
+
+        if (!wrongEntry) {
+            return res.status(404).json({
+                message: "This question is not in your revision queue"
+            });
+        }
+
+        // =========================
+        // CALCULATE NEXT STATE
+        // =========================
+
+        const result = calculateNextRevision(
+            wrongEntry.revisionStage,
+            isCorrect
+        );
+
+        // =========================
+        // UPDATE TRACK
+        // =========================
+
+        wrongEntry.revisionStage     = result.newStage;
+        wrongEntry.nextRevisionDate  = result.nextRevisionDate;
+        wrongEntry.mastered          = result.mastered;
+        wrongEntry.lastRevisedAt     = new Date();
+
+        if (!isCorrect) {
+            wrongEntry.wrongCount += 1;
+            wrongEntry.wrongDate   = new Date();
+        }
+
+        await track.save();
+
+        // =========================
+        // LOG TO ATTEMPT (for analytics)
+        // =========================
+
+        try {
+            await Attempt.create({
+                userId,
+                questionId,
+                isCorrect,
+                selectedOption,
+                timeTaken,
+                mistakeCategory: isCorrect ? "None" : mistakeCategory,
+                nextRevisionDate: result.nextRevisionDate
+            });
+        } catch (logErr) {
+            // Don't fail the request if logging fails
+            console.error("Attempt Log Error (non-fatal):", logErr.message);
+        }
+
+        // =========================
+        // RESPONSE
+        // =========================
+
+        const breakdown = getStageBreakdown(track.wrongQuestions);
+
+        return res.json({
+            success: true,
+            action:           result.action,        // "advanced" | "reset" | "mastered"
+            newStage:         result.newStage,
+            nextRevisionDate: result.nextRevisionDate,
+            mastered:         result.mastered,
+            stageBreakdown:   breakdown
         });
 
     } catch (error) {
-        console.error('Revision Queue Error:', error);
-        res.status(500).json({ message: error.message });
+
+        console.error("Process Revision Error:", error);
+
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
+// =========================
+// REVISION SUMMARY
+// Full data for revision page header
+//
+// Query: ?mode=GS
+// =========================
+
+exports.getRevisionSummary = async (req, res) => {
+
+    try {
+
+        const userId = req.user._id;
+        const mode   = req.query.mode || "GS";
+
+        const track = await getActiveTrack(userId, mode);
+
+        if (!track) {
+            return res.status(404).json({
+                status: "no_track",
+                message: "No active preparation track found"
+            });
+        }
+
+        const { totalDue, hasMore } =
+            getDueQuestions(track.wrongQuestions, 20);
+
+        const breakdown   = getStageBreakdown(track.wrongQuestions);
+        const nextDueInfo = getNextDueInfo(track.wrongQuestions);
+        const upcoming7   = getUpcomingCount(track.wrongQuestions, 7);
+
+        return res.json({
+            mode,
+            dueToday:        Math.min(totalDue, 20),
+            totalDue,
+            hasMore,
+            upcoming7Days:   upcoming7,
+            stageBreakdown:  breakdown,
+            nextDue:         nextDueInfo,
+            totalInQueue:    track.wrongQuestions.length,
+            masteredCount:   breakdown.mastered
+        });
+
+    } catch (error) {
+
+        console.error("Revision Summary Error:", error);
+
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
+// =========================
+// REVISION WIDGET
+// Tiny payload for dashboard widget
+//
+// Query: ?mode=GS
+// =========================
+
+exports.getRevisionWidget = async (req, res) => {
+
+    try {
+
+        const userId = req.user._id;
+        const mode   = req.query.mode || "GS";
+
+        const track = await getActiveTrack(userId, mode);
+
+        if (!track) {
+            return res.json({
+                dueToday:      0,
+                upcoming7Days: 0,
+                mastered:      0,
+                totalInQueue:  0,
+                hasTrack:      false
+            });
+        }
+
+        const { totalDue } = getDueQuestions(track.wrongQuestions, 999);
+        const breakdown    = getStageBreakdown(track.wrongQuestions);
+        const upcoming7    = getUpcomingCount(track.wrongQuestions, 7);
+
+        return res.json({
+            dueToday:      totalDue,
+            upcoming7Days: upcoming7,
+            mastered:      breakdown.mastered,
+            totalInQueue:  track.wrongQuestions.length,
+            hasTrack:      true
+        });
+
+    } catch (error) {
+
+        console.error("Revision Widget Error:", error);
+
+        res.status(500).json({
+            message: error.message
+        });
     }
 };

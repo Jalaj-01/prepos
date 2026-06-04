@@ -39,6 +39,11 @@ export default function RootLayout({ children }) {
         <html lang="en" suppressHydrationWarning>
 
             <head>
+                {/* Hand Written handwritting font for that authentic note-taking vibe. Perfect for sticky notes, planners, and anywhere you want to add a personal touch. */}
+                {/* <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap"
+    rel="stylesheet"
+/> */}
 
                 <link
                     rel="preconnect"

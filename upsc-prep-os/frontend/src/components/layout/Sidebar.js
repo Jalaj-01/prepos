@@ -25,7 +25,9 @@ import {
     Layers,
     Sparkles,
     Megaphone,
-    Mail
+    Zap,
+    BarChart3,
+    CalendarDays,
 } from "lucide-react";
 
 // =========================
@@ -42,6 +44,12 @@ const navSections = [
                 href: "/dashboard",
                 icon: LayoutDashboard,
                 label: "Dashboard"
+            },
+            
+            {
+                href: "/planner",
+                icon: CalendarDays,
+                label: "Planner"
             }
         ]
     },
@@ -51,9 +59,21 @@ const navSections = [
 
         items: [
             {
+                href: "/prelims-dashboard",
+                icon: BarChart3,
+                label: "Prelims Dashboard"
+            },
+
+            {
                 href: "/practice",
                 icon: Target,
                 label: "Daily Practice"
+            },
+
+            {
+                href: "/practice/free",
+                icon: Zap,
+                label: "Free Practice"
             },
 
             {
@@ -404,8 +424,6 @@ export default function Sidebar({
                                 <Megaphone size={18} className="shrink-0" />
                                 {!collapsed && <span>Announcements</span>}
                             </Link>
-
-                            
 
                         </div>
 

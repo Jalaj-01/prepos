@@ -1,12 +1,91 @@
 const PreparationTrack =
-    require(
-        "../models/PreparationTrack"
-    );
+    require("../models/PreparationTrack");
 
 const Question =
-    require(
-        "../models/Question"
-    );
+    require("../models/Question");
+
+// =========================
+// HELPERS
+// =========================
+
+const getDateKey = (date = new Date()) => {
+
+    return date.toISOString().split("T")[0];
+};
+
+const getOrCreateTodaySession = (track) => {
+
+    const dateKey = getDateKey();
+
+    let session =
+        track.dailySessions.find(
+            s => s.dateKey === dateKey
+        );
+
+    if (!session) {
+
+        track.dailySessions.push({
+            dateKey,
+            attempted: 0,
+            correct: 0,
+            wrong: 0,
+            totalTimeTaken: 0,
+            questionIds: [],
+            subjectStats: {},
+            topicStats: {}
+        });
+
+        session =
+            track.dailySessions[
+                track.dailySessions.length - 1
+            ];
+    }
+
+    return session;
+};
+
+const buildTrackQuery = (track) => {
+
+    let query = {
+
+        _id: {
+            $nin: track.solvedQuestions
+        }
+    };
+
+    if (track.selectedYears?.length) {
+
+        query.year = {
+            $in: track.selectedYears
+        };
+    }
+
+    if (track.selectedTopics?.length) {
+
+        query.taxonomyIds = {
+            $in: track.selectedTopics
+        };
+
+    } else if (track.selectedSubjects?.length) {
+
+        query.taxonomyIds = {
+            $in: track.selectedSubjects
+        };
+    }
+
+    if (track.mode === "CSAT") {
+
+        query.paper = "CSAT";
+
+    } else {
+
+        query.paper = {
+            $ne: "CSAT"
+        };
+    }
+
+    return query;
+};
 
 // =========================
 // CREATE TRACK
@@ -21,106 +100,58 @@ async (
     try {
 
         const {
-
             title,
             mode,
             selectedYears,
             selectedSubjects,
             selectedTopics,
             dailyQuestionTarget
-
         } = req.body;
-
-        // =========================
-        // MATCH QUERY
-        // =========================
 
         let query = {};
 
-        if (
-            selectedYears?.length
-        ) {
-
-            query.year = {
-
-                $in:
-                    selectedYears
-            };
+        if (selectedYears?.length) {
+            query.year = { $in: selectedYears };
         }
 
-        if (
-            selectedTopics?.length
-        ) {
-
-            query.taxonomyIds = {
-
-                $in:
-                    selectedTopics
-            };
+        if (selectedTopics?.length) {
+            query.taxonomyIds = { $in: selectedTopics };
+        } else if (selectedSubjects?.length) {
+            query.taxonomyIds = { $in: selectedSubjects };
         }
-
-        else if (
-            selectedSubjects?.length
-        ) {
-
-            query.taxonomyIds = {
-
-                $in:
-                    selectedSubjects
-            };
-        }
-
-        // =========================
-        // GS / CSAT
-        // =========================
 
         if (mode === "CSAT") {
-
             query.paper = "CSAT";
+        } else {
+            query.paper = { $ne: "CSAT" };
         }
 
-        else {
-
-            query.paper = {
-                $ne: "CSAT"
-            };
-        }
-        // =========================
-// REMOVE OLD SAME-MODE TRACK
-// =========================
-
-await PreparationTrack.updateMany(
-
-    {
-
-        userId:
-            req.user._id,
-
-        mode,
-
-        isActive: true
-    },
-
-    {
-
-        isActive: false
-    }
-);
+        await PreparationTrack.updateMany(
+            {
+                userId: req.user._id,
+                mode,
+                isActive: true
+            },
+            {
+                isActive: false
+            }
+        );
 
         const totalQuestions =
-            await Question.countDocuments(
-                query
-            );
+            await Question.countDocuments(query);
 
-        // =========================
-        // CREATE
-        // =========================
+        const remainingQuestions =
+            await Question.find(query)
+                .sort({
+                    year: -1,
+                    createdAt: 1
+                })
+                .select("_id");
 
         const track =
             await PreparationTrack.create({
 
-                userId:
-                    req.user._id,
+                userId: req.user._id,
 
                 title,
 
@@ -134,24 +165,22 @@ await PreparationTrack.updateMany(
 
                 dailyQuestionTarget,
 
-                totalQuestions
+                totalQuestions,
+
+                remainingQuestionIds:
+                    remainingQuestions.map(q => q._id),
+
+                dailySessions: []
             });
 
-        res.status(201).json(
-            track
-        );
+        res.status(201).json(track);
 
     } catch (error) {
 
-        console.error(
-            "Create Track Error:",
-            error
-        );
+        console.error("Create Track Error:", error);
 
         res.status(500).json({
-
-            message:
-                error.message
+            message: error.message
         });
     }
 };
@@ -170,210 +199,29 @@ async (
 
         const tracks =
             await PreparationTrack.find({
-
-                userId:
-                    req.user._id,
-
+                userId: req.user._id,
                 isActive: true
             });
 
         const gsTrack =
-            tracks.find(
-
-                t => t.mode === "GS"
-            );
+            tracks.find(t => t.mode === "GS");
 
         const csatTrack =
-            tracks.find(
-
-                t => t.mode === "CSAT"
-            );
+            tracks.find(t => t.mode === "CSAT");
 
         res.json({
-
-            gsTrack:
-                gsTrack || null,
-
-            csatTrack:
-                csatTrack || null
+            gsTrack: gsTrack || null,
+            csatTrack: csatTrack || null
         });
 
     } catch (error) {
 
         res.status(500).json({
-
-            message:
-                error.message
+            message: error.message
         });
     }
 };
-// =========================
-// GET TODAY QUESTIONS
-// =========================
 
-exports.getTodayQuestions =
-async (
-    req,
-    res
-) => {
-
-    try {
-
-        const track =
-            await PreparationTrack.findOne({
-
-                userId:
-                    req.user._id,
-
-                isActive: true
-            });
-
-        if (!track) {
-
-            return res.status(404).json({
-
-                message:
-                    "No active track"
-            });
-        }
-
-        // =========================
-        // SUNDAY REVISION
-        // =========================
-
-        const today =
-            new Date();
-
-        const isSunday =
-            today.getDay() === 0;
-
-        if (
-            isSunday &&
-            track.wrongQuestions.length > 0
-        ) {
-
-            const wrongIds =
-                track.wrongQuestions.map(
-
-                    q => q.questionId
-                );
-
-            const revisionQuestions =
-                await Question.find({
-
-                    _id: {
-                        $in:
-                            wrongIds
-                    }
-                })
-
-                .limit(
-                    track.dailyQuestionTarget
-                );
-
-            return res.json({
-
-                mode:
-                    "REVISION",
-
-                questions:
-                    revisionQuestions
-            });
-        }
-
-        // =========================
-        // NORMAL DAILY FLOW
-        // =========================
-
-        let query = {
-
-            _id: {
-
-                $nin:
-                    track.solvedQuestions
-            }
-        };
-
-        if (
-            track.selectedYears?.length
-        ) {
-
-            query.year = {
-
-                $in:
-                    track.selectedYears
-            };
-        }
-
-        if (
-            track.selectedTopics?.length
-        ) {
-
-            query.taxonomyIds = {
-
-                $in:
-                    track.selectedTopics
-            };
-        }
-
-        else if (
-            track.selectedSubjects?.length
-        ) {
-
-            query.taxonomyIds = {
-
-                $in:
-                    track.selectedSubjects
-            };
-        }
-
-        // =========================
-        // GS / CSAT
-        // =========================
-
-        if (
-            track.mode === "CSAT"
-        ) {
-
-            query.paper = "CSAT";
-        }
-
-        else {
-
-            query.paper = {
-                $ne: "CSAT"
-            };
-        }
-
-        const questions =
-            await Question.find(query)
-
-            .limit(
-                track.dailyQuestionTarget
-            );
-
-        res.json({
-
-            mode:
-                track.mode,
-
-            questions
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Today Questions Error:",
-            error
-        );
-
-        res.status(500).json({
-
-            message:
-                error.message
-        });
-    }
-};
 // =========================
 // GET NEXT QUESTION
 // =========================
@@ -387,95 +235,60 @@ async (
     try {
 
         const mode =
-    req.query.mode || "GS";
+            req.query.mode || "GS";
 
-const track =
-    await PreparationTrack.findOne({
+        const track =
+            await PreparationTrack.findOne({
+                userId: req.user._id,
+                mode,
+                isActive: true
+            });
 
-        userId:
-            req.user._id,
-
-        mode,
-
-        isActive: true
-    });
         if (!track) {
 
             return res.status(404).json({
-
-                message:
-                    "No active preparation track found"
+                message: "No active preparation track found"
             });
         }
-// =========================
-// REVISION MODE
-// =========================
 
-const today =
-    new Date();
-
-const isSunday =
-    today.getDay() === 0;
-
-// WEEKLY REVISION ONLY
-
-if (
-
-    isSunday &&
-
-    track.wrongQuestions.length > 0
-
-) {
-
-    const sortedWrongQuestions =
-        [...track.wrongQuestions]
-
-            .sort((a, b) =>
-
-                b.wrongCount -
-                a.wrongCount
-            );
-
-    const revisionQuestionIds =
-        sortedWrongQuestions
-
-            .slice(
-                0,
-                track.dailyQuestionTarget
-            )
-
-            .map(
-                q => q.questionId
-            );
-
-    const revisionQuestions =
-        await Question.find({
-
-            _id: {
-                $in:
-                    revisionQuestionIds
-            }
-        })
-
-        .sort({
-            year: -1
-        });
-
-    return res.json({
-
-        mode:
-            "REVISION",
-
-        completed:
-            false,
-
-        questions:
-            revisionQuestions
-    });
-}
+        const todaySession =
+            getOrCreateTodaySession(track);
 
         // =========================
-        // BUILD REMAINING QUEUE
+        // DAILY TARGET CHECK
+        // =========================
+
+        if (
+            todaySession.attempted >=
+            track.dailyQuestionTarget
+        ) {
+
+            if (!todaySession.completedAt) {
+                todaySession.completedAt = new Date();
+                await track.save();
+            }
+
+            return res.json({
+
+                status: "daily_complete",
+
+                completed: true,
+
+                message:
+                    "Today's target completed",
+
+                dailySession: todaySession,
+
+                progress: {
+                    solved: track.solvedQuestions.length,
+                    remaining: track.remainingQuestionIds.length,
+                    total: track.totalQuestions
+                }
+            });
+        }
+
+        // =========================
+        // REBUILD QUEUE IF EMPTY
         // =========================
 
         if (
@@ -483,93 +296,52 @@ if (
             track.remainingQuestionIds.length === 0
         ) {
 
-            let query = {
-
-                _id: {
-
-                    $nin:
-                        track.solvedQuestions
-                }
-            };
-
-            // YEARS
-
-            if (
-                track.selectedYears?.length
-            ) {
-
-                query.year = {
-
-                    $in:
-                        track.selectedYears
-                };
-            }
-
-            // TOPICS
-
-            if (
-                track.selectedTopics?.length
-            ) {
-
-                query.taxonomyIds = {
-
-                    $in:
-                        track.selectedTopics
-                };
-            }
-
-            // SUBJECTS
-
-            else if (
-                track.selectedSubjects?.length
-            ) {
-
-                query.taxonomyIds = {
-
-                    $in:
-                        track.selectedSubjects
-                };
-            }
-
-            // GS / CSAT
-
-            if (
-                track.mode === "CSAT"
-            ) {
-
-                query.paper = "CSAT";
-            }
-
-            else {
-
-                query.paper = {
-                    $ne: "CSAT"
-                };
-            }
+            const query =
+                buildTrackQuery(track);
 
             const remainingQuestions =
                 await Question.find(query)
-
                     .sort({
-
                         year: -1,
-
                         createdAt: 1
                     })
-
                     .select("_id");
 
             track.remainingQuestionIds =
-                remainingQuestions.map(
-
-                    q => q._id
-                );
+                remainingQuestions.map(q => q._id);
 
             await track.save();
         }
 
         // =========================
-        // COMPLETION CHECK
+        // NO QUESTIONS MATCH FILTER
+        // =========================
+
+        if (
+            track.totalQuestions === 0
+        ) {
+
+            return res.json({
+
+                status: "no_questions",
+
+                completed: true,
+
+                message:
+                    "No questions match your selected filters. Please create a new track with different years, subjects, or topics.",
+
+                dailySession: todaySession,
+
+                progress: {
+                    solved: 0,
+                    remaining: 0,
+                    total: 0
+                }
+            });
+        }
+
+        // =========================
+        // POOL EXHAUSTED
         // =========================
 
         if (
@@ -578,19 +350,19 @@ if (
 
             return res.json({
 
-                completed:
-                    true,
+                status: "pool_exhausted",
+
+                completed: true,
 
                 message:
-                    "All questions completed",
+                    "You have completed all questions in this preparation track.",
 
-                stats: {
+                dailySession: todaySession,
 
-                    solved:
-                        track.solvedQuestions.length,
-
-                    wrong:
-                        track.wrongQuestions.length
+                progress: {
+                    solved: track.solvedQuestions.length,
+                    remaining: 0,
+                    total: track.totalQuestions
                 }
             });
         }
@@ -607,29 +379,38 @@ if (
                 nextQuestionId
             );
 
-        track.lastSessionAt =
-            new Date();
+        // If question deleted, remove from queue and retry
+
+        if (!question) {
+
+            track.remainingQuestionIds =
+                track.remainingQuestionIds.slice(1);
+
+            await track.save();
+
+            return exports.getNextQuestion(req, res);
+        }
+
+        track.lastSessionAt = new Date();
 
         await track.save();
 
         return res.json({
 
-            completed:
-                false,
+            status: "continue",
 
-            mode:
-                track.mode,
+            completed: false,
+
+            mode: track.mode,
+
+            dailySession: todaySession,
 
             progress: {
-
-                solved:
-                    track.solvedQuestions.length,
-
-                remaining:
-                    track.remainingQuestionIds.length,
-
-                total:
-                    track.totalQuestions
+                solved: track.solvedQuestions.length,
+                remaining: track.remainingQuestionIds.length,
+                total: track.totalQuestions,
+                dailyAttempted: todaySession.attempted,
+                dailyTarget: track.dailyQuestionTarget
             },
 
             question
@@ -637,18 +418,14 @@ if (
 
     } catch (error) {
 
-        console.error(
-            "Next Question Error:",
-            error
-        );
+        console.error("Next Question Error:", error);
 
         res.status(500).json({
-
-            message:
-                error.message
+            message: error.message
         });
     }
 };
+
 // =========================
 // SUBMIT ANSWER
 // =========================
@@ -662,107 +439,105 @@ async (
     try {
 
         const {
-
             questionId,
             isCorrect,
             subjectName,
-            topicName
-
+            topicName,
+            timeTaken
         } = req.body;
 
-       const mode =
-    req.body.mode || "GS";
+        const mode =
+            req.body.mode || "GS";
 
-const track =
-    await PreparationTrack.findOne({
-
-        userId:
-            req.user._id,
-
-        mode,
-
-        isActive: true
-    });
+        const track =
+            await PreparationTrack.findOne({
+                userId: req.user._id,
+                mode,
+                isActive: true
+            });
 
         if (!track) {
 
             return res.status(404).json({
+                message: "No active track found"
+            });
+        }
 
-                message:
-                    "No active track found"
+        const todaySession =
+            getOrCreateTodaySession(track);
+
+        // Prevent duplicate same-day submission for same question
+
+        const alreadyAttemptedToday =
+            todaySession.questionIds.some(
+                id => id.toString() === questionId.toString()
+            );
+
+        if (alreadyAttemptedToday) {
+
+            return res.json({
+                success: true,
+                duplicate: true,
+                message: "Question already attempted today",
+                dailySession: todaySession
             });
         }
 
         // =========================
-// REMOVE FROM REMAINING
-// ONLY WHEN CORRECT
-// =========================
-
-if (isCorrect) {
-
-    track.remainingQuestionIds =
-        track.remainingQuestionIds.filter(
-
-            id =>
-                id.toString() !==
-                questionId.toString()
-        );
-}
-
-        // =========================
-        // CORRECT ANSWER
+        // REMOVE FROM REMAINING
+        // Always remove after attempt.
+        // Wrong questions go to revision queue.
         // =========================
 
-        if (isCorrect) {
+        track.remainingQuestionIds =
+            track.remainingQuestionIds.filter(
+                id => id.toString() !== questionId.toString()
+            );
 
-            const alreadySolved =
-                track.solvedQuestions.some(
+        // =========================
+        // SOLVED QUESTIONS
+        // =========================
 
-                    id =>
-                        id.toString() ===
-                        questionId
-                );
+        const alreadySolved =
+            track.solvedQuestions.some(
+                id => id.toString() === questionId.toString()
+            );
 
-            if (!alreadySolved) {
+        if (!alreadySolved) {
 
-                track.solvedQuestions.push(
-                    questionId
-                );
-            }
+            track.solvedQuestions.push(questionId);
         }
 
         // =========================
-        // WRONG ANSWER
+        // WRONG QUESTIONS / REVISION QUEUE
         // =========================
 
-        else {
+        if (!isCorrect) {
 
             const existingWrong =
                 track.wrongQuestions.find(
-
-                    q =>
-                       q.questionId.toString() ===
-questionId.toString()
+                    q => q.questionId.toString() === questionId.toString()
                 );
+
+            const nextRevisionDate =
+                new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
 
             if (existingWrong) {
 
                 existingWrong.wrongCount += 1;
+                existingWrong.wrongDate = new Date();
+                existingWrong.nextRevisionDate = nextRevisionDate;
+                existingWrong.mastered = false;
 
-                existingWrong.wrongDate =
-                    new Date();
-            }
-
-            else {
+            } else {
 
                 track.wrongQuestions.push({
-
                     questionId,
-
                     wrongCount: 1,
-
-                    wrongDate:
-                        new Date()
+                    wrongDate: new Date(),
+                    revisionStage: 0,
+                    nextRevisionDate,
+                    mastered: false
                 });
             }
         }
@@ -774,14 +549,10 @@ questionId.toString()
         if (subjectName) {
 
             const currentCount =
-                track.subjectProgress.get(
-                    subjectName
-                ) || 0;
+                track.subjectProgress.get(subjectName) || 0;
 
             track.subjectProgress.set(
-
                 subjectName,
-
                 currentCount + 1
             );
         }
@@ -793,21 +564,65 @@ questionId.toString()
         if (topicName) {
 
             const currentCount =
-                track.topicProgress.get(
-                    topicName
-                ) || 0;
+                track.topicProgress.get(topicName) || 0;
 
             track.topicProgress.set(
-
                 topicName,
-
                 currentCount + 1
             );
         }
 
         // =========================
-        // SESSION
+        // DAILY SESSION UPDATE
         // =========================
+
+        todaySession.attempted += 1;
+
+        todaySession.questionIds.push(questionId);
+
+        todaySession.totalTimeTaken += timeTaken || 0;
+
+        if (isCorrect) {
+            todaySession.correct += 1;
+        } else {
+            todaySession.wrong += 1;
+        }
+
+        if (subjectName) {
+
+            const s =
+                todaySession.subjectStats.get(subjectName) ||
+                { attempted: 0, correct: 0, wrong: 0 };
+
+            s.attempted += 1;
+
+            if (isCorrect) s.correct += 1;
+            else s.wrong += 1;
+
+            todaySession.subjectStats.set(subjectName, s);
+        }
+
+        if (topicName) {
+
+            const t =
+                todaySession.topicStats.get(topicName) ||
+                { attempted: 0, correct: 0, wrong: 0 };
+
+            t.attempted += 1;
+
+            if (isCorrect) t.correct += 1;
+            else t.wrong += 1;
+
+            todaySession.topicStats.set(topicName, t);
+        }
+
+        if (
+            todaySession.attempted >=
+            track.dailyQuestionTarget
+        ) {
+
+            todaySession.completedAt = new Date();
+        }
 
         track.sessionCount += 1;
 
@@ -819,24 +634,127 @@ questionId.toString()
 
             success: true,
 
-            remaining:
-                track.remainingQuestionIds.length,
+            remaining: track.remainingQuestionIds.length,
 
-            solved:
-                track.solvedQuestions.length
+            solved: track.solvedQuestions.length,
+
+            dailySession: todaySession,
+
+            dailyComplete:
+                todaySession.attempted >=
+                track.dailyQuestionTarget
         });
 
     } catch (error) {
 
-        console.error(
-            "Submit Answer Error:",
-            error
-        );
+        console.error("Submit Answer Error:", error);
 
         res.status(500).json({
+            message: error.message
+        });
+    }
+};
 
-            message:
-                error.message
+// =========================
+// GET TODAY QUESTIONS
+// Kept for backward compatibility
+// =========================
+
+exports.getTodayQuestions =
+async (
+    req,
+    res
+) => {
+
+    try {
+
+        return exports.getNextQuestion(req, res);
+
+    } catch (error) {
+
+        console.error("Today Questions Error:", error);
+
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+// =========================
+// FREE PRACTICE (No track needed)
+// =========================
+
+exports.getFreePracticeQuestions = async (
+    req,
+    res
+) => {
+
+    try {
+
+        const {
+            year,
+            subject,
+            topic,
+            paper,
+            limit = 10
+        } = req.query;
+
+        const query = {};
+
+        if (year) {
+            query.year = parseInt(year);
+        }
+
+        if (subject) {
+            query.subjectName = {
+                $regex: subject,
+                $options: "i"
+            };
+        }
+
+        if (topic) {
+            query.topicName = {
+                $regex: topic,
+                $options: "i"
+            };
+        }
+
+        if (paper) {
+            query.paper = paper;
+        } else {
+            query.paper = { $ne: "CSAT" };
+        }
+
+        // Get random questions using aggregation
+
+        const questions = await Question.aggregate([
+
+            { $match: query },
+
+            { $sample: { size: parseInt(limit) } }
+        ]);
+
+        if (questions.length === 0) {
+
+            return res.json({
+                status: "no_questions",
+                questions: [],
+                message: "No questions match your filters"
+            });
+        }
+
+        res.json({
+            status: "ready",
+            questions,
+            total: questions.length,
+            filters: { year, subject, topic, paper }
+        });
+
+    } catch (error) {
+
+        console.error("Free Practice Error:", error);
+
+        res.status(500).json({
+            message: error.message
         });
     }
 };

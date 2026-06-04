@@ -49,6 +49,10 @@ const globalSearchRoutes = require("./routes/globalSearchRoutes");
 const adminToolsRoutes = require("./routes/adminToolsRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 
+// NEW — Phase 5: Sticky Notes + Day Planner
+const stickyNoteRoutes = require("./routes/stickyNoteRoutes");
+const taskRoutes = require("./routes/taskRoutes");
+
 // =========================
 // 4. IMPORT MIDDLEWARE & UTILS
 // =========================
@@ -97,21 +101,11 @@ app.use(express.json());
 // (MUST come BEFORE routes)
 // =========================
 
-// General limit on all /api routes
-
 app.use("/api", generalLimiter);
-
-// Strict limit on auth (prevent brute force)
-
 app.use("/api/auth", authLimiter);
-
-// Upload limits
-
 app.use("/api/documents/upload", uploadLimiter);
 app.use("/api/documents/bulk-upload", uploadLimiter);
-
-// Search limits
-
+app.use("/api/sticky-notes/upload-image", uploadLimiter);
 app.use("/api/search", searchLimiter);
 app.use("/api/documents/community/browse", searchLimiter);
 
@@ -120,11 +114,9 @@ app.use("/api/documents/community/browse", searchLimiter);
 // =========================
 
 // AUTH & USER
-
 app.use('/api/auth', authRoutes);
 
 // PRELIMS QUESTIONS
-
 app.use('/api/questions', questionRoutes);
 app.use('/api/taxonomy', taxonomyRoutes);
 app.use('/api/attempts', attemptRoutes);
@@ -133,46 +125,42 @@ app.use('/api/bookmarks', bookmarkRoutes);
 app.use('/api/intelligence', intelligenceRoutes);
 
 // PRACTICE & REVISION
-
 app.use("/api/practice-sets", practiceSetRoutes);
 app.use("/api/preparation-track", preparationTrackRoutes);
 app.use('/api/revisions', revisionRoutes);
 
 // MAINS
-
 app.use("/api/mains/questions", mainsQuestionRoutes);
 app.use("/api/mains/attempts", mainsAttemptRoutes);
 app.use("/api/mains/analytics", mainsAnalyticsRoutes);
 
 // VAULT + COMMUNITY
-
 app.use("/api/folders", folderRoutes);
 app.use("/api/documents", documentRoutes);
 
 // STORAGE & UPLOADS
-
 app.use("/api/b2-test", b2TestRoutes);
 app.use("/api/storage", storageRoutes);
 
 // SEARCH
-
 app.use("/api/search", searchRoutes);
 app.use("/api/global-search", globalSearchRoutes);
 
 // ENGAGEMENT
-
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/vision', visionRoutes);
 app.use('/api/books', bookRoutes);
 
 // ADMIN & TOOLS
-
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/admin-tools", adminToolsRoutes);
 
 // PUBLIC
-
 app.use("/api/contact", contactRoutes);
+
+// NEW — Phase 5: Sticky Notes + Day Planner
+app.use("/api/sticky-notes", stickyNoteRoutes);
+app.use("/api/tasks", taskRoutes);
 
 // =========================
 // 9. BASE ROUTE
