@@ -162,6 +162,9 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/sticky-notes", stickyNoteRoutes);
 app.use("/api/tasks", taskRoutes);
 
+// syllabus
+app.use("/api/syllabus", require("./routes/syllabusRoutes"));
+
 // =========================
 // 9. BASE ROUTE
 // =========================

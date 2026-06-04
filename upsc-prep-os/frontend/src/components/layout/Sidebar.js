@@ -12,6 +12,7 @@ import {
     LayoutDashboard,
     Target,
     BookOpen,
+    BookOpenCheck,
     Trophy,
     Brain,
     TrendingUp,
@@ -158,6 +159,11 @@ const navSections = [
                 href: "/intelligence",
                 icon: Brain,
                 label: "PYQ Intelligence"
+            },
+            {
+            href: "/syllabus",                
+            icon: BookOpenCheck,              
+            label: "Syllabus"                 
             },
 
             {
