@@ -422,6 +422,13 @@ exports.superStatus = (req, res) => {
     const superEmail = (process.env.SUPER_ADMIN_EMAIL || "")
         .toLowerCase()
         .trim();
+
+        // 🔍 DEBUG — remove after fixing
+    console.log("=== SUPER ADMIN CHECK ===");
+    console.log("ENV email:", JSON.stringify(superEmail));
+    console.log("User email:", JSON.stringify(req.user.email));
+    console.log("Match:", req.user.email.toLowerCase().trim() === superEmail);
+    console.log("========================");
     const isSuper =
         req.user &&
         (req.user.email || "").toLowerCase().trim() === superEmail;

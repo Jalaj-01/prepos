@@ -1,16 +1,12 @@
 "use client";
 
 import { useState } from 'react';
-
 import { motion } from 'framer-motion';
-
 import Link from 'next/link';
-
 import { useRouter } from 'next/navigation';
-
 import { GoogleLogin } from '@react-oauth/google';
-
 import axios from 'axios';
+import { showToast } from "@/components/ui/Toast";
 
 import {
     Calendar,
@@ -62,14 +58,11 @@ export default function Signup() {
 
             localStorage.setItem('just-signed-up', 'true');
 
-            router.push('/dashboard');
+            window.location.href = '/dashboard';
 
         } catch (error) {
 
-            alert(
-                error.response?.data?.message ||
-                "Registration failed"
-            );
+            showToast.error(error.response?.data?.message || "Registration failed");
 
         } finally {
 
@@ -85,7 +78,7 @@ export default function Signup() {
 
         if (!formData.targetCompletionDate) {
 
-            alert("Please select a Target Completion Date first!");
+           showToast.error("Please select a Target Completion Date first");
 
             return;
         }
@@ -113,11 +106,11 @@ export default function Signup() {
 
             localStorage.setItem('just-signed-up', 'true');
 
-            router.push('/dashboard');
+            window.location.href = '/dashboard';
 
         } catch (err) {
 
-            alert("Google Sign-In failed");
+            showToast.error("Google Sign-In failed");
 
         } finally {
 
