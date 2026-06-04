@@ -167,6 +167,8 @@ app.use("/api/syllabus", require("./routes/syllabusRoutes"));
 
 app.use("/api/admin/users", require("./routes/adminUserRoutes"));
 
+app.use("/api/feedback", require("./routes/feedbackRoutes"));
+
 // =========================
 // 9. BASE ROUTE
 // =========================

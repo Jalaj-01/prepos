@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import axios from "axios";
-
 import {
     LayoutDashboard,
     Target,
@@ -28,7 +27,8 @@ import {
     BarChart3,
     CalendarDays,
     FileQuestion,
-    UserCog
+    UserCog,
+    MessageSquare
 } from "lucide-react";
 
 // =========================
@@ -152,7 +152,13 @@ const navSections = [
                 href: "/rankings",
                 icon: Trophy,
                 label: "Leaderboard"
-            }
+            },
+
+            {
+            href: "/feedback",                
+            icon: MessageSquare,              
+            label: "Feedback"                 
+        }
         ]
     }
 ];
@@ -180,6 +186,26 @@ export default function Sidebar({ isAdmin = false }) {
     const pathname = usePathname();
     const [collapsed, setCollapsed] = useState(false);
     const [isSuper, setIsSuper] = useState(false);
+    const [hasNewFeedback, setHasNewFeedback] = useState(false);
+
+useEffect(() => {
+    const checkFeedback = async () => {
+        try {
+            const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+            if (!userInfo?.token) return;
+
+            const since = localStorage.getItem("feedback-last-seen-admin") || new Date(0).toISOString();
+            const { data } = await axios.get(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/feedback/unread-indicator?since=${encodeURIComponent(since)}`,
+                { headers: { Authorization: `Bearer ${userInfo.token}` } }
+            );
+            setHasNewFeedback(!!data.hasNewAdminActivity);
+        } catch {}
+    };
+    checkFeedback();
+    const id = setInterval(checkFeedback, 60000); // every minute
+    return () => clearInterval(id);
+}, [pathname]);
 
     const allHrefs = navSections.flatMap(s => s.items.map(i => i.href));
 
@@ -304,25 +330,27 @@ export default function Sidebar({ isAdmin = false }) {
 
                                 return (
                                     <Link
-                                        key={item.href}
-                                        href={item.href}
-                                        title={collapsed ? item.label : ""}
-                                        className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all ${
-                                            isActive
-                                                ? "bg-brand-dark text-white shadow-sm"
-                                                : "text-brand-muted hover:bg-brand-light hover:text-brand-dark"
-                                        } ${collapsed ? "justify-center" : ""}`}
-                                    >
-                                        <Icon
-                                            size={18}
-                                            className="shrink-0"
-                                        />
-                                        {!collapsed && (
-                                            <span className="truncate">
-                                                {item.label}
-                                            </span>
-                                        )}
-                                    </Link>
+    key={item.href}
+    href={item.href}
+    title={collapsed ? item.label : ""}
+    className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all ${
+        isActive
+            ? "bg-brand-dark text-white shadow-sm"
+            : "text-brand-muted hover:bg-brand-light hover:text-brand-dark"
+    } ${collapsed ? "justify-center" : ""}`}
+>
+    <div className="relative shrink-0">
+        <Icon size={18} />
+        {item.href === "/feedback" && hasNewFeedback && (
+            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
+        )}
+    </div>
+    {!collapsed && (
+        <span className="truncate">
+            {item.label}
+        </span>
+    )}
+</Link>
                                 );
                             })}
                         </div>
