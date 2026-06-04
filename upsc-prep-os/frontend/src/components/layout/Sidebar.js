@@ -70,11 +70,11 @@ const navSections = [
                 icon: Zap,
                 label: "Free Practice"
             },
-            {
-                href: "/practice-sets",
-                icon: Layers,
-                label: "Practice Sets"
-            },
+            // {
+            //     href: "/practice-sets",
+            //     icon: Layers,
+            //     label: "Practice Sets"
+            // },
             {
                 href: "/admin/questions/question-library",
                 icon: BookOpen,
