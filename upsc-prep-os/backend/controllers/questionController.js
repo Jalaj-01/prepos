@@ -265,7 +265,51 @@ exports.addBulkQuestions = async (
 
         let skipped = 0;
 
-        for (const question of questions) {
+       for (const question of questions) {
+
+    // ─── SANITIZE — strip bad enum values that AI sometimes generates ───
+    const VALID_FORMAT = ['Text', 'Image', 'Table', 'Mixed'];
+    const VALID_QTYPE = [
+        'Factual',
+        'Conceptual',
+        'Statement Based',
+        'Match the Following',
+        'Assertion Reason',
+        'Map Based',
+        'Chronology',
+        'Table Based',
+        'Image Based'
+    ];
+    const VALID_DIFF = ['Easy', 'Medium', 'Hard'];
+    const VALID_PAPER = ['GS1', 'GS2', 'GS3', 'GS4', 'Essay', 'Optional', 'CSAT'];
+
+    // Fix top-level questionFormat
+    if (!VALID_FORMAT.includes(question.questionFormat)) {
+        question.questionFormat = 'Text';
+    }
+
+    // Fix difficulty
+    if (!VALID_DIFF.includes(question.difficulty)) {
+        question.difficulty = 'Medium';
+    }
+
+    // Fix paper
+    if (!VALID_PAPER.includes(question.paper)) {
+        question.paper = 'GS1';
+    }
+
+    // Fix aiMetadata nested fields
+    if (question.aiMetadata) {
+        if (!VALID_QTYPE.includes(question.aiMetadata.questionType)) {
+            question.aiMetadata.questionType = 'Factual';
+        }
+        if (!VALID_DIFF.includes(question.aiMetadata.difficultyPrediction)) {
+            question.aiMetadata.difficultyPrediction = 'Medium';
+        }
+    }
+    // ─── END SANITIZE ───
+
+    // ... rest of your existing code (hash generation, duplicate check, etc.)
 
             // =========================
             // HASH

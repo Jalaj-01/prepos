@@ -62,6 +62,7 @@ const AIMetadataSchema = new mongoose.Schema({
         type: String,
 
         enum: [
+            'MCQ',  
             'Factual',
             'Conceptual',
             'Statement Based',
