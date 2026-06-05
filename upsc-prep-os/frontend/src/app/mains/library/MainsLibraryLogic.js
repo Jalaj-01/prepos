@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import { Edit3, Trash2, CheckSquare, Square } from "lucide-react";
+import MainsQuestionEditDrawer from "@/components/admin/MainsQuestionEditDrawer";
+import DeleteQuestionsModal from "@/components/admin/DeleteQuestionsModal";
+import { showToast } from "@/components/ui/Toast";
 import { motion } from "framer-motion";
 
 import {
@@ -70,6 +73,10 @@ export default function MainsLibraryLogic() {
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
     const [showFilters, setShowFilters] = useState(false);
+    const [editingQuestion, setEditingQuestion] = useState(null);
+const [selectedIds, setSelectedIds] = useState(new Set());
+const [deleteTarget, setDeleteTarget] = useState(null);
+const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
 
@@ -122,6 +129,67 @@ export default function MainsLibraryLogic() {
             console.error("Filters meta error", err);
         }
     };
+
+    const toggleSelect = (id) => {
+    setSelectedIds((prev) => {
+        const next = new Set(prev);
+        if (next.has(id)) next.delete(id);
+        else next.add(id);
+        return next;
+    });
+};
+
+const selectAll = () => {
+    if (selectedIds.size === questions.length) {
+        setSelectedIds(new Set());
+    } else {
+        setSelectedIds(new Set(questions.map((q) => q._id)));
+    }
+};
+
+const handleDeleteSingle = async () => {
+    if (!deleteTarget || deleteTarget === "bulk") return;
+    setDeleting(true);
+    try {
+        await axios.delete(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/mains/questions/${deleteTarget._id}`,
+            { headers: { Authorization: `Bearer ${user.token}` } }
+        );
+        setQuestions((qs) => qs.filter((q) => q._id !== deleteTarget._id));
+        showToast.success("Question deleted");
+        setDeleteTarget(null);
+    } catch (e) {
+        showToast.error("Delete failed");
+    } finally {
+        setDeleting(false);
+    }
+};
+
+const handleBulkDelete = async () => {
+    setDeleting(true);
+    try {
+        const ids = Array.from(selectedIds);
+        const { data } = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/mains/questions/bulk-delete`,
+            { ids },
+            { headers: { Authorization: `Bearer ${user.token}` } }
+        );
+        setQuestions((qs) => qs.filter((q) => !selectedIds.has(q._id)));
+        setSelectedIds(new Set());
+        showToast.success(data.message);
+        setDeleteTarget(null);
+    } catch (e) {
+        showToast.error("Bulk delete failed");
+    } finally {
+        setDeleting(false);
+    }
+};
+
+const handleQuestionUpdated = (updated) => {
+    setQuestions((qs) =>
+        qs.map((q) => (q._id === updated._id ? { ...q, ...updated } : q))
+    );
+};
 
     const fetchQuestions = async () => {
 
@@ -495,6 +563,38 @@ export default function MainsLibraryLogic() {
                     )}
 
                     {/* QUESTION LIST */}
+                    {user.isAdmin && questions.length > 0 && (
+    <div className="bg-white border border-brand-border rounded-2xl p-3 mb-4 flex items-center justify-between gap-3 flex-wrap">
+        <button
+            onClick={selectAll}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest text-brand-muted hover:bg-brand-light hover:text-brand-dark transition-colors"
+        >
+            {selectedIds.size === questions.length && questions.length > 0 ? (
+                <CheckSquare size={14} />
+            ) : (
+                <Square size={14} />
+            )}
+            {selectedIds.size === questions.length && questions.length > 0
+                ? "Deselect all"
+                : "Select all"}
+        </button>
+
+        {selectedIds.size > 0 && (
+            <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-brand-dark">
+                    {selectedIds.size} selected
+                </span>
+                <button
+                    onClick={() => setDeleteTarget("bulk")}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-red-600 text-white rounded-lg text-xs font-black uppercase tracking-widest hover:bg-red-700 transition-colors"
+                >
+                    <Trash2 size={12} />
+                    Delete {selectedIds.size}
+                </button>
+            </div>
+        )}
+    </div>
+)}
 
                     {loading ? (
 
@@ -674,8 +774,42 @@ export default function MainsLibraryLogic() {
                                     {/* ACTIONS */}
 
                                     <div className="flex items-center gap-2 flex-wrap">
+                                        {user.isAdmin && (
+    <>
+        <button
+            onClick={() => toggleSelect(q._id)}
+            className={`flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+                selectedIds.has(q._id)
+                    ? "bg-brand-dark text-white"
+                    : "bg-brand-light text-brand-muted hover:text-brand-dark"
+            }`}
+        >
+            {selectedIds.has(q._id) ? (
+                <CheckSquare size={13} />
+            ) : (
+                <Square size={13} />
+            )}
+            {selectedIds.has(q._id) ? "Selected" : "Select"}
+        </button>
+        <button
+            onClick={() => setEditingQuestion(q)}
+            className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-blue-50 text-blue-600 text-xs font-black uppercase tracking-widest hover:bg-blue-100 transition-all"
+        >
+            <Edit3 size={13} />
+            Edit
+        </button>
+        <button
+            onClick={() => setDeleteTarget(q)}
+            className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-red-50 text-red-600 text-xs font-black uppercase tracking-widest hover:bg-red-100 transition-all"
+        >
+            <Trash2 size={13} />
+            Delete
+        </button>
+    </>
+)}
 
                                         <button
+                                        
                                             onClick={() => toggleComplete(q._id)}
                                             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all ${
                                                 q.isCompleted
@@ -762,6 +896,23 @@ export default function MainsLibraryLogic() {
                 <Footer />
 
             </div>
+            <MainsQuestionEditDrawer
+    open={!!editingQuestion}
+    question={editingQuestion}
+    onClose={() => setEditingQuestion(null)}
+    onSaved={handleQuestionUpdated}
+    token={user?.token}
+/>
+
+<DeleteQuestionsModal
+    open={!!deleteTarget}
+    count={deleteTarget === "bulk" ? selectedIds.size : 1}
+    onClose={() => setDeleteTarget(null)}
+    onConfirm={
+        deleteTarget === "bulk" ? handleBulkDelete : handleDeleteSingle
+    }
+    loading={deleting}
+/>
 
         </div>
     );

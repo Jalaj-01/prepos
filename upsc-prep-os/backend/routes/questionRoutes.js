@@ -9,7 +9,10 @@ const {
     getQuestionsByReviewStatus,
     updateReviewStatus,
     exploreQuestions,
-    getQuestionFilters
+    getQuestionFilters,
+    updateQuestion,           // ← NEW
+    deleteQuestion,           // ← NEW
+    bulkDeleteQuestions       // ← NEW
 } = require('../controllers/questionController');
 
 const {
@@ -37,6 +40,14 @@ router.post(
     protect,
     admin,
     addBulkQuestions
+);
+
+// BULK DELETE (admin) — must be before /:id
+router.post(
+    '/bulk-delete',
+    protect,
+    admin,
+    bulkDeleteQuestions
 );
 
 // QUESTIONS BY TOPIC
@@ -71,6 +82,22 @@ router.put(
 router.get(
     '/explore',
     exploreQuestions
+);
+
+// UPDATE (admin)
+router.put(
+    '/:id',
+    protect,
+    admin,
+    updateQuestion
+);
+
+// DELETE (admin)
+router.delete(
+    '/:id',
+    protect,
+    admin,
+    deleteQuestion
 );
 
 module.exports = router;

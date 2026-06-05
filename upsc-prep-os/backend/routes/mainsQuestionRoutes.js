@@ -3,21 +3,14 @@ const express = require("express");
 const router = express.Router();
 
 const {
-
     createQuestion,
-
     bulkCreate,
-
     getAllQuestions,
-
     getQuestionById,
-
     updateQuestion,
-
     deleteQuestion,
-
-    getFiltersMetadata
-
+    getFiltersMetadata,
+    bulkDelete                  // ← NEW
 } = require("../controllers/mainsQuestionController");
 
 const {
@@ -41,6 +34,28 @@ router.get(
     getFiltersMetadata
 );
 
+// =========================
+// ADMIN — bulk operations FIRST (before /:id)
+// =========================
+
+router.post(
+    "/bulk",
+    protect,
+    admin,
+    bulkCreate
+);
+
+router.post(
+    "/bulk-delete",
+    protect,
+    admin,
+    bulkDelete
+);
+
+// =========================
+// PUBLIC (authenticated)
+// =========================
+
 router.get(
     "/:id",
     protect,
@@ -48,7 +63,7 @@ router.get(
 );
 
 // =========================
-// ADMIN ONLY
+// ADMIN ONLY — single-item operations
 // =========================
 
 router.post(
@@ -56,13 +71,6 @@ router.post(
     protect,
     admin,
     createQuestion
-);
-
-router.post(
-    "/bulk",
-    protect,
-    admin,
-    bulkCreate
 );
 
 router.put(

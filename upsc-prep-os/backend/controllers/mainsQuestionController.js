@@ -501,44 +501,101 @@ exports.updateQuestion = async (
 };
 
 // =========================
-// DELETE (Admin)
+// DELETE (Admin) — with cascade
 // =========================
-
 exports.deleteQuestion = async (
     req,
     res
 ) => {
-
     try {
+        const mongoose = require("mongoose");
+        const { id } = req.params;
 
-        await MainsQuestion.findByIdAndDelete(
-            req.params.id
-        );
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res
+                .status(400)
+                .json({ message: "Invalid question id" });
+        }
+
+        const question = await MainsQuestion.findById(id);
+        if (!question) {
+            return res.status(404).json({
+                message: "Question not found"
+            });
+        }
+
+        await MainsQuestion.findByIdAndDelete(id);
 
         // Cascade delete attempts
-
         await MainsAttempt.deleteMany({
-            questionId:
-                req.params.id
-        });
+            questionId: id
+        }).catch(() => null);
 
         res.json({
-            message:
-                "Question deleted"
+            message: "Question deleted permanently"
         });
 
     } catch (err) {
-
+        console.error("Mains deleteQuestion:", err);
         res.status(500).json({
             message: err.message
         });
     }
 };
-
 // =========================
 // GET FILTERS METADATA
 // (For populating filter dropdowns)
 // =========================
+// =========================
+// BULK DELETE (Admin)
+// POST /api/mains/questions/bulk-delete
+// body: { ids: [...] }
+// =========================
+exports.bulkDelete = async (
+    req,
+    res
+) => {
+    try {
+        const mongoose = require("mongoose");
+        const { ids } = req.body;
+
+        if (!Array.isArray(ids) || ids.length === 0) {
+            return res
+                .status(400)
+                .json({ message: "ids array is required" });
+        }
+
+        const validIds = ids.filter((id) =>
+            mongoose.Types.ObjectId.isValid(id)
+        );
+
+        if (validIds.length === 0) {
+            return res
+                .status(400)
+                .json({ message: "No valid ids" });
+        }
+
+        const [deletedRes] = await Promise.all([
+            MainsQuestion.deleteMany({
+                _id: { $in: validIds }
+            }),
+            MainsAttempt.deleteMany({
+                questionId: { $in: validIds }
+            }).catch(() => null),
+        ]);
+
+        res.json({
+            message: `${deletedRes.deletedCount} question(s) deleted`,
+            deletedCount: deletedRes.deletedCount,
+        });
+
+    } catch (err) {
+        console.error("Mains bulkDelete:", err);
+        res.status(500).json({
+            message: err.message
+        });
+    }
+};
 
 exports.getFiltersMetadata = async (
     req,

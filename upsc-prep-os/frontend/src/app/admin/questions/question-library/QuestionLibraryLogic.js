@@ -10,6 +10,9 @@ import {
     Layers,
     X
 } from "lucide-react";
+import { Edit3, Trash2, CheckSquare, Square } from "lucide-react";
+import QuestionEditDrawer from "@/components/admin/QuestionEditDrawer";
+import DeleteQuestionsModal from "@/components/admin/DeleteQuestionsModal";
 
 import Sidebar from "@/components/layout/Sidebar";
 
@@ -50,6 +53,11 @@ export default function QuestionLibraryLogic() {
     const [repeatedOnly, setRepeatedOnly] = useState(false);
 
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+    const [editingQuestion, setEditingQuestion] = useState(null);
+const [selectedIds, setSelectedIds] = useState(new Set());
+const [deleteTarget, setDeleteTarget] = useState(null); // single question or "bulk"
+const [deleting, setDeleting] = useState(false);
 
     // PER-USER bookmark tracking
 
@@ -94,6 +102,72 @@ export default function QuestionLibraryLogic() {
         search,
         repeatedOnly
     ]);
+
+    const toggleSelect = (id) => {
+    setSelectedIds((prev) => {
+        const next = new Set(prev);
+        if (next.has(id)) next.delete(id);
+        else next.add(id);
+        return next;
+    });
+};
+
+const selectAll = () => {
+    if (selectedIds.size === questions.length) {
+        setSelectedIds(new Set());
+    } else {
+        setSelectedIds(new Set(questions.map((q) => q._id)));
+    }
+};
+
+const handleDeleteSingle = async () => {
+    if (!deleteTarget || deleteTarget === "bulk") return;
+    setDeleting(true);
+    try {
+        await axios.delete(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/questions/${deleteTarget._id}`,
+            { headers: { Authorization: `Bearer ${user.token}` } }
+        );
+        setQuestions((qs) => qs.filter((q) => q._id !== deleteTarget._id));
+        setSelectedIds((prev) => {
+            const next = new Set(prev);
+            next.delete(deleteTarget._id);
+            return next;
+        });
+        showToast.success("Question deleted");
+        setDeleteTarget(null);
+    } catch (e) {
+        showToast.error(e.response?.data?.message || "Delete failed");
+    } finally {
+        setDeleting(false);
+    }
+};
+
+const handleBulkDelete = async () => {
+    setDeleting(true);
+    try {
+        const ids = Array.from(selectedIds);
+        const { data } = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/questions/bulk-delete`,
+            { ids },
+            { headers: { Authorization: `Bearer ${user.token}` } }
+        );
+        setQuestions((qs) => qs.filter((q) => !selectedIds.has(q._id)));
+        setSelectedIds(new Set());
+        showToast.success(data.message);
+        setDeleteTarget(null);
+    } catch (e) {
+        showToast.error(e.response?.data?.message || "Bulk delete failed");
+    } finally {
+        setDeleting(false);
+    }
+};
+
+const handleQuestionUpdated = (updated) => {
+    setQuestions((qs) =>
+        qs.map((q) => (q._id === updated._id ? { ...q, ...updated } : q))
+    );
+};
 
     const fetchQuestions = async () => {
 
@@ -457,6 +531,38 @@ export default function QuestionLibraryLogic() {
                             </div>
 
                             {/* QUESTIONS LIST */}
+                            {user.isAdmin && questions.length > 0 && (
+    <div className="bg-white border border-brand-border rounded-2xl p-3 mb-4 flex items-center justify-between gap-3 flex-wrap">
+        <button
+            onClick={selectAll}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest text-brand-muted hover:bg-brand-light hover:text-brand-dark transition-colors"
+        >
+            {selectedIds.size === questions.length && questions.length > 0 ? (
+                <CheckSquare size={14} />
+            ) : (
+                <Square size={14} />
+            )}
+            {selectedIds.size === questions.length && questions.length > 0
+                ? "Deselect all"
+                : "Select all"}
+        </button>
+
+        {selectedIds.size > 0 && (
+            <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-brand-dark">
+                    {selectedIds.size} selected
+                </span>
+                <button
+                    onClick={() => setDeleteTarget("bulk")}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-red-600 text-white rounded-lg text-xs font-black uppercase tracking-widest hover:bg-red-700 transition-colors"
+                >
+                    <Trash2 size={12} />
+                    Delete {selectedIds.size}
+                </button>
+            </div>
+        )}
+    </div>
+)}
 
                             {loading ? (
 
@@ -526,24 +632,64 @@ export default function QuestionLibraryLogic() {
 
                                                 {/* BOOKMARK STAR (PER-USER) */}
 
-                                                <button
-                                                    onClick={() => toggleBookmark(q._id)}
-                                                    title={isBookmarked(q._id) ? "Remove bookmark" : "Bookmark this question"}
-                                                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl border flex items-center justify-center transition-all shrink-0 ${
-                                                        isBookmarked(q._id)
-                                                            ? "bg-yellow-100 border-yellow-300 text-yellow-600"
-                                                            : "bg-white border-brand-border text-brand-muted hover:border-yellow-300 hover:text-yellow-600"
-                                                    }`}
-                                                >
-                                                    <Star
-                                                        size={18}
-                                                        fill={
-                                                            isBookmarked(q._id)
-                                                                ? "currentColor"
-                                                                : "none"
-                                                        }
-                                                    />
-                                                </button>
+                                                <div className="flex items-center gap-1.5 shrink-0">
+    {/* Admin: select checkbox */}
+    {user.isAdmin && (
+        <button
+            onClick={() => toggleSelect(q._id)}
+            className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl border flex items-center justify-center transition-all ${
+                selectedIds.has(q._id)
+                    ? "bg-brand-dark border-brand-dark text-white"
+                    : "bg-white border-brand-border text-brand-muted hover:border-brand-dark hover:text-brand-dark"
+            }`}
+            title={selectedIds.has(q._id) ? "Deselect" : "Select"}
+        >
+            {selectedIds.has(q._id) ? (
+                <CheckSquare size={16} />
+            ) : (
+                <Square size={16} />
+            )}
+        </button>
+    )}
+
+    {/* Admin: edit button */}
+    {user.isAdmin && (
+        <button
+            onClick={() => setEditingQuestion(q)}
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-brand-border bg-white text-brand-muted hover:border-blue-500 hover:text-blue-600 flex items-center justify-center transition-all"
+            title="Edit question"
+        >
+            <Edit3 size={15} />
+        </button>
+    )}
+
+    {/* Admin: delete button */}
+    {user.isAdmin && (
+        <button
+            onClick={() => setDeleteTarget(q)}
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-brand-border bg-white text-brand-muted hover:border-red-500 hover:text-red-600 flex items-center justify-center transition-all"
+            title="Delete question"
+        >
+            <Trash2 size={15} />
+        </button>
+    )}
+
+    {/* Bookmark star — for all users */}
+    <button
+        onClick={() => toggleBookmark(q._id)}
+        title={isBookmarked(q._id) ? "Remove bookmark" : "Bookmark"}
+        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl border flex items-center justify-center transition-all ${
+            isBookmarked(q._id)
+                ? "bg-yellow-100 border-yellow-300 text-yellow-600"
+                : "bg-white border-brand-border text-brand-muted hover:border-yellow-300 hover:text-yellow-600"
+        }`}
+    >
+        <Star
+            size={18}
+            fill={isBookmarked(q._id) ? "currentColor" : "none"}
+        />
+    </button>
+</div>
 
                                             </div>
 
@@ -664,6 +810,23 @@ export default function QuestionLibraryLogic() {
                 <Footer />
 
             </div>
+            <QuestionEditDrawer
+    open={!!editingQuestion}
+    question={editingQuestion}
+    onClose={() => setEditingQuestion(null)}
+    onSaved={handleQuestionUpdated}
+    token={user?.token}
+/>
+
+<DeleteQuestionsModal
+    open={!!deleteTarget}
+    count={deleteTarget === "bulk" ? selectedIds.size : 1}
+    onClose={() => setDeleteTarget(null)}
+    onConfirm={
+        deleteTarget === "bulk" ? handleBulkDelete : handleDeleteSingle
+    }
+    loading={deleting}
+/>
 
         </div>
     );

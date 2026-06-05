@@ -805,3 +805,148 @@ exports.getQuestionFilters = async (
         });
     }
 };
+// =========================
+// UPDATE QUESTION (Admin)
+// PUT /api/questions/:id
+// =========================
+exports.updateQuestion = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updates = { ...req.body };
+
+        // If question text changed, regenerate hash
+        if (updates.questionText) {
+            updates.normalizedQuestionHash = generateQuestionHash(
+                updates.questionText
+            );
+        }
+
+        // Parse arrays if sent as strings (from form-data uploads)
+        if (typeof updates.options === "string") {
+            updates.options = JSON.parse(updates.options);
+        }
+        if (typeof updates.taxonomyIds === "string") {
+            updates.taxonomyIds = JSON.parse(updates.taxonomyIds);
+        }
+        if (typeof updates.keywords === "string") {
+            try {
+                updates.keywords = JSON.parse(updates.keywords);
+            } catch {
+                updates.keywords = updates.keywords
+                    .split(",")
+                    .map((k) => k.trim())
+                    .filter(Boolean);
+            }
+        }
+
+        // Auto-link taxonomy if subject/topic changed
+        if (updates.subjectName || updates.topicName || updates.subtopicName) {
+            const taxonomyIds = await findOrCreateTaxonomyHierarchy(
+                updates.subjectName,
+                updates.topicName,
+                updates.subtopicName
+            );
+            updates.taxonomyIds = taxonomyIds;
+        }
+
+        const updated = await Question.findByIdAndUpdate(id, updates, {
+            new: true,
+            runValidators: true,
+        });
+
+        if (!updated) {
+            return res.status(404).json({ message: "Question not found" });
+        }
+
+        res.json({
+            message: "Question updated successfully",
+            question: updated,
+        });
+    } catch (err) {
+        console.error("updateQuestion:", err);
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// =========================
+// DELETE SINGLE QUESTION (Admin)
+// DELETE /api/questions/:id
+// Cascades: removes attempts + bookmarks
+// =========================
+exports.deleteQuestion = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid question id" });
+        }
+
+        const question = await Question.findById(id);
+        if (!question) {
+            return res.status(404).json({ message: "Question not found" });
+        }
+
+        // Cascade
+        const Attempt = require("../models/Attempt");
+        const User = require("../models/User");
+
+        await Promise.all([
+            Attempt.deleteMany({ question: id }).catch(() => null),
+            User.updateMany(
+                { bookmarkedQuestions: id },
+                { $pull: { bookmarkedQuestions: id } }
+            ).catch(() => null),
+        ]);
+
+        await Question.findByIdAndDelete(id);
+
+        res.json({ message: "Question deleted permanently" });
+    } catch (err) {
+        console.error("deleteQuestion:", err);
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// =========================
+// BULK DELETE (Admin)
+// POST /api/questions/bulk-delete   body: { ids: [...] }
+// =========================
+exports.bulkDeleteQuestions = async (req, res) => {
+    try {
+        const { ids } = req.body;
+
+        if (!Array.isArray(ids) || ids.length === 0) {
+            return res
+                .status(400)
+                .json({ message: "ids array is required" });
+        }
+
+        const validIds = ids.filter((id) =>
+            mongoose.Types.ObjectId.isValid(id)
+        );
+        if (validIds.length === 0) {
+            return res.status(400).json({ message: "No valid ids" });
+        }
+
+        const Attempt = require("../models/Attempt");
+        const User = require("../models/User");
+
+        const [deletedRes] = await Promise.all([
+            Question.deleteMany({ _id: { $in: validIds } }),
+            Attempt.deleteMany({ question: { $in: validIds } }).catch(
+                () => null
+            ),
+            User.updateMany(
+                { bookmarkedQuestions: { $in: validIds } },
+                { $pull: { bookmarkedQuestions: { $in: validIds } } }
+            ).catch(() => null),
+        ]);
+
+        res.json({
+            message: `${deletedRes.deletedCount} question(s) deleted`,
+            deletedCount: deletedRes.deletedCount,
+        });
+    } catch (err) {
+        console.error("bulkDeleteQuestions:", err);
+        res.status(500).json({ message: err.message });
+    }
+};
