@@ -50,9 +50,9 @@ TaxonomySchema.index({
     parentId: 1
 });
 
-TaxonomySchema.index({
-    slug: 1
-});
+// TaxonomySchema.index({
+//     slug: 1
+// });
 
 // =========================
 // EXPORT

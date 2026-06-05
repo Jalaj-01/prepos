@@ -147,7 +147,7 @@ const TaskSchema = new mongoose.Schema(
 TaskSchema.index({ userId: 1, status: 1, dueDate: 1 });
 TaskSchema.index({ userId: 1, category: 1 });
 TaskSchema.index({ userId: 1, dueDate: 1, status: 1 });
-TaskSchema.index({ "recurrence.nextOccurrence": 1 });
+// TaskSchema.index({ "recurrence.nextOccurrence": 1 });
 TaskSchema.index({ title: "text", description: "text" });
 
 module.exports = mongoose.model("Task", TaskSchema);
