@@ -6,8 +6,40 @@ import { Download, X, Smartphone, Sparkles } from "lucide-react";
 
 const PROMPT_SHOWN_KEY = "prepos-install-prompt-shown";
 const PROMPT_DISMISSED_AT_KEY = "prepos-install-prompt-dismissed-at";
-const SHOW_AGAIN_AFTER_DAYS = 30; // re-prompt only after 30 days
-const SHOW_DELAY_MS = 5000;        // wait 5s after page load before showing
+const SHOW_AGAIN_AFTER_DAYS = 30;
+const SHOW_DELAY_MS = 5000;
+
+// ─── Read-only check ───
+const isWithinCooldown = () => {
+    try {
+        const dismissedAt = localStorage.getItem(PROMPT_DISMISSED_AT_KEY);
+        if (!dismissedAt) return false;
+        const daysSince =
+            (Date.now() - parseInt(dismissedAt, 10)) /
+            (1000 * 60 * 60 * 24);
+        return daysSince < SHOW_AGAIN_AFTER_DAYS;
+    } catch {
+        return false;
+    }
+};
+
+const hasBeenShown = () => {
+    try {
+        return localStorage.getItem(PROMPT_SHOWN_KEY) === "true";
+    } catch {
+        return false;
+    }
+};
+
+const markShown = () => {
+    try {
+        localStorage.setItem(PROMPT_SHOWN_KEY, "true");
+        localStorage.setItem(
+            PROMPT_DISMISSED_AT_KEY,
+            String(Date.now())
+        );
+    } catch {}
+};
 
 export default function InstallPrompt() {
     const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -15,35 +47,10 @@ export default function InstallPrompt() {
     const [isIOS, setIsIOS] = useState(false);
     const [installed, setInstalled] = useState(false);
 
-    // ─── Decide whether to show ───
-    const shouldShow = () => {
-        try {
-            // Only show if user is logged in
-            const userInfo = localStorage.getItem("userInfo");
-            if (!userInfo) return false;
-
-            const alreadyShown = localStorage.getItem(PROMPT_SHOWN_KEY);
-            const dismissedAt = localStorage.getItem(PROMPT_DISMISSED_AT_KEY);
-
-            // If never shown, allow
-            if (!alreadyShown) return true;
-
-            // If previously shown, check cooldown
-            if (dismissedAt) {
-                const daysSince =
-                    (Date.now() - parseInt(dismissedAt, 10)) /
-                    (1000 * 60 * 60 * 24);
-                return daysSince >= SHOW_AGAIN_AFTER_DAYS;
-            }
-
-            return false;
-        } catch {
-            return false;
-        }
-    };
-
     useEffect(() => {
-        // Already installed as PWA — never show
+        // ─── Hard exit cases (never show) ───
+
+        // 1. Already installed as PWA
         if (
             window.matchMedia("(display-mode: standalone)").matches ||
             window.navigator.standalone === true
@@ -52,41 +59,56 @@ export default function InstallPrompt() {
             return;
         }
 
-        // Detect iOS (no beforeinstallprompt support)
+        // 2. Not logged in — never show
+        const userInfo = localStorage.getItem("userInfo");
+        if (!userInfo) return;
+
+        // 3. Already shown and still within 30-day cooldown
+        if (hasBeenShown() && isWithinCooldown()) {
+            return;
+        }
+
+        // ─── Eligible to show — set up listeners ───
+
+        // Detect iOS
         const isIOSDevice =
-            /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+            !window.MSStream;
         setIsIOS(isIOSDevice);
 
-        // Listen for the browser install prompt (Chrome/Edge/Android)
+        let timeoutId;
+
         const handleBeforeInstall = (e) => {
             e.preventDefault();
             setDeferredPrompt(e);
-
-            if (shouldShow()) {
-                setTimeout(() => setShow(true), SHOW_DELAY_MS);
-            }
+            // Schedule the prompt
+            timeoutId = setTimeout(() => {
+                setShow(true);
+                // IMPORTANT: mark immediately so even if user navigates
+                // away without clicking, we don't show again
+                markShown();
+            }, SHOW_DELAY_MS);
         };
 
-        // App was installed
         const handleInstalled = () => {
             setInstalled(true);
             setShow(false);
-            localStorage.setItem(PROMPT_SHOWN_KEY, "true");
-            localStorage.setItem(
-                PROMPT_DISMISSED_AT_KEY,
-                String(Date.now())
-            );
+            markShown();
         };
 
         window.addEventListener("beforeinstallprompt", handleBeforeInstall);
         window.addEventListener("appinstalled", handleInstalled);
 
-        // iOS: no native event, show on a timer if eligible
-        if (isIOSDevice && shouldShow()) {
-            setTimeout(() => setShow(true), SHOW_DELAY_MS);
+        // iOS — no native event, show on timer
+        if (isIOSDevice) {
+            timeoutId = setTimeout(() => {
+                setShow(true);
+                markShown();
+            }, SHOW_DELAY_MS);
         }
 
         return () => {
+            if (timeoutId) clearTimeout(timeoutId);
             window.removeEventListener(
                 "beforeinstallprompt",
                 handleBeforeInstall
@@ -95,29 +117,20 @@ export default function InstallPrompt() {
         };
     }, []);
 
-    const markShown = () => {
-        try {
-            localStorage.setItem(PROMPT_SHOWN_KEY, "true");
-            localStorage.setItem(
-                PROMPT_DISMISSED_AT_KEY,
-                String(Date.now())
-            );
-        } catch {}
-    };
-
     const handleInstall = async () => {
-        if (!deferredPrompt) return;
+        if (!deferredPrompt) {
+            setShow(false);
+            return;
+        }
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === "accepted") setInstalled(true);
         setDeferredPrompt(null);
         setShow(false);
-        markShown();
     };
 
     const handleDismiss = () => {
         setShow(false);
-        markShown();
     };
 
     if (installed) return null;
@@ -133,7 +146,6 @@ export default function InstallPrompt() {
                     className="fixed bottom-4 left-4 right-4 sm:bottom-6 sm:left-auto sm:right-6 sm:max-w-sm z-[100]"
                 >
                     <div className="bg-white rounded-3xl shadow-2xl border border-brand-border p-5 sm:p-6 relative overflow-hidden">
-                        {/* Decorative gradient */}
                         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-brand-accent/10 to-purple-500/10 rounded-full blur-2xl -translate-y-16 translate-x-16" />
 
                         <button
