@@ -264,6 +264,57 @@ const formatBytes = (bytes) => {
         + " " + sizes[i]
     );
 };
+// =========================
+// RECALCULATE USER STORAGE FROM ACTUAL DOCUMENTS
+// (Fixes desync from failed uploads, manual DB edits, etc.)
+// =========================
+
+const recalcUserStorage = async (userId) => {
+
+    const Document =
+        require("../models/Document");
+
+    // Sum up sizeBytes from all NON-deleted documents owned by user
+
+    const result =
+        await Document.aggregate([
+
+            {
+                $match: {
+
+                    uploadedBy:
+                        new (require("mongoose")).Types.ObjectId(userId),
+
+                    // Adjust if your model uses isDeleted differently
+                    isDeleted: { $ne: true }
+                }
+            },
+
+            {
+                $group: {
+                    _id: null,
+                    total: {
+                        $sum: "$sizeBytes"
+                    }
+                }
+            }
+        ]);
+
+    const actualUsed =
+        result[0]?.total || 0;
+
+    await User.findByIdAndUpdate(
+
+        userId,
+
+        {
+            storageUsedBytes:
+                actualUsed
+        }
+    );
+
+    return actualUsed;
+};
 
 module.exports = {
 
@@ -279,5 +330,7 @@ module.exports = {
 
     upgradeUserTier,
 
-    formatBytes
+    formatBytes,
+
+    recalcUserStorage      // ← ADD THIS
 };

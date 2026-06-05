@@ -27,7 +27,7 @@ const TYPE_ICON = {
     default: { icon: Bell, color: "text-brand-muted bg-brand-light" },
 };
 
-const POLL_INTERVAL = 60000; // 60s
+const POLL_INTERVAL = 120000; // 2m
 
 export default function NotificationBell({ user }) {
     const [open, setOpen] = useState(false);
@@ -74,11 +74,34 @@ export default function NotificationBell({ user }) {
 
     // Initial + polling
     useEffect(() => {
-        if (!user?.token) return;
+    if (!user?.token) return;
+
+    let id;
+    const start = () => {
         fetchUnreadCount();
-        const id = setInterval(fetchUnreadCount, POLL_INTERVAL);
-        return () => clearInterval(id);
-    }, [user, fetchUnreadCount]);
+        id = setInterval(fetchUnreadCount, POLL_INTERVAL);
+    };
+    const stop = () => {
+        if (id) clearInterval(id);
+        id = null;
+    };
+
+    const handleVisibility = () => {
+        if (document.hidden) {
+            stop();
+        } else {
+            start();
+        }
+    };
+
+    start();
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+        stop();
+        document.removeEventListener("visibilitychange", handleVisibility);
+    };
+}, [user, fetchUnreadCount]);
 
     // When dropdown opens, fetch full list
     useEffect(() => {

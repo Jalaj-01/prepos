@@ -57,16 +57,13 @@ const taskRoutes = require("./routes/taskRoutes");
 // 4. IMPORT MIDDLEWARE & UTILS
 // =========================
 
+
 const {
-
     generalLimiter,
-
     authLimiter,
-
     uploadLimiter,
-
-    searchLimiter
-
+    searchLimiter,
+    pollingLimiter
 } = require("./middleware/rateLimiter");
 
 const {
@@ -96,19 +93,46 @@ app.use(cors({
 
 app.use(express.json());
 
+
+const jwt = require("jsonwebtoken");
+
+// ─── Soft auth — sets req.user._id if a valid token is present.
+// Doesn't reject anything. Just enables per-user rate limiting.
+// Real `protect` middleware still runs in each route.
+app.use((req, res, next) => {
+    const auth = req.headers.authorization;
+    if (auth?.startsWith("Bearer ")) {
+        try {
+            const token = auth.split(" ")[1];
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = { _id: decoded.id };
+        } catch {
+            // ignore — actual `protect` middleware will handle real auth
+        }
+    }
+    next();
+});
+
+
 // =========================
 // 7. RATE LIMITING
 // (MUST come BEFORE routes)
 // =========================
 
+// Polling endpoints — dedicated pool (apply BEFORE general)
+app.use("/api/notifications/unread-count", pollingLimiter);
+app.use("/api/feedback/unread-indicator", pollingLimiter);
+
+// Default general limit
 app.use("/api", generalLimiter);
+
+// Stricter overrides
 app.use("/api/auth", authLimiter);
 app.use("/api/documents/upload", uploadLimiter);
 app.use("/api/documents/bulk-upload", uploadLimiter);
 app.use("/api/sticky-notes/upload-image", uploadLimiter);
 app.use("/api/search", searchLimiter);
 app.use("/api/documents/community/browse", searchLimiter);
-
 // =========================
 // 8. API ROUTES
 // =========================

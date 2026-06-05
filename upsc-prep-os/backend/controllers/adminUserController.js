@@ -415,6 +415,53 @@ exports.hardDelete = async (req, res) => {
 };
 
 // =========================
+// RECALC STORAGE — fixes out-of-sync quota
+// POST /api/admin/users/:id/recalc-storage   (id can be "me")
+// =========================
+exports.recalcStorage = async (req, res) => {
+    try {
+        const {
+            recalcUserStorage
+        } = require("../utils/storageManager");
+
+        const targetId =
+            req.params.id === "me"
+                ? req.user._id
+                : req.params.id;
+
+        // Only super-admin can recalc others; users can recalc themselves
+        const superEmail = (process.env.SUPER_ADMIN_EMAIL || "")
+            .toLowerCase()
+            .trim();
+        const isSuper =
+            (req.user.email || "").toLowerCase().trim() === superEmail;
+
+        if (
+            String(targetId) !== String(req.user._id) &&
+            !isSuper
+        ) {
+            return res.status(403).json({
+                message: "Not allowed"
+            });
+        }
+
+        const actualUsed =
+            await recalcUserStorage(targetId);
+
+        res.json({
+            message: "Storage recalculated",
+            storageUsedBytes: actualUsed,
+            storageUsedMB:
+                (actualUsed / 1024 / 1024).toFixed(2)
+        });
+
+    } catch (err) {
+        console.error("recalcStorage:", err);
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// =========================
 // WHO AM I (super-admin check helper for frontend)
 // GET /api/admin/users/me/super-status
 // =========================

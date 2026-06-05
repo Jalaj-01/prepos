@@ -203,7 +203,7 @@ useEffect(() => {
         } catch {}
     };
     checkFeedback();
-    const id = setInterval(checkFeedback, 60000); // every minute
+    const id = setInterval(checkFeedback, 120000); // every 2 minutes
     return () => clearInterval(id);
 }, [pathname]);
 

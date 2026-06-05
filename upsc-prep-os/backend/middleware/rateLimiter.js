@@ -1,126 +1,140 @@
-const rateLimit =
-    require("express-rate-limit");
+const rateLimit = require("express-rate-limit");
 
 // =========================
-// GENERAL API LIMITER
-// (Default for all routes)
+// COMMON CONFIG
+// =========================
+
+const baseConfig = {
+
+    standardHeaders: true,
+
+    legacyHeaders: false,
+
+    // Cleaner JSON for frontend
+    handler: (req, res, next, options) => {
+        res.status(options.statusCode).json(options.message);
+    }
+};
+
+// =========================
+// GENERAL — much more generous now
 // =========================
 
 const generalLimiter =
     rateLimit({
 
+        ...baseConfig,
+
         windowMs:
             15 * 60 * 1000,         // 15 minutes
 
-        max: 300,                    // 300 requests per window
+        max: 3000,                   // 3000 / 15min (was 300 — way too low)
 
         message: {
-
             message:
                 "Too many requests. Please try again in 15 minutes."
-        },
-
-        standardHeaders: true,
-
-        legacyHeaders: false
+        }
     });
 
 // =========================
-// AUTH LIMITER
-// (Strict — prevent brute force)
+// AUTH (strict — brute force)
 // =========================
 
 const authLimiter =
     rateLimit({
 
-        windowMs:
-            15 * 60 * 1000,         // 15 minutes
+        ...baseConfig,
 
-        max: 10,                     // 10 login attempts per window
+        windowMs:
+            15 * 60 * 1000,
+
+        max: 30,                     // 30 attempts/15min (was 10 — too strict)
 
         message: {
-
             message:
                 "Too many login attempts. Please wait 15 minutes."
         },
 
-        standardHeaders: true,
-
-        legacyHeaders: false,
-
-        skipSuccessfulRequests: true   // Only count failures
+        skipSuccessfulRequests: true   // only count failures
     });
 
 // =========================
-// UPLOAD LIMITER
-// (Prevent storage abuse)
+// UPLOAD
 // =========================
 
 const uploadLimiter =
     rateLimit({
 
+        ...baseConfig,
+
         windowMs:
             60 * 60 * 1000,         // 1 hour
 
-        max: 50,                     // 50 uploads per hour
+        max: 100,                    // 100 uploads/hr (was 50)
 
         message: {
-
             message:
                 "Upload limit reached. Please try again in 1 hour."
-        },
-
-        standardHeaders: true,
-
-        legacyHeaders: false
+        }
     });
 
 // =========================
-// SEARCH / READ LIMITER
-// (More generous)
+// SEARCH
 // =========================
 
 const searchLimiter =
     rateLimit({
 
+        ...baseConfig,
+
         windowMs:
             1 * 60 * 1000,           // 1 minute
 
-        max: 100,                    // 100 searches per min
+        max: 120,                    // 120 searches/min (was 100)
 
         message: {
-
             message:
                 "Too many searches. Slow down a bit!"
-        },
-
-        standardHeaders: true,
-
-        legacyHeaders: false
+        }
     });
 
 // =========================
-// WRITE LIMITER
-// (Creating/updating data)
+// WRITE (creating/updating)
 // =========================
 
 const writeLimiter =
     rateLimit({
 
-        windowMs:
-            10 * 60 * 1000,         // 10 minutes
+        ...baseConfig,
 
-        max: 100,                    // 100 writes per 10 min
+        windowMs:
+            10 * 60 * 1000,
+
+        max: 300,                    // 300 writes/10min (was 100)
 
         message: {
-
             message:
                 "Too many actions. Please slow down."
-        },
+        }
+    });
 
-        standardHeaders: true,
+// =========================
+// POLLING — very generous (for unread counts, indicators)
+// =========================
 
-        legacyHeaders: false
+const pollingLimiter =
+    rateLimit({
+
+        ...baseConfig,
+
+        windowMs:
+            1 * 60 * 1000,           // 1 minute
+
+        max: 120,                    // 120/min — covers all polling
+
+        message: {
+            message: "Too many requests."
+        }
     });
 
 module.exports = {
@@ -133,5 +147,7 @@ module.exports = {
 
     searchLimiter,
 
-    writeLimiter
+    writeLimiter,
+
+    pollingLimiter
 };
