@@ -19,6 +19,13 @@ import {
 } from "lucide-react";
 import Fuse from "fuse.js";
 import axios from "axios";
+import {
+    DndContext,
+    PointerSensor,
+    useSensor,
+    useSensors,
+    DragOverlay,
+} from "@dnd-kit/core";
 
 import Sidebar from "@/components/layout/Sidebar";
 import TopHeader from "@/components/layout/TopHeader";
@@ -35,6 +42,7 @@ import {
 
 import TopicNode from "@/components/syllabus/TopicNode";
 import BookmarksDrawer from "@/components/syllabus/BookmarksDrawer";
+import BulkActionBar from "@/components/syllabus/BulkActionBar";
 
 const VIEWS = [
     { id: "official", label: "Official UPSC", icon: Library },
@@ -61,8 +69,7 @@ export default function SyllabusPage() {
     const [view, setView] = useState("official");
     const [exam, setExam] = useState("prelims");
     const [activePaper, setActivePaper] = useState("gs1");
-    const [selectedOptional, setSelectedOptional] =
-        useState("political-science");
+    const [selectedOptional, setSelectedOptional] = useState("political-science");
     const [filter, setFilter] = useState("all");
     const [search, setSearch] = useState("");
     const [expandAll, setExpandAll] = useState(false);
@@ -77,7 +84,20 @@ export default function SyllabusPage() {
     });
     const [loading, setLoading] = useState(true);
 
+    // ─── Admin edit state ───
+    const [selectedNodes, setSelectedNodes] = useState(new Set()); // set of nodeKeys
+    const [activeDragId, setActiveDragId] = useState(null);
+    const [activeDragLabel, setActiveDragLabel] = useState("");
+
     const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const isAdmin = !!user?.isAdmin;
+    const isEditableView = isAdmin && view === "content";
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: { distance: 5 },
+        })
+    );
 
     // Load user
     useEffect(() => {
@@ -90,35 +110,38 @@ export default function SyllabusPage() {
     }, []);
 
     // Fetch tree + progress
-    useEffect(() => {
-        if (!user) return;
+    const fetchAll = async (userOverride) => {
+        const u = userOverride || user;
+        if (!u) return;
         const config = {
-            headers: { Authorization: `Bearer ${user.token}` },
+            headers: { Authorization: `Bearer ${u.token}` },
         };
 
-        const fetchAll = async () => {
-            try {
-                const [treeRes, progRes, statsRes] = await Promise.all([
-                    axios
-                        .get(`${baseUrl}/api/syllabus/tree`, config)
-                        .catch(() => ({ data: { tree: [] } })),
-                    axios
-                        .get(`${baseUrl}/api/syllabus/progress`, config)
-                        .catch(() => ({ data: { progress: {} } })),
-                    axios
-                        .get(`${baseUrl}/api/syllabus/stats`, config)
-                        .catch(() => ({ data: {} })),
-                ]);
-                setTaxonomyTree(treeRes.data.tree || []);
-                setProgress(progRes.data.progress || {});
-                setStats(statsRes.data || {});
-            } catch (e) {
-                console.warn("Syllabus fetch:", e.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchAll();
+        try {
+            const [treeRes, progRes, statsRes] = await Promise.all([
+                axios
+                    .get(`${baseUrl}/api/syllabus/tree`, config)
+                    .catch(() => ({ data: { tree: [] } })),
+                axios
+                    .get(`${baseUrl}/api/syllabus/progress`, config)
+                    .catch(() => ({ data: { progress: {} } })),
+                axios
+                    .get(`${baseUrl}/api/syllabus/stats`, config)
+                    .catch(() => ({ data: {} })),
+            ]);
+            setTaxonomyTree(treeRes.data.tree || []);
+            setProgress(progRes.data.progress || {});
+            setStats(statsRes.data || {});
+        } catch (e) {
+            console.warn("Syllabus fetch:", e.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (!user) return;
+        fetchAll(user);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
@@ -127,6 +150,11 @@ export default function SyllabusPage() {
         if (exam === "prelims") setActivePaper("gs1");
         if (exam === "mains") setActivePaper("essay");
     }, [exam]);
+
+    // Clear selection when switching views
+    useEffect(() => {
+        setSelectedNodes(new Set());
+    }, [view, exam, activePaper]);
 
     // Build searchable index
     const searchIndex = useMemo(() => buildSearchIndex(), []);
@@ -148,13 +176,12 @@ export default function SyllabusPage() {
 
     // Build tree for active view
     const officialTree = useMemo(() => {
-        const buildOfficial = (exam, paper) => {
-            // Convert official syllabus structure into TopicNode-friendly nodes
+        const buildOfficial = (examId, paper) => {
             return paper.sections.map((sec) => ({
-                nodeKey: `official:${exam}.${paper.id}.${sec.id}`,
+                nodeKey: `official:${examId}.${paper.id}.${sec.id}`,
                 label: sec.label,
                 children: sec.topics.map((t) => ({
-                    nodeKey: `official:${exam}.${paper.id}.${sec.id}.${t.id}`,
+                    nodeKey: `official:${examId}.${paper.id}.${sec.id}.${t.id}`,
                     label: t.label,
                     subtopics: t.subtopics || [],
                 })),
@@ -164,21 +191,16 @@ export default function SyllabusPage() {
         if (view !== "official") return [];
 
         if (exam === "prelims") {
-            const p = PRELIMS_SYLLABUS.papers.find(
-                (x) => x.id === activePaper
-            );
+            const p = PRELIMS_SYLLABUS.papers.find((x) => x.id === activePaper);
             return p ? buildOfficial("prelims", p) : [];
         }
         if (exam === "mains") {
-            const p = MAINS_SYLLABUS.papers.find(
-                (x) => x.id === activePaper
-            );
+            const p = MAINS_SYLLABUS.papers.find((x) => x.id === activePaper);
             return p ? buildOfficial("mains", p) : [];
         }
         return [];
     }, [view, exam, activePaper]);
 
-    // DB taxonomy tree mapped to TopicNode format
     const contentTree = useMemo(() => {
         const map = (nodes) =>
             nodes.map((n) => ({
@@ -194,7 +216,6 @@ export default function SyllabusPage() {
 
     const activeTree = view === "official" ? officialTree : contentTree;
 
-    // Filtered nodes (by status)
     const filterMatches = (node) => {
         if (filter === "all") return true;
         const p = progress[node.nodeKey];
@@ -202,8 +223,7 @@ export default function SyllabusPage() {
         const pct = p?.percent ?? 0;
         if (filter === "done") return covered || pct >= 100;
         if (filter === "pending") return !covered && pct === 0;
-        if (filter === "progress")
-            return !covered && pct > 0 && pct < 100;
+        if (filter === "progress") return !covered && pct > 0 && pct < 100;
         return true;
     };
 
@@ -226,9 +246,8 @@ export default function SyllabusPage() {
         [activeTree, filter, progress]
     );
 
-    // Mark covered / bookmarked
+    // ─── Mark covered / bookmarked ───
     const handleMark = async ({ nodeKey, nodeLabel, breadcrumb, field, value }) => {
-        // Optimistic update
         setProgress((prev) => ({
             ...prev,
             [nodeKey]: {
@@ -249,13 +268,10 @@ export default function SyllabusPage() {
                 config
             );
             if (field === "bookmarked") {
-                showToast.success(
-                    value ? "Bookmarked" : "Bookmark removed"
-                );
+                showToast.success(value ? "Bookmarked" : "Bookmark removed");
             }
         } catch (e) {
             showToast.error("Couldn't save change");
-            // Rollback
             setProgress((prev) => ({
                 ...prev,
                 [nodeKey]: {
@@ -264,6 +280,191 @@ export default function SyllabusPage() {
                 },
             }));
         }
+    };
+
+    // ─── Admin: toggle multiselect ───
+    const handleToggleSelect = (nodeKey) => {
+        setSelectedNodes((prev) => {
+            const next = new Set(prev);
+            if (next.has(nodeKey)) next.delete(nodeKey);
+            else next.add(nodeKey);
+            return next;
+        });
+    };
+
+    // ─── Admin: rename ───
+    const handleRename = async (taxonomyId, newName, nodeKey) => {
+        // Optimistic
+        const renameInTree = (nodes) =>
+            nodes.map((n) => {
+                if (String(n._id) === String(taxonomyId)) {
+                    return { ...n, name: newName };
+                }
+                if (n.children?.length) {
+                    return { ...n, children: renameInTree(n.children) };
+                }
+                return n;
+            });
+        const original = taxonomyTree;
+        setTaxonomyTree((t) => renameInTree(t));
+
+        try {
+            await axios.patch(
+                `${baseUrl}/api/taxonomy/${taxonomyId}/rename`,
+                { name: newName },
+                { headers: { Authorization: `Bearer ${user.token}` } }
+            );
+            showToast.success("Renamed");
+        } catch (e) {
+            setTaxonomyTree(original);
+            showToast.error(e.response?.data?.message || "Rename failed");
+        }
+    };
+
+    // ─── Admin: delete single ───
+    const handleDelete = async (taxonomyId, label, node) => {
+        const questionCount = node?.totalCount || 0;
+
+        if (questionCount > 0) {
+            showToast.warning(
+                `"${label}" is linked to ${questionCount} questions. They will be unlinked.`
+            );
+        }
+
+        // Optimistic
+        const removeFromTree = (nodes) =>
+            nodes
+                .filter((n) => String(n._id) !== String(taxonomyId))
+                .map((n) =>
+                    n.children?.length
+                        ? { ...n, children: removeFromTree(n.children) }
+                        : n
+                );
+
+        const original = taxonomyTree;
+        setTaxonomyTree((t) => removeFromTree(t));
+        setSelectedNodes((prev) => {
+            const next = new Set(prev);
+            next.delete(`taxonomy:${taxonomyId}`);
+            return next;
+        });
+
+        try {
+            await axios.delete(
+                `${baseUrl}/api/taxonomy/${taxonomyId}/cascade`,
+                { headers: { Authorization: `Bearer ${user.token}` } }
+            );
+            showToast.success(`Deleted "${label}"`);
+        } catch (e) {
+            setTaxonomyTree(original);
+            showToast.error(e.response?.data?.message || "Delete failed");
+        }
+    };
+
+    // ─── Admin: bulk delete ───
+    const handleBulkDelete = async () => {
+        const ids = Array.from(selectedNodes)
+            .filter((k) => k.startsWith("taxonomy:"))
+            .map((k) => k.split(":")[1]);
+
+        if (ids.length === 0) return;
+
+        const original = taxonomyTree;
+        const idSet = new Set(ids.map(String));
+
+        // Optimistic removal
+        const removeFromTree = (nodes) =>
+            nodes
+                .filter((n) => !idSet.has(String(n._id)))
+                .map((n) =>
+                    n.children?.length
+                        ? { ...n, children: removeFromTree(n.children) }
+                        : n
+                );
+        setTaxonomyTree((t) => removeFromTree(t));
+        setSelectedNodes(new Set());
+
+        try {
+            const { data } = await axios.post(
+                `${baseUrl}/api/taxonomy/bulk-delete`,
+                { ids },
+                { headers: { Authorization: `Bearer ${user.token}` } }
+            );
+            showToast.success(data.message);
+            // Refresh to be safe
+            fetchAll();
+        } catch (e) {
+            setTaxonomyTree(original);
+            showToast.error(e.response?.data?.message || "Bulk delete failed");
+        }
+    };
+
+    // ─── DnD handlers ───
+    const handleDragStart = (event) => {
+        setActiveDragId(event.active.id);
+        setActiveDragLabel(event.active.data.current?.label || "");
+    };
+
+    const handleDragEnd = async (event) => {
+        const { active, over } = event;
+        setActiveDragId(null);
+        setActiveDragLabel("");
+
+        if (!over) return;
+
+        const draggedData = active.data.current;
+        const dropData = over.data.current;
+        if (!draggedData || !dropData) return;
+
+        // Validate hierarchy rules
+        if (draggedData.level === "topic" && dropData.level !== "subject") {
+            showToast.error("Topics can only be moved into a subject");
+            return;
+        }
+        if (draggedData.level === "subtopic" && dropData.level !== "topic") {
+            showToast.error("Subtopics can only be moved into a topic");
+            return;
+        }
+
+        // Get all IDs to move (if multiselected and source is in selection, move all)
+        const sourceIds = (draggedData.selectedIds || [active.id])
+            .filter((k) => k.startsWith("taxonomy:"))
+            .map((k) => k.split(":")[1]);
+
+        const targetId = dropData.taxonomyId;
+
+        if (sourceIds.includes(targetId)) {
+            showToast.error("Can't drop into itself");
+            return;
+        }
+
+        // Optimistic: re-fetch is safest since we may have moved multiple from different parents
+        try {
+            await Promise.all(
+                sourceIds.map((id) =>
+                    axios.patch(
+                        `${baseUrl}/api/taxonomy/${id}/move`,
+                        { newParentId: targetId },
+                        { headers: { Authorization: `Bearer ${user.token}` } }
+                    )
+                )
+            );
+            showToast.success(
+                sourceIds.length > 1
+                    ? `Moved ${sourceIds.length} items`
+                    : `Moved`
+            );
+            setSelectedNodes(new Set());
+            fetchAll();
+        } catch (e) {
+            showToast.error(e.response?.data?.message || "Move failed");
+            fetchAll();
+        }
+    };
+
+    const handleDragCancel = () => {
+        setActiveDragId(null);
+        setActiveDragLabel("");
     };
 
     if (!user) return null;
@@ -305,12 +506,10 @@ export default function SyllabusPage() {
                                     Syllabus
                                 </h1>
                                 <p className="text-brand-muted font-medium mt-2 text-xs sm:text-sm">
-                                    Track every topic — Prelims, Mains &
-                                    Optional. Stay focused, stay covered.
+                                    Track every topic — Prelims, Mains & Optional. Stay focused, stay covered.
                                 </p>
                             </div>
 
-                            {/* STATS */}
                             <div className="flex items-center gap-2">
                                 <StatPill
                                     label="Covered"
@@ -349,7 +548,17 @@ export default function SyllabusPage() {
                         })}
                     </div>
 
-                    {/* EXAM TABS — only for official view */}
+                    {/* EDIT MODE BANNER (admin in content view) */}
+                    {isEditableView && (
+                        <div className="mb-4 px-4 py-2.5 bg-purple-50 border border-purple-200 rounded-xl text-[11px] font-bold text-purple-900 flex items-center gap-2 flex-wrap print:hidden">
+                            <span className="text-base">✏️</span>
+                            <span>
+                                Edit mode active — hover any node to rename, delete, or drag to re-parent. Use checkboxes for bulk actions.
+                            </span>
+                        </div>
+                    )}
+
+                    {/* EXAM TABS */}
                     {view === "official" && (
                         <div className="flex items-center gap-2 mb-4 print:hidden">
                             {EXAM_TABS.map((e) => {
@@ -373,7 +582,7 @@ export default function SyllabusPage() {
                         </div>
                     )}
 
-                    {/* PAPER TABS — only for prelims/mains in official */}
+                    {/* PAPER TABS */}
                     {view === "official" &&
                         exam !== "optional" &&
                         papersForExam.length > 0 && (
@@ -407,7 +616,6 @@ export default function SyllabusPage() {
 
                     {/* TOOLBAR */}
                     <div className="bg-white border border-brand-border rounded-2xl p-3 mb-4 flex flex-col lg:flex-row lg:items-center gap-3 print:hidden">
-                        {/* SEARCH */}
                         <div className="relative flex-1 min-w-[200px]">
                             <Search
                                 size={14}
@@ -422,12 +630,8 @@ export default function SyllabusPage() {
                             />
                         </div>
 
-                        {/* FILTERS */}
                         <div className="flex items-center gap-1 flex-wrap">
-                            <Filter
-                                size={12}
-                                className="text-brand-muted mr-1"
-                            />
+                            <Filter size={12} className="text-brand-muted mr-1" />
                             {FILTERS.map((f) => (
                                 <button
                                     key={f.id}
@@ -443,14 +647,10 @@ export default function SyllabusPage() {
                             ))}
                         </div>
 
-                        {/* ACTIONS */}
                         <div className="flex items-center gap-1.5 ml-auto">
                             <button
                                 onClick={() => setExpandAll(!expandAll)}
                                 className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-light hover:bg-brand-border/50 rounded-lg text-[10px] font-black uppercase tracking-widest text-brand-muted hover:text-brand-dark transition-all"
-                                title={
-                                    expandAll ? "Collapse all" : "Expand all"
-                                }
                             >
                                 {expandAll ? (
                                     <Minimize2 size={12} />
@@ -501,38 +701,64 @@ export default function SyllabusPage() {
                         </div>
                     )}
 
-                    {/* TREE */}
-                    <motion.div
-                        key={view + exam + activePaper + expandAll}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-white border border-brand-border rounded-2xl p-4 sm:p-6 print:border-0 print:p-0"
+                    {/* TREE — wrapped in DndContext when editable */}
+                    <DndContext
+                        sensors={sensors}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
+                        onDragCancel={handleDragCancel}
                     >
-                        {/* Optional placeholder content */}
-                        {view === "official" && exam === "optional" ? (
-                            <OptionalNotice optionalId={selectedOptional} />
-                        ) : loading && view === "content" ? (
-                            <p className="text-center text-xs font-bold text-brand-muted py-12">
-                                Loading...
-                            </p>
-                        ) : visibleTree.length === 0 ? (
-                            <p className="text-center text-xs font-bold text-brand-muted py-12">
-                                No topics match the current filter.
-                            </p>
-                        ) : (
-                            <div className="space-y-0.5">
-                                {visibleTree.map((node) => (
-                                    <TopicNode
-                                        key={node.nodeKey}
-                                        node={node}
-                                        progress={progress}
-                                        onMark={handleMark}
-                                        searchHighlight={search.trim()}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </motion.div>
+                        <motion.div
+                            key={view + exam + activePaper + expandAll}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-white border border-brand-border rounded-2xl p-4 sm:p-6 print:border-0 print:p-0"
+                        >
+                            {view === "official" && exam === "optional" ? (
+                                <OptionalNotice optionalId={selectedOptional} />
+                            ) : loading && view === "content" ? (
+                                <p className="text-center text-xs font-bold text-brand-muted py-12">
+                                    Loading...
+                                </p>
+                            ) : visibleTree.length === 0 ? (
+                                <p className="text-center text-xs font-bold text-brand-muted py-12">
+                                    No topics match the current filter.
+                                </p>
+                            ) : (
+                                <div className="space-y-0.5">
+                                    {visibleTree.map((node) => (
+                                        <TopicNode
+                                            key={node.nodeKey}
+                                            node={node}
+                                            progress={progress}
+                                            onMark={handleMark}
+                                            searchHighlight={search.trim()}
+                                            isEditable={isEditableView}
+                                            selectedIds={selectedNodes}
+                                            onToggleSelect={handleToggleSelect}
+                                            onRename={handleRename}
+                                            onDelete={handleDelete}
+                                            activeDragId={activeDragId}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </motion.div>
+
+                        <DragOverlay>
+                            {activeDragId && activeDragLabel && (
+                                <div className="bg-brand-dark text-white px-3 py-2 rounded-lg shadow-2xl text-[12px] font-black flex items-center gap-2">
+                                    <span>{activeDragLabel}</span>
+                                    {selectedNodes.has(activeDragId) &&
+                                        selectedNodes.size > 1 && (
+                                            <span className="bg-white/20 px-2 py-0.5 rounded-full text-[10px]">
+                                                +{selectedNodes.size - 1} more
+                                            </span>
+                                        )}
+                                </div>
+                            )}
+                        </DragOverlay>
+                    </DndContext>
                 </main>
 
                 <Footer />
@@ -543,6 +769,15 @@ export default function SyllabusPage() {
                 onClose={() => setBookmarksOpen(false)}
                 progress={progress}
             />
+
+            {/* Floating bulk action bar */}
+            {isEditableView && (
+                <BulkActionBar
+                    count={selectedNodes.size}
+                    onDelete={handleBulkDelete}
+                    onClear={() => setSelectedNodes(new Set())}
+                />
+            )}
 
             {/* PRINT STYLES */}
             <style jsx global>{`
@@ -598,9 +833,7 @@ function OptionalSelector({ value, onChange }) {
                 {current?.label || "Select Optional"}
                 <ChevronDown
                     size={14}
-                    className={`transition-transform ${
-                        open ? "rotate-180" : ""
-                    }`}
+                    className={`transition-transform ${open ? "rotate-180" : ""}`}
                 />
             </button>
             {open && (
@@ -638,17 +871,10 @@ function OptionalNotice({ optionalId }) {
     if (!o) return null;
     return (
         <div className="text-center py-12 px-4">
-            <BookOpenCheck
-                size={36}
-                className="text-brand-accent mx-auto mb-3"
-            />
-            <h3 className="text-lg font-black text-brand-dark mb-1">
-                {o.label}
-            </h3>
+            <BookOpenCheck size={36} className="text-brand-accent mx-auto mb-3" />
+            <h3 className="text-lg font-black text-brand-dark mb-1">{o.label}</h3>
             <p className="text-xs font-bold text-brand-muted max-w-md mx-auto leading-relaxed">
-                Detailed syllabus for optional papers is published in the
-                official UPSC notification. Refer to the latest UPSC CSE
-                notification PDF for the complete paper structure.
+                Detailed syllabus for optional papers is published in the official UPSC notification. Refer to the latest UPSC CSE notification PDF for the complete paper structure.
             </p>
             {o.note && (
                 <p className="text-[11px] font-medium text-brand-muted/80 mt-3 max-w-lg mx-auto leading-relaxed">

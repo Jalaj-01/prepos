@@ -13,6 +13,10 @@ const {
     getTopicsBySubject,
     getSubtopicsByTopic,
     updateTaxonomy,
+    renameTaxonomy,              
+    moveTaxonomy,                
+    cascadeDeleteTaxonomy,       
+    bulkDeleteTaxonomy, 
 
 } = require(
     '../controllers/taxonomyController'
@@ -38,6 +42,11 @@ router.post(
     admin,
     createTaxonomy
 );
+
+// NEW — rename + move + cascade delete
+router.patch('/:id/rename', protect, admin, renameTaxonomy);
+router.patch('/:id/move', protect, admin, moveTaxonomy);
+router.delete('/:id/cascade', protect, admin, cascadeDeleteTaxonomy);
 
 // =========================
 // DELETE

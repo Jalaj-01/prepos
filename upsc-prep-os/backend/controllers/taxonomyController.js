@@ -421,3 +421,211 @@ async (
 
     return taxonomyIds;
 };
+// =========================
+// RENAME (Admin)
+// PATCH /api/taxonomy/:id/rename   body: { name }
+// =========================
+exports.renameTaxonomy = async (req, res) => {
+    try {
+        const { name } = req.body;
+        if (!name?.trim()) {
+            return res.status(400).json({ message: "Name is required" });
+        }
+
+        const slug = createSlug(name);
+
+        const updated = await Taxonomy.findByIdAndUpdate(
+            req.params.id,
+            { name: name.trim(), slug },
+            { new: true }
+        );
+
+        if (!updated) {
+            return res.status(404).json({ message: "Node not found" });
+        }
+
+        res.json({ message: "Renamed", node: updated });
+    } catch (error) {
+        console.error("renameTaxonomy:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// =========================
+// MOVE (Admin) — change parentId
+// PATCH /api/taxonomy/:id/move   body: { newParentId }
+// =========================
+exports.moveTaxonomy = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { newParentId } = req.body;
+
+        const node = await Taxonomy.findById(id);
+        if (!node) {
+            return res.status(404).json({ message: "Node not found" });
+        }
+
+        // Root level (subject) — can't be moved
+        if (node.level === "subject") {
+            return res
+                .status(400)
+                .json({ message: "Subjects can't be moved" });
+        }
+
+        // Allow null to detach
+        let newParent = null;
+        if (newParentId) {
+            newParent = await Taxonomy.findById(newParentId);
+            if (!newParent) {
+                return res
+                    .status(404)
+                    .json({ message: "Target parent not found" });
+            }
+
+            // Hierarchy rules
+            // topic → must go into a subject
+            // subtopic → must go into a topic
+            if (node.level === "topic" && newParent.level !== "subject") {
+                return res
+                    .status(400)
+                    .json({ message: "Topics can only be moved into a subject" });
+            }
+            if (node.level === "subtopic" && newParent.level !== "topic") {
+                return res
+                    .status(400)
+                    .json({ message: "Subtopics can only be moved into a topic" });
+            }
+
+            // Circular reference check — can't drop into self or descendant
+            if (String(newParent._id) === String(node._id)) {
+                return res
+                    .status(400)
+                    .json({ message: "Can't drop into itself" });
+            }
+
+            const descendantIds = await getDescendantIds(node._id);
+            if (descendantIds.some((d) => String(d) === String(newParent._id))) {
+                return res
+                    .status(400)
+                    .json({
+                        message: "Can't drop into a descendant (would create cycle)",
+                    });
+            }
+        }
+
+        node.parentId = newParent ? newParent._id : null;
+        await node.save();
+
+        res.json({ message: "Moved", node });
+    } catch (error) {
+        console.error("moveTaxonomy:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// =========================
+// CASCADE DELETE (Admin)
+// DELETE /api/taxonomy/:id/cascade
+// Removes node + all descendants + unlinks from questions
+// =========================
+exports.cascadeDeleteTaxonomy = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const node = await Taxonomy.findById(id);
+        if (!node) {
+            return res.status(404).json({ message: "Node not found" });
+        }
+
+        const descendantIds = await getDescendantIds(id);
+        const allIds = [node._id, ...descendantIds];
+
+        // Unlink from Prelims questions
+        const Question = require("../models/Question");
+        const MainsQuestion = require("../models/MainsQuestion");
+
+        await Promise.all([
+            Question.updateMany(
+                { taxonomyIds: { $in: allIds } },
+                { $pull: { taxonomyIds: { $in: allIds } } }
+            ).catch(() => null),
+            MainsQuestion.updateMany(
+                { taxonomyIds: { $in: allIds } },
+                { $pull: { taxonomyIds: { $in: allIds } } }
+            ).catch(() => null),
+        ]);
+
+        const result = await Taxonomy.deleteMany({ _id: { $in: allIds } });
+
+        res.json({
+            message: `${result.deletedCount} node(s) deleted, questions unlinked`,
+            deletedCount: result.deletedCount,
+        });
+    } catch (error) {
+        console.error("cascadeDeleteTaxonomy:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// =========================
+// BULK CASCADE DELETE (Admin)
+// POST /api/taxonomy/bulk-delete   body: { ids: [...] }
+// =========================
+exports.bulkDeleteTaxonomy = async (req, res) => {
+    try {
+        const { ids } = req.body;
+        if (!Array.isArray(ids) || ids.length === 0) {
+            return res.status(400).json({ message: "ids array is required" });
+        }
+
+        // Collect all descendants of every selected node
+        const allIdsSet = new Set(ids.map(String));
+        for (const id of ids) {
+            const desc = await getDescendantIds(id);
+            desc.forEach((d) => allIdsSet.add(String(d)));
+        }
+        const allIds = Array.from(allIdsSet);
+
+        const Question = require("../models/Question");
+        const MainsQuestion = require("../models/MainsQuestion");
+
+        await Promise.all([
+            Question.updateMany(
+                { taxonomyIds: { $in: allIds } },
+                { $pull: { taxonomyIds: { $in: allIds } } }
+            ).catch(() => null),
+            MainsQuestion.updateMany(
+                { taxonomyIds: { $in: allIds } },
+                { $pull: { taxonomyIds: { $in: allIds } } }
+            ).catch(() => null),
+        ]);
+
+        const result = await Taxonomy.deleteMany({ _id: { $in: allIds } });
+
+        res.json({
+            message: `${result.deletedCount} node(s) deleted, questions unlinked`,
+            deletedCount: result.deletedCount,
+        });
+    } catch (error) {
+        console.error("bulkDeleteTaxonomy:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// =========================
+// HELPER — get all descendant IDs recursively
+// =========================
+async function getDescendantIds(parentId) {
+    const result = [];
+    const queue = [parentId];
+
+    while (queue.length) {
+        const current = queue.shift();
+        const children = await Taxonomy.find({ parentId: current }).select("_id");
+        for (const c of children) {
+            result.push(c._id);
+            queue.push(c._id);
+        }
+    }
+    return result;
+}
