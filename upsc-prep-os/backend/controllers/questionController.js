@@ -261,7 +261,6 @@ exports.addBulkQuestions = async (
         }
 
         const finalQuestions = [];
-        let skipped = 0;
         const skippedDetails = [];
 
         let skipped = 0;
