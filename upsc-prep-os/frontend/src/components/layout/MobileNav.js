@@ -27,6 +27,7 @@ import {
     Megaphone,
     X,
     LogOut,
+    MessageSquare
 } from "lucide-react";
 
 // =========================
@@ -75,7 +76,7 @@ const navSections = [
             { href: "/intelligence", icon: Brain, label: "PYQ Intelligence" },
             { href: "/syllabus", icon: BookOpenCheck, label: "Syllabus" },
             { href: "/rankings", icon: Trophy, label: "Leaderboard" },
-            { href: "/feedback", icon: FileQuestion, label: "Feedback" },
+            { href: "/feedback", icon: MessageSquare, label: "Feedback" },
         ],
     },
 ];
