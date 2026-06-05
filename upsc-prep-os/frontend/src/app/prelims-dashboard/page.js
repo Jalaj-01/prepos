@@ -220,12 +220,17 @@ export default function PrelimsDashboard() {
             </button>
           </motion.div>
 
+        
+
           {/* KPI GRID */}
-          <div data-tour="kpi-cards" className="grid grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
-            <KpiCard icon={Flame} label="Current Streak" value={user.streak || 0} color="from-orange-500 to-red-500" sub="days in a row" />
-            <KpiCard icon={Award} label="Prelims Readiness" value={`${stats?.readinessScore || 0}%`} color="from-purple-500 to-pink-500" sub="prelims preparedness" />
-            <KpiCard icon={Target} label="Total Solved" value={stats?.totalSolvedYear || 0} color="from-green-500 to-emerald-500" sub="all-time questions" />
-          </div>
+<div data-tour="kpi-cards" className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8 items-start">
+  <KpiCard icon={Flame} label="Current Streak" value={user.streak || 0} color="from-orange-500 to-red-500" sub="days in a row" />
+  <KpiCard icon={Award} label="Prelims Readiness" value={`${stats?.readinessScore || 0}%`} color="from-purple-500 to-pink-500" sub="prelims preparedness" />
+  <KpiCard icon={Target} label="Total Solved" value={stats?.totalSolvedYear || 0} color="from-green-500 to-emerald-500" sub="all-time questions" />
+  <div className="col-span-2 lg:col-span-1">
+    <RecentlyViewedWidget />
+  </div>
+</div>
 
           {/* MAIN GRID */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
@@ -430,7 +435,7 @@ export default function PrelimsDashboard() {
                   </div>
                 </div>
               </motion.div>
-
+                
               {/* REVISION WIDGET */}
               {revisionWidget && revisionWidget.hasTrack && (
                 <motion.div
@@ -489,11 +494,11 @@ export default function PrelimsDashboard() {
                 </div>
               </motion.div>
 
-              <div data-tour="storage"><StorageWidget /></div>
-              <RecentlyViewedWidget />
-              <div data-tour="leaderboard"><LeaderboardWidget /></div>
+              {/* <div data-tour="storage"><StorageWidget /></div> */}
+              
+              {/* <div data-tour="leaderboard"><LeaderboardWidget /></div> */}
 
-              {stats?.streakData && (
+              {/* {stats?.streakData && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -509,7 +514,7 @@ export default function PrelimsDashboard() {
                     <div className="flex justify-between items-center"><span className="text-xs sm:text-sm font-bold opacity-80">Consistent Days</span><span className="text-xl sm:text-2xl font-black">{stats.streakData.consistencyDays}</span></div>
                   </div>
                 </motion.div>
-              )}
+              )} */}
             </div>
           </div>
         </main>
