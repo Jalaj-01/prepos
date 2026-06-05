@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
     Search,
-    Bell,
     Flame,
     LogOut,
     User,
@@ -18,6 +17,7 @@ import axios from "axios";
 
 import GlobalSearch from "@/components/search/GlobalSearch";
 import StickyNotesDrawer from "@/components/notes/StickyNotesDrawer";
+import NotificationBell from "@/components/notifications/NotificationBell";
 
 export default function TopHeader({ user, onMenuClick }) {
     const [profileOpen, setProfileOpen] = useState(false);
@@ -138,7 +138,7 @@ export default function TopHeader({ user, onMenuClick }) {
                                 size={14}
                                 className="text-amber-700 fill-yellow-200 group-hover:rotate-[-8deg] transition-transform"
                             />
-                            <span className="text-amber-800 font-black text-xs">
+                            <span className="hidden sm:inline text-amber-800 font-black text-xs">
                                 Sticky Notes
                             </span>
                             {notesCount > 0 && (
@@ -148,11 +148,8 @@ export default function TopHeader({ user, onMenuClick }) {
                             )}
                         </button>
 
-                        {/* NOTIFICATIONS */}
-                        {/* <button className="p-2 hover:bg-brand-light rounded-xl transition-all relative">
-                            <Bell size={16} className="text-brand-muted" />
-                            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
-                        </button> */}
+                        {/* NOTIFICATIONS — real working bell */}
+                        <NotificationBell user={user} />
 
                         {/* PROFILE */}
                         <div className="relative" data-tour="profile">

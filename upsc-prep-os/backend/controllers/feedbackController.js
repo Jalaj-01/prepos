@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const FeedbackPost = require("../models/FeedbackPost");
 const User = require("../models/User");
+const notif = require("./notificationController");
 
 const isSuper = (req) => {
     const superEmail = (process.env.SUPER_ADMIN_EMAIL || "")
@@ -67,9 +68,7 @@ exports.listPosts = async (req, res) => {
             p.hasUpvoted = (p.upvotes || []).some(
                 (u) => String(u) === userId
             );
-            // Don't ship the full upvotes array — privacy + bandwidth
             delete p.upvotes;
-            // Filter out soft-deleted replies
             p.replies = (p.replies || []).filter((r) => !r.deletedAt);
         });
 
@@ -122,6 +121,21 @@ exports.createPost = async (req, res) => {
             lastAdminActivityAt:
                 req.user.isAdmin || wantOfficial ? new Date() : null,
         });
+
+        // If Official Update — notify everyone (except the author)
+        if (wantOfficial) {
+            notif.createForAllUsers({
+                excludeUserId: req.user._id,
+                type: "feedback_official",
+                title: `📢 ${req.user.name} posted an Official Update`,
+                body: post.title,
+                link: "/feedback",
+                refType: "FeedbackPost",
+                refId: post._id,
+                actorName: req.user.name,
+                actorIsAdmin: true,
+            });
+        }
 
         res.status(201).json({ post });
     } catch (err) {
@@ -227,6 +241,24 @@ exports.addReply = async (req, res) => {
 
         await post.save();
 
+        // Notify post author when an ADMIN replies (skip if author IS the admin)
+        if (
+            req.user.isAdmin &&
+            String(post.author) !== String(req.user._id)
+        ) {
+            notif.create({
+                userId: post.author,
+                type: "feedback_admin_reply",
+                title: `💬 Admin replied to your post`,
+                body: `${req.user.name} on "${post.title}"`,
+                link: "/feedback",
+                refType: "FeedbackPost",
+                refId: post._id,
+                actorName: req.user.name,
+                actorIsAdmin: true,
+            });
+        }
+
         // Return the new reply (last one)
         res.status(201).json({
             reply: post.replies[post.replies.length - 1],
@@ -269,7 +301,7 @@ exports.deleteReply = async (req, res) => {
 };
 
 // =========================
-// ADMIN: SET STATUS / PIN / UNOFFICIAL FLIPS
+// ADMIN: SET STATUS / PIN / OFFICIAL FLIPS
 // PATCH /api/feedback/:id/admin
 // body: { status?, pinned?, isOfficial? }
 // =========================
@@ -296,12 +328,41 @@ exports.adminUpdate = async (req, res) => {
             "wont-fix",
         ];
 
+        const prevStatus = post.status;
+
         if (status && VALID_STATUS.includes(status)) post.status = status;
         if (typeof pinned === "boolean") post.pinned = pinned;
         if (typeof isOfficial === "boolean") post.isOfficial = isOfficial;
 
         post.lastAdminActivityAt = new Date();
         await post.save();
+
+        // Notify post author on status change (skip if author IS the admin)
+        if (
+            status &&
+            status !== prevStatus &&
+            String(post.author) !== String(req.user._id)
+        ) {
+            const statusEmoji = {
+                planned: "📋",
+                "in-progress": "🚧",
+                shipped: "🚀",
+                resolved: "✅",
+                "wont-fix": "🚫",
+                open: "📂",
+            };
+            notif.create({
+                userId: post.author,
+                type: "feedback_status_change",
+                title: `${statusEmoji[status] || "🔔"} Your post is now ${status.replace("-", " ")}`,
+                body: post.title,
+                link: "/feedback",
+                refType: "FeedbackPost",
+                refId: post._id,
+                actorName: req.user.name,
+                actorIsAdmin: true,
+            });
+        }
 
         res.json({ post });
     } catch (err) {
@@ -317,7 +378,6 @@ exports.adminUpdate = async (req, res) => {
 // =========================
 exports.unreadIndicator = async (req, res) => {
     try {
-        const LS_KEY = "lastSeenAdminFeedbackAt";
         const since = req.query.since
             ? new Date(req.query.since)
             : new Date(0);
