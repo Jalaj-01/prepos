@@ -261,6 +261,8 @@ exports.addBulkQuestions = async (
         }
 
         const finalQuestions = [];
+        let skipped = 0;
+        const skippedDetails = [];
 
         let skipped = 0;
 
@@ -282,22 +284,50 @@ exports.addBulkQuestions = async (
             // DUPLICATE CHECK
             // =========================
 
-            const exists =
-                await Question.findOne({
+          const exists =
+    await Question.findOne({
 
-                    normalizedQuestionHash:
-                        hash,
+        normalizedQuestionHash:
+            hash,
 
-                    year:
-                        question.year
-                });
+        year:
+            question.year
+    });
 
-            if (exists) {
+if (exists) {
 
-                skipped++;
+    skipped++;
 
-                continue;
-            }
+    skippedDetails.push({
+        questionText:
+            (question.questionText || "").substring(0, 80) + "...",
+        year: question.year,
+        reason: "Duplicate of existing question in DB"
+    });
+
+    continue;
+}
+
+// ── Check batch duplicates too ──
+const alreadyInBatch = finalQuestions.find(
+    (q) =>
+        q.normalizedQuestionHash === hash &&
+        q.year === question.year
+);
+
+if (alreadyInBatch) {
+
+    skipped++;
+
+    skippedDetails.push({
+        questionText:
+            (question.questionText || "").substring(0, 80) + "...",
+        year: question.year,
+        reason: "Duplicate within this upload batch"
+    });
+
+    continue;
+}
 
             // =========================
             // REPEATED CONCEPT
@@ -368,17 +398,19 @@ exports.addBulkQuestions = async (
 
         res.status(201).json({
 
-            message:
-                "Bulk upload successful",
+    message:
+        "Bulk upload successful",
 
-            inserted:
-                createdQuestions.length,
+    inserted:
+        createdQuestions.length,
 
-            skipped,
+    skipped,
 
-            data:
-                createdQuestions
-        });
+    skippedDetails,
+
+    data:
+        createdQuestions
+});
 
     } catch (error) {
 

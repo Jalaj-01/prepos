@@ -76,11 +76,9 @@ export default function BulkImporterLogic() {
 
     // Text method
     const [rawText, setRawText] = useState("");
-   
 
     // Vision method
     const [pdfImages, setPdfImages] = useState([]);
-    
 
     const listRef = useRef(null);
     const fileInputRef = useRef(null);
@@ -151,7 +149,7 @@ export default function BulkImporterLogic() {
 
     // ─── METHOD 2: AI TEXT EXTRACTION ───
 
-        const handleTextExtract = async () => {
+    const handleTextExtract = async () => {
         if (!rawText.trim()) {
             showToast.warning("Please paste some text first");
             return;
@@ -187,6 +185,7 @@ export default function BulkImporterLogic() {
             setExtracting(false);
         }
     };
+
     // ─── METHOD 3: AI VISION (PDF IMAGES) ───
 
     const handleImageUpload = async (e) => {
@@ -206,7 +205,7 @@ export default function BulkImporterLogic() {
         showToast.info(`${images.length} images added. Click "Extract" when ready.`);
     };
 
-        const handleVisionExtract = async () => {
+    const handleVisionExtract = async () => {
         if (pdfImages.length === 0) {
             showToast.warning("Upload some images first");
             return;
@@ -252,6 +251,7 @@ export default function BulkImporterLogic() {
             setExtracting(false);
         }
     };
+
     // ─── FIELD UPDATERS ───
 
     const updateField = (idx, field, value) => {
@@ -323,8 +323,12 @@ export default function BulkImporterLogic() {
         showToast.success("JSON exported");
     };
 
+    // ─── UPLOAD APPROVED QUESTIONS TO DB (chunked, no 413 errors) ───
+
     const handleUploadToDB = async () => {
-        const approved = parsedQuestions.filter(q => q.reviewStatus === "Approved" && !q.isMalformed);
+        const approved = parsedQuestions.filter(
+            (q) => q.reviewStatus === "Approved" && !q.isMalformed
+        );
 
         if (approved.length === 0) {
             showToast.warning("No approved questions to upload");
@@ -335,21 +339,64 @@ export default function BulkImporterLogic() {
             title: `Upload ${approved.length} questions?`,
             message: "These will be saved to the question database.",
             type: "info",
-            confirmText: "Upload"
+            confirmText: "Upload",
         });
         if (!confirmed) return;
 
+        const CHUNK_SIZE = 25;
+        const dbReady = toDBFormat(approved);
+        const total = dbReady.length;
+
+        let totalInserted = 0;
+        let totalSkipped = 0;
+        const allSkippedDetails = [];
+
         setSaving(true);
+
         try {
-            await axios.post(
-                `${process.env.NEXT_PUBLIC_API_URL}/api/questions/bulk`,
-                { questions: toDBFormat(approved) },
-                { headers: { Authorization: `Bearer ${user.token}` } }
-            );
-            showToast.success(`${approved.length} questions uploaded!`);
+            for (let i = 0; i < total; i += CHUNK_SIZE) {
+                const chunk = dbReady.slice(i, i + CHUNK_SIZE);
+
+                const { data } = await axios.post(
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/questions/bulk`,
+                    { questions: chunk },
+                    { headers: { Authorization: `Bearer ${user.token}` } }
+                );
+
+                totalInserted += data.inserted || 0;
+                totalSkipped += data.skipped || 0;
+
+                if (data.skippedDetails?.length) {
+                    allSkippedDetails.push(...data.skippedDetails);
+                }
+
+                const done = Math.min(i + CHUNK_SIZE, total);
+                setExtractProgress(`Uploaded ${done} of ${total}...`);
+            }
+
+            // Final summary toast
+            if (totalSkipped > 0) {
+                showToast.success(
+                    `✅ Inserted: ${totalInserted} · Skipped (duplicates): ${totalSkipped}`
+                );
+                console.warn(
+                    "📋 Skipped questions details:",
+                    allSkippedDetails
+                );
+            } else {
+                showToast.success(
+                    `✅ All ${totalInserted} questions uploaded!`
+                );
+            }
+
+            // Clear after successful upload
             setParsedQuestions([]);
+            setExtractProgress("");
         } catch (err) {
-            showToast.error("Upload failed: " + (err.response?.data?.message || err.message));
+            showToast.error(
+                "Upload failed: " +
+                    (err.response?.data?.message || err.message)
+            );
         } finally {
             setSaving(false);
         }
@@ -471,7 +518,7 @@ export default function BulkImporterLogic() {
                                 </motion.div>
                             )}
 
-                                                       {/* ═══ TEXT METHOD ═══ */}
+                            {/* ═══ TEXT METHOD ═══ */}
                             {activeMethod === "text" && (
                                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
 
@@ -509,7 +556,7 @@ export default function BulkImporterLogic() {
                                 </motion.div>
                             )}
 
-                                                        {/* ═══ VISION METHOD ═══ */}
+                            {/* ═══ VISION METHOD ═══ */}
                             {activeMethod === "vision" && (
                                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
 
@@ -564,6 +611,7 @@ export default function BulkImporterLogic() {
                                     </button>
                                 </motion.div>
                             )}
+
                             {/* PROGRESS */}
                             {extractProgress && !extracting && (
                                 <div className="bg-green-50 border border-green-100 rounded-2xl p-4 flex items-center gap-3">
@@ -583,7 +631,7 @@ export default function BulkImporterLogic() {
                             )}
                         </div>
 
-                                               {/* ═══════ RIGHT: REVIEW PANEL ═══════ */}
+                        {/* ═══════ RIGHT: REVIEW PANEL ═══════ */}
                         <div className="space-y-4">
 
                             {/* STATS BAR */}
