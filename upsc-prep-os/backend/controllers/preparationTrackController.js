@@ -704,18 +704,12 @@ exports.getFreePracticeQuestions = async (
             query.year = parseInt(year);
         }
 
-        if (subject) {
-            query.subjectName = {
-                $regex: subject,
-                $options: "i"
-            };
+       if (subject) {
+        query.subjectName = subject;
         }
 
         if (topic) {
-            query.topicName = {
-                $regex: topic,
-                $options: "i"
-            };
+            query.topicName = topic;
         }
 
         if (paper) {
