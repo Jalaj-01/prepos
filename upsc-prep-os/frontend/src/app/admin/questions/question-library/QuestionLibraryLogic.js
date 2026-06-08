@@ -29,6 +29,7 @@ import { GridSkeleton } from "@/components/ui/Skeleton";
 import EmptyState from "@/components/ui/EmptyState";
 
 import PageHeader from "@/components/ui/PageHeader";
+import QuestionImageGallery from "@/components/admin/QuestionImageGallery";
 
 export default function QuestionLibraryLogic() {
 
@@ -700,6 +701,12 @@ const handleQuestionUpdated = (updated) => {
                                                 {q.questionText}
 
                                             </h2>
+                                            {/* IMAGES — for map/chart/diagram questions */}
+{q.images?.length > 0 && (
+    <div className="mb-4 sm:mb-6">
+        <QuestionImageGallery images={q.images} readOnly />
+    </div>
+)}
 
                                             {/* OPTIONS */}
 

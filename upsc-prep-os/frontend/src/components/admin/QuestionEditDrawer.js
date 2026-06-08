@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import QuestionImageGallery from "./QuestionImageGallery";
 import {
     X,
     Save,
@@ -34,6 +35,7 @@ export default function QuestionEditDrawer({
     const [subtopicName, setSubtopicName] = useState("");
     const [keywords, setKeywords] = useState("");
     const [saving, setSaving] = useState(false);
+    const [images, setImages] = useState([]);
 
     const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -59,6 +61,7 @@ export default function QuestionEditDrawer({
         setTopicName(question.topicName || "");
         setSubtopicName(question.subtopicName || "");
         setKeywords((question.keywords || []).join(", "));
+        setImages(question.images || []);
     }, [question]);
 
     const updateOption = (idx, value) => {
@@ -94,7 +97,10 @@ export default function QuestionEditDrawer({
                     .split(",")
                     .map((k) => k.trim())
                     .filter(Boolean),
+                images: images,                                         
+                questionFormat: images.length > 0 ? "Image" : "Text",   
             };
+            
 
             const { data } = await axios.put(
                 `${baseUrl}/api/questions/${question._id}`,
@@ -211,6 +217,16 @@ export default function QuestionEditDrawer({
                                     ))}
                                 </div>
                             </Field>
+
+                            {/* ─── Images ─── */}
+                            <Field label="Images (optional)">
+                                <QuestionImageGallery
+                                    images={images}
+                                    onChange={setImages}
+                                    token={token}
+                                />
+                            </Field>
+
 
                             {/* Explanation */}
                             <Field label="Explanation">

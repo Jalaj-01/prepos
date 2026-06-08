@@ -3,31 +3,21 @@
 // =========================
 
 export function mapImportedQuestion(question) {
-
     // Handle different option formats
-
     let options = question.options || [];
 
-    // If options is array of strings → convert
-
     if (options.length > 0 && typeof options[0] === "string") {
-
         const labels = ["A", "B", "C", "D"];
-
         options = options.map((text, i) => ({
             label: labels[i] || String.fromCharCode(65 + i),
-            text: text
+            text: text,
         }));
     }
 
-    // If options have "a", "b" → normalize to "A", "B"
-
-    options = options.map(opt => ({
+    options = options.map((opt) => ({
         label: (opt.label || opt.key || "").toUpperCase(),
-        text: opt.text || opt.value || opt.content || ""
+        text: opt.text || opt.value || opt.content || "",
     }));
-
-    // Normalize correct option
 
     let correctOption = (
         question.correctOption ||
@@ -36,29 +26,41 @@ export function mapImportedQuestion(question) {
         question.correctAnswer ||
         question.correct_answer ||
         ""
-    ).toUpperCase().trim();
+    )
+        .toUpperCase()
+        .trim();
 
-    // Handle formats like "(a)", "a)", "a."
-
-    correctOption = correctOption
-        .replace(/[().\s]/g, "")
-        .toUpperCase();
-
-    // If it's a full text answer, try to match to label
+    correctOption = correctOption.replace(/[().\s]/g, "").toUpperCase();
 
     if (correctOption.length > 1) {
-
-        const matchedOpt = options.find(o =>
+        const matchedOpt = options.find((o) =>
             o.text.toLowerCase().includes(correctOption.toLowerCase())
         );
-
         if (matchedOpt) {
             correctOption = matchedOpt.label;
         }
     }
 
-    return {
+    // ─── Normalize images array ───
+    let images = question.images || [];
+    if (typeof images === "string") {
+        images = [{ url: images, caption: "", pageNumber: null }];
+    }
+    images = (Array.isArray(images) ? images : [])
+        .map((img) => {
+            if (typeof img === "string") {
+                return { url: img, caption: "", pageNumber: null };
+            }
+            return {
+                url: img.url || img.src || "",
+                caption: img.caption || img.alt || "",
+                cloudinaryId: img.cloudinaryId || null,
+                pageNumber: img.pageNumber || null,
+            };
+        })
+        .filter((img) => img.url);
 
+    return {
         id:
             question.id ||
             question._id ||
@@ -72,7 +74,6 @@ export function mapImportedQuestion(question) {
             "",
 
         options,
-
         correctOption,
 
         explanation:
@@ -81,15 +82,8 @@ export function mapImportedQuestion(question) {
             question.answer_explanation ||
             "",
 
-        year:
-            question.year ||
-            question.exam_year ||
-            null,
-
-        paper:
-            question.paper ||
-            question.exam_paper ||
-            "GS1",
+        year: question.year || question.exam_year || null,
+        paper: question.paper || question.exam_paper || "GS1",
 
         subject:
             question.subjectName ||
@@ -125,39 +119,24 @@ export function mapImportedQuestion(question) {
             question.aiMetadata?.difficultyPrediction ||
             "Medium",
 
-        keywords:
-            question.keywords ||
-            question.aiMetadata?.keywords ||
-            [],
+        keywords: question.keywords || question.aiMetadata?.keywords || [],
 
-        // Table data
+        // Images (NEW)
+        images,
 
-        tables:
-            question.tables || [],
+        // Auto-detect questionFormat based on images
+        questionFormat:
+            question.questionFormat ||
+            (images.length > 0 ? "Image" : "Text"),
 
-        tableData:
-            question.tableData || null,
-
-        // Statements
-
-        statements:
-            question.statements || [],
-
-        // Match pairs
-
-        matchPairs:
-            question.matchPairs || [],
-
-        // Source
-
-        sourcePage:
-            question.sourcePage || null,
-
+        tables: question.tables || [],
+        tableData: question.tableData || null,
+        statements: question.statements || [],
+        matchPairs: question.matchPairs || [],
+        sourcePage: question.sourcePage || null,
         reviewStatus: "Pending",
-
         isMalformed: false,
-
-        parseWarnings: []
+        parseWarnings: [],
     };
 }
 
@@ -166,53 +145,44 @@ export function mapImportedQuestion(question) {
 // =========================
 
 export function toDBFormat(questions) {
-
     return questions.map((q) => ({
-
         questionText: q.questionText || "",
-
-        options: (q.options || []).map(o => ({
+        options: (q.options || []).map((o) => ({
             label: o.label || "",
-            text: o.text || ""
+            text: o.text || "",
         })),
-
         correctOption: q.correctOption || "",
-
         explanation: q.explanation || "",
-
         year: q.year ? parseInt(q.year) : null,
-
         paper: q.paper || "GS1",
-
         subjectName: q.subject || "",
-
         topicName: q.topic || "",
-
         subtopicName: q.subTopic || "",
-
         keywords: q.keywords || [],
-
         difficulty: q.difficulty || "Medium",
 
-        questionFormat: q.type || "Text",
+        questionFormat:
+            q.questionFormat ||
+            (q.images?.length > 0 ? "Image" : q.type || "Text"),
+
+        // Images (NEW)
+        images: (q.images || []).map((img) => ({
+            url: img.url,
+            caption: img.caption || "",
+            cloudinaryId: img.cloudinaryId || null,
+            pageNumber: img.pageNumber || null,
+        })),
 
         tables: q.tables || [],
 
         aiMetadata: {
-
             subject: q.subject || "",
-
             topic: q.topic || "",
-
             subtopic: q.subTopic || "",
-
             questionType: q.type || "Factual",
-
             difficultyPrediction: q.difficulty || "Medium",
-
             keywords: q.keywords || [],
-
-            confidenceScore: 0.8
-        }
+            confidenceScore: 0.8,
+        },
     }));
-} 
+}

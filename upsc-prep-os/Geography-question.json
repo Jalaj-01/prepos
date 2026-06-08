@@ -1,0 +1,1866 @@
+[
+  {
+    "questionId": "PG_001",
+    "questionText": "\"The climate is extreme; rainfall is scanty and the people used to be nomadic herders.\" The above statement best describes which of the following regions? (2013)",
+    "options": [
+      "African Savannah",
+      "Central Asian Steppe",
+      "North American Prairie",
+      "Siberian Tundra"
+    ],
+    "correctOption": "B",
+    "explanation": "The description in the statement matches the characteristics of the Central Asian Steppe region.\n\nHere's why:\n1. Extreme climate: The Central Asian Steppe has harsh climates with extreme temperature variations between summer and winter.\n2. Scanty rainfall: This region has a semi-arid to arid climate, with low rainfall.\n3. Nomadic herders: Historically, the people in the Central Asian Steppe, such as Mongols, Kazakhs, and others, were nomadic herders, relying on livestock for sustenance and moving with the seasons.\n\nWhy other options are incorrect:\n● African Savannah: The African Savannah has a tropical climate with distinct wet and dry seasons, but it is not as extreme in temperature and does not typically have nomadic herding as its primary characteristic.\n● North American Prairie: The prairie region has a more temperate climate and has historically been home to both agricultural and pastoral lifestyles, not primarily nomadic herders.\n● Siberian Tundra: The Siberian Tundra has cold temperatures and low precipitation, but the lifestyle described doesn't match well with the tundra, where nomadic herding is not as prevalent as in the steppes.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Grasslands and Climatic Regions",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Central Asian Steppe",
+      "Nomadic Herders",
+      "Grasslands",
+      "Semi-Arid Climate"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 1,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_002",
+    "questionText": "Which of the following is/are unique characteristics/characteristics of equatorial forests? (2013)\n1. Presence of tall, closely set trees with crowns forming a continuous canopy\n2. Coexistence of a large number of species\n3. Presence of numerous varieties of epiphytes\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Equatorial forests, also known as tropical rainforests, are characterized by the following unique features:\n\n1) Presence of tall, closely set trees with crowns forming a continuous canopy:\n● Correct. Equatorial forests have tall trees with dense foliage, and their crowns form a continuous, multi-layered canopy. This canopy prevents sunlight from reaching the forest floor, resulting in a unique ecosystem.\n\n2) Coexistence of a large number of species:\n● Correct. Equatorial forests are biodiversity hotspots, hosting a vast variety of plant, animal, and microorganism species. This high level of biodiversity is a hallmark of these forests.\n\n3) Presence of numerous varieties of epiphytes:\n● Correct. Epiphytes, such as orchids, mosses, and ferns, grow on the surface of other plants (especially trees) without harming them. They thrive in the humid and nutrient-rich environment of equatorial forests.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Natural Vegetation",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "Equatorial Forests",
+      "Rainforests",
+      "Canopy",
+      "Epiphytes",
+      "Biodiversity"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 1,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_003",
+    "questionText": "Consider the following: (2013)\n1. Electromagnetic radiation\n2. Geothermal energy\n3. Gravitational force\n4. Plate movements\n5. Rotation of the earth\n6. Revolution of the earth\nWhich of the above are responsible for bringing dynamic changes on the surface of the earth?",
+    "options": [
+      "1, 2, 3 and 4 only",
+      "1, 3, 5 and 6 only",
+      "2, 4, 5 and 6 only",
+      "1, 2, 3, 4, 5 and 6"
+    ],
+    "correctOption": "D",
+    "explanation": "Each of the listed factors contributes to dynamic changes on the Earth's surface in various ways:\n\n1) Electromagnetic radiation:\n● Solar radiation is a driving force behind weather, climate, and erosion processes. It powers the water cycle, which significantly affects the Earth's surface.\n\n2) Geothermal energy:\n● Geothermal energy drives volcanic activity and influences tectonic processes, leading to the formation of landforms and changes in the Earth's crust.\n\n3) Gravitational force:\n● Gravitational force impacts tides (due to the Moon and Sun) and contributes to processes like erosion and sedimentation.\n\n4) Plate movements:\n● Plate tectonics cause earthquakes, mountain building, and continental drift, all of which are dynamic changes on the Earth's surface.\n\n5) Rotation of the Earth:\n● Earth's rotation influences wind patterns and ocean currents through the Coriolis effect, shaping landscapes over time.\n\n6) Revolution of the Earth:\n● Earth's revolution around the Sun creates seasonal changes, impacting weather, vegetation patterns, and erosion processes.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Geomorphology",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Geomorphology",
+      "Plate Tectonics",
+      "Geothermal Energy",
+      "Earth Rotation",
+      "Earth Revolution"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 2,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_004",
+    "questionText": "Variations in the length of daytime and nighttime from season to season are due to (2013)",
+    "options": [
+      "the earth's rotation on its axis",
+      "the earth's revolution round the sun in an elliptical manner",
+      "latitudinal position of the place",
+      "revolution of the earth on a tilted axis"
+    ],
+    "correctOption": "D",
+    "explanation": "The variations in the length of daytime and nighttime across seasons are primarily due to the following reasons:\n\n1) Tilt of Earth's Axis:\n● Earth's axis is tilted at an angle of approximately 23.5° relative to its orbital plane around the Sun. This tilt causes different parts of the Earth to receive varying amounts of sunlight throughout the year.\n\n2) Earth's Revolution around the Sun:\n● As the Earth revolves around the Sun, the tilt of its axis causes the Sun's rays to strike different latitudes at varying angles. This leads to longer days in summer and shorter days in winter for each hemisphere.\n\n3) Effect on Daytime and Nighttime:\n● During summer in one hemisphere, the pole in that hemisphere is tilted toward the Sun, resulting in longer daylight hours.\n● During winter, the same pole is tilted away from the Sun, resulting in shorter daylight hours.\n\nWhy other options are incorrect:\n● (a) The Earth's rotation on its axis: This causes day and night but does not explain seasonal variations in their length.\n● (b) Earth's revolution round the Sun in an elliptical manner: While Earth's orbit is slightly elliptical, it has a minimal effect on day length.\n● (c) Latitudinal position of the place: Latitude determines how pronounced the seasonal variations are, but the underlying cause is Earth's axial tilt.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Earth Movements and Seasons",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Earth Revolution",
+      "Axial Tilt",
+      "Seasons",
+      "Day Length",
+      "Night Length"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 3,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_005",
+    "questionText": "Which of the following statements regarding laterite soils of India are correct? (2013)\n1. They are generally red in color.\n2. They are rich in nitrogen and potash.\n3. They are well-developed in Rajasthan and UP.\n4. Tapioca and cashew nuts grow well on these soils.\nSelect the correct answer using the codes given below.",
+    "options": [
+      "1, 2 and 3",
+      "2, 3 and 4",
+      "1 and 4",
+      "2 and 3 only"
+    ],
+    "correctOption": "C",
+    "explanation": "Laterite soils are found in regions with high temperatures and heavy rainfall. Let's analyze each statement:\n\n1) They are generally red in color:\n● Correct. Laterite soils are rich in iron oxide, giving them a characteristic red or reddish-brown color.\n\n2) They are rich in nitrogen and potash:\n● Incorrect. Laterite soils are generally poor in nitrogen, phosphorus, and potash, which makes them less fertile for conventional crops without proper management.\n\n3) They are well-developed in Rajasthan and UP:\n● Incorrect. Laterite soils are primarily found in high rainfall areas such as the Western Ghats, Eastern Ghats, parts of Maharashtra, Karnataka, Kerala, Tamil Nadu, and northeastern states. They are not well-developed in arid regions like Rajasthan or Uttar Pradesh.\n\n4) Tapioca and cashew nuts grow well on these soils:\n● Correct. Laterite soils, when managed properly, are suitable for crops like tapioca and cashew nuts, which can tolerate the low fertility of the soil.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Soils of India",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Laterite Soil",
+      "Cashew",
+      "Tapioca",
+      "Soils of India",
+      "Iron Oxide"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 3,
+    "sourceFile": "",
+    "isPYQ": true
+  }
+[
+  {
+    "questionId": "PG_006",
+    "questionText": "Consider the following statements: (2013)\n1. Natural gas occurs in the Gondwana beds.\n2. Mica occurs in abundance in Kodarma.\n3. Dharwars are famous for petroleum.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 2",
+      "2 only",
+      "2 and 3",
+      "None"
+    ],
+    "correctOption": "B",
+    "explanation": "1) Natural gas occurs in the Gondwana beds:\n● Incorrect. The Gondwana beds are primarily known for their coal deposits, not natural gas. Natural gas in India is mostly associated with Tertiary sedimentary basins, such as those found in Assam, Gujarat, and offshore in the Mumbai High region.\n\n2) Mica occurs in abundance in Kodarma:\n● Correct. Kodarma (in Jharkhand) is famously known as the \"Mica Capital of India\" due to its rich deposits of mica.\n\n3) Dharwars are famous for petroleum:\n● Incorrect. The Dharwar rocks are known for their rich deposits of minerals like iron ore, manganese, and gold. Petroleum is not associated with Dharwar formations but is instead found in younger sedimentary rocks, such as those in Tertiary basins.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Mineral Resources",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Kodarma",
+      "Mica",
+      "Dharwar",
+      "Natural Gas",
+      "Gondwana"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 4,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_007",
+    "questionText": "The seasonal reversal of winds is the typical characteristic of: (2014)",
+    "options": [
+      "Equatorial climate",
+      "Mediterranean climate",
+      "Monsoon climate",
+      "All of the above climates"
+    ],
+    "correctOption": "C",
+    "explanation": "The monsoon climate is characterized by the seasonal reversal of winds. This occurs due to the shift in the direction of prevailing winds between the summer and winter seasons. During the summer, winds from the oceans bring heavy rainfall, while during the winter, dry winds from the land dominate, leading to dry conditions. This reversal of winds is the hallmark of the monsoon climate, particularly in regions like South and Southeast Asia.\n\nWhy the other options are incorrect:\n(a) Equatorial climate: The equatorial climate has relatively consistent winds and rainfall throughout the year, without a seasonal reversal.\n(b) Mediterranean climate: The Mediterranean climate has wet winters and dry summers, but it is not characterized by a seasonal reversal of winds.\n(d) All of the above climates: Since only the monsoon climate has the feature of seasonal wind reversal, this option is incorrect.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Climate Systems",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Monsoon",
+      "Wind Reversal",
+      "Climate",
+      "Seasonal Winds"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 4,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_008",
+    "questionText": "Which of the following phenomena might have influenced the evolution of organisms? (2014)\n1. Continental drift\n2. Glacial cycles\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "C",
+    "explanation": "1) Continental drift:\n● The movement of continents over geological time has had a significant impact on the evolution of organisms. As continents drift, they create physical barriers (like oceans or mountains), leading to geographic isolation, which is a key driver of speciation. The separation of landmasses led to the divergence of species and the development of unique ecosystems, influencing evolutionary processes.\n\n2) Glacial cycles:\n● Glacial cycles (ice ages) have also influenced the evolution of organisms. During colder periods, organisms were forced to adapt to harsh conditions, and many species migrated or evolved to cope with changes in climate. Conversely, interglacial periods (warmer periods) allowed species to spread and diversify in new environments. These cycles played a critical role in shaping biodiversity.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Evolution and Earth Processes",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Continental Drift",
+      "Glacial Cycles",
+      "Evolution",
+      "Speciation",
+      "Biodiversity"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 4,
+    "sourceFile": "",
+    "isPYQ": true
+  }
+[
+  {
+    "questionId": "PG_009",
+    "questionText": "If you travel through the Himalayas, you are likely to see which of the following plants are naturally growing there? (2014)\n1. Oak\n2. Rhododendron\n3. Sandalwood\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "1) Oak:\n● Correct. Oak trees are commonly found in the Himalayan region, particularly at higher elevations. They are part of the temperate forests in the region.\n2) Rhododendron:\n● Correct. Rhododendron is a prominent plant in the Himalayas, often found in the subalpine and alpine regions. It is known for its beautiful flowers and is naturally abundant in the Himalayan flora.\n3) Sandalwood:\n● Incorrect. Sandalwood is typically found in tropical and subtropical regions, particularly in areas like southern India and Southeast Asia, not in the Himalayan region.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Mountain Vegetation",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "Himalayas",
+      "Oak",
+      "Rhododendron",
+      "Sandalwood",
+      "Mountain Flora"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 5,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_010",
+    "questionText": "Which one of the following regions of India has a combination of mangrove forest, evergreen forest and deciduous forest? (2015)",
+    "options": [
+      "North Coastal Andhra Pradesh",
+      "South-West Bengal",
+      "Southern Saurashtra",
+      "Andaman and Nicobar Islands"
+    ],
+    "correctOption": "D",
+    "explanation": "The South Andaman forests have a profuse growth of epiphytic vegetation, mostly ferns and orchids. The Middle Andamans harbours mostly moist deciduous forests. North Andamans is characterised by the wet evergreen type, with plenty of woody climbers. This atypical forest coverage of Andaman & Nicobar is made-up of twelve types namely (1) Giant evergreen forest (2) Andamans tropical evergreen forest (3) Southern hilltop tropical evergreen forest (4) Cane brakes (5) Wet bamboo brakes (6) Andamans semi-evergreen forest (7) Andamans moist deciduous forest (8) Andamans secondary moist deciduous forest (9) Littoral forest (10) Mangrove forest (11) Brackish water mixed forest (12) Submontane hill valley swamp forest.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Forest Types of India",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Andaman and Nicobar",
+      "Mangrove Forest",
+      "Evergreen Forest",
+      "Deciduous Forest",
+      "Vegetation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 5,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_011",
+    "questionText": "Consider the following States: (2015)\n1. Arunachal Pradesh\n2. Himachal Pradesh\n3. Mizoram\nIn which of the above States do ‘Tropical Wet Evergreen Forests’ occur?",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "In India, evergreen forests are found on the eastern and western slopes of the Western Ghats in such states as Tamil Nadu, Karnataka, Kerala and Maharashtra. And also found in Assam, Arunachal Pradesh, Meghalaya, Nagaland, Tripura, West Bengal and Andaman and Nicobar Islands.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Tropical Wet Evergreen Forests",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Arunachal Pradesh",
+      "Mizoram",
+      "Evergreen Forests",
+      "Natural Vegetation",
+      "Forests"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 5,
+    "sourceFile": "",
+    "isPYQ": true
+  }
+[
+  {
+    "questionId": "PG_012",
+    "questionText": "In India, in which one of the following types of forests is teak a dominant tree species? (2015)",
+    "options": [
+      "Tropical moist deciduous forest",
+      "Tropical rain forest",
+      "Tropical thorn scrub forest",
+      "Temperate forest with grasslands"
+    ],
+    "correctOption": "A",
+    "explanation": "The main species found in these forests are teak, sal, padauk, laurel, white chuglam, badam, dhup, chikrosi, kokko, haldu, rosewood, mahua, bijasal, lendi, semul, irul, dhaman, amla, kusum, tendu, paula, jamun, bamboo, etc.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Forest Types of India",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Teak",
+      "Tropical Moist Deciduous Forest",
+      "Forest Types",
+      "Vegetation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 6,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_013",
+    "questionText": "In which of the following regions of India are shale gas resources found? (2016)\n1. Cambay Basin\n2. Cauvery Basin\n3. Krishna-Godavari Basin\nSelect the correct answer using the code given below.",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "The correct answer is d) 1, 2, and 3, as shale gas resources are found in all three mentioned regions: Cambay Basin, Cauvery Basin, and Krishna-Godavari Basin.\n\nShale gas is an unconventional natural gas found trapped within shale formations, requiring advanced extraction techniques such as hydraulic fracturing and horizontal drilling. India, recognizing its increasing energy demands and dependency on energy imports, has identified several basins with potential shale gas resources.\n\n● Cambay Basin: Located in western India, predominantly in Gujarat, the Cambay Basin is one of the most well-studied and productive basins for hydrocarbons, including shale gas. Its geological characteristics include thick sedimentary sequences, making it favorable for the presence of shale formations. Exploration efforts have shown significant potential for shale gas extraction in this region.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Energy Resources",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Shale Gas",
+      "Cambay Basin",
+      "Cauvery Basin",
+      "Krishna Godavari Basin",
+      "Natural Gas"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 6,
+    "sourceFile": "",
+    "isPYQ": true
+  }
+[
+  {
+    "questionId": "PG_014",
+    "questionText": "The term ‘watershed’ is sometimes found in the news. Which of the following statements is/are correct regarding watersheds? (2016)\n1. A watershed is an area of land that drains all the streams and rainfall to a common outlet.\n2. Watersheds can be delineated by ridges and high points.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "C",
+    "explanation": "A watershed is a land area that channels rainfall and snowmelt into creeks, streams, and rivers, eventually draining to a common outlet such as a reservoir, bay, or ocean. Watersheds are naturally separated by topographic features such as ridges, hills, or elevated landforms that determine the direction of water flow.\n\nTherefore, both statements are correct.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Hydrology",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "Watershed",
+      "Drainage Basin",
+      "Hydrology",
+      "Water Resources"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 7,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_015",
+    "questionText": "Recently, our scientists have discovered a new and distinct species of banana plant which attains a height of about 11 metres and has orange-coloured fruit pulp. In which part of India has it been discovered? (2016)",
+    "options": [
+      "Andaman Islands",
+      "Anamalai Forests",
+      "Maikala Hills",
+      "Tropical rain forest of northeast"
+    ],
+    "correctOption": "A",
+    "explanation": "The species has been discovered in the Andaman Islands. The new banana species, scientifically identified from the Andaman and Nicobar archipelago, is notable for its unusual height of about 11 metres and its orange-coloured fruit pulp. This discovery highlights the rich biodiversity and endemic flora of the islands.\n\nCorrect Answer: (a) Andaman Islands.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Biodiversity and Flora",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Banana Species",
+      "Andaman Islands",
+      "Endemic Flora",
+      "Biodiversity"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 7,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_016",
+    "questionText": "In a particular region in India, the local people train the roots of living trees into robust bridges across the streams. As the time passes, these bridges become stronger. These unique ‘living root bridges’ are found in: (2015)",
+    "options": [
+      "Meghalaya",
+      "Himachal Pradesh",
+      "Jharkhand",
+      "Tamil Nadu"
+    ],
+    "correctOption": "A",
+    "explanation": "The living root bridges of Cherrapunji, Laitkynsew and Nongriat in present-day Meghalaya are a remarkable example of bioengineering. They are made by training the aerial roots of living rubber fig trees (Ficus elastica) across streams and rivers. Over time, these roots grow stronger and form durable natural bridges. The process may take many years, but the resulting bridges can last for centuries.\n\nCorrect Answer: (a) Meghalaya.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Human Environment Interaction",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Living Root Bridges",
+      "Meghalaya",
+      "Ficus Elastica",
+      "Cherrapunji",
+      "Traditional Knowledge"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 7,
+    "sourceFile": "",
+    "isPYQ": true
+  }
+[
+  {
+    "questionId": "PG_017",
+    "questionText": "On which of the following can you find the Bureau of Energy Efficiency Star Label? (2016)\n1. Ceiling fans\n2. Electric geysers\n3. Tubular fluorescent lamps\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "2 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "The Bureau of Energy Efficiency (BEE) Star Labeling Programme is intended to help consumers identify energy-efficient appliances. Ceiling fans, electric geysers and tubular fluorescent lamps are all covered under the BEE labeling programme. The star rating indicates the energy efficiency of the product, with higher stars representing greater efficiency and lower electricity consumption.\n\nCorrect Answer: (d) 1, 2 and 3.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Energy Resources and Conservation",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "BEE",
+      "Star Label",
+      "Energy Efficiency",
+      "Electric Geyser",
+      "Ceiling Fan"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 8,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_018",
+    "questionText": "With reference to 'Red Sanders', sometimes seen in the news, consider the following statements: (2016)\n1. It is a tree species found in a part of South India.\n2. It is one of the most important trees in the tropical rainforest areas of South India.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "A",
+    "explanation": "Red Sanders (Pterocarpus santalinus) is an endemic tree species found mainly in the Eastern Ghats region of Andhra Pradesh. It is highly valued for its rich red wood. However, it is not a characteristic species of tropical rainforests. Instead, it grows in dry deciduous forest conditions.\n\nTherefore, Statement 1 is correct and Statement 2 is incorrect.\n\nCorrect Answer: (a) 1 only.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Forest Resources",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Red Sanders",
+      "Pterocarpus santalinus",
+      "Eastern Ghats",
+      "Andhra Pradesh",
+      "Endemic Species"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 8,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_019",
+    "questionText": "What is/are unique about ‘Kharai camel’, a breed found in India? (2016)\n1. It is capable of swimming up to three kilometres in seawater.\n2. It survives by grazing on mangroves.\n3. It lives in the wild and cannot be domesticated.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "The Kharai camel is a unique breed found mainly in the coastal regions of Gujarat. It is known for its remarkable ability to swim in seawater and travel long distances between islands. It survives by feeding on mangrove vegetation. However, it is a domesticated breed managed by local pastoral communities and is not a wild animal.\n\nTherefore, Statements 1 and 2 are correct while Statement 3 is incorrect.\n\nCorrect Answer: (a) 1 and 2 only.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Biodiversity and Animal Resources",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Kharai Camel",
+      "Gujarat",
+      "Mangroves",
+      "Animal Breeds",
+      "Coastal Ecosystem"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 8,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_020",
+    "questionText": "What is the importance of developing Chabahar Port by India? (2017)\n1. India's trade with African countries will increase enormously.\n2. India's relations with oil-producing Arab countries will be strengthened.\n3. India will not depend on Pakistan for access to Afghanistan and Central Asia.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "1 and 3 only",
+      "2 and 3 only"
+    ],
+    "correctOption": "B",
+    "explanation": "Chabahar Port, located in Iran, provides India with direct access to Afghanistan and Central Asia while bypassing Pakistan. The strategic significance of the port lies primarily in enhancing connectivity and trade routes to landlocked Afghanistan and Central Asian countries. Statements regarding direct strengthening of relations with Arab oil-producing countries or enormous increases in trade with Africa are not the primary reasons behind its development.\n\nCorrect Answer: (b) 3 only.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Transport and Strategic Geography",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Chabahar Port",
+      "Iran",
+      "Afghanistan",
+      "Central Asia",
+      "Connectivity"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 9,
+    "sourceFile": "",
+    "isPYQ": true
+  }
+[
+  {
+    "questionId": "PG_021",
+    "questionText": "At one of the places in India, if you stand on the seashore and watch the sea, you will find that the sea water recedes from the shore line a few kilometres and comes back to the shore, twice a day. This phenomenon is seen at (2017)",
+    "options": [
+      "Bhavnagar",
+      "Bheemunipatnam",
+      "Chandipur",
+      "Nagapattinam"
+    ],
+    "correctOption": "C",
+    "explanation": "Chandipur Beach in Odisha is famous for the unique phenomenon where the sea recedes up to several kilometres during low tide and returns during high tide. This occurs because of the exceptionally gentle slope of the seabed and the tidal characteristics of the Bay of Bengal.\n\nCorrect Answer: (c) Chandipur.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Coastal Landforms and Tides",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Chandipur",
+      "Tides",
+      "Odisha Coast",
+      "Sea Recession",
+      "Coastal Geography"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 9,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_022",
+    "questionText": "The term 'M-STRIPES' is sometimes seen in the news in the context of (2017)",
+    "options": [
+      "Captive breeding of Wild Fauna",
+      "Maintenance of Tiger Reserves",
+      "Indigenous Satellite Navigation System",
+      "Security of National Highways"
+    ],
+    "correctOption": "B",
+    "explanation": "M-STrIPES (Monitoring System for Tigers - Intensive Protection and Ecological Status) is a software-based monitoring system launched by the National Tiger Conservation Authority (NTCA). It is used for patrolling, monitoring, and managing tiger reserves and wildlife habitats across India.\n\nCorrect Answer: (b) Maintenance of Tiger Reserves.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Wildlife Conservation",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "M-STrIPES",
+      "Tiger Reserve",
+      "NTCA",
+      "Wildlife Conservation",
+      "Tiger Monitoring"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 9,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_023",
+    "questionText": "With reference to river Teesta, consider the following statements: (2017)\n1. The source of river Teesta is the same as that of Brahmaputra but it flows through Sikkim.\n2. River Rangeet originates in Sikkim and it is a tributary of Teesta.\n3. River Teesta flows into Bay of Bengal on the border of India and Bangladesh.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 3 only",
+      "2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "The Teesta River originates from the Tso Lhamo Lake in Sikkim, whereas the Brahmaputra originates from the Angsi Glacier region in Tibet. Therefore, Statement 1 is incorrect. The Rangeet River originates in Sikkim and is the principal tributary of the Teesta, making Statement 2 correct. The Teesta joins the Brahmaputra (Jamuna in Bangladesh) before reaching the Bay of Bengal, so Statement 3 is incorrect.\n\nCorrect Answer: (b) 2 only.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Rivers of India",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Teesta",
+      "Rangeet",
+      "Sikkim",
+      "Brahmaputra",
+      "River System"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 10,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_024",
+    "questionText": "Which of the following statements regarding the Peacock are correct? (2017)\n1. It is the national bird of India.\n2. It is native to India.\n3. It is listed in Schedule-I of the Wildlife (Protection) Act, 1972.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "1, 2 and 3",
+      "2 and 3 only"
+    ],
+    "correctOption": "C",
+    "explanation": "The Indian Peacock (Pavo cristatus) is the national bird of India and is native to the Indian subcontinent. It enjoys the highest degree of legal protection under Schedule-I of the Wildlife (Protection) Act, 1972.\n\nTherefore, all three statements are correct.\n\nCorrect Answer: (c) 1, 2 and 3.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Biodiversity and Wildlife",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "Peacock",
+      "National Bird",
+      "Wildlife Protection Act",
+      "Schedule I",
+      "Pavo cristatus"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 10,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_025",
+    "questionText": "Which one of the following is an artificial lake? (2018)",
+    "options": [
+      "Kolleru",
+      "Pulicat",
+      "Sambhar",
+      "Govind Ballabh Pant Sagar"
+    ],
+    "correctOption": "D",
+    "explanation": "Govind Ballabh Pant Sagar is a man-made reservoir formed by the Rihand Dam on the Rihand River in Uttar Pradesh. Kolleru, Pulicat and Sambhar are natural lakes. Therefore, Govind Ballabh Pant Sagar is the artificial lake among the options.\n\nCorrect Answer: (d) Govind Ballabh Pant Sagar.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Lakes and Reservoirs",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Govind Ballabh Pant Sagar",
+      "Artificial Lake",
+      "Rihand Dam",
+      "Reservoir",
+      "Lakes"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 10,
+    "sourceFile": "",
+    "isPYQ": true
+  }
+[
+  {
+    "questionId": "PG_026",
+    "questionText": "Consider the following statements: (2018)\n1. The Barren Island volcano is an active volcano located in the Indian territory.\n2. Barren Island lies about 140 km east of Great Nicobar.\n3. The last time the Barren Island volcano erupted was in 1991 and it has remained inactive since then.\nWhich of the statements given above are correct?",
+    "options": [
+      "1 only",
+      "2 and 3",
+      "3 only",
+      "1 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "Barren Island is the only active volcano in India and is located in the Andaman Sea. It lies about 138 km northeast of Port Blair, not east of Great Nicobar. Although a major eruption occurred in 1991 after a long dormant period, the volcano has erupted multiple times since then. Therefore, only Statement 1 is correct.\n\nCorrect Answer: (a) 1 only.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Volcanoes",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Barren Island",
+      "Volcano",
+      "Andaman Sea",
+      "Active Volcano",
+      "Andaman and Nicobar"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 11,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_027",
+    "questionText": "Why is there a great concern about the 'microbeads' that are released into environment? (2019)",
+    "options": [
+      "They are considered harmful to marine ecosystems.",
+      "They are considered to cause skin cancer in children.",
+      "They are small enough to be absorbed by crop plants in irrigated fields.",
+      "They are often found to be used as food adulterants."
+    ],
+    "correctOption": "A",
+    "explanation": "Microbeads are tiny plastic particles used in cosmetics, personal care products and industrial applications. Because of their small size, they escape filtration systems and enter rivers, lakes and oceans. Marine organisms often ingest them, causing ecological damage and allowing plastics to enter the food chain.\n\nCorrect Answer: (a) They are considered harmful to marine ecosystems.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Environmental Geography",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Microbeads",
+      "Marine Pollution",
+      "Plastic Pollution",
+      "Marine Ecosystem"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 11,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_028",
+    "questionText": "Why are dewdrops not formed on a cloudy night? (2019)",
+    "options": [
+      "Clouds absorb the radiation released from the Earth's surface.",
+      "Clouds reflect back the Earth's radiation.",
+      "The Earth's surface would have low temperature on cloudy nights.",
+      "Clouds deflect the blowing wind to ground level."
+    ],
+    "correctOption": "B",
+    "explanation": "Dew forms when the Earth's surface loses heat through radiation during the night and cools sufficiently for condensation to occur. On cloudy nights, clouds reflect and re-radiate the outgoing terrestrial radiation back toward the surface, reducing cooling. As a result, the temperature may not fall below the dew point and dew formation is inhibited.\n\nCorrect Answer: (b) Clouds reflect back the Earth's radiation.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Atmospheric Processes",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Dew",
+      "Radiation",
+      "Cloud Cover",
+      "Condensation",
+      "Weather"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 12,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_029",
+    "questionText": "With reference to the water on the planet Earth, consider the following statements: (2021)\n1. The amount of water in the rivers and lakes is more than the amount of groundwater.\n2. The amount of water in polar ice caps and glaciers is more than the amount of groundwater.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "B",
+    "explanation": "Only a very small fraction of Earth's freshwater exists in rivers and lakes, whereas groundwater accounts for a much larger share. Polar ice caps and glaciers contain the largest reservoir of freshwater on Earth, exceeding the amount stored as groundwater.\n\nTherefore, Statement 1 is incorrect and Statement 2 is correct.\n\nCorrect Answer: (b) 2 only.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Hydrosphere",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "Water Distribution",
+      "Groundwater",
+      "Glaciers",
+      "Polar Ice Caps",
+      "Hydrosphere"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 12,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_030",
+    "questionText": "With reference to 'water vapour', which of the following statements is/are correct? (2021)\n1. It is a gas, the amount of which decreases with altitude.\n2. Its percentage is maximum at the poles.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "A",
+    "explanation": "Water vapour is a gaseous component of the atmosphere and is concentrated mainly in the lower atmosphere. Its quantity decreases rapidly with altitude. The highest concentration of water vapour is generally found in warm tropical and equatorial regions, not at the poles where temperatures are very low.\n\nTherefore, Statement 1 is correct and Statement 2 is incorrect.\n\nCorrect Answer: (a) 1 only.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Atmosphere",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "Water Vapour",
+      "Atmosphere",
+      "Humidity",
+      "Altitude",
+      "Climate"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 12,
+    "sourceFile": "",
+    "isPYQ": true
+  }
+[
+  {
+    "questionId": "PG_031",
+    "questionText": "With reference to the 'New York Declaration on Forests', which of the following statements are correct? (2022)\n1. It was first endorsed at the United Nations Climate Summit in 2014.\n2. It endorses a global timeline to end the loss of forests.\n3. It is a legally binding international declaration.\n4. It is endorsed by governments, big companies and indigenous communities.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1, 2 and 4",
+      "1 and 3 only",
+      "3 and 4 only",
+      "2 and 3 only"
+    ],
+    "correctOption": "A",
+    "explanation": "The New York Declaration on Forests (NYDF) was endorsed at the UN Climate Summit in 2014. It sets voluntary global goals to halve natural forest loss by 2020 and end it by 2030. It is not a legally binding agreement. The declaration has been endorsed by governments, multinational companies, indigenous peoples' organizations and civil society groups.\n\nCorrect Answer: (a) 1, 2 and 4.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Forests and Environment",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "New York Declaration on Forests",
+      "NYDF",
+      "Forests",
+      "UN Climate Summit",
+      "Environment"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 13,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_032",
+    "questionText": "Consider the following statements: (2023)\n1. Carbon fibres are used in the manufacture of components used in automobiles and aircrafts.\n2. Carbon fibres once used cannot be recycled.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "A",
+    "explanation": "Carbon fibres are lightweight, strong and widely used in automobiles, aircraft, sporting goods and aerospace industries. Advances in technology have enabled recycling and reuse of carbon fibre materials. Therefore, Statement 1 is correct while Statement 2 is incorrect.\n\nCorrect Answer: (a) 1 only.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Resources and Materials",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "Carbon Fibre",
+      "Recycling",
+      "Aircraft",
+      "Automobile Industry",
+      "Materials"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 13,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_033",
+    "questionText": "Consider the following statements: (2024)\n1. The Earth's magnetic field has reversed many times in the past.\n2. The Earth's magnetic field has become weak in recent centuries.\n3. The Earth's magnetic field protects the Earth from harmful solar radiation.\nHow many of the above statements are correct?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "C",
+    "explanation": "Geological evidence shows that Earth's magnetic poles have reversed many times during its history. Scientific observations indicate that the magnetic field has weakened over recent centuries. The magnetic field acts as a shield against charged particles and harmful solar radiation, protecting life and the atmosphere.\n\nCorrect Answer: (c) All three.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Geomagnetism",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Magnetic Field",
+      "Geomagnetism",
+      "Solar Radiation",
+      "Magnetic Reversal",
+      "Earth Science"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 13,
+    "sourceFile": "",
+    "isPYQ": true
+  },
+  {
+    "questionId": "PG_034",
+    "questionText": "On June 21 every year, which of the following latitude(s) experience(s) the longest duration of daylight? (2024)\n1. Equator\n2. Tropic of Cancer\n3. Arctic Circle\nSelect the correct answer using the code given below:",
+    "options": [
+      "3 only",
+      "2 and 3 only",
+      "1 and 2 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "June 21 is the Summer Solstice in the Northern Hemisphere. As one moves northward, the duration of daylight increases. At the Arctic Circle, the Sun remains above the horizon for 24 hours, resulting in the longest duration of daylight. The Equator experiences approximately equal day and night throughout the year, while the Tropic of Cancer has long daylight hours but less than the Arctic Circle.\n\nCorrect Answer: (a) 3 only.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Physical Geography",
+    "subtopicName": "Earth Movements and Seasons",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "Summer Solstice",
+      "June 21",
+      "Arctic Circle",
+      "Daylight",
+      "Latitude"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 14,
+    "sourceFile": "",
+    "isPYQ": true
+  }
+[
+{
+"questionId": "CL_001",
+"questionText": "During a thunderstorm, the thunder in the skies is produced by the (2013)\n1. meeting of cumulonimbus clouds in the sky\n2. lightning that separates the nimbus clouds\n3. violent upward movement of air and water particles\nSelect the correct answer using the codes given below.",
+"options": [
+"1 only",
+"2 and 3",
+"1 and 3",
+"None of the above produces the thunder"
+],
+"correctOption": "D",
+"explanation": "Thunder is produced by the rapid expansion and contraction of air caused by the heat from a lightning strike. Here's a breakdown:\n\n1) Meeting of cumulonimbus clouds in the sky:\n● Incorrect. While cumulonimbus clouds are associated with thunderstorms, their meeting does not directly cause thunder. They are involved in the formation of the storm itself, but not in the production of thunder.\n\n2) Lightning that separates the nimbus clouds:\n● Incorrect. Lightning is the result of a discharge of electricity between clouds or between the cloud and the ground. While lightning causes thunder, it doesn't separate the clouds in a way that directly produces the sound.\n\n3) Violent upward movement of air and water particles:\n● Incorrect. The upward movement of air and water particles (convection) in the storm contributes to the formation of clouds and precipitation, but it is not directly responsible for producing thunder.\n\nHow thunder is actually produced:\n● Thunder is caused by the rapid expansion of air due to the extreme heat (around 30,000 Kelvin) from a lightning strike. This causes the surrounding air to expand quickly, creating a shock wave, which we hear as thunder.\n\nThus, none of the statements correctly explains the cause of thunder, making (d) the correct answer.",
+"year": 2013,
+"paper": "GS1",
+"subjectName": "Geography",
+"topicName": "Climatology",
+"subtopicName": "Thunderstorms",
+"questionType": "StatementBased",
+"difficulty": "Easy",
+"keywords": [
+"Thunder",
+"Lightning",
+"Cumulonimbus",
+"Thunderstorm",
+"Convection"
+],
+"tables": [],
+"images": [],
+"sourcePage": 13,
+"sourceFile": "Pasted text(49).txt",
+"isPYQ": true
+},
+{
+"questionId": "CL_002",
+"questionText": "The annual range of temperature in the interior of the continents is high as compared to coastal areas. What is / are the reason / reasons? (2013)\n1. Thermal difference between land and water\n2. Variation in altitude between continents and oceans\n3. Presence of strong winds in the interior\n4. Heavy rains in the interior as compared to coasts\nSelect the correct answer using the codes given below.",
+"options": [
+"1 only",
+"1 and 2 only",
+"2 and 3 only",
+"1, 2, 3 and 4"
+],
+"correctOption": "A",
+"explanation": "1) Thermal difference between land and water:\n● Correct. Land heats up and cools down more quickly than water due to its lower specific heat capacity. This causes significant temperature variations in the interior of continents, leading to a high annual range of temperature. Coastal areas, influenced by the moderating effect of water, experience smaller temperature variations.\n\n2) Variation in altitude between continents and oceans:\n● Incorrect. While altitude affects temperature, it does not explain the higher annual range of temperature in continental interiors compared to coastal areas, as altitude varies within continents as well.\n\n3) Presence of strong winds in the interior:\n● Incorrect. Strong winds are not a consistent feature of continental interiors, and winds typically moderate temperatures by mixing air masses, which would reduce the temperature range.\n\n4) Heavy rains in the interior as compared to coasts:\n● Incorrect. Coastal areas generally receive more rainfall than continental interiors due to their proximity to oceans. Rainfall does not directly affect the annual range of temperature.",
+"year": 2013,
+"paper": "GS1",
+"subjectName": "Geography",
+"topicName": "Climatology",
+"subtopicName": "Continentality and Temperature",
+"questionType": "StatementBased",
+"difficulty": "Easy",
+"keywords": [
+"Continentality",
+"Temperature Range",
+"Land and Water",
+"Specific Heat"
+],
+"tables": [],
+"images": [],
+"sourcePage": 13,
+"sourceFile": "Pasted text(49).txt",
+"isPYQ": true
+},
+{
+"questionId": "CL_003",
+"questionText": "Consider the following statements: (2015)\n1. The winds which blow between 30° N and 60° S latitudes through-out the year are known as westerlies.\n2. The moist air masses that cause winter rains in North-Western region of India are part of Westerlies.\nWhich of the statements given above is/are correct?",
+"options": [
+"1 only",
+"2 only",
+"Both 1 and 2",
+"Neither 1 nor 2"
+],
+"correctOption": "B",
+"explanation": "The winds that blow consistently between 30° N and 60° S latitudes are generally referred to as the westerlies. However, the statement in the question mentions "throughout the year," which is incorrect for the southern hemisphere portion. This is because the westerlies in the southern hemisphere do not extend uniformly to 60° S throughout the year, particularly due to seasonal variations and disruptions caused by pressure systems. Therefore, Statement 1 is incorrect.\n\nThe moist air masses responsible for winter rains in the northwestern region of India are brought by western disturbances. These disturbances are part of the westerlies, which transport moisture from the Mediterranean region. Hence, Statement 2 is correct.\n\nThe correct answer is b) 2 only.",
+"year": 2015,
+"paper": "GS1",
+"subjectName": "Geography",
+"topicName": "Climatology",
+"subtopicName": "Planetary Winds",
+"questionType": "StatementBased",
+"difficulty": "Medium",
+"keywords": [
+"Westerlies",
+"Western Disturbances",
+"Winter Rainfall",
+"North West India"
+],
+"tables": [],
+"images": [],
+"sourcePage": 14,
+"sourceFile": "Pasted text(49).txt",
+"isPYQ": true
+},
+{
+"questionId": "CL_004",
+"questionText": "In the South Atlantic and South-Eastern Pacific regions in tropical latitudes, cyclones do not originate. What is the reason? (2015)",
+"options": [
+"Sea surface temperatures are low",
+"Inter-tropical Convergence Zone seldom occurs",
+"Coriolis force is too weak",
+"Absence of land in those regions"
+],
+"correctOption": "B",
+"explanation": "Tropical cyclones require high sea surface temperatures (typically above 27°C) to form, along with significant atmospheric instability. In the South Atlantic and South-Eastern Pacific, sea surface temperatures are generally lower than required for cyclone formation due to the presence of cold ocean currents like the Benguela and Humboldt currents. Additionally, while the Coriolis force and landmass absence are factors, they are not the primary reasons cyclones fail to originate here. The primary reason is that the Inter-Tropical Convergence Zone (ITCZ) seldom forms or is not conducive in these regions.\n\nThe correct answer is b) Inter-tropical Convergence Zone seldom occurs.",
+"year": 2015,
+"paper": "GS1",
+"subjectName": "Geography",
+"topicName": "Climatology",
+"subtopicName": "Tropical Cyclones",
+"questionType": "MCQ",
+"difficulty": "Medium",
+"keywords": [
+"Cyclones",
+"ITCZ",
+"South Atlantic",
+"South Eastern Pacific",
+"Benguela Current"
+],
+"tables": [],
+"images": [],
+"sourcePage": 14,
+"sourceFile": "Pasted text(49).txt",
+"isPYQ": true
+},
+{
+"questionId": "CL_005",
+"questionText": "Each day is more or less the same, the morning is clear and bright with a sea breeze; as the Sun climbs high in the sky, heat mounts up, dark clouds form, then rain comes with thunder and lightning. But the rain is soon over. Which of the following regions is described in the above passage? (2015)",
+"options": [
+"Savannah",
+"Equatorial",
+"Monsoon",
+"Mediterranean"
+],
+"correctOption": "B",
+"explanation": "The described climatic conditions—clear and bright mornings, rapid heating, formation of cumulonimbus clouds, and heavy afternoon rains with thunderstorms—are characteristic of equatorial regions. These areas experience a tropical rainforest climate with high temperatures and intense convective rainfall caused by the Sun's near-zenith position.\n\nThe correct answer is b) Equatorial.",
+"year": 2015,
+"paper": "GS1",
+"subjectName": "Geography",
+"topicName": "Climatology",
+"subtopicName": "Equatorial Climate",
+"questionType": "MCQ",
+"difficulty": "Easy",
+"keywords": [
+"Equatorial Climate",
+"Convectional Rainfall",
+"Cumulonimbus",
+"Thunderstorm"
+],
+"tables": [],
+"images": [],
+"sourcePage": 14,
+"sourceFile": "Pasted text(49).txt",
+"isPYQ": true
+}
+[
+  {
+    "questionId": "CL_006",
+    "questionText": "Why are dewdrops not formed on a cloudy night? (2019)",
+    "options": [
+      "Clouds absorb the radiation released from the Earth’s surface.",
+      "Clouds reflect back the Earth’s radiation.",
+      "The Earth’s surface would have low temperatures on cloudy nights.",
+      "Clouds deflect the blowing wind to ground level."
+    ],
+    "correctOption": "B",
+    "explanation": "Dew is formed when water vapour condenses on a relatively cold surface after the temperature falls below the dew point. On cloudy nights, terrestrial radiation emitted from the Earth's surface is reflected back by clouds. This creates greenhouse-like conditions, keeping the surface warmer and preventing it from cooling sufficiently to reach the dew point. Hence, dew formation becomes unfavorable.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Climatology",
+    "subtopicName": "Humidity and Condensation",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Dew",
+      "Condensation",
+      "Clouds",
+      "Terrestrial Radiation",
+      "Greenhouse Effect"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 14,
+    "sourceFile": "Pasted text(49).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CL_007",
+    "questionText": "“The crop is subtropical in nature. A hard frost is injurious to it. It requires at least 210 frost-free days and a bright sun-shine for its growth. It requires 50 to 100 cm of rainfall for its growth.” Which one of the following is that crop? (2019)",
+    "options": [
+      "Cotton",
+      "Jute",
+      "Sugarcane",
+      "Tea"
+    ],
+    "correctOption": "A",
+    "explanation": "Cotton is a subtropical crop that requires a long frost-free period, abundant sunshine and moderate rainfall ranging between 50–100 cm. Frost damages cotton plants severely, making frost-free conditions essential throughout the growing season.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Climatology",
+    "subtopicName": "Agricultural Climatology",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Cotton",
+      "Frost",
+      "Rainfall",
+      "Sunshine",
+      "Agriculture"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 15,
+    "sourceFile": "Pasted text(49).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CL_008",
+    "questionText": "With reference to the water on the planet Earth, consider the following statements: (2021)\n1. The amount of water in the rivers and lakes is more than the amount of groundwater.\n2. The amount of water in polar ice caps and glaciers is more than the amount of groundwater.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "B",
+    "explanation": "Statement 1 is incorrect because groundwater constitutes a much larger share of Earth's freshwater than rivers and lakes. Statement 2 is correct because polar ice caps and glaciers contain the largest portion of freshwater on Earth, exceeding groundwater reserves.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Climatology",
+    "subtopicName": "Hydrological Cycle",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Freshwater",
+      "Groundwater",
+      "Glaciers",
+      "Polar Ice Caps",
+      "Hydrology"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 15,
+    "sourceFile": "Pasted text(49).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CL_009",
+    "questionText": "Consider the following statements: (2024)\n1. Coriolis force increases with increase in wind velocity.\n2. Coriolis force is maximum at the poles and absent at the equator.\nSelect the answer using the code given below.",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "C",
+    "explanation": "The Coriolis force is produced due to Earth's rotation. Its magnitude depends upon both the velocity of the moving object and latitude. It increases with increasing wind velocity and becomes maximum at the poles while becoming zero at the equator.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Climatology",
+    "subtopicName": "Planetary Winds and Coriolis Force",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "Coriolis Force",
+      "Latitude",
+      "Earth Rotation",
+      "Wind Velocity"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 15,
+    "sourceFile": "Pasted text(49).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CL_010",
+    "questionText": "On June 21 every year, which of the following latitude(s) experience(s) sunlight of more than 12 hours? (2024)\n1. Equator\n2. Tropic of Cancer\n3. Tropic of Capricorn\n4. Arctic Circle\nSelect the correct answer using the code given below.",
+    "options": [
+      "1 only",
+      "2 only",
+      "3 and 4",
+      "2 and 4"
+    ],
+    "correctOption": "D",
+    "explanation": "June 21 marks the Summer Solstice in the Northern Hemisphere. The Tropic of Cancer and all latitudes north of it, including the Arctic Circle, receive more than 12 hours of daylight. The Equator receives approximately 12 hours, while the Tropic of Capricorn experiences shorter days.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Climatology",
+    "subtopicName": "Insolation and Solstices",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "June 21",
+      "Summer Solstice",
+      "Day Length",
+      "Arctic Circle",
+      "Tropic of Cancer"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 15,
+    "sourceFile": "Pasted text(49).txt",
+    "isPYQ": true
+  }
+[
+  {
+    "questionId": "CL_011",
+    "questionText": "With reference to the Earth's atmosphere, which one of the following statements is correct? (2024)",
+    "options": [
+      "The total amount of insolation received at the equator is roughly about 10 times of that received at the poles.",
+      "Infrared rays constitute roughly two-thirds of insolation.",
+      "Infrared waves are largely absorbed by water vapour that is concentrated in the lower atmosphere.",
+      "Infrared waves are a part of visible spectrum of electromagnetic waves of solar radiation."
+    ],
+    "correctOption": "C",
+    "explanation": "Infrared radiation is strongly absorbed by greenhouse gases, particularly water vapour, which is concentrated in the lower atmosphere. Insolation consists primarily of shortwave radiation, and infrared radiation is not part of the visible spectrum. The equator receives more insolation than the poles, but not ten times more.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Climatology",
+    "subtopicName": "Insolation and Atmospheric Heating",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Insolation",
+      "Infrared Radiation",
+      "Water Vapour",
+      "Atmosphere",
+      "Greenhouse Gases"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 16,
+    "sourceFile": "Pasted text(49).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CL_012",
+    "questionText": "Consider the following statements: (2024)\n1. The Earth's surface receives radiation directly from the Sun and reradiates it as long-wave radiation.\n2. Most of the incoming solar radiation is absorbed by the atmosphere.\n3. Greenhouse gases absorb outgoing terrestrial radiation.\nWhich of the statements given above are correct?",
+    "options": [
+      "1 and 2 only",
+      "1 and 3 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "The Earth's surface absorbs solar radiation and emits long-wave terrestrial radiation. Most incoming solar radiation passes through the atmosphere and is absorbed by the Earth's surface rather than by the atmosphere. Greenhouse gases absorb outgoing terrestrial radiation and re-radiate part of it back toward the Earth.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Climatology",
+    "subtopicName": "Earth Radiation Balance",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "Terrestrial Radiation",
+      "Greenhouse Gases",
+      "Radiation Balance",
+      "Atmosphere",
+      "Heat Budget"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 16,
+    "sourceFile": "Pasted text(49).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CL_013",
+    "questionText": "Which one of the following best describes 'temperature inversion'? (2024)",
+    "options": [
+      "A condition in which temperature decreases with altitude more rapidly than normal.",
+      "A condition in which temperature increases with altitude instead of decreasing.",
+      "A condition in which surface temperatures remain constant throughout the day.",
+      "A condition in which upper atmospheric temperatures become lower than polar temperatures."
+    ],
+    "correctOption": "B",
+    "explanation": "Temperature inversion is a meteorological condition in which temperature increases with height instead of following the normal lapse rate where temperature decreases with altitude. It often leads to fog formation, trapping of pollutants and stable atmospheric conditions.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Climatology",
+    "subtopicName": "Atmospheric Stability",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Temperature Inversion",
+      "Lapse Rate",
+      "Atmosphere",
+      "Fog",
+      "Pollution"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 16,
+    "sourceFile": "Pasted text(49).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CL_014",
+    "questionText": "Which of the following factors influence the movement of winds on the Earth? (2024)\n1. Pressure Gradient Force\n2. Coriolis Force\n3. Frictional Force\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "1 and 2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Wind movement is governed by three principal forces. Pressure Gradient Force initiates wind movement from high pressure to low pressure areas. Coriolis Force deflects winds due to Earth's rotation. Frictional Force slows wind speed and modifies direction near the Earth's surface. Therefore, all three factors influence wind movement.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Climatology",
+    "subtopicName": "Wind Systems",
+    "questionType": "StatementBased",
+    "difficulty": "Easy",
+    "keywords": [
+      "Pressure Gradient Force",
+      "Coriolis Force",
+      "Frictional Force",
+      "Wind Movement",
+      "Atmosphere"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 16,
+    "sourceFile": "Pasted text(49).txt",
+    "isPYQ": true
+  }
+[
+{
+"questionId": "OC_001",
+"questionText": "The most important fishing grounds of the world are found in the regions where",
+"options": [
+"warm and cold atmospheric currents meet",
+"rivers drain out large amounts of fresh water into the sea",
+"warm and cold oceanic currents meet",
+"continental shelf is undulating"
+],
+"correctOption": "C",
+"explanation": "The most important fishing grounds of the world are located where warm and cold oceanic currents meet because:\n\n1) Nutrient Enrichment:\n● When warm and cold currents meet, the mixing of waters brings nutrients from the ocean depths to the surface. These nutrients promote the growth of plankton, which forms the base of the marine food chain.\n\n2) High Marine Biodiversity:\n● The abundance of plankton attracts fish and other marine organisms, creating rich fishing grounds.\n\n3) Famous Examples:\n● The meeting of the Gulf Stream (warm current) and the Labrador Current (cold current) off the coast of Newfoundland (Grand Banks) and the meeting of the Kuroshio (warm current) and Oyashio (cold current) currents near Japan are examples of highly productive fishing grounds.\n\nWhy other options are incorrect:\n● (a) Warm and cold atmospheric currents meet: This affects weather patterns but has no direct impact on fishing grounds.\n● (b) Rivers drain out large amounts of freshwater into the sea: This contributes nutrients locally (e.g., river deltas) but is not the primary factor for global fishing grounds.\n● (d) Continental shelf is undulating: While continental shelves are important for fisheries due to shallow waters, the most productive areas are typically where oceanic currents meet.",
+"year": 2013,
+"paper": "GS1",
+"subjectName": "Geography",
+"topicName": "Oceanography",
+"subtopicName": "Ocean Currents and Fisheries",
+"questionType": "MCQ",
+"difficulty": "Easy",
+"keywords": [
+"Fishing Grounds",
+"Ocean Currents",
+"Gulf Stream",
+"Labrador Current",
+"Plankton"
+],
+"tables": [],
+"images": [],
+"sourcePage": 16,
+"sourceFile": "Pasted text(50).txt",
+"isPYQ": true
+},
+{
+"questionId": "OC_002",
+"questionText": "On the planet earth, most of the freshwater exists as ice caps and glaciers. Out of the remaining freshwater, the largest proportion",
+"options": [
+"is found in atmosphere as moisture and clouds",
+"is found in freshwater lakes and rivers",
+"exists as groundwater",
+"exists as soil moisture"
+],
+"correctOption": "C",
+"explanation": "On Earth, the distribution of freshwater is as follows:\n\n1) Ice caps and glaciers:\n● The majority (about 68-70%) of freshwater is locked in ice caps and glaciers.\n\n2) Groundwater:\n● Out of the remaining freshwater, the largest proportion (about 30%) exists as groundwater, which is stored in aquifers beneath the Earth's surface.\n\n3) Freshwater lakes and rivers:\n● Only a very small fraction (around 0.3%) of freshwater is found in surface water bodies like lakes and rivers.\n\n4) Atmosphere as moisture and clouds:\n● Water in the atmosphere constitutes an even smaller fraction, approximately 0.04% of the total freshwater.\n\n5) Soil moisture:\n● Soil moisture is also minimal compared to groundwater.",
+"year": 2013,
+"paper": "GS1",
+"subjectName": "Geography",
+"topicName": "Oceanography",
+"subtopicName": "Water Resources",
+"questionType": "MCQ",
+"difficulty": "Easy",
+"keywords": [
+"Freshwater",
+"Groundwater",
+"Glaciers",
+"Ice Caps",
+"Hydrosphere"
+],
+"tables": [],
+"images": [],
+"sourcePage": 17,
+"sourceFile": "Pasted text(50).txt",
+"isPYQ": true
+},
+{
+"questionId": "OC_003",
+"questionText": "What explains the eastward flow of the equatorial counter-current?",
+"options": [
+"The Earth’s rotation on its axis",
+"Convergence of the two equatorial currents",
+"Difference in salinity of water",
+"Occurrence of the belt of calm near the equator"
+],
+"correctOption": "A",
+"explanation": "The equatorial counter-current is a unique oceanic phenomenon where water flows eastward near the equator between the two westward-flowing equatorial currents. The correct explanation for this lies in the Earth's rotation on its axis. The Earth's rotation, combined with the Coriolis effect, plays a vital role in determining the direction and behavior of ocean currents. The two westward-flowing equatorial currents—North and South Equatorial Currents—are driven by the trade winds. These currents push water toward the western edges of the ocean basins, causing a piling up of water there. This creates a pressure gradient as water levels in the western parts of the oceans are slightly higher than in the eastern parts. To balance this gradient, water flows back eastward along the equator as the equatorial counter-current. This flow is further facilitated by the absence of strong trade winds near the equator, which allows the eastward movement of water to dominate in this region. The Earth’s rotation ensures this eastward flow aligns along the equator, as the Coriolis effect is minimal at the equator but still influences broader circulation patterns.",
+"year": 2015,
+"paper": "GS1",
+"subjectName": "Geography",
+"topicName": "Oceanography",
+"subtopicName": "Ocean Currents",
+"questionType": "MCQ",
+"difficulty": "Medium",
+"keywords": [
+"Equatorial Counter Current",
+"Ocean Currents",
+"Coriolis Effect",
+"Trade Winds",
+"Earth Rotation"
+],
+"tables": [],
+"images": [],
+"sourcePage": 17,
+"sourceFile": "Pasted text(50).txt",
+"isPYQ": true
+},
+{
+"questionId": "OC_004",
+"questionText": "Tides occur in the oceans and seas due to which among the following?\n1. Gravitational force of the Sun\n2. Gravitational force of the Moon\n3. Centrifugal force of the Earth\nSelect the correct answer using the code given below:",
+"options": [
+"1 only",
+"2 and 3 only",
+"1 and 3 only",
+"1, 2 and 3"
+],
+"correctOption": "D",
+"explanation": "Tides are the periodic rise and fall of sea levels caused primarily by gravitational interactions between the Earth, the Moon, and the Sun, along with the centrifugal force resulting from the Earth’s rotation. The gravitational force of the Moon has the most significant impact on tides because of its proximity to Earth. The Moon's gravitational pull attracts water toward itself, creating a bulge of water, or a high tide, on the side of Earth facing the Moon. Simultaneously, on the opposite side of the Earth, a high tide also occurs due to the centrifugal force generated by the Earth-Moon system’s rotation around their common center of mass.\n\nThe gravitational force of the Sun also influences tides, although to a lesser extent than the Moon because of its greater distance from Earth. When the Sun, Earth, and Moon align during new and full moons, the combined gravitational pull results in higher high tides, known as spring tides. Conversely, when the Sun and Moon are at right angles relative to the Earth during the first and third quarters of the lunar cycle, the tidal effects counteract each other, leading to lower high tides, called neap tides.\n\nFinally, the centrifugal force arising from the Earth's rotation and its orbit around the Earth-Moon barycenter contributes to the tidal effect by creating the second tidal bulge opposite the Moon. The combination of these three forces—gravitational pull of the Moon, gravitational pull of the Sun, and the Earth's centrifugal force—leads to the occurrence of tides across the oceans and seas. Hence, the correct answer is d) 1, 2, and 3.",
+"year": 2015,
+"paper": "GS1",
+"subjectName": "Geography",
+"topicName": "Oceanography",
+"subtopicName": "Tides",
+"questionType": "StatementBased",
+"difficulty": "Easy",
+"keywords": [
+"Tides",
+"Moon",
+"Sun",
+"Gravitational Force",
+"Spring Tide"
+],
+"tables": [],
+"images": [],
+"sourcePage": 18,
+"sourceFile": "Pasted text(50).txt",
+"isPYQ": true
+},
+{
+"questionId": "OC_005",
+"questionText": "With reference to ‘Indian Ocean Dipole (IOD)’ sometimes mentioned in the news while forecasting Indian monsoon, which of the following statements is/are correct?\n1. The IOD phenomenon is characterised by a difference in sea surface temperature between tropical Western Indian Ocean and tropical Eastern Pacific Ocean.\n2. An IOD phenomenon can influence an El Nino’s impact on the monsoon.\nSelect the correct answer using the code given below:",
+"options": [
+"1 only",
+"2 only",
+"Both 1 and 2",
+"Neither 1 nor 2"
+],
+"correctOption": "B",
+"explanation": "Statement 1: The IOD, also known as the Indian Niño, is an irregular oscillation of sea-surface temperatures in which the western Indian Ocean becomes alternately warmer and then colder than the eastern part of the Indian ocean (not tropical eastern pacific ocean.\n\nStatement 2: IOD has a much more significant effect on the rainfall patterns in south-east Australia than the El Niño-Southern Oscillation (ENSO) in the Pacific Ocean as shown in several recent studies.",
+"year": 2017,
+"paper": "GS1",
+"subjectName": "Geography",
+"topicName": "Oceanography",
+"subtopicName": "Indian Ocean Dipole",
+"questionType": "StatementBased",
+"difficulty": "Medium",
+"keywords": [
+"IOD",
+"Indian Ocean Dipole",
+"Monsoon",
+"ENSO",
+"Sea Surface Temperature"
+],
+"tables": [],
+"images": [],
+"sourcePage": 18,
+"sourceFile": "Pasted text(50).txt",
+"isPYQ": true
+}
+[
+  {
+    "questionId": "OC_006",
+    "questionText": "Consider the following statements:\n1. In the tropical zone, the western sections of the oceans are warmer than the eastern sections owing to the influence of trade winds.\n2. In the temperate zone, westerlies make the eastern sections of oceans warmer than the western sections.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "C",
+    "explanation": "Statement 1 is correct. Warmer water is transported westward in the ocean by the Northeast trade winds in the Northern hemisphere of the tropical zone (as the figure given below shows). So, in tropical zones, the western section of ocean is warmer than eastern sections due to trade winds.\n\nStatement 2 is correct. Similarly, the Westerlies play an important role in carrying the warm, equatorial waters and winds to the western coasts of continents (that is the eastern section of the Oceans in the temperate zone). Thus, in temperate zones, westerlies make the eastern section of the ocean warmer than the western sections.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Oceanography",
+    "subtopicName": "Ocean Currents",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Trade Winds",
+      "Westerlies",
+      "Ocean Temperature",
+      "Ocean Currents",
+      "Tropical Oceans"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 19,
+    "sourceFile": "Pasted text(50).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "OC_007",
+    "questionText": "Which of the following is/are correct inference/inferences from isothermal maps in the month of January?\n1. The isotherms deviate to the north over the ocean and to the south over the continent.\n2. The presence of cold ocean currents, Gulf Stream and North Atlantic Drift make the North Atlantic Ocean colder and the isotherms bend towards the north.\nSelect the answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "A",
+    "explanation": "Isothermal maps in January provide critical insights into temperature distribution across the globe. The statement that \"the isotherms deviate to the north over the ocean and to the south over the continent\" is correct. This deviation is primarily caused by the differential heating of land and water. Land masses cool more rapidly in winter, leading to lower temperatures over continents, while oceans retain heat longer and remain warmer. This results in isotherms bending toward the poles over the warmer oceans and toward the equator over the cooler continents, particularly evident in the Northern Hemisphere during January.\n\nThe second statement, \"The presence of cold ocean currents, Gulf Stream, and North Atlantic Drift make the North Atlantic Ocean colder and the isotherms bend towards the north,\" is incorrect. The Gulf Stream and North Atlantic Drift are warm ocean currents that raise temperatures in the North Atlantic Ocean, particularly near Europe. As these warm currents influence the region, isotherms actually bend northward due to the heat they distribute. Cold currents, such as the Labrador Current, can lower temperatures locally, but the overall influence of warm currents dominates the North Atlantic.\n\nThus, only the first statement is correct, making the correct answer a) 1 only.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Oceanography",
+    "subtopicName": "Ocean Temperature Distribution",
+    "questionType": "StatementBased",
+    "difficulty": "Hard",
+    "keywords": [
+      "Isotherms",
+      "January",
+      "Gulf Stream",
+      "North Atlantic Drift",
+      "Ocean Temperature"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 19,
+    "sourceFile": "Pasted text(50).txt",
+    "isPYQ": true
+  }
+[
+  {
+    "questionId": "OC_008",
+    "questionText": "Consider the following statements:\n1. Most of the world's coral reefs are in tropical waters.\n2. More than one third of the world's coral reefs are located in the territories of Australia, Indonesia and Philippines.\n3. Coral reefs host far more animal phyla than those hosted by tropical rainforests.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Coral reefs are found in circum-tropical shallow tropical waters along the shores of islands and continents. The reef substrate is mainly composed of calcium carbonate from living and dead corals. Many other invertebrates, vertebrates, and plants live in close association to the corals, with tight resource coupling and recycling, allowing coral reefs to have extremely high productivity and biodiversity, such that they are referred to as ‘the Tropical Rainforests of the Oceans’.\n\nCoral reefs are believed by many to have the highest biodiversity of any ecosystem on the planet - even more than a tropical rainforest.\n\nMajor Regions of Coral Reef Development → Globally, three major regions of coral reef development are generally recognized, each with a somewhat distinctive biota. These are: The Indo-Pacific - Includes most of the Indian Ocean (excluding the Red Sea), and the western Pacific. The Wider Caribbean (tropical western Atlantic) Includes Florida, The Bahamas, Caribbean Sea proper, and coastal waters off northeastern S. America. The Red Sea. Thus Australia, Indonesia and Philippines cover one-third area.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Oceanography",
+    "subtopicName": "Coral Reefs",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Coral Reefs",
+      "Australia",
+      "Indonesia",
+      "Philippines",
+      "Marine Biodiversity"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 18,
+    "sourceFile": "Pasted text.txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "OC_009",
+    "questionText": "Consider the following statements:\n1. The Earth's magnetic field has reversed every few hundred thousand years.\n2. When the Earth was created more than 4000 million years ago, there was 54% oxygen and no carbon dioxide.\n3. When living organisms originated, they modified the early atmosphere of the Earth.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "The Earth’s Magnetic field has reversed every few hundred thousand years. This has been proved through Sea-Floor spreading.\n\nWhen Earth was created there was no oxygen in the atmosphere.\n\nThe early atmosphere was composed largely of water vapour, methane, ammonia and carbon dioxide. Living organisms, particularly photosynthetic organisms, gradually modified the atmosphere by releasing oxygen, leading to the present composition.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Oceanography",
+    "subtopicName": "Sea Floor Spreading and Earth Evolution",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Magnetic Reversal",
+      "Sea Floor Spreading",
+      "Atmosphere",
+      "Earth Evolution",
+      "Oxygen"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 18,
+    "sourceFile": "Pasted text.txt",
+    "isPYQ": true
+  }
+[
+  {
+    "questionId": "OC_010",
+    "questionText": "With reference to the Indus river system, of the following four rivers, three of them pour into one of them which joins the Indus directly. Among the following, which one is such a river that joins the Indus directly?",
+    "options": [
+      "Chenab",
+      "Jhelum",
+      "Ravi",
+      "Sutlej"
+    ],
+    "correctOption": "D",
+    "explanation": "Starting at the pinnacle of the world with glaciers, the Indus River supplies the flora and fauna of temperate forests, plateaus, and dry rural areas. In conjunction with the rivers Chenab, Jhelum, Sutlej, Ravi, Beas, and two tributaries from Afghanistan and Khyber Pakhtunkhwa, the Indus creates the Sapta Sindhu (Seven Rivers) delta of Pakistan.\n\nChenab river moves into the lands of Punjab in the vicinity of Akhnur and is subsequently connected with the Jhelum. It creates the border between the Rechna and the Jech Doabs. The Chenab also meets the Ravi and the Sutlej in Pakistan.\n\nThe Ravi River runs as a portion of the boundary between India and Pakistan for a particular distance prior to moving into Pakistan and meeting the Chenab River.\n\nThe river moves into Pakistan in the vicinity of Sulemanki and is subsequently met by the Chenab.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Oceanography",
+    "subtopicName": "River Systems",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Indus",
+      "Sutlej",
+      "Chenab",
+      "Jhelum",
+      "Ravi"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 19,
+    "sourceFile": "Pasted text.txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "OC_011",
+    "questionText": "Consider the following rivers:\n1. Brahmani\n2. Nagavali\n3. Subarnarekha\n4. Vamsadhara\nWhich of the above rise from the Eastern Ghats?",
+    "options": [
+      "1 and 2",
+      "2 and 4",
+      "3 and 4",
+      "1 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "Rivers originating on the Eastern Ghats include Baitarani River, Budhabalanga River, Rushikulya River, Vamsadhara River, Palar River, Nagavali River, and Champavathi River, etc.\n\nThe Baitarani River originates from Guptaganga hills in Keonjhar District of Orissa, about 2 km from Gonasika village, at an elevation of 900 m at latitude 21° 31’ N and longitude 85° 33’ E.\n\nThe Subernarekha River rises near Nagri village in the Ranchi District of Jharkhand at an elevation of 600 m. It flows for a length of 395 km before outfalling into the Bay of Bengal.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Oceanography",
+    "subtopicName": "Drainage Systems",
+    "questionType": "StatementBased",
+    "difficulty": "Medium",
+    "keywords": [
+      "Eastern Ghats",
+      "Nagavali",
+      "Vamsadhara",
+      "Subarnarekha",
+      "Brahmani"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 19,
+    "sourceFile": "Pasted text.txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "OC_012",
+    "questionText": "Gandikota canyon of South India was created by which one of the following rivers?",
+    "options": [
+      "Cauvery",
+      "Manjira",
+      "Pennar",
+      "Tungabhadra"
+    ],
+    "correctOption": "C",
+    "explanation": "Gandikota is a small village in the Kadapa district of Andhra Pradesh. The village is majorly known for housing the spectacular gorge which is famously adjudged as the Grand Canyon of India. The stunning gorge has been created by the waters of the famous river Pennar that streams from the Erramala hills. Penna (also known as Pinakini, Pennar, Penner, Penneru (Telugu), Pennai (Tamil)) is a river of southern India. India has always been a popular tourist destination for its historic forts, stunning palaces and dense jungles.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Geography",
+    "topicName": "Oceanography",
+    "subtopicName": "Fluvial Landforms",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Gandikota",
+      "Pennar",
+      "Canyon",
+      "Andhra Pradesh",
+      "Fluvial Erosion"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 19,
+    "sourceFile": "Pasted text.txt",
+    "isPYQ": true
+  }

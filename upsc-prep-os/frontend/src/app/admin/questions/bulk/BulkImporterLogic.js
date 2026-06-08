@@ -16,6 +16,7 @@ import Footer from "@/components/layout/Footer";
 import MobileNav from "@/components/layout/MobileNav";
 import { showToast } from "@/components/ui/Toast";
 import { confirmAction } from "@/components/ui/ConfirmModal";
+import QuestionImageGallery from "@/components/admin/QuestionImageGallery";
 
 // ─── CONSTANTS ───
 
@@ -271,6 +272,17 @@ export default function BulkImporterLogic() {
             return updated;
         });
     };
+    const updateImages = (qIdx, newImages) => {
+    setParsedQuestions((prev) => {
+        const updated = [...prev];
+        updated[qIdx] = {
+            ...updated[qIdx],
+            images: newImages,
+            questionFormat: newImages.length > 0 ? "Image" : "Text",
+        };
+        return updated;
+    });
+};
 
     const updateStatus = (idx, status) => updateField(idx, "reviewStatus", status);
 
@@ -769,6 +781,8 @@ export default function BulkImporterLogic() {
                                                     onFieldChange={(field, value) => updateField(globalIdx, field, value)}
                                                     onOptionChange={(optIdx, value) => updateOption(globalIdx, optIdx, value)}
                                                     onStatusChange={(status) => updateStatus(globalIdx, status)}
+                                                    onImagesChange={(imgs) => updateImages(globalIdx, imgs)}
+                                                    userToken={user?.token}
                                                 />
                                             );
                                         })
@@ -826,7 +840,9 @@ function QuestionCard({
     onDelete,
     onFieldChange,
     onOptionChange,
-    onStatusChange
+    onStatusChange,
+    onImagesChange,
+    userToken,
 }) {
 
     const [showExplanation, setShowExplanation] = useState(false);
@@ -947,6 +963,27 @@ function QuestionCard({
                 />
 
             </div>
+            {/* ── IMAGES (if any) ── */}
+{(q.images?.length > 0 || onImagesChange) && (
+    <div className="px-4 mt-3" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between mb-1.5">
+            <label className="text-[9px] font-black uppercase tracking-widest text-brand-muted">
+                Images {q.images?.length > 0 && `(${q.images.length})`}
+            </label>
+            {q.questionFormat === "Image" && (
+                <span className="text-[8px] font-black px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded-full uppercase">
+                    Image Question
+                </span>
+            )}
+        </div>
+        <QuestionImageGallery
+            images={q.images || []}
+            onChange={onImagesChange}
+            token={userToken}
+            compact
+        />
+    </div>
+)}
 
             {/* ── OPTIONS ── */}
 
