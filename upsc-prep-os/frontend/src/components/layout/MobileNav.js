@@ -130,15 +130,18 @@ const sectionVariants = {
 
 export default function MobileNav({ isOpen, onClose }) {
     const pathname = usePathname();
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        if (typeof window === "undefined") return null;
+        try {
+            const info = localStorage.getItem("userInfo");
+            return info ? JSON.parse(info) : null;
+        } catch {
+            return null;
+        }
+    });
     const [isSuper, setIsSuper] = useState(false);
 
     const allHrefs = navSections.flatMap((s) => s.items.map((i) => i.href));
-
-    useEffect(() => {
-        const info = localStorage.getItem("userInfo");
-        if (info) setUser(JSON.parse(info));
-    }, []);
 
     useEffect(() => {
         if (!user?.isAdmin) return;

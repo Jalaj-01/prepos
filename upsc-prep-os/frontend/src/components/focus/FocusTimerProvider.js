@@ -26,27 +26,40 @@ const DEFAULT_STATE = {
 };
 
 export function FocusTimerProvider({ children }) {
-    const [state, setState] = useState(DEFAULT_STATE);
+    const [state, setState] = useState(() => {
+        if (typeof window === "undefined") return DEFAULT_STATE;
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            return saved
+                ? { ...DEFAULT_STATE, ...JSON.parse(saved) }
+                : DEFAULT_STATE;
+        } catch {
+            return DEFAULT_STATE;
+        }
+    });
     const [tick, setTick] = useState(0); // forces re-render every second
     const [open, setOpenRaw] = useState(false);
 
-const setOpen = (val) => {
-    if (val === true) stopSound(); // opening modal stops the alert
-    setOpenRaw(val);
-};
     const intervalRef = useRef(null);
     const audioCtxRef = useRef(null);
     const hydrated = useRef(false);
 
-    // ─── Hydrate from localStorage on mount ───
+    const stopSound = () => {
+        if (audioCtxRef.current) {
+            try {
+                audioCtxRef.current.close();
+            } catch {}
+            audioCtxRef.current = null;
+        }
+    };
+
+    const setOpen = (val) => {
+        if (val === true) stopSound(); // opening modal stops the alert
+        setOpenRaw(val);
+    };
+
+    // ─── Mount marker ───
     useEffect(() => {
-        try {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                setState((s) => ({ ...s, ...parsed }));
-            }
-        } catch {}
         hydrated.current = true;
     }, []);
 
@@ -79,7 +92,65 @@ const setOpen = (val) => {
         return state.elapsedMs;
     }, [state]);
 
-    // ─── Auto-finish timer when it hits 0 ───
+    const notifyDone = useCallback(() => {
+        try {
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification("⏰ Focus session complete!", {
+                    body: state.label || "Take a short break — you earned it.",
+                    icon: "/icon-192x192.png",
+                    tag: "prepos-focus",
+                });
+            }
+        } catch {}
+
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) {
+                if (audioCtxRef.current) {
+                    try {
+                        audioCtxRef.current.close();
+                    } catch {}
+                }
+
+                const ctx = new AudioCtx();
+                audioCtxRef.current = ctx;
+
+                const playBeep = (freq, startOffset) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = "sine";
+                    osc.frequency.value = freq;
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    const t = ctx.currentTime + startOffset;
+                    gain.gain.setValueAtTime(0, t);
+                    gain.gain.linearRampToValueAtTime(0.3, t + 0.05);
+                    gain.gain.linearRampToValueAtTime(0, t + 0.6);
+
+                    osc.start(t);
+                    osc.stop(t + 0.6);
+                };
+
+                playBeep(880, 0);
+                playBeep(660, 0.4);
+                playBeep(880, 1.2);
+                playBeep(660, 1.6);
+                playBeep(880, 2.4);
+                playBeep(660, 2.8);
+
+                setTimeout(() => {
+                    if (audioCtxRef.current === ctx) {
+                        try {
+                            ctx.close();
+                        } catch {}
+                        audioCtxRef.current = null;
+                    }
+                }, 4000);
+            }
+        } catch {}
+    }, [state.label, audioCtxRef]);
+
     useEffect(() => {
         if (state.mode !== "timer" || state.status !== "running") return;
         const elapsed = getElapsed();
@@ -92,84 +163,7 @@ const setOpen = (val) => {
             }));
             notifyDone();
         }
-    }, [tick, state, getElapsed]);
-
-   // ─── Notification + beep ───
-const notifyDone = () => {
-    // Browser notification
-    try {
-        if ("Notification" in window) {
-            if (Notification.permission === "granted") {
-                new Notification("⏰ Focus session complete!", {
-                    body: state.label || "Take a short break — you earned it.",
-                    icon: "/icon-192x192.png",
-                    tag: "prepos-focus",
-                });
-            }
-        }
-    } catch {}
-
-    // Audio beep — Web Audio API (stoppable via stopSound())
-    try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (AudioCtx) {
-            // Close any previous context first
-            if (audioCtxRef.current) {
-                try {
-                    audioCtxRef.current.close();
-                } catch {}
-            }
-
-            const ctx = new AudioCtx();
-            audioCtxRef.current = ctx;
-
-            const playBeep = (freq, startOffset) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = "sine";
-                osc.frequency.value = freq;
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-
-                const t = ctx.currentTime + startOffset;
-                gain.gain.setValueAtTime(0, t);
-                gain.gain.linearRampToValueAtTime(0.3, t + 0.05);
-                gain.gain.linearRampToValueAtTime(0, t + 0.6);
-
-                osc.start(t);
-                osc.stop(t + 0.6);
-            };
-
-            // Play 3 ding-dong cycles over ~3 seconds so user notices
-            playBeep(880, 0);     // A5
-            playBeep(660, 0.4);   // E5
-            playBeep(880, 1.2);
-            playBeep(660, 1.6);
-            playBeep(880, 2.4);
-            playBeep(660, 2.8);
-
-            // Auto-cleanup after 4 seconds
-            setTimeout(() => {
-                if (audioCtxRef.current === ctx) {
-                    try {
-                        ctx.close();
-                    } catch {}
-                    audioCtxRef.current = null;
-                }
-            }, 4000);
-        }
-    } catch {}
-};
-
-// ─── Stop the alert sound manually ───
-const stopSound = () => {
-    if (audioCtxRef.current) {
-        try {
-            audioCtxRef.current.close();
-        } catch {}
-        audioCtxRef.current = null;
-    }
-};
+    }, [tick, state.mode, state.status, state.durationMs, getElapsed, notifyDone]);
 
     // ─── Actions ───
     const start = (opts = {}) => {

@@ -8,7 +8,14 @@ import { showToast } from "@/components/ui/Toast";
 import QuestionImageGallery from "@/components/admin/QuestionImageGallery";
 
 export default function AddQuestion() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        try {
+            const info = typeof window !== 'undefined' ? localStorage.getItem("userInfo") : null;
+            return info ? JSON.parse(info) : null;
+        } catch (e) {
+            return null;
+        }
+    });
     const [taxonomies, setTaxonomies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [images, setImages] = useState([]);
@@ -29,8 +36,7 @@ export default function AddQuestion() {
     });
 
     useEffect(() => {
-        const info = localStorage.getItem("userInfo");
-        if (info) setUser(JSON.parse(info));
+        // user is initialized from localStorage via useState lazy initializer
 
         const fetchTaxonomy = async () => {
             try {

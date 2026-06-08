@@ -184,7 +184,10 @@ const isLinkActive = (pathname, href, allHrefs) => {
 
 export default function Sidebar({ isAdmin = false }) {
     const pathname = usePathname();
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(() => {
+        if (typeof window === "undefined") return false;
+        return localStorage.getItem("sidebar-collapsed") === "true";
+    });
     const [isSuper, setIsSuper] = useState(false);
     const [hasNewFeedback, setHasNewFeedback] = useState(false);
 

@@ -28,26 +28,39 @@ export default function StickyNotesWidget() {
         return { headers: { Authorization: `Bearer ${info.token}` } };
     };
 
-    const fetchStats = async () => {
-        try {
-            const { data } = await axios.get(
-                `${baseUrl}/api/sticky-notes/stats`,
-                getConfig()
-            );
-            setStats(data);
-        } catch (e) {
-            console.warn("Notes stats:", e.message);
+    useEffect(() => {
+        const loadStats = async () => {
+            try {
+                const { data } = await axios.get(
+                    `${baseUrl}/api/sticky-notes/stats`,
+                    getConfig()
+                );
+                setStats(data);
+            } catch (e) {
+                console.warn("Notes stats:", e.message);
+            }
+        };
+
+        void loadStats();
+    }, [baseUrl]);
+
+    useEffect(() => {
+        if (!drawerOpen) {
+            const loadStats = async () => {
+                try {
+                    const { data } = await axios.get(
+                        `${baseUrl}/api/sticky-notes/stats`,
+                        getConfig()
+                    );
+                    setStats(data);
+                } catch (e) {
+                    console.warn("Notes stats:", e.message);
+                }
+            };
+
+            void loadStats();
         }
-    };
-
-    useEffect(() => {
-        fetchStats();
-    }, []);
-
-    useEffect(() => {
-        if (!drawerOpen) fetchStats();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [drawerOpen]);
+    }, [baseUrl, drawerOpen]);
 
     const notes = stats.recentNotes || [];
 

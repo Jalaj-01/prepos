@@ -73,7 +73,13 @@ export default function StickyNotesDrawer({ open, onClose }) {
     }, [filterColor, filterPinned, search]);
 
     useEffect(() => {
-        if (open) fetchNotes();
+        if (!open) return;
+
+        const loadNotes = async () => {
+            await fetchNotes();
+        };
+
+        void loadNotes();
     }, [open, fetchNotes]);
 
     const openNew = () => {
@@ -459,13 +465,13 @@ export default function StickyNotesDrawer({ open, onClose }) {
                                     <h3 className="text-lg font-black text-brand-dark mb-1">
                                         Delete this note?
                                     </h3>
-                                    <p className="text-xs font-medium text-brand-muted mb-5 leading-relaxed">
-                                        This will permanently remove{" "}
-                                        <span className="font-black text-brand-dark">
-                                            "{confirmDelete.title || "Untitled"}"
-                                        </span>
-                                        . This action cannot be undone.
-                                    </p>
+                                        <p className="text-xs font-medium text-brand-muted mb-5 leading-relaxed">
+                                            This will permanently remove
+                                            <span className="font-black text-brand-dark">
+                                                {confirmDelete.title || "Untitled"}
+                                            </span>
+                                            . This action cannot be undone.
+                                        </p>
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => setConfirmDelete(null)}

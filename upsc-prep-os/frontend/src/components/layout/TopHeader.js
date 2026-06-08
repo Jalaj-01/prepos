@@ -54,14 +54,41 @@ export default function TopHeader({ user, onMenuClick }) {
     };
 
     useEffect(() => {
-        fetchNotesCount();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        const loadNotesCount = async () => {
+            try {
+                const info = JSON.parse(localStorage.getItem("userInfo") || "{}");
+                if (!info.token) return;
+                const { data } = await axios.get(
+                    `${baseUrl}/api/sticky-notes/stats`,
+                    { headers: { Authorization: `Bearer ${info.token}` } }
+                );
+                setNotesCount(data.pinned || 0);
+            } catch (e) {
+                // silent
+            }
+        };
+
+        void loadNotesCount();
+    }, [baseUrl]);
 
     useEffect(() => {
-        if (!notesOpen) fetchNotesCount();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [notesOpen]);
+        if (!notesOpen) return;
+        const loadNotesCount = async () => {
+            try {
+                const info = JSON.parse(localStorage.getItem("userInfo") || "{}");
+                if (!info.token) return;
+                const { data } = await axios.get(
+                    `${baseUrl}/api/sticky-notes/stats`,
+                    { headers: { Authorization: `Bearer ${info.token}` } }
+                );
+                setNotesCount(data.pinned || 0);
+            } catch (e) {
+                // silent
+            }
+        };
+
+        void loadNotesCount();
+    }, [baseUrl, notesOpen]);
 
     const handleLogout = () => {
         localStorage.removeItem("userInfo");

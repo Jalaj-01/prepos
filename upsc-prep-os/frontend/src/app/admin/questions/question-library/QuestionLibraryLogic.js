@@ -33,7 +33,11 @@ import QuestionImageGallery from "@/components/admin/QuestionImageGallery";
 
 export default function QuestionLibraryLogic() {
 
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        if (typeof window === "undefined") return null;
+        const info = localStorage.getItem("userInfo");
+        return info ? JSON.parse(info) : null;
+    });
 
     const [questions, setQuestions] = useState([]);
 
@@ -70,14 +74,18 @@ const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
 
+        // Avoid synchronous setState inside effect to prevent cascading renders
         const info = localStorage.getItem("userInfo");
 
-        if (!info) {
-            window.location.href = "/login";
-            return;
-        }
+        // Defer state update/redirection to next tick
+        setTimeout(() => {
+            if (!info) {
+                window.location.href = "/login";
+                return;
+            }
 
-        setUser(JSON.parse(info));
+            setUser(JSON.parse(info));
+        }, 0);
 
     }, []);
 
@@ -170,7 +178,7 @@ const handleQuestionUpdated = (updated) => {
     );
 };
 
-    const fetchQuestions = async () => {
+    async function fetchQuestions() {
 
         try {
 
@@ -209,7 +217,7 @@ const handleQuestionUpdated = (updated) => {
 
             setLoading(false);
         }
-    };
+    }
 
     // =========================
     // FETCH USER'S BOOKMARKED IDS

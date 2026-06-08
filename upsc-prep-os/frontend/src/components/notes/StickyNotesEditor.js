@@ -23,6 +23,23 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+function EditorToolbarButton({ active, onClick, children, title }) {
+    return (
+        <button
+            type="button"
+            onClick={onClick}
+            title={title}
+            className={`p-1.5 rounded-md transition-all ${
+                active
+                    ? "bg-brand-dark text-white"
+                    : "text-brand-muted hover:bg-brand-light hover:text-brand-dark"
+            }`}
+        >
+            {children}
+        </button>
+    );
+}
+
 export default function StickyNotesEditor({
     content,
     onChange,
@@ -132,20 +149,7 @@ export default function StickyNotesEditor({
         e.target.value = "";
     };
 
-    const Btn = ({ active, onClick, children, title }) => (
-        <button
-            type="button"
-            onClick={onClick}
-            title={title}
-            className={`p-1.5 rounded-md transition-all ${
-                active
-                    ? "bg-brand-dark text-white"
-                    : "text-brand-muted hover:bg-brand-light hover:text-brand-dark"
-            }`}
-        >
-            {children}
-        </button>
-    );
+    const Btn = EditorToolbarButton;
 
     return (
         <>

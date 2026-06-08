@@ -21,48 +21,30 @@ export default function StorageWidget() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const loadStorage = async () => {
+            try {
+                const info = localStorage.getItem("userInfo");
+                if (!info) return;
 
-        fetchStorage();
-
-    }, []);
-
-    const fetchStorage = async () => {
-
-        try {
-
-            const info =
-                localStorage.getItem("userInfo");
-
-            if (!info) return;
-
-            const parsed = JSON.parse(info);
-
-            const { data } = await axios.get(
-
-                `${process.env.NEXT_PUBLIC_API_URL}/api/storage/me`,
-
-                {
-                    headers: {
-                        Authorization:
-                            `Bearer ${parsed.token}`
+                const parsed = JSON.parse(info);
+                const { data } = await axios.get(
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/storage/me`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${parsed.token}`,
+                        },
                     }
-                }
-            );
+                );
+                setStorage(data);
+            } catch (err) {
+                console.error("Storage fetch error", err);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-            setStorage(data);
-
-        } catch (err) {
-
-            console.error(
-                "Storage fetch error",
-                err
-            );
-
-        } finally {
-
-            setLoading(false);
-        }
-    };
+        void loadStorage();
+    }, []);
 
     if (loading) {
 
