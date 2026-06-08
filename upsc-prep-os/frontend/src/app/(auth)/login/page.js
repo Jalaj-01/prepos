@@ -5,6 +5,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { Mail, Lock, ArrowRight, ShieldCheck } from 'lucide-react';
 import axios from 'axios';
 import Link from 'next/link';
+import { showToast } from "@/components/ui/Toast";
 
 export default function Login() {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -13,11 +14,11 @@ export default function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
-        try {
+        try {   
             const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, formData);
             localStorage.setItem('userInfo', JSON.stringify(data));
             window.location.href = '/dashboard';
-        } catch (err) { alert(err.response?.data?.message || "Login failed"); }
+        } catch (err) { showToast.error(err .response?.data?.message || "Login failed"); }
         finally { setLoading(false); }
     };
 
@@ -26,7 +27,7 @@ export default function Login() {
             const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`, { token: response.credential });
             localStorage.setItem('userInfo', JSON.stringify(data));
             window.location.href = '/dashboard';
-        } catch (err) { alert("Google Sign-In failed"); }
+        } catch (err) { showToast.error("Google Sign-In failed. Please try again."); }
     };
 
     return (
@@ -38,7 +39,15 @@ export default function Login() {
                 </div>
 
                 <div className="flex justify-center mb-8">
-                    <GoogleLogin onSuccess={googleSuccess} onError={() => alert("Login Failed")} theme="filled_black" shape="pill" text="continue_with" />
+                    <GoogleLogin
+    onSuccess={googleSuccess}
+    onError={() =>
+        showToast.error("Google sign-in failed. Please try again.")
+    }
+    theme="filled_black"
+    shape="pill"
+    text="continue_with"
+/>
                 </div>
 
                 <div className="flex items-center gap-4 mb-8">

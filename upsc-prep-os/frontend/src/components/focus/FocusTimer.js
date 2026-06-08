@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     Timer,
@@ -24,7 +24,7 @@ const TIMER_PRESETS = [
 ];
 
 const CUSTOM_MIN = 1;     // minimum 1 minute
-const CUSTOM_MAX = 480;   // max 8 hours
+const CUSTOM_MAX = 480;   // max 8 hours (480 min)
 
 const formatTime = (ms) => {
     if (ms < 0) ms = 0;
@@ -38,45 +38,66 @@ const formatTime = (ms) => {
     return `${mm}:${ss}`;
 };
 
+// Pages where the floating bubble should be hidden (unless timer is running)
+const HIDDEN_PATH_PREFIXES = [
+    "/login",
+    "/signup",
+    "/about",
+    "/forgot-password",
+    "/reset-password",
+    "/privacy",
+    "/terms",
+    "/contact",
+];
+
 export default function FocusTimer() {
     const {
-    mode,
-    status,
-    durationMs,
-    elapsedLive,
-    open,
-    setOpen,
-    start,
-    pause,
-    resume,
-    reset,
-    setMode,
-    setDuration,
-    label,
-    setLabel,
-    stopSound,
-} = useFocusTimer();
+        mode,
+        status,
+        durationMs,
+        elapsedLive,
+        open,
+        setOpen,
+        start,
+        pause,
+        resume,
+        reset,
+        setMode,
+        setDuration,
+        label,
+        setLabel,
+        stopSound,
+    } = useFocusTimer();
 
-    // Check if current duration matches any preset
-const matchesPreset = TIMER_PRESETS.some((p) => p.ms === durationMs);
-const customLabel =
-    !matchesPreset && durationMs > 0
-        ? `${Math.round(durationMs / 60000)}m`
-        : "Custom";
+    // ─── Hydration guard — only render after client mount ───
+    const [mounted, setMounted] = useState(false);
 
-const applyCustom = () => {
-    const n = parseInt(customMin, 10);
-    if (!n || n < CUSTOM_MIN || n > CUSTOM_MAX) return;
-    setDuration(n * 60 * 1000);
-    setShowCustom(false);
-    setCustomMin("");
-};
-
-    const isRunning = status === "running";
+    // Local UI state
     const [showCustom, setShowCustom] = useState(false);
     const [customMin, setCustomMin] = useState("");
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const isRunning = status === "running";
     const isPaused = status === "paused";
     const isFinished = status === "finished";
+
+    // Custom duration helpers
+    const matchesPreset = TIMER_PRESETS.some((p) => p.ms === durationMs);
+    const customLabel =
+        !matchesPreset && durationMs > 0
+            ? `${Math.round(durationMs / 60000)}m`
+            : "Custom";
+
+    const applyCustom = () => {
+        const n = parseInt(customMin, 10);
+        if (!n || n < CUSTOM_MIN || n > CUSTOM_MAX) return;
+        setDuration(n * 60 * 1000);
+        setShowCustom(false);
+        setCustomMin("");
+    };
 
     const display =
         mode === "stopwatch"
@@ -88,21 +109,18 @@ const applyCustom = () => {
             ? Math.min((elapsedLive / durationMs) * 100, 100)
             : 0;
 
-    // ─── Don't show on auth pages etc ───
+    // ─── Bail before client mounts (prevents hydration mismatch) ───
+    if (!mounted) return null;
+
+    // ─── Hide on public/auth pages unless timer is running ───
     if (typeof window !== "undefined") {
         const path = window.location.pathname;
-        if (
+        const isHiddenPage =
             path === "/" ||
-            path.startsWith("/login") ||
-            path.startsWith("/signup") ||
-            path.startsWith("/about") ||
-            path.startsWith("/forgot-password") ||
-            path.startsWith("/privacy") ||
-            path.startsWith("/terms") ||
-            path.startsWith("/contact")
-        ) {
-            // hide unless currently running (don't surprise user)
-            if (status === "idle") return null;
+            HIDDEN_PATH_PREFIXES.some((p) => path.startsWith(p));
+
+        if (isHiddenPage && status === "idle") {
+            return null;
         }
     }
 
@@ -226,7 +244,7 @@ const applyCustom = () => {
 
                                 {/* DISPLAY */}
                                 <div className="relative bg-gradient-to-br from-brand-dark to-gray-900 text-white rounded-2xl p-8 mb-6 overflow-hidden">
-                                    {/* Progress ring for timer */}
+                                    {/* Progress bar for timer */}
                                     {mode === "timer" && (
                                         <div
                                             className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-brand-accent to-purple-400 transition-all duration-300"
@@ -248,99 +266,106 @@ const applyCustom = () => {
                                     </p>
                                 </div>
 
-                               {/* PRESETS — timer mode only */}
-{mode === "timer" && status === "idle" && (
-    <div className="mb-5">
-        <p className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-2">
-            Duration (minutes)
-        </p>
+                                {/* PRESETS — timer mode only */}
+                                {mode === "timer" && status === "idle" && (
+                                    <div className="mb-5">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-2">
+                                            Duration (minutes)
+                                        </p>
 
-        <div className="grid grid-cols-6 gap-1.5">
-            {TIMER_PRESETS.map((p) => (
-                <button
-                    key={p.label}
-                    onClick={() => {
-                        setDuration(p.ms);
-                        setShowCustom(false);
-                    }}
-                    className={`py-2 rounded-lg text-xs font-black transition-all ${
-                        durationMs === p.ms && !showCustom
-                            ? "bg-brand-dark text-white"
-                            : "bg-brand-light text-brand-muted hover:text-brand-dark"
-                    }`}
-                >
-                    {p.label}
-                </button>
-            ))}
-            <button
-                onClick={() => {
-                    setShowCustom(!showCustom);
-                    if (!matchesPreset && durationMs > 0) {
-                        setCustomMin(String(Math.round(durationMs / 60000)));
-                    }
-                }}
-                className={`py-2 rounded-lg text-xs font-black transition-all ${
-                    !matchesPreset || showCustom
-                        ? "bg-brand-dark text-white"
-                        : "bg-brand-light text-brand-muted hover:text-brand-dark"
-                }`}
-            >
-                {customLabel}
-            </button>
-        </div>
+                                        <div className="grid grid-cols-6 gap-1.5">
+                                            {TIMER_PRESETS.map((p) => (
+                                                <button
+                                                    key={p.label}
+                                                    onClick={() => {
+                                                        setDuration(p.ms);
+                                                        setShowCustom(false);
+                                                    }}
+                                                    className={`py-2 rounded-lg text-xs font-black transition-all ${
+                                                        durationMs === p.ms && !showCustom
+                                                            ? "bg-brand-dark text-white"
+                                                            : "bg-brand-light text-brand-muted hover:text-brand-dark"
+                                                    }`}
+                                                >
+                                                    {p.label}
+                                                </button>
+                                            ))}
+                                            <button
+                                                onClick={() => {
+                                                    setShowCustom(!showCustom);
+                                                    if (!matchesPreset && durationMs > 0) {
+                                                        setCustomMin(
+                                                            String(Math.round(durationMs / 60000))
+                                                        );
+                                                    }
+                                                }}
+                                                className={`py-2 rounded-lg text-xs font-black transition-all ${
+                                                    !matchesPreset || showCustom
+                                                        ? "bg-brand-dark text-white"
+                                                        : "bg-brand-light text-brand-muted hover:text-brand-dark"
+                                                }`}
+                                            >
+                                                {customLabel}
+                                            </button>
+                                        </div>
 
-        {/* CUSTOM INPUT (expands inline) */}
-        <AnimatePresence>
-            {showCustom && (
-                <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="overflow-hidden"
-                >
-                    <div className="mt-3 p-3 bg-brand-light border border-brand-border rounded-xl">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-2">
-                            Custom duration ({CUSTOM_MIN}–{CUSTOM_MAX} min)
-                        </p>
-                        <div className="flex gap-2">
-                            <input
-                                type="number"
-                                min={CUSTOM_MIN}
-                                max={CUSTOM_MAX}
-                                value={customMin}
-                                onChange={(e) => setCustomMin(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter") {
-                                        e.preventDefault();
-                                        applyCustom();
-                                    }
-                                }}
-                                placeholder="e.g. 50"
-                                autoFocus
-                                className="flex-1 px-3 py-2 bg-white border border-brand-border rounded-lg text-sm font-bold outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-all"
-                            />
-                            <button
-                                onClick={applyCustom}
-                                disabled={
-                                    !customMin ||
-                                    parseInt(customMin, 10) < CUSTOM_MIN ||
-                                    parseInt(customMin, 10) > CUSTOM_MAX
-                                }
-                                className="px-4 py-2 bg-brand-dark text-white rounded-lg text-xs font-black uppercase tracking-widest hover:bg-brand-accent transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                            >
-                                Set
-                            </button>
-                        </div>
-                        <p className="text-[10px] font-bold text-brand-muted mt-2">
-                            Tip: press Enter to apply
-                        </p>
-                    </div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-    </div>
-)}
+                                        {/* CUSTOM INPUT (expands inline) */}
+                                        <AnimatePresence>
+                                            {showCustom && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, height: 0 }}
+                                                    animate={{ opacity: 1, height: "auto" }}
+                                                    exit={{ opacity: 0, height: 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    className="overflow-hidden"
+                                                >
+                                                    <div className="mt-3 p-3 bg-brand-light border border-brand-border rounded-xl">
+                                                        <p className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-2">
+                                                            Custom duration ({CUSTOM_MIN}–
+                                                            {CUSTOM_MAX} min)
+                                                        </p>
+                                                        <div className="flex gap-2">
+                                                            <input
+                                                                type="number"
+                                                                min={CUSTOM_MIN}
+                                                                max={CUSTOM_MAX}
+                                                                value={customMin}
+                                                                onChange={(e) =>
+                                                                    setCustomMin(e.target.value)
+                                                                }
+                                                                onKeyDown={(e) => {
+                                                                    if (e.key === "Enter") {
+                                                                        e.preventDefault();
+                                                                        applyCustom();
+                                                                    }
+                                                                }}
+                                                                placeholder="e.g. 50"
+                                                                autoFocus
+                                                                className="flex-1 px-3 py-2 bg-white border border-brand-border rounded-lg text-sm font-bold outline-none focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 transition-all"
+                                                            />
+                                                            <button
+                                                                onClick={applyCustom}
+                                                                disabled={
+                                                                    !customMin ||
+                                                                    parseInt(customMin, 10) <
+                                                                        CUSTOM_MIN ||
+                                                                    parseInt(customMin, 10) >
+                                                                        CUSTOM_MAX
+                                                                }
+                                                                className="px-4 py-2 bg-brand-dark text-white rounded-lg text-xs font-black uppercase tracking-widest hover:bg-brand-accent transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                                                            >
+                                                                Set
+                                                            </button>
+                                                        </div>
+                                                        <p className="text-[10px] font-bold text-brand-muted mt-2">
+                                                            Tip: press Enter to apply
+                                                        </p>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+                                )}
 
                                 {/* LABEL */}
                                 {status === "idle" && (
@@ -409,24 +434,24 @@ const applyCustom = () => {
                                     )}
 
                                     {isFinished && (
-    <>
-        <button
-            onClick={stopSound}
-            className="px-4 py-3 bg-brand-light text-brand-dark rounded-xl text-xs font-black uppercase tracking-widest hover:bg-brand-border/50 transition-all flex items-center gap-1.5"
-            title="Stop sound"
-        >
-            <VolumeX size={14} />
-            Mute
-        </button>
-        <button
-            onClick={reset}
-            className="flex-1 flex items-center justify-center gap-2 py-3 bg-green-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-green-700 transition-all"
-        >
-            <RotateCcw size={14} />
-            Start New Session
-        </button>
-    </>
-)}
+                                        <>
+                                            <button
+                                                onClick={stopSound}
+                                                className="px-4 py-3 bg-brand-light text-brand-dark rounded-xl text-xs font-black uppercase tracking-widest hover:bg-brand-border/50 transition-all flex items-center gap-1.5"
+                                                title="Stop sound"
+                                            >
+                                                <VolumeX size={14} />
+                                                Mute
+                                            </button>
+                                            <button
+                                                onClick={reset}
+                                                className="flex-1 flex items-center justify-center gap-2 py-3 bg-green-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-green-700 transition-all"
+                                            >
+                                                <RotateCcw size={14} />
+                                                Start New Session
+                                            </button>
+                                        </>
+                                    )}
                                 </div>
 
                                 <p className="text-[10px] font-bold text-center text-brand-muted mt-4 leading-relaxed">

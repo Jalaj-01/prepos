@@ -63,6 +63,7 @@ export default function QuestionLibraryLogic() {
 const [selectedIds, setSelectedIds] = useState(new Set());
 const [deleteTarget, setDeleteTarget] = useState(null); // single question or "bulk"
 const [deleting, setDeleting] = useState(false);
+const [taxonomies, setTaxonomies] = useState([]);
 
     // PER-USER bookmark tracking
 
@@ -88,6 +89,23 @@ const [deleting, setDeleting] = useState(false);
         }, 0);
 
     }, []);
+
+    // =========================
+// FETCH TAXONOMY (subjects + topics)
+// =========================
+useEffect(() => {
+    const fetchTaxonomy = async () => {
+        try {
+            const { data } = await axios.get(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/taxonomy`
+            );
+            setTaxonomies(data);
+        } catch (err) {
+            console.warn("Taxonomy fetch failed:", err.message);
+        }
+    };
+    fetchTaxonomy();
+}, []);
 
     // =========================
     // FETCH QUESTIONS + BOOKMARKS
@@ -451,41 +469,63 @@ const handleQuestionUpdated = (updated) => {
 
                                 {/* SUBJECT */}
 
-                                <div className="mb-4 sm:mb-6">
+<div className="mb-4 sm:mb-6">
+    <label className="text-[10px] font-black uppercase text-brand-muted mb-2 block">
+        Subject
+    </label>
+    <select
+        value={selectedSubject}
+        onChange={(e) => {
+            setSelectedSubject(e.target.value);
+            setSelectedTopic(""); // reset topic when subject changes
+        }}
+        className="w-full rounded-xl border border-brand-border px-3 py-2.5 bg-brand-light font-bold text-sm cursor-pointer outline-none focus:border-brand-accent transition-all"
+    >
+        <option value="">All Subjects</option>
+        {taxonomies
+            .filter((t) => t.level === "subject")
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((s) => (
+                <option key={s._id} value={s.name}>
+                    {s.name}
+                </option>
+            ))}
+    </select>
+</div>
 
-                                    <label className="text-[10px] font-black uppercase text-brand-muted mb-2 block">
+{/* TOPIC */}
 
-                                        Subject
-
-                                    </label>
-
-                                    <input
-                                        value={selectedSubject}
-                                        onChange={(e) => setSelectedSubject(e.target.value)}
-                                        placeholder="History"
-                                        className="w-full rounded-xl border border-brand-border px-3 py-2.5 bg-brand-light font-bold text-sm"
-                                    />
-
-                                </div>
-
-                                {/* TOPIC */}
-
-                                <div className="mb-4 sm:mb-6">
-
-                                    <label className="text-[10px] font-black uppercase text-brand-muted mb-2 block">
-
-                                        Topic
-
-                                    </label>
-
-                                    <input
-                                        value={selectedTopic}
-                                        onChange={(e) => setSelectedTopic(e.target.value)}
-                                        placeholder="Buddhism"
-                                        className="w-full rounded-xl border border-brand-border px-3 py-2.5 bg-brand-light font-bold text-sm"
-                                    />
-
-                                </div>
+<div className="mb-4 sm:mb-6">
+    <label className="text-[10px] font-black uppercase text-brand-muted mb-2 block">
+        Topic
+    </label>
+    <select
+        value={selectedTopic}
+        onChange={(e) => setSelectedTopic(e.target.value)}
+        disabled={!selectedSubject}
+        className="w-full rounded-xl border border-brand-border px-3 py-2.5 bg-brand-light font-bold text-sm cursor-pointer outline-none focus:border-brand-accent transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+    >
+        <option value="">
+            {selectedSubject ? "All Topics" : "Pick subject first"}
+        </option>
+        {taxonomies
+            .filter((t) => {
+                if (t.level !== "topic") return false;
+                if (!selectedSubject) return false;
+                // Match by parent subject NAME (since selectedSubject stores name not id)
+                const parent = taxonomies.find(
+                    (p) => p._id === (t.parentId?._id || t.parentId)
+                );
+                return parent?.name === selectedSubject;
+            })
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((t) => (
+                <option key={t._id} value={t.name}>
+                    {t.name}
+                </option>
+            ))}
+    </select>
+</div>
 
                                 {/* REPEATED ONLY */}
 
