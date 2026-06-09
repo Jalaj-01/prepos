@@ -834,13 +834,15 @@ const allCount = totals.total;
 
                                             </div>
 
-                                            {/* QUESTION TEXT */}
+                                         
 
-                                            <h2 className="text-base sm:text-xl font-black text-brand-dark leading-relaxed mb-4 sm:mb-6">
+                                           {/* QUESTION TEXT */}
 
-                                                {q.questionText}
+<h2 className="text-base sm:text-xl font-black text-brand-dark leading-relaxed mb-4 sm:mb-6 whitespace-pre-wrap">
 
-                                            </h2>
+    {q.questionText}
+
+</h2>
                                             {/* IMAGES — for map/chart/diagram questions */}
 {q.images?.length > 0 && (
     <div className="mb-4 sm:mb-6">

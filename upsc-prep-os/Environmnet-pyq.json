@@ -1,0 +1,1515 @@
+[
+  {
+    "questionId": "BOEE_001",
+    "questionText": "Which one of the following is the best description of the term ‘ecosystem’?",
+    "options": [
+      "A community of organisms interacting with one another",
+      "That part of the Earth which is inhabited by living organisms",
+      "A community of organisms together with the environment in which they live",
+      "The flora and fauna of a geographical area"
+    ],
+    "correctOption": "C",
+    "explanation": "An ecosystem consists of living organisms and their physical environment interacting as a functional unit through energy flow and nutrient cycling.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Ecosystem",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Ecosystem",
+      "Biotic Components",
+      "Abiotic Components",
+      "Ecology"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_002",
+    "questionText": "With reference to ‘fly ash’ produced by the power plants using coal as fuel, which of the following statements is/are correct?\n1. Fly ash can be used in the production of bricks for building construction.\n2. Fly ash can be used as a replacement for some of the Portland cement contents of concrete.\n3. Fly ash is made up of silicon dioxide and calcium oxide only, and does not contain any toxic elements.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2",
+      "2 only",
+      "1 and 3",
+      "3 only"
+    ],
+    "correctOption": "A",
+    "explanation": "Fly ash is used in bricks and concrete production. It also contains trace toxic elements and not just silicon dioxide and calcium oxide.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Fly Ash",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Fly Ash",
+      "Coal Power Plants",
+      "Bricks",
+      "Concrete",
+      "Waste Utilization"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_003",
+    "questionText": "In the context of solving pollution problems, what is/are the advantage/advantages of bioremediation techniques?\n1. It is a technique for cleaning up pollution by enhancing the same biodegradation process that occurs in nature.\n2. Any contaminant with heavy metals such as cadmium and lead can be readily and completely treated by bioremediation using microorganisms.\n3. Genetic engineering can be used to create microorganisms specifically designed for bioremediation.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "Bioremediation enhances natural biodegradation and can use genetically engineered microorganisms. Heavy metals cannot be completely biodegraded.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Bioremediation",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Bioremediation",
+      "Pollution Control",
+      "Microorganisms",
+      "Genetic Engineering",
+      "Heavy Metals"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_004",
+    "questionText": "Biological Oxygen Demand (BOD) is a standard criterion for:",
+    "options": [
+      "Measuring oxygen levels in blood",
+      "Computing oxygen levels in forest ecosystems",
+      "Pollution assay in aquatic ecosystems",
+      "Assessing oxygen levels in high altitude regions"
+    ],
+    "correctOption": "C",
+    "explanation": "BOD measures the amount of oxygen required by microorganisms to decompose organic matter and is used to assess water pollution.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Water Pollution Indicators",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "BOD",
+      "Water Pollution",
+      "Aquatic Ecosystem",
+      "Water Quality"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_005",
+    "questionText": "Consider the following:\n1. Carbon monoxide\n2. Methane\n3. Ozone\n4. Sulphur dioxide\nWhich of the above are released into atmosphere due to the burning of crop/biomass residue?",
+    "options": [
+      "1 and 2 only",
+      "2, 3 and 4 only",
+      "1 and 4 only",
+      "1, 2, 3 and 4"
+    ],
+    "correctOption": "D",
+    "explanation": "Biomass burning releases carbon monoxide, methane, sulphur dioxide and contributes to the formation of ozone through atmospheric reactions.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Biomass Burning",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Biomass Burning",
+      "Carbon Monoxide",
+      "Methane",
+      "Ozone",
+      "Sulphur Dioxide"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_006",
+    "questionText": "Consider the following statements:\n1. Agricultural soils release nitrogen oxides into the environment.\n2. Cattle release ammonia into the environment.\n3. The poultry industry releases reactive nitrogen compounds.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 3 only",
+      "2 and 3 only",
+      "2 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Agricultural soils, cattle and poultry farming all contribute to emissions of reactive nitrogen compounds into the environment.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Nitrogen Emissions",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Nitrogen Oxides",
+      "Ammonia",
+      "Agriculture",
+      "Cattle",
+      "Poultry"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_007",
+    "questionText": "Consider the following kinds of organisms:\n1. Copepods\n2. Cyanobacteria\n3. Diatoms\n4. Foraminifera\nWhich of the above are primary producers in the food chains of oceans?",
+    "options": [
+      "1 and 2",
+      "2 and 3",
+      "3 and 4",
+      "1 and 4"
+    ],
+    "correctOption": "B",
+    "explanation": "Cyanobacteria and diatoms are photosynthetic primary producers in marine ecosystems.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Marine Food Chains",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Cyanobacteria",
+      "Diatoms",
+      "Primary Producers",
+      "Marine Ecology"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_008",
+    "questionText": "In which one of the following biogeochemical cycles the weathering of rocks is the main source of release of nutrients to enter the cycle?",
+    "options": [
+      "Carbon cycle",
+      "Nitrogen cycle",
+      "Phosphorus cycle",
+      "Sulphur cycle"
+    ],
+    "correctOption": "C",
+    "explanation": "The phosphorus cycle depends primarily on weathering of phosphate-rich rocks for nutrient release.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Biogeochemical Cycles",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Phosphorus Cycle",
+      "Weathering",
+      "Nutrients",
+      "Biogeochemical Cycle"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_009",
+    "questionText": "Which of the following are detritivores?\n1. Earthworms\n2. Jellyfish\n3. Millipedes\n4. Seahorses\n5. Woodlice\nSelect the correct answer using the code given below.",
+    "options": [
+      "1, 2 and 4 only",
+      "2, 3, 4 and 5 only",
+      "1, 3 and 5 only",
+      "1, 2, 3, 4 and 5"
+    ],
+    "correctOption": "C",
+    "explanation": "Earthworms, millipedes and woodlice feed on dead organic matter and are detritivores.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Detritivores",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Detritivores",
+      "Earthworms",
+      "Millipedes",
+      "Woodlice",
+      "Decomposition"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_010",
+    "questionText": "Which of the following have species that can establish symbiotic relationship with other organisms?\n1. Cnidarians\n2. Fungi\n3. Protozoa\nSelect the correct answer using the code given below.",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Cnidarians, fungi and protozoa all include species capable of forming symbiotic relationships.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Symbiosis",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Symbiosis",
+      "Cnidarians",
+      "Fungi",
+      "Protozoa"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_011",
+    "questionText": "What is blue carbon?",
+    "options": [
+      "Carbon captured by oceans and coastal ecosystems",
+      "Carbon sequestered in forest biomass and agricultural soils",
+      "Carbon contained in petroleum and natural gas",
+      "Carbon present in atmosphere"
+    ],
+    "correctOption": "A",
+    "explanation": "Blue carbon refers to carbon captured and stored by oceans and coastal ecosystems such as mangroves, salt marshes and seagrasses.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Blue Carbon",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Blue Carbon",
+      "Mangroves",
+      "Seagrass",
+      "Carbon Sequestration"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_012",
+    "questionText": "In nature, which of the following is/are most likely to be found surviving on a surface without soil?\n1. Fern\n2. Lichen\n3. Moss\n4. Mushroom\nSelect the correct answer using the code given below.",
+    "options": [
+      "1 and 4 only",
+      "2 only",
+      "2 and 3",
+      "1, 3 and 4"
+    ],
+    "correctOption": "C",
+    "explanation": "Lichens and mosses can survive on bare surfaces such as rocks and tree bark without requiring soil.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Lichens and Mosses",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Lichen",
+      "Moss",
+      "Ecology",
+      "Bare Surfaces"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_013",
+    "questionText": "“If rainforests and tropical forests are the lungs of the Earth, then surely wetlands function as its kidneys.” Which one of the following functions of wetlands best reflects the above statements?",
+    "options": [
+      "The water cycle in wetlands involves surface runoff, subsoil percolation and evaporation.",
+      "Algae form the nutrient base upon which fish, crustaceans, molluscs, birds, reptiles and mammals thrive.",
+      "Wetlands play a vital role in maintaining sedimentation balance and soil stabilization.",
+      "Aquatic plants absorb heavy metals and excess nutrients."
+    ],
+    "correctOption": "A",
+    "explanation": "Wetlands act as natural filters by regulating water flow, facilitating percolation and helping remove pollutants, similar to the filtering function of kidneys.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Wetlands",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Wetlands",
+      "Water Cycle",
+      "Filtration",
+      "Ecosystem Services"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_014",
+    "questionText": "Consider the following statements:\n1. Some microorganisms can grow in environments with temperature above the boiling point of water.\n2. Some microorganisms can grow in environments with temperature below the freezing point of water.\n3. Some microorganisms can grow in highly acidic environment with a pH below\nHow many of the above statements are correct?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "C",
+    "explanation": "Extremophiles include thermophiles, psychrophiles and acidophiles that survive under extreme temperature and pH conditions.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Extremophiles",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Extremophiles",
+      "Thermophiles",
+      "Psychrophiles",
+      "Acidophiles"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true,
+    "sourceIncomplete": true
+  },
+  {
+    "questionId": "BOEE_015",
+    "questionText": "Consider the following plants:\n1. Groundnut\n2. Horse-gram\n3. Soybean\nHow many of the above belong to the pea family?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "C",
+    "explanation": "Groundnut, horse-gram and soybean all belong to the Fabaceae (Leguminosae) family.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Plant Classification",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Fabaceae",
+      "Groundnut",
+      "Horse-gram",
+      "Soybean"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_016",
+    "questionText": "Which of the following leaf modifications occurs/occur in desert areas to inhibit water loss?\n1. Hard and waxy leaves\n2. Tiny leaves or no leaves\n3. Thorns instead of leaves\nSelect the correct answer using the codes given below.",
+    "options": [
+      "1 and 2 only",
+      "2 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Desert plants reduce water loss through waxy leaves, reduced leaf area and thorns replacing leaves.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Desert Adaptations",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Desert Plants",
+      "Adaptation",
+      "Water Conservation",
+      "Xerophytes"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_017",
+    "questionText": "In the grasslands, trees do not replace the grasses as a part of an ecological succession because of",
+    "options": [
+      "insects and fungi",
+      "limited sunlight and paucity of nutrients",
+      "water limits and fire",
+      "None of the above"
+    ],
+    "correctOption": "C",
+    "explanation": "Limited water availability and periodic fires prevent tree establishment and maintain grassland ecosystems.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Ecological Succession",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Grasslands",
+      "Succession",
+      "Fire Ecology",
+      "Water Limitation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_018",
+    "questionText": "Which one of the following is the correct sequence of ecosystems in the order of decreasing productivity?",
+    "options": [
+      "Oceans, lakes, grasslands, mangroves",
+      "Mangroves, oceans, grasslands, lakes",
+      "Mangroves, grasslands, lakes, oceans",
+      "Oceans, mangroves, lakes, grasslands"
+    ],
+    "correctOption": "C",
+    "explanation": "Mangroves have the highest productivity followed by grasslands, lakes and oceans.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Ecosystem Productivity",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Productivity",
+      "Mangroves",
+      "Grasslands",
+      "Oceans"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_019",
+    "questionText": "With reference to food chains in ecosystems, consider the following statements:\n1. A food chain illustrates the order in which a chain of organisms feed upon each other.\n2. Food chains are found within the populations of a species.\n3. A food chain illustrates the numbers of each organism which are eaten by others.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "1 and 2 only",
+      "1, 2 and 3",
+      "None"
+    ],
+    "correctOption": "A",
+    "explanation": "A food chain shows feeding relationships and energy flow among different species, not populations or numbers of organisms.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Food Chain",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Food Chain",
+      "Energy Flow",
+      "Ecosystem",
+      "Trophic Levels"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_020",
+    "questionText": "Which one of the following terms describes not only the physical space occupied by an organism, but also its functional role in the community of organisms?",
+    "options": [
+      "Ecotone",
+      "Ecological niche",
+      "Habitat",
+      "Home range"
+    ],
+    "correctOption": "B",
+    "explanation": "An ecological niche includes both the habitat and the functional role of an organism within an ecosystem.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Ecological Niche",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Ecological Niche",
+      "Habitat",
+      "Ecology",
+      "Organism Role"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_021",
+    "questionText": "The most important strategy for the conservation of biodiversity together with traditional human life is the establishment of:",
+    "options": [
+      "biosphere reserves",
+      "botanical gardens",
+      "national parks",
+      "wildlife sanctuaries"
+    ],
+    "correctOption": "A",
+    "explanation": "Biosphere reserves integrate biodiversity conservation with sustainable human activities and traditional lifestyles.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Biodiversity Conservation",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Biosphere Reserve",
+      "Biodiversity",
+      "Conservation",
+      "Sustainable Development"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_022",
+    "questionText": "Which of the following statements is/are correct regarding the vegetative propagation of plants?\n1. Vegetative propagation produces a clonal population.\n2. Vegetative propagation helps in eliminating the virus.\n3. Vegetative propagation can be practiced most of the year.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "Vegetative propagation produces genetically identical offspring and can be practiced most of the year, but it does not eliminate viruses.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Vegetative Propagation",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Vegetative Propagation",
+      "Clonal Population",
+      "Plant Reproduction",
+      "Horticulture"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_023",
+    "questionText": "Which one of the following is the correct sequence of a food chain?",
+    "options": [
+      "Diatoms-Crustaceans-Herrings",
+      "Crustaceans-Diatoms-Herrings",
+      "Diatoms-Herrings-Crustaceans",
+      "Crustaceans-Herrings-Diatoms"
+    ],
+    "correctOption": "A",
+    "explanation": "Diatoms are producers, crustaceans are primary consumers and herrings are secondary consumers.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Food Chain",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Diatoms",
+      "Crustaceans",
+      "Herrings",
+      "Food Chain"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "BOEE_024",
+    "questionText": "With reference to 'Eco-Sensitive Zones', which of the following statements is/are correct?\n1. Eco-Sensitive Zones are the areas that are declared under the Wildlife Protection Act, 1972.\n2. The purpose of the declaration of Eco-Sensitive Zones is to prohibit all kinds of human activities in those zones except agriculture.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "D",
+    "explanation": "Eco-Sensitive Zones are notified under the Environment (Protection) Act, 1986 and regulate, rather than completely prohibit, human activities.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Basics of Environment and Ecology",
+    "subtopicName": "Eco-Sensitive Zones",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Eco-Sensitive Zones",
+      "Environment Protection Act",
+      "Conservation",
+      "Protected Areas"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(89).txt",
+    "isPYQ": true
+  },
+[
+  {
+    "questionId": "CEB_001",
+    "questionText": "What can be the impact of excessive/inappropriate use of nitrogenous fertilizers in agriculture?\n1. Proliferation of nitrogen-fixing microorganisms in soil can occur.\n2. Increase in the acidity of soil can take place.\n3. Leaching of nitrate to the ground-water can occur.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 3 only",
+      "2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "Excessive use of nitrogenous fertilizers can increase soil acidity and cause nitrate leaching into groundwater. It generally reduces the activity of nitrogen-fixing microorganisms.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Agricultural Pollution",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Nitrogenous Fertilizers",
+      "Soil Acidity",
+      "Nitrate Leaching",
+      "Groundwater Pollution",
+      "Agriculture"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_002",
+    "questionText": "With reference to bio-toilets used by the Indian Railways, consider the following statements:\n1. The decomposition of human waste in the bio-toilets is initiated by a fungal inoculums.\n2. Ammonia and water vapour are the only end products in this decomposition which are released into the atmosphere.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "D",
+    "explanation": "Bio-toilets use bacterial inoculums, not fungal inoculums. Decomposition also produces methane in addition to ammonia and water vapour.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Bio-Toilets",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Bio-Toilets",
+      "Indian Railways",
+      "Waste Management",
+      "Bacteria",
+      "Methane"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_003",
+    "questionText": "Which of the following National Parks is unique in being a swamp with floating vegetation that supports a rich biodiversity?",
+    "options": [
+      "Bhitarkanika National Park",
+      "Keibul Lamjao National Park",
+      "Keoladeo Ghana National Park",
+      "Sultanpur National Park"
+    ],
+    "correctOption": "B",
+    "explanation": "Keibul Lamjao National Park in Manipur is famous for its floating phumdis and is the natural habitat of the Sangai deer.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "National Parks",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Keibul Lamjao",
+      "Phumdis",
+      "Sangai Deer",
+      "National Park",
+      "Manipur"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_004",
+    "questionText": "Which one of the following National Parks has a climate that varies from tropical to subtropical, temperate and arctic?",
+    "options": [
+      "Khangchendzonga National Park",
+      "Nandadevi National Park",
+      "Neora Valley National Park",
+      "Namdapha National Park"
+    ],
+    "correctOption": "D",
+    "explanation": "Namdapha National Park in Arunachal Pradesh spans a large altitudinal range, resulting in tropical, subtropical, temperate and alpine climatic zones.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "National Parks",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Namdapha",
+      "Arunachal Pradesh",
+      "Biodiversity",
+      "Climate Zones",
+      "National Park"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_005",
+    "questionText": "Which of following statements is/are correct?\nProper design and effective implementation of UN-REDD+ Programme can significantly contribute to\n1. Protection of biodiversity\n2. Resilience of forest ecosystems\n3. Poverty reduction\nSelect the correct answer using the code given below",
+    "options": [
+      "1 and 2 only",
+      "3 Only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "UN-REDD+ directly supports biodiversity conservation and resilience of forest ecosystems. Poverty reduction may occur indirectly but is not its primary objective.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "UN-REDD+",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "UN-REDD+",
+      "Deforestation",
+      "Biodiversity",
+      "Forest Ecosystems",
+      "Climate Change"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_006",
+    "questionText": "'Gadgil Committee Report' and 'Kasturirangan Committee Report', sometimes seen in the news, are related to:",
+    "options": [
+      "Constitutional reforms",
+      "Ganga Action Plan",
+      "Linking of rivers",
+      "Protection of Western Ghats"
+    ],
+    "correctOption": "D",
+    "explanation": "Both committees examined conservation and sustainable development issues in the Western Ghats, recommending measures for ecological protection.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Western Ghats",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Gadgil Committee",
+      "Kasturirangan Committee",
+      "Western Ghats",
+      "Ecologically Sensitive Areas",
+      "Conservation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  [
+  {
+    "questionId": "CEB_007",
+    "questionText": "Consider the following statements:\n1. The Sustainable Development Goals were first proposed in 1972 by a global think tank called the 'Club of Rome'.\n2. The Sustainable Development Goals have to be achieved by 2030.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "B",
+    "explanation": "The SDGs were adopted by the United Nations in 2015 under the 2030 Agenda for Sustainable Development. They are targeted for achievement by 2030.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Sustainable Development Goals",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "SDGs",
+      "United Nations",
+      "2030 Agenda",
+      "Sustainable Development"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_008",
+    "questionText": "Which of the following are the key features of ‘National Ganga River Basin Authority (NGRBA)?\n1. River basin is the unit of planning and management.\n2. It spearheads the river conservation efforts at the national level.\n3. One of the Chief Ministers of the States through which the Ganga flows becomes the Chairman of NGRBA on rotation basis.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "NGRBA follows the river basin approach and coordinates Ganga conservation efforts nationally. The Prime Minister, not a rotating Chief Minister, chairs the authority.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "NGRBA",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "NGRBA",
+      "Ganga",
+      "River Basin",
+      "River Conservation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_009",
+    "questionText": "The term ‘M-STrIPES’ is sometimes seen in the news in the context of:",
+    "options": [
+      "Captive breeding of Wild Fauna",
+      "Maintenance of Tiger Reserves",
+      "Indigenous Satellite Navigation System",
+      "Security of National Highways"
+    ],
+    "correctOption": "B",
+    "explanation": "M-STrIPES (Monitoring System for Tigers - Intensive Protection and Ecological Status) is a monitoring and management tool used in tiger reserves.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Tiger Conservation",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "M-STrIPES",
+      "Tiger Reserves",
+      "Project Tiger",
+      "Wildlife Monitoring"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_010",
+    "questionText": "Recently there was a proposal to translocate some of the lions from their natural habitat in Gujarat to which one of the following sites?",
+    "options": [
+      "Corbett National Park",
+      "Kuno Palpur Wildlife Sanctuary",
+      "Mudumalai Wildlife Sanctuary",
+      "Sariska National Park"
+    ],
+    "correctOption": "B",
+    "explanation": "Kuno Palpur Wildlife Sanctuary in Madhya Pradesh was identified as the second home for Asiatic lions from Gir.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Asiatic Lion Conservation",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Asiatic Lion",
+      "Kuno Palpur",
+      "Gir",
+      "Wildlife Translocation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_011",
+    "questionText": "Consider the following statements:\n1. The definition of 'Critical Wildlife Habitat' is incorporated in the Forest Rights Act, 2006.\n2. For the first time in India, Baigas have been given Habitat Rights.\n3. Union Ministry of Environment, Forest and Climate Change officially decides and declares Habitat Rights for Primitive and Vulnerable Tribal Groups in any part of India.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "The Forest Rights Act includes Critical Wildlife Habitat provisions, and Baigas were the first tribe to receive Habitat Rights. Habitat Rights are not directly declared by the Union Ministry.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Forest Rights Act",
+    "questionType": "MultipleStatement",
+    "difficulty": "Hard",
+    "keywords": [
+      "Critical Wildlife Habitat",
+      "Forest Rights Act",
+      "Baiga",
+      "Habitat Rights"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_012",
+    "questionText": "How is the National Green Tribunal (NGT) different from the Central Pollution Control Board (CPCB)?\n1. The NGT has been established by an Act whereas the CPCB has been created by an executive order of the Government.\n2. The NGT provides environmental justice and helps reduce the burden of litigation in the higher courts whereas the CPCB promotes cleanliness of streams and wells, and aims to improve the quality of air in the country.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "B",
+    "explanation": "Both NGT and CPCB were created through Acts of Parliament. NGT is a quasi-judicial body for environmental justice, while CPCB is a regulatory body for pollution control.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Environmental Governance",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "NGT",
+      "CPCB",
+      "Environmental Justice",
+      "Pollution Control"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  [
+  {
+    "questionId": "CEB_013",
+    "questionText": "In which one of the following States is Pakhui Wildlife Sanctuary located?",
+    "options": [
+      "Arunachal Pradesh",
+      "Manipur",
+      "Meghalaya",
+      "Nagaland"
+    ],
+    "correctOption": "A",
+    "explanation": "Pakhui Wildlife Sanctuary, now known as Pakke Tiger Reserve, is located in Arunachal Pradesh and is known for its rich biodiversity and hornbill conservation efforts.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Wildlife Sanctuaries",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Pakhui Wildlife Sanctuary",
+      "Pakke Tiger Reserve",
+      "Arunachal Pradesh",
+      "Hornbill"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_014",
+    "questionText": "Which one of the following National Parks lies completely in the temperate alpine zone?",
+    "options": [
+      "Manas National Park",
+      "Namdapha National Park",
+      "Neora Valley National Park",
+      "Valley of Flowers National Park"
+    ],
+    "correctOption": "D",
+    "explanation": "Valley of Flowers National Park in Uttarakhand lies entirely in the temperate alpine zone and is renowned for its alpine flora.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "National Parks",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Valley of Flowers",
+      "Alpine Zone",
+      "National Park",
+      "Uttarakhand"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_015",
+    "questionText": "Which of the following are in Agasthyamala Biosphere Reserve?",
+    "options": [
+      "Neyyar, Idl Peppara and Shendurney Wildlife Sanctuaries; and Kalakad Mundanthurai Tiger Reserve",
+      "Mudumalai, Sathyamangalam and Wayanad Wildlife Sanctuaries; and Silent Valley National Park",
+      "Kaundinya, Gundla Brahmeswaram and Papikonda Wildlife Sanctuaries; and Mukurthi National Park",
+      "Kawal and Sri Venkateswara Wildlife Sanctuaries; and Nagarjunasagar-Srisailam Tiger Reserve"
+    ],
+    "correctOption": "A",
+    "explanation": "Agasthyamala Biosphere Reserve includes Neyyar, Peppara and Shendurney Wildlife Sanctuaries in Kerala and Kalakad Mundanthurai Tiger Reserve in Tamil Nadu.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Biosphere Reserves",
+    "questionType": "MCQ",
+    "difficulty": "Hard",
+    "keywords": [
+      "Agasthyamala Biosphere Reserve",
+      "Neyyar",
+      "Peppara",
+      "Shendurney",
+      "Kalakad Mundanthurai"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_016",
+    "questionText": "From the ecological point of view, which one of the following assumes importance in being a good link between the Eastern Ghats and the Western Ghats?",
+    "options": [
+      "Sathyamangalam Tiger Reserve",
+      "Nallamala Forest",
+      "Nagarhole National Park",
+      "Seshachalam Biosphere Reserve"
+    ],
+    "correctOption": "A",
+    "explanation": "Sathyamangalam Tiger Reserve acts as an ecological corridor connecting the Eastern Ghats and Western Ghats, facilitating wildlife movement and gene flow.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Wildlife Corridors",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Sathyamangalam Tiger Reserve",
+      "Eastern Ghats",
+      "Western Ghats",
+      "Wildlife Corridor"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_017",
+    "questionText": "Which of the following Protected Areas are located in the Cauvery basin?\n1. Nagarhole National Park\n2. Papikonda National Park\n3. Sathyamangalam Tiger Reserve\n4. Wayanad Wildlife Sanctuary\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "3 and 4 only",
+      "1, 3 and 4 only",
+      "1, 2, 3 and 4"
+    ],
+    "correctOption": "C",
+    "explanation": "Nagarhole National Park, Sathyamangalam Tiger Reserve and Wayanad Wildlife Sanctuary lie within the Cauvery basin. Papikonda National Park is in the Godavari basin.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Protected Areas",
+    "questionType": "MultipleStatement",
+    "difficulty": "Hard",
+    "keywords": [
+      "Cauvery Basin",
+      "Nagarhole",
+      "Sathyamangalam",
+      "Wayanad",
+      "Papikonda"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_018",
+    "questionText": "Which one of the following protected areas is well-known for the conservation of a sub-species of the Indian swamp deer (Barasinga) that thrives well in hard ground and is exclusively graminivorous?",
+    "options": [
+      "Kanha National Park",
+      "Manas National Park",
+      "Mudumalai Wildlife Sanctuary",
+      "Tal Chhapar Wildlife Sanctuary"
+    ],
+    "correctOption": "A",
+    "explanation": "Kanha National Park is famous for conserving the hard-ground Barasingha, a unique subspecies of Indian swamp deer.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Species Conservation",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Barasingha",
+      "Kanha National Park",
+      "Swamp Deer",
+      "Species Conservation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  [
+  {
+    "questionId": "CEB_019",
+    "questionText": "Which of the following are the most likely places to find the musk deer in its natural habitat?\n1. Askot Wildlife Sanctuary\n2. Gangotri National Park\n3. Kishanpur Wildlife Sanctuary\n4. Manas National Park\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "3 and 4 only",
+      "1 and 4 only"
+    ],
+    "correctOption": "A",
+    "explanation": "Musk deer inhabit high-altitude Himalayan regions. Askot Wildlife Sanctuary and Gangotri National Park provide suitable alpine and subalpine habitats for the species.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Species Distribution",
+    "questionType": "MultipleStatement",
+    "difficulty": "Hard",
+    "keywords": [
+      "Musk Deer",
+      "Askot Wildlife Sanctuary",
+      "Gangotri National Park",
+      "Himalayas"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_020",
+    "questionText": "With reference to India’s Desert National Park, which of the following statements are correct?\n1. It is spread over two districts.\n2. There is no human habitation inside the Park.\n3. It is one of the natural habitats of the Great Indian Bustard.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "Desert National Park extends across Jaisalmer and Barmer districts and is a key habitat for the Great Indian Bustard. Human habitation exists in some areas.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "National Parks",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Desert National Park",
+      "Great Indian Bustard",
+      "Jaisalmer",
+      "Barmer"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_021",
+    "questionText": "Among the following Tiger Reserves, which one has the largest area under 'Critical Tiger Habitat'?",
+    "options": [
+      "Corbett",
+      "Ranthambore",
+      "Nagarjunasagar-Srisailam",
+      "Sundarbans"
+    ],
+    "correctOption": "C",
+    "explanation": "Nagarjunasagar-Srisailam Tiger Reserve, spread across Andhra Pradesh and Telangana, has the largest notified Critical Tiger Habitat in India.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Tiger Reserves",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Critical Tiger Habitat",
+      "Nagarjunasagar-Srisailam",
+      "Tiger Reserve",
+      "Project Tiger"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_022",
+    "questionText": "Consider the following pairs:\nWetland/Lake — Location\n1. Hokera Wetland — Punjab\n2. Renuka Wetland — Himachal Pradesh\n3. Rudrasagar Lake — Tripura\n4. Sasthamkotta Lake — Tamil Nadu\nHow many pairs given above are correctly matched?",
+    "options": [
+      "Only one pair",
+      "Only two pairs",
+      "Only three pairs",
+      "All four pairs"
+    ],
+    "correctOption": "B",
+    "explanation": "Renuka Wetland is in Himachal Pradesh and Rudrasagar Lake is in Tripura. Hokera Wetland is in Jammu & Kashmir, while Sasthamkotta Lake is in Kerala.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Wetlands",
+    "questionType": "Matching",
+    "difficulty": "Medium",
+    "keywords": [
+      "Hokera Wetland",
+      "Renuka Wetland",
+      "Rudrasagar Lake",
+      "Sasthamkotta Lake"
+    ],
+    "tables": [
+      {
+        "title": "Wetland/Lake and Location",
+        "headers": [
+          "Wetland/Lake",
+          "Location"
+        ],
+        "rows": [
+          [
+            "Hokera Wetland",
+            "Punjab"
+          ],
+          [
+            "Renuka Wetland",
+            "Himachal Pradesh"
+          ],
+          [
+            "Rudrasagar Lake",
+            "Tripura"
+          ],
+          [
+            "Sasthamkotta Lake",
+            "Tamil Nadu"
+          ]
+        ]
+      }
+    ],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_023",
+    "questionText": "Consider the following statements:\nOnce the Central Government notifies an area as a 'Community Reserve'\n1. The Chief Wildlife Warden of the State becomes the governing authority of such forest.\n2. Hunting is not allowed in such area.\n3. People of such area are allowed to collect non-timber forest produce.\n4. People of such area are allowed traditional agricultural practices.\nHow many of the above statements are correct?",
+    "options": [
+      "Only one",
+      "Only two",
+      "Only three",
+      "All four"
+    ],
+    "correctOption": "C",
+    "explanation": "Hunting is prohibited, non-timber forest produce collection is permitted, and traditional agricultural practices may continue. Governance is through a Community Reserve Management Committee, not solely the Chief Wildlife Warden.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Community Reserves",
+    "questionType": "MultipleStatement",
+    "difficulty": "Hard",
+    "keywords": [
+      "Community Reserve",
+      "Wildlife Protection Act",
+      "NTFP",
+      "Protected Areas"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_024",
+    "questionText": "Which one of the following is the best example of repeated falls in sea level, giving rise to present-day extensive marshland?",
+    "options": [
+      "Bhitarkanika Mangroves",
+      "Marakkanam Salt Pans",
+      "Naupada Swamp",
+      "Rann of Kutch"
+    ],
+    "correctOption": "D",
+    "explanation": "The Rann of Kutch is a classic example of extensive marshland formed due to repeated marine transgressions and regressions along with tectonic activity.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Wetlands and Marshlands",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Rann of Kutch",
+      "Marshland",
+      "Sea Level Change",
+      "Geomorphology"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CEB_025",
+    "questionText": "Consider the following statements:\n1. In India, the Biodiversity Management Committees are key to the realization of the objectives of the Nagoya Protocol.\n2. The Biodiversity Management Committees have important functions in determining access and benefit sharing, including the power to levy collection fees on the access of biological resources within its jurisdiction.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "C",
+    "explanation": "Biodiversity Management Committees play a significant role in implementing access and benefit-sharing provisions under the Biological Diversity Act and support the objectives of the Nagoya Protocol.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Conservation Efforts (NP, BR etc) and Biodiversity",
+    "subtopicName": "Biodiversity Governance",
+    "questionType": "MultipleStatement",
+    "difficulty": "Hard",
+    "keywords": [
+      "Nagoya Protocol",
+      "Biodiversity Management Committee",
+      "Access and Benefit Sharing",
+      "Biological Diversity Act"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(90).txt",
+    "isPYQ": true
+  },
