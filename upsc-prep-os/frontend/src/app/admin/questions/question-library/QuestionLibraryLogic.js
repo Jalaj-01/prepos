@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 
 import axios from "axios";
-
+import QuestionStatusBadge from "@/components/ui/QuestionStatusBadge";
+import useQuestionStatus from "@/hooks/useQuestionStatus";
 import {
     Search,
     Star,
@@ -38,32 +39,22 @@ export default function QuestionLibraryLogic() {
         const info = localStorage.getItem("userInfo");
         return info ? JSON.parse(info) : null;
     });
-
     const [questions, setQuestions] = useState([]);
-
     const [loading, setLoading] = useState(true);
-
     const [expandedQuestion, setExpandedQuestion] = useState(null);
-
     const [selectedYear, setSelectedYear] = useState("");
-
     const [selectedSubject, setSelectedSubject] = useState("");
-
     const [selectedTopic, setSelectedTopic] = useState("");
-
     const [selectedPaper, setSelectedPaper] = useState("");
-
     const [search, setSearch] = useState("");
-
     const [repeatedOnly, setRepeatedOnly] = useState(false);
-
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
-
     const [editingQuestion, setEditingQuestion] = useState(null);
-const [selectedIds, setSelectedIds] = useState(new Set());
-const [deleteTarget, setDeleteTarget] = useState(null); // single question or "bulk"
-const [deleting, setDeleting] = useState(false);
-const [taxonomies, setTaxonomies] = useState([]);
+    const [selectedIds, setSelectedIds] = useState(new Set());
+    const [deleteTarget, setDeleteTarget] = useState(null); // single question or "bulk"
+    const [deleting, setDeleting] = useState(false);
+    const [taxonomies, setTaxonomies] = useState([]);
+    const [statusFilter, setStatusFilter] = useState("all"); // "all" | "done" | "new"
 
     // PER-USER bookmark tracking
 
@@ -366,6 +357,22 @@ const handleQuestionUpdated = (updated) => {
             showToast.error("Failed to save");
         }
     };
+    // ─── Fetch attempted status for visible questions ───
+const { isAttempted } = useQuestionStatus(
+    questions.map((q) => q._id),
+    user?.token
+);
+
+// ─── Apply Done/New filter ───
+const visibleQuestions = questions.filter((q) => {
+    if (statusFilter === "done") return isAttempted(q._id);
+    if (statusFilter === "new") return !isAttempted(q._id);
+    return true;
+});
+
+// Stats for the filter chip labels
+const doneCount = questions.filter((q) => isAttempted(q._id)).length;
+const newCount = questions.length - doneCount;
 
     // =========================
     // CHECK IF BOOKMARKED
@@ -527,6 +534,33 @@ const handleQuestionUpdated = (updated) => {
     </select>
 </div>
 
+{/* STATUS FILTER */}
+<div className="mb-4 sm:mb-6">
+    <label className="text-[10px] font-black uppercase text-brand-muted mb-2 block">
+        Status
+    </label>
+    <div className="flex flex-col gap-1.5">
+        {[
+            { id: "all", label: "All", count: questions.length },
+            { id: "new", label: "Not Done", count: newCount },
+            { id: "done", label: "Done", count: doneCount },
+        ].map((f) => (
+            <button
+                key={f.id}
+                onClick={() => setStatusFilter(f.id)}
+                className={`flex items-center justify-between px-3 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${
+                    statusFilter === f.id
+                        ? "bg-brand-dark text-white"
+                        : "bg-brand-light text-brand-muted hover:text-brand-dark"
+                }`}
+            >
+                <span>{f.label}</span>
+                <span className="opacity-70 text-[10px]">{f.count}</span>
+            </button>
+        ))}
+    </div>
+</div>
+
                                 {/* REPEATED ONLY */}
 
                                 <label className="flex items-center gap-3 cursor-pointer p-3 bg-brand-light rounded-xl border border-brand-border">
@@ -613,23 +647,43 @@ const handleQuestionUpdated = (updated) => {
     </div>
 )}
 
-                            {loading ? (
+                           {loading ? (
 
-                                <GridSkeleton count={4} columns={2} />
+    <GridSkeleton count={4} columns={2} />
 
-                            ) : questions.length === 0 ? (
+) : questions.length === 0 ? (
 
-                                <EmptyState
-                                    emoji="📭"
-                                    title="No Questions Found"
-                                    description="No questions match the selected filters. Try changing the year, paper, subject, topic, or search query."
-                                />
+    <EmptyState
+        emoji="📭"
+        title="No Questions Found"
+        description="No questions match the selected filters. Try changing the year, paper, subject, topic, or search query."
+    />
 
-                            ) : (
+) : visibleQuestions.length === 0 ? (
 
-                                <div className="space-y-4 sm:space-y-6">
+    <EmptyState
+        emoji="✨"
+        title={
+            statusFilter === "done"
+                ? "No solved questions yet"
+                : statusFilter === "new"
+                ? "All caught up!"
+                : "No Questions Found"
+        }
+        description={
+            statusFilter === "done"
+                ? "Start practicing to see your solved questions here."
+                : statusFilter === "new"
+                ? "You've attempted every question matching these filters."
+                : "Try changing the filters."
+        }
+    />
 
-                                    {questions.map((q) => (
+) : (
+
+    <div className="space-y-4 sm:space-y-6">
+
+        {visibleQuestions.map((q) => (
 
                                         <div
                                             key={q._id}
@@ -643,6 +697,8 @@ const handleQuestionUpdated = (updated) => {
                                                 {/* TAGS */}
 
                                                 <div className="flex items-center gap-2 flex-wrap">
+                                                    {/* Status badge — first for prominence */}
+                                                        <QuestionStatusBadge attempted={isAttempted(q._id)} />          
 
                                                     <span className="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 text-[9px] font-black uppercase tracking-widest">
 

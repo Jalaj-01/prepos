@@ -46,3 +46,35 @@ exports.getUserStats = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+// =========================
+// GET QUESTION STATUS MAP
+// Returns a map of { questionId: true } for questions the user has attempted
+// POST /api/attempts/status-map   body: { questionIds: [...] }
+// =========================
+exports.getQuestionStatusMap = async (req, res) => {
+    try {
+        const { questionIds } = req.body;
+
+        if (!Array.isArray(questionIds) || questionIds.length === 0) {
+            return res.json({ attempted: {} });
+        }
+
+        // Find all attempts by this user for these questions
+        const attempts = await Attempt.find({
+            userId: req.user._id,
+            questionId: { $in: questionIds }
+        }).select('questionId').lean();
+
+        // Build a map for fast lookup
+        const attempted = {};
+        attempts.forEach(a => {
+            attempted[String(a.questionId)] = true;
+        });
+
+        res.json({ attempted });
+    } catch (error) {
+        console.error('getQuestionStatusMap:', error);
+        res.status(500).json({ message: error.message });
+    }
+};

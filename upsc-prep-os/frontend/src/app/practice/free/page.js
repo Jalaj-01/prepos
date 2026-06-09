@@ -1,28 +1,19 @@
 "use client";
-
 import { useState, useEffect } from "react";
-
 import { motion, AnimatePresence } from "framer-motion";
-
 import axios from "axios";
-
 import {
     Zap, CheckCircle2, XCircle,
     ArrowRight, Timer, Brain, Info, AlertTriangle,
     Loader2, RotateCcw, BarChart3, Trophy
 } from "lucide-react";
-
 import Sidebar from "@/components/layout/Sidebar";
-
 import TopHeader from "@/components/layout/TopHeader";
-
 import Footer from "@/components/layout/Footer";
-
 import MobileNav from "@/components/layout/MobileNav";
-
 import PageHeader from "@/components/ui/PageHeader";
-
 import { showToast } from "@/components/ui/Toast";
+import QuestionStatusBadge from "@/components/ui/QuestionStatusBadge";
 
 const MISTAKE_TYPES = [
     "Conceptual",
@@ -345,11 +336,20 @@ export default function FreePracticePage() {
                                 <motion.div key={question._id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
 
                                     <div className="bg-white p-6 sm:p-8 rounded-3xl border border-brand-border">
-                                        <div className="flex items-center gap-2 mb-4 text-[10px] font-black uppercase tracking-widest text-brand-accent flex-wrap">
-                                            <Brain size={12} />{question.year} · {question.subjectName || "General"} · {question.topicName || "Mixed"}
-                                        </div>
-                                        <h2 className="text-base sm:text-lg font-bold leading-relaxed text-brand-dark">{question.questionText}</h2>
-                                    </div>
+    <div className="flex items-center gap-2 mb-4 flex-wrap">
+        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-brand-accent">
+            <Brain size={12} />
+            {question.year} · {question.subjectName || "General"} · {question.topicName || "Mixed"}
+        </div>
+        {/* Show "Done" badge if user attempted this before */}
+        {question.previouslyAttempted && (
+            <QuestionStatusBadge attempted={true} />
+        )}
+    </div>
+    <h2 className="text-base sm:text-lg font-bold leading-relaxed text-brand-dark">
+        {question.questionText}
+    </h2>
+</div>
 
                                     <div className="grid grid-cols-1 gap-3">
                                         {question.options?.map(opt => {
