@@ -16,22 +16,15 @@ import QuestionEditDrawer from "@/components/admin/QuestionEditDrawer";
 import DeleteQuestionsModal from "@/components/admin/DeleteQuestionsModal";
 
 import Sidebar from "@/components/layout/Sidebar";
-
 import TopHeader from "@/components/layout/TopHeader";
-
 import Footer from "@/components/layout/Footer";
-
 import MobileNav from "@/components/layout/MobileNav";
-
 import { showToast } from "@/components/ui/Toast";
-
 import { GridSkeleton } from "@/components/ui/Skeleton";
-
 import EmptyState from "@/components/ui/EmptyState";
-
 import PageHeader from "@/components/ui/PageHeader";
 import QuestionImageGallery from "@/components/admin/QuestionImageGallery";
-
+import Pagination from "@/components/ui/Pagination";
 export default function QuestionLibraryLogic() {
 
     const [user, setUser] = useState(() => {
@@ -55,7 +48,10 @@ export default function QuestionLibraryLogic() {
     const [deleting, setDeleting] = useState(false);
     const [taxonomies, setTaxonomies] = useState([]);
     const [statusFilter, setStatusFilter] = useState("all"); // "all" | "done" | "new"
-
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(25);
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalQuestions, setTotalQuestions] = useState(0);
     // PER-USER bookmark tracking
 
     const [bookmarkedIds, setBookmarkedIds] = useState(new Set());
@@ -102,6 +98,19 @@ useEffect(() => {
     // FETCH QUESTIONS + BOOKMARKS
     // =========================
 
+    // Reset to page 1 whenever filters change
+useEffect(() => {
+    setPage(1);
+}, [
+    selectedYear,
+    selectedSubject,
+    selectedTopic,
+    selectedPaper,
+    search,
+    repeatedOnly,
+    limit,
+]);
+
     useEffect(() => {
 
         if (user) {
@@ -118,8 +127,10 @@ useEffect(() => {
         selectedTopic,
         selectedPaper,
         search,
-        repeatedOnly
-    ]);
+        repeatedOnly,
+        page,
+        limit,
+        ]);
 
     const toggleSelect = (id) => {
     setSelectedIds((prev) => {
@@ -187,46 +198,56 @@ const handleQuestionUpdated = (updated) => {
     );
 };
 
-    async function fetchQuestions() {
+   async function fetchQuestions() {
 
-        try {
+    try {
 
-            setLoading(true);
+        setLoading(true);
 
-            const params = {};
+        const params = { page, limit };
 
-            if (selectedYear) params.year = selectedYear;
+        if (selectedYear) params.year = selectedYear;
 
-            if (selectedSubject) params.subject = selectedSubject;
+        if (selectedSubject) params.subject = selectedSubject;
 
-            if (selectedTopic) params.topic = selectedTopic;
+        if (selectedTopic) params.topic = selectedTopic;
 
-            if (selectedPaper) params.paper = selectedPaper;
+        if (selectedPaper) params.paper = selectedPaper;
 
-            if (search) params.q = search;
+        if (search) params.q = search;
 
-            if (repeatedOnly) params.repeated = true;
+        if (repeatedOnly) params.repeated = true;
 
-            const response = await axios.get(
+        const response = await axios.get(
 
-                `${process.env.NEXT_PUBLIC_API_URL}/api/search`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/search`,
 
-                { params }
-            );
+            { params }
+        );
 
-            setQuestions(response.data);
-
-        } catch (error) {
-
-            console.error("Failed to fetch questions", error);
-
-            showToast.error("Failed to load questions");
-
-        } finally {
-
-            setLoading(false);
+        // New paginated response format: { questions, pagination }
+        if (response.data.questions) {
+            setQuestions(response.data.questions);
+            setTotalPages(response.data.pagination?.totalPages || 0);
+            setTotalQuestions(response.data.pagination?.total || 0);
+        } else {
+            // Fallback for old non-paginated response
+            setQuestions(Array.isArray(response.data) ? response.data : []);
+            setTotalPages(1);
+            setTotalQuestions(response.data?.length || 0);
         }
+
+    } catch (error) {
+
+        console.error("Failed to fetch questions", error);
+
+        showToast.error("Failed to load questions");
+
+    } finally {
+
+        setLoading(false);
     }
+}
 
     // =========================
     // FETCH USER'S BOOKMARKED IDS
@@ -541,7 +562,7 @@ const newCount = questions.length - doneCount;
     </label>
     <div className="flex flex-col gap-1.5">
         {[
-            { id: "all", label: "All", count: questions.length },
+            { id: "all", label: "All", count: totalQuestions || questions.length },
             { id: "new", label: "Not Done", count: newCount },
             { id: "done", label: "Done", count: doneCount },
         ].map((f) => (
@@ -909,6 +930,29 @@ const newCount = questions.length - doneCount;
                                         </div>
                                     ))}
 
+                                </div>
+                            )}
+                            {/* PAGINATION */}
+                            {totalPages > 0 && !loading && (
+                                <div className="mt-4 sm:mt-6">
+                                    <Pagination
+                                        page={page}
+                                        totalPages={totalPages}
+                                        total={totalQuestions}
+                                        limit={limit}
+                                        onPageChange={(p) => {
+                                            setPage(p);
+                                            // Scroll to top of list for better UX
+                                            window.scrollTo({
+                                                top: 0,
+                                                behavior: "smooth",
+                                            });
+                                        }}
+                                        onLimitChange={(l) => {
+                                            setLimit(l);
+                                            setPage(1);
+                                        }}
+                                    />
                                 </div>
                             )}
 

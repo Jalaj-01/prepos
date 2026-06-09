@@ -1,27 +1,20 @@
-const Question =
-    require("../models/Question");
+const Question = require("../models/Question");
 
 // =========================
 // SMART QUESTION SEARCH
 // =========================
 
-exports.searchQuestions =
-async (
-    req,
-    res
-) => {
-
+exports.searchQuestions = async (req, res) => {
     try {
-
         const {
-
             q,
             subject,
             topic,
             year,
             paper,
-            repeated
-
+            repeated,
+            page = 1,
+            limit = 25,
         } = req.query;
 
         // =========================
@@ -31,138 +24,85 @@ async (
         let filters = {};
 
         // KEYWORD SEARCH
-
         if (q) {
-
             filters.$or = [
-
-                {
-                    questionText: {
-
-                        $regex: q,
-                        $options: "i"
-                    }
-                },
-
-                {
-                    "aiMetadata.subject": {
-
-                        $regex: q,
-                        $options: "i"
-                    }
-                },
-
-                {
-                    "aiMetadata.topic": {
-
-                        $regex: q,
-                        $options: "i"
-                    }
-                },
-
-                {
-                    "aiMetadata.subtopic": {
-
-                        $regex: q,
-                        $options: "i"
-                    }
-                },
-
-                {
-                    tags: {
-
-                        $elemMatch: {
-
-                            $regex: q,
-                            $options: "i"
-                        }
-                    }
-                }
+                { questionText: { $regex: q, $options: "i" } },
+                { subjectName: { $regex: q, $options: "i" } },
+                { topicName: { $regex: q, $options: "i" } },
+                { subtopicName: { $regex: q, $options: "i" } },
+                { "aiMetadata.subject": { $regex: q, $options: "i" } },
+                { "aiMetadata.topic": { $regex: q, $options: "i" } },
+                { "aiMetadata.subtopic": { $regex: q, $options: "i" } },
+                { tags: { $elemMatch: { $regex: q, $options: "i" } } },
             ];
         }
 
-        // SUBJECT
-
+        // SUBJECT — match BOTH new field (subjectName) and legacy (aiMetadata)
         if (subject) {
-
-            filters[
-                "aiMetadata.subject"
-            ] = {
-
-                $regex: subject,
-                $options: "i"
-            };
+            filters.$and = filters.$and || [];
+            filters.$and.push({
+                $or: [
+                    { subjectName: { $regex: subject, $options: "i" } },
+                    { "aiMetadata.subject": { $regex: subject, $options: "i" } },
+                ],
+            });
         }
 
         // TOPIC
-
         if (topic) {
-
-            filters[
-                "aiMetadata.topic"
-            ] = {
-
-                $regex: topic,
-                $options: "i"
-            };
+            filters.$and = filters.$and || [];
+            filters.$and.push({
+                $or: [
+                    { topicName: { $regex: topic, $options: "i" } },
+                    { "aiMetadata.topic": { $regex: topic, $options: "i" } },
+                ],
+            });
         }
 
         // YEAR
-
         if (year) {
-
-            filters.year =
-                Number(year);
+            filters.year = Number(year);
         }
 
         // PAPER
-
         if (paper) {
-
-            filters.paper =
-                paper;
+            filters.paper = paper;
         }
 
         // REPEATED ONLY
-
-        if (
-            repeated === "true"
-        ) {
-
-            filters.isRepeatedConcept =
-                true;
+        if (repeated === "true") {
+            filters.isRepeatedConcept = true;
         }
 
         // =========================
-        // FETCH
+        // PAGINATION
         // =========================
+        const pageNum = Math.max(parseInt(page) || 1, 1);
+        const pageLimit = Math.min(parseInt(limit) || 25, 200); // max 200/page
+        const skip = (pageNum - 1) * pageLimit;
 
-        const questions =
-            await Question.find(
-                filters
-            )
+        // =========================
+        // FETCH + COUNT IN PARALLEL
+        // =========================
+        const [questions, total] = await Promise.all([
+            Question.find(filters)
+                .sort({ year: -1, createdAt: -1 })
+                .skip(skip)
+                .limit(pageLimit),
+            Question.countDocuments(filters),
+        ]);
 
-            .sort({
-                year: -1
-            })
-
-            .limit(200);
-
-        res.json(
-            questions
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Search Error:",
-            error
-        );
-
-        res.status(500).json({
-
-            message:
-                error.message
+        res.json({
+            questions,
+            pagination: {
+                page: pageNum,
+                limit: pageLimit,
+                total,
+                totalPages: Math.ceil(total / pageLimit),
+            },
         });
+    } catch (error) {
+        console.error("Search Error:", error);
+        res.status(500).json({ message: error.message });
     }
 };
