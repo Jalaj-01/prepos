@@ -109,6 +109,7 @@ useEffect(() => {
     search,
     repeatedOnly,
     limit,
+    statusFilter,
 ]);
 
     useEffect(() => {
@@ -130,6 +131,7 @@ useEffect(() => {
         repeatedOnly,
         page,
         limit,
+        statusFilter, 
         ]);
 
     const toggleSelect = (id) => {
@@ -217,13 +219,17 @@ const handleQuestionUpdated = (updated) => {
         if (search) params.q = search;
 
         if (repeatedOnly) params.repeated = true;
+        if (statusFilter !== "all") params.status = statusFilter;
 
         const response = await axios.get(
 
-            `${process.env.NEXT_PUBLIC_API_URL}/api/search`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/search`,
 
-            { params }
-        );
+        {
+            params,
+            headers: { Authorization: `Bearer ${user.token}` }
+        }
+    );
 
         // New paginated response format: { questions, pagination }
         if (response.data.questions) {
@@ -378,22 +384,30 @@ const handleQuestionUpdated = (updated) => {
             showToast.error("Failed to save");
         }
     };
-    // ─── Fetch attempted status for visible questions ───
-const { isAttempted } = useQuestionStatus(
-    questions.map((q) => q._id),
+    // ─── Fetch attempted status across ALL matching questions (whole pool, not just page) ───
+const { isAttempted, totals } = useQuestionStatus(
+    {
+        year: selectedYear,
+        subject: selectedSubject,
+        topic: selectedTopic,
+        paper: selectedPaper,
+        q: search,
+        repeated: repeatedOnly,
+    },
     user?.token
 );
 
-// ─── Apply Done/New filter ───
+// ─── Apply Done/New filter to the CURRENT PAGE only ───
 const visibleQuestions = questions.filter((q) => {
     if (statusFilter === "done") return isAttempted(q._id);
     if (statusFilter === "new") return !isAttempted(q._id);
     return true;
 });
 
-// Stats for the filter chip labels
-const doneCount = questions.filter((q) => isAttempted(q._id)).length;
-const newCount = questions.length - doneCount;
+// ─── True totals across whole pool (from backend) ───
+const doneCount = totals.attempted;
+const newCount = totals.notAttempted;
+const allCount = totals.total;
 
     // =========================
     // CHECK IF BOOKMARKED
@@ -442,7 +456,8 @@ const newCount = questions.length - doneCount;
 
                         <div className="lg:col-span-3">
 
-                            <div className="bg-white rounded-2xl sm:rounded-3xl border border-brand-border p-4 sm:p-6 lg:sticky lg:top-24">
+                            {/* <div className="bg-white rounded-2xl sm:rounded-3xl border border-brand-border p-4 sm:p-6 lg:sticky lg:top-24"> */}
+                            <div className="bg-white rounded-2xl sm:rounded-3xl border border-brand-border p-4 sm:p-6 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto custom-scrollbar">
 
                                 <h2 className="text-[10px] font-black uppercase tracking-widest text-brand-muted mb-4 sm:mb-6">
 
@@ -562,9 +577,9 @@ const newCount = questions.length - doneCount;
     </label>
     <div className="flex flex-col gap-1.5">
         {[
-            { id: "all", label: "All", count: totalQuestions || questions.length },
-            { id: "new", label: "Not Done", count: newCount },
-            { id: "done", label: "Done", count: doneCount },
+            { id: "all", label: "All", count: allCount || totalQuestions || questions.length },
+            { id: "new", label: "Not Attempted", count: newCount },
+            { id: "done", label: "Attempted", count: doneCount },
         ].map((f) => (
             <button
                 key={f.id}

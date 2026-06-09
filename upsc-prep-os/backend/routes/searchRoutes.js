@@ -1,25 +1,24 @@
-const express =
-    require("express");
+const express = require("express");
 
-const router =
-    express.Router();
+const router = express.Router();
 
 const {
-
     searchQuestions
+} = require("../controllers/searchController");
 
-} = require(
-    "../controllers/searchController"
-);
+const {
+    protect
+} = require("../middleware/authMiddleware");
 
 // =========================
 // SEARCH
+// (protect required so Done/New filter can read req.user._id)
 // =========================
 
 router.get(
     "/",
+    protect,
     searchQuestions
 );
 
-module.exports =
-    router;
+module.exports = router;

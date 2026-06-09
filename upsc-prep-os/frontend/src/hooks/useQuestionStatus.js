@@ -4,55 +4,70 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 /**
- * Hook to fetch attempted/not-attempted status for a batch of question IDs.
- * Returns: { attemptedMap, isAttempted, loading }
+ * Hook to fetch attempted status across ALL questions matching the current filter
+ * (not just the visible page). Returns true counts + per-question lookup map.
  *
  * Usage:
- *   const { attemptedMap, isAttempted } = useQuestionStatus(questions.map(q => q._id), user?.token);
+ *   const { attemptedMap, isAttempted, totals, refresh } = useQuestionStatus(filters, token);
+ *
+ *   filters = { year, subject, topic, paper, q, repeated }
+ *
  *   <QuestionStatusBadge attempted={isAttempted(q._id)} />
+ *   totals = { total, attempted, notAttempted }
  */
-export default function useQuestionStatus(questionIds = [], token) {
+export default function useQuestionStatus(filters = {}, token) {
     const [attemptedMap, setAttemptedMap] = useState({});
+    const [totals, setTotals] = useState({
+        total: 0,
+        attempted: 0,
+        notAttempted: 0,
+    });
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        if (!token || !questionIds?.length) {
+    // Stable key based on filters
+    const filterKey = JSON.stringify({
+        year: filters.year || "",
+        subject: filters.subject || "",
+        topic: filters.topic || "",
+        paper: filters.paper || "",
+        q: filters.q || "",
+        repeated: !!filters.repeated,
+    });
+
+    const fetchStatus = async () => {
+        if (!token) {
             setAttemptedMap({});
+            setTotals({ total: 0, attempted: 0, notAttempted: 0 });
             return;
         }
 
-        // Stable key so we don't refetch unnecessarily
-        const key = [...questionIds].sort().join(",");
-        let cancelled = false;
+        setLoading(true);
+        try {
+            const { data } = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/attempts/status-count`,
+                filters,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
 
-        const fetchStatus = async () => {
-            setLoading(true);
-            try {
-                const { data } = await axios.post(
-                    `${process.env.NEXT_PUBLIC_API_URL}/api/attempts/status-map`,
-                    { questionIds },
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
+            setAttemptedMap(data.attemptedIds || {});
+            setTotals({
+                total: data.total || 0,
+                attempted: data.attempted || 0,
+                notAttempted: data.notAttempted || 0,
+            });
+        } catch (err) {
+            console.warn("Status fetch failed:", err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-                if (!cancelled) {
-                    setAttemptedMap(data.attempted || {});
-                }
-            } catch (err) {
-                console.warn("Question status fetch failed:", err.message);
-            } finally {
-                if (!cancelled) setLoading(false);
-            }
-        };
-
+    useEffect(() => {
         fetchStatus();
-
-        return () => {
-            cancelled = true;
-        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [questionIds.join(","), token]);
+    }, [filterKey, token]);
 
     const isAttempted = (id) => !!attemptedMap[String(id)];
 
-    return { attemptedMap, isAttempted, loading };
+    return { attemptedMap, isAttempted, totals, loading, refresh: fetchStatus };
 }

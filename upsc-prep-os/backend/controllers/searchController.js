@@ -1,7 +1,8 @@
 const Question = require("../models/Question");
+const Attempt = require("../models/Attempt");
 
 // =========================
-// SMART QUESTION SEARCH
+// SMART QUESTION SEARCH (with status filter)
 // =========================
 
 exports.searchQuestions = async (req, res) => {
@@ -13,6 +14,7 @@ exports.searchQuestions = async (req, res) => {
             year,
             paper,
             repeated,
+            status,            // ← NEW: "done" | "new" | undefined
             page = 1,
             limit = 25,
         } = req.query;
@@ -72,6 +74,22 @@ exports.searchQuestions = async (req, res) => {
         // REPEATED ONLY
         if (repeated === "true") {
             filters.isRepeatedConcept = true;
+        }
+
+        // =========================
+        // STATUS FILTER (done / new) — joins with Attempt collection
+        // Requires authenticated user (protect middleware)
+        // =========================
+        if ((status === "done" || status === "new") && req.user?._id) {
+            const attemptedIds = await Attempt.distinct("questionId", {
+                userId: req.user._id,
+            });
+
+            if (status === "done") {
+                filters._id = { $in: attemptedIds };
+            } else if (status === "new") {
+                filters._id = { $nin: attemptedIds };
+            }
         }
 
         // =========================

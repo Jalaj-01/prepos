@@ -77,4 +77,92 @@ exports.getQuestionStatusMap = async (req, res) => {
         console.error('getQuestionStatusMap:', error);
         res.status(500).json({ message: error.message });
     }
+    
+};
+
+// =========================
+// GET ATTEMPTED COUNT FOR A FILTER
+// Returns: { total, attempted, notAttempted }
+// POST /api/attempts/status-count
+// body: filters object (same shape as /api/search): { year, subject, topic, paper, q, repeated }
+// =========================
+exports.getAttemptedCount = async (req, res) => {
+    try {
+        const Question = require("../models/Question");
+        const { q, subject, topic, year, paper, repeated } = req.body || {};
+
+        // Build the SAME filter as searchController
+        const filters = {};
+
+        if (q) {
+            filters.$or = [
+                { questionText: { $regex: q, $options: "i" } },
+                { subjectName: { $regex: q, $options: "i" } },
+                { topicName: { $regex: q, $options: "i" } },
+                { subtopicName: { $regex: q, $options: "i" } },
+                { "aiMetadata.subject": { $regex: q, $options: "i" } },
+                { "aiMetadata.topic": { $regex: q, $options: "i" } },
+                { "aiMetadata.subtopic": { $regex: q, $options: "i" } },
+                { tags: { $elemMatch: { $regex: q, $options: "i" } } },
+            ];
+        }
+
+        if (subject) {
+            filters.$and = filters.$and || [];
+            filters.$and.push({
+                $or: [
+                    { subjectName: { $regex: subject, $options: "i" } },
+                    { "aiMetadata.subject": { $regex: subject, $options: "i" } },
+                ],
+            });
+        }
+
+        if (topic) {
+            filters.$and = filters.$and || [];
+            filters.$and.push({
+                $or: [
+                    { topicName: { $regex: topic, $options: "i" } },
+                    { "aiMetadata.topic": { $regex: topic, $options: "i" } },
+                ],
+            });
+        }
+
+        if (year) filters.year = Number(year);
+        if (paper) filters.paper = paper;
+        if (repeated === true || repeated === "true") {
+            filters.isRepeatedConcept = true;
+        }
+
+        // Step 1: get IDs of ALL questions matching the filter (just _id, very fast with index)
+        const matchingQuestions = await Question.find(filters)
+            .select("_id")
+            .lean();
+
+        const total = matchingQuestions.length;
+        const allIds = matchingQuestions.map((q) => q._id);
+
+        // Step 2: count distinct questions this user has attempted from those
+        const attempted = await Attempt.distinct("questionId", {
+            userId: req.user._id,
+            questionId: { $in: allIds },
+        });
+
+        const attemptedCount = attempted.length;
+
+        // Also return the set of attempted IDs (as strings) for visible-page badges
+        const attemptedIds = {};
+        attempted.forEach((id) => {
+            attemptedIds[String(id)] = true;
+        });
+
+        res.json({
+            total,
+            attempted: attemptedCount,
+            notAttempted: total - attemptedCount,
+            attemptedIds, // map for the frontend to use as the truth source
+        });
+    } catch (error) {
+        console.error("getAttemptedCount:", error);
+        res.status(500).json({ message: error.message });
+    }
 };
