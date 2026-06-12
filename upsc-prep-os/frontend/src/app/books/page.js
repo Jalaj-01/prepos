@@ -110,13 +110,19 @@ export default function BookTracker() {
             fetchBooks();
 
         } catch (err) {
-            alert("Failed to add");
+            showToast.error("Couldn't add the book");
         }
     };
 
     const handleDeleteBook = async (id) => {
 
-        if (!confirm("Are you sure you want to remove this book and all its chapters?")) return;
+        const ok = await confirmAction({
+    title: "Remove this book?",
+    message: "All chapters will be deleted too. This cannot be undone.",
+    type: "warning",
+    confirmText: "Remove",
+});
+if (!ok) return;
 
         try {
 
@@ -132,7 +138,7 @@ export default function BookTracker() {
             fetchBooks();
 
         } catch (err) {
-            alert("Failed to delete book");
+            showToast.error("Couldn't delete the book");
         }
     };
 

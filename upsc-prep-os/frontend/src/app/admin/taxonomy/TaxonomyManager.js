@@ -174,10 +174,12 @@ export default function TaxonomyManager() {
     const handleDelete =
     async (id) => {
 
-        const confirmDelete =
-            window.confirm(
-                "Delete this taxonomy item?"
-            );
+       const confirmDelete = await confirmAction({
+    title: "Delete this taxonomy item?",
+    message: "All child topics and subtopics will also be removed.",
+    type: "warning",
+    confirmText: "Delete",
+});
 
         if (!confirmDelete)
             return;

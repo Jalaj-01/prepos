@@ -4,6 +4,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import { ToastProvider } from "@/components/ui/Toast";
 import { ConfirmModalProvider } from "@/components/ui/ConfirmModal";
+import { PromptModalProvider } from "@/components/ui/PromptModal";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
 import { generateMetadata as genMeta } from "@/lib/seo";
@@ -71,7 +72,7 @@ export const metadata = {
         title: "PrepOS — Your UPSC Command Center",
         description:
             "Daily MCQs, mains practice, smart revisions, planner & analytics — all in one place. 100% free for aspirants.",
-        url: "https://prepos.in",
+        url: "https://prepos-upsc.vercel.app",
         siteName: "PrepOS",
         images: [
             {
@@ -152,7 +153,7 @@ export default function RootLayout({ children }) {
                             name: "PrepOS",
                             description:
                                 "All-in-one UPSC preparation platform with daily MCQs, mains practice, smart revisions, planner & analytics.",
-                            url: "https://prepos.in",
+                            url: "https://prepos-upsc.vercel.app",
                             applicationCategory: "EducationalApplication",
                             operatingSystem: "Web, iOS, Android",
                             offers: {
@@ -183,6 +184,7 @@ export default function RootLayout({ children }) {
 
                     <ToastProvider />
                     <ConfirmModalProvider />
+                    <PromptModalProvider />
                     <InstallPrompt />
                 </ErrorBoundary>
             </body>

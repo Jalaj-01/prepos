@@ -18,7 +18,7 @@ export default function ForgotPassword() {
         try {
             await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/forgot-password`, { email });
             setStep(2);
-        } catch (err) { alert(err.response?.data?.message || "Error"); }
+       } catch (err) { showToast.error(err.response?.data?.message || "Couldn't send OTP"); }
         finally { setLoading(false); }
     };
 
@@ -27,9 +27,9 @@ export default function ForgotPassword() {
         setLoading(true);
         try {
             await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/reset-password`, { email, otp, newPassword });
-            alert("Password Reset Success!");
+           showToast.success("Password reset successful! Please log in.");
             window.location.href = '/login';
-        } catch (err) { alert(err.response?.data?.message || "Invalid OTP"); }
+       } catch (err) { showToast.error(err.response?.data?.message || "Invalid OTP"); }
         finally { setLoading(false); }
     };
 

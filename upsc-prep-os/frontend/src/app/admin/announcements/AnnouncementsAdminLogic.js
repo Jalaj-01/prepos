@@ -83,7 +83,7 @@ export default function AnnouncementsAdminLogic() {
 
         if (!parsed.isAdmin) {
 
-            alert("Admin only");
+            showToast.error("Admin access required");
 
             router.push("/dashboard");
 
@@ -161,8 +161,7 @@ export default function AnnouncementsAdminLogic() {
 
         if (!form.title.trim() || !form.message.trim()) {
 
-            alert("Title and message required");
-
+            showToast.warning("Title and message are required");
             return;
         }
 
@@ -212,7 +211,7 @@ export default function AnnouncementsAdminLogic() {
 
         } catch (err) {
 
-            alert(
+            showToast.error(
                 err.response?.data?.message ||
                 "Failed to save"
             );
@@ -244,13 +243,19 @@ export default function AnnouncementsAdminLogic() {
 
         } catch (err) {
 
-            alert("Failed to toggle");
+            showToast.error("Couldn't update announcement");
         }
     };
 
     const handleDelete = async (id, title) => {
 
-        if (!confirm(`Delete "${title}"?`)) return;
+        const ok = await confirmAction({
+    title: `Delete "${title}"?`,
+    message: "This announcement will be permanently removed.",
+    type: "warning",
+    confirmText: "Delete",
+});
+if (!ok) return;
 
         try {
 
@@ -269,7 +274,7 @@ export default function AnnouncementsAdminLogic() {
 
         } catch (err) {
 
-            alert("Failed to delete");
+            showToast.error("Couldn't delete announcement");
         }
     };
 

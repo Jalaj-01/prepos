@@ -125,7 +125,7 @@ export default function BulkUploadLogic() {
 
         if (totalCount > 20) {
 
-            alert(
+            showToast.error(
                 `Max 20 files per batch. You've selected ${files.length}, trying to add ${newFiles.length}.`
             );
 
@@ -213,9 +213,14 @@ export default function BulkUploadLogic() {
         setStorageError(null);
     };
 
-    const clearAll = () => {
+    const clearAll = async () => {
 
-        if (!confirm("Clear all selected files?")) return;
+        const ok = await confirmAction({
+            title: "Clear all selected files?",
+            type: "warning",
+            confirmText: "Clear",
+        });
+        if (!ok) return;
 
         setFiles([]);
 
@@ -232,7 +237,8 @@ export default function BulkUploadLogic() {
 
         if (files.length === 0) {
 
-            alert("Please choose files first");
+           showToast.warning("Please choose files first");
+
 
             return;
         }
@@ -308,14 +314,14 @@ export default function BulkUploadLogic() {
 
             if (err.response?.status === 413) {
 
-                alert(
+               showToast.error(
                     "❌ Storage quota exceeded!\n\n" +
                     err.response.data.message
                 );
 
             } else {
 
-                alert(
+               showToast.error(
                     err.response?.data?.message ||
                     "Bulk upload failed"
                 );

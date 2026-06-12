@@ -93,7 +93,12 @@ export default function FeedbackPostCard({ post, user, onChange, onDelete }) {
     };
 
     const handleDelete = async () => {
-        if (!confirm("Delete this post?")) return;
+       const ok = await confirmAction({
+    title: "Delete this post?",
+    type: "warning",
+    confirmText: "Delete",
+});
+if (!ok) return;
         try {
             const config = {
                 headers: { Authorization: `Bearer ${user.token}` },
@@ -115,7 +120,12 @@ export default function FeedbackPostCard({ post, user, onChange, onDelete }) {
     };
 
     const handleDeleteReply = async (replyId) => {
-        if (!confirm("Delete this reply?")) return;
+       const ok = await confirmAction({
+    title: "Delete this reply?",
+    type: "warning",
+    confirmText: "Delete",
+});
+if (!ok) return;
         try {
             const config = {
                 headers: { Authorization: `Bearer ${user.token}` },

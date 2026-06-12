@@ -37,7 +37,7 @@ export default function BookDetails() {
             console.error("Fetch failed:", err);
             // If the book isn't found (404), go back to library
             if (err.response?.status === 404) {
-                alert("Book not found in your library.");
+               showToast.error("Book not found in your library");
                 router.push('/books');
             }
         } finally { 
@@ -64,7 +64,7 @@ export default function BookDetails() {
             setNewChapterInput('');
             setIsBulkMode(false);
             fetchBookDetails();
-        } catch (err) { alert("Failed to add chapters"); }
+        } catch (err) { showToast.error("Couldn't add chapters"); }
     };
 
     const updateChapterData = async (chapterId, update) => {
@@ -78,14 +78,19 @@ export default function BookDetails() {
     };
 
     const deleteChapter = async (chapterId) => {
-        if(!confirm("Delete this chapter?")) return;
+        const ok = await confirmAction({
+    title: "Delete this chapter?",
+    type: "warning",
+    confirmText: "Delete",
+});
+if (!ok) return;
         try {
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
             await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/books/${id}/chapters`, { chapterId, deleteAction: true }, {
                 headers: { Authorization: `Bearer ${userInfo.token}` }
             });
             fetchBookDetails();
-        } catch (err) { alert("Delete failed"); }
+         } catch (err) { showToast.error("Couldn't delete chapter"); }
     };
 
     // SAFETY GUARD 1: Show loading spinner while fetching

@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { format, isToday, isPast, isTomorrow } from "date-fns";
 import { useState } from "react";
+import { confirmAction } from "@/components/ui/ConfirmModal";
 
 const priorityColors = {
     low: "border-l-blue-400",
@@ -102,10 +103,16 @@ export default function TaskCard({
                                 <Edit3 size={12} />
                             </button>
                             <button
-                                onClick={() => {
-                                    if (window.confirm("Delete this task?"))
-                                        onDelete && onDelete(task);
-                                }}
+                                onClick={async (e) => {
+    e.stopPropagation();
+    const ok = await confirmAction({
+        title: "Delete this task?",
+        message: "This task will be permanently removed.",
+        type: "warning",
+        confirmText: "Delete",
+    });
+    if (ok) onDelete?.(task);
+}}
                                 className="p-1 rounded-md text-brand-muted hover:bg-red-50 hover:text-red-500"
                                 title="Delete"
                             >

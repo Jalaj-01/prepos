@@ -268,7 +268,7 @@ const handleQuestionUpdated = (updated) => {
 
         } catch (err) {
 
-            alert("Failed to update. Try again.");
+           showToast.error("Couldn't update. Try again.");
         }
     };
 
@@ -303,7 +303,7 @@ const handleQuestionUpdated = (updated) => {
 
         } catch (err) {
 
-            alert("Failed to bookmark.");
+            showToast.error("Couldn't bookmark");
         }
     };
 

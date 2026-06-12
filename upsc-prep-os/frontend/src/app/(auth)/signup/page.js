@@ -180,7 +180,7 @@ export default function Signup() {
 
                     <GoogleLogin
                         onSuccess={googleSuccess}
-                        onError={() => alert("Google Sign-In Failed")}
+                        onError={() => showToast.error("Google Sign-In failed. Please try again.")}
                         theme="filled_black"
                         shape="pill"
                         text="signup_with"

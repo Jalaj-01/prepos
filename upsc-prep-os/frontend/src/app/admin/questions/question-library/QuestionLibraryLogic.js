@@ -350,11 +350,16 @@ const handleQuestionUpdated = (updated) => {
     // SAVE TO PRACTICE SET
     // =========================
 
-    const saveToPracticeSet = async (questionId) => {
+   JavaScript
 
-        const title = prompt("Practice Set Name");
-
-        if (!title) return;
+const saveToPracticeSet = async (questionId) => {
+    const title = await promptModal({
+        title: "Save to Practice Set",
+        message: "Give this practice set a name",
+        placeholder: "e.g. Polity Revision",
+        confirmText: "Create",
+    });
+    if (!title) return;
 
         try {
 

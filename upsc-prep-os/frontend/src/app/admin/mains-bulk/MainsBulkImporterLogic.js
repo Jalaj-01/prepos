@@ -57,7 +57,7 @@ export default function MainsBulkImporterLogic() {
 
         if (!parsed.isAdmin) {
 
-            alert("Admin access only");
+            showToast.error("Admin access required");
 
             window.location.href = "/dashboard";
 
@@ -158,7 +158,7 @@ export default function MainsBulkImporterLogic() {
 
         if (valid.length === 0) {
 
-            alert("No valid questions to upload");
+            showToast.warning("No valid questions to upload");
 
             return;
         }
@@ -181,7 +181,7 @@ export default function MainsBulkImporterLogic() {
                 }
             );
 
-            alert(
+           showToast.error(
 
                 `✅ Uploaded ${data.inserted} questions!\n` +
 
@@ -196,7 +196,7 @@ export default function MainsBulkImporterLogic() {
 
         } catch (err) {
 
-            alert(
+            showToast.success(
 
                 "Upload failed: " +
 

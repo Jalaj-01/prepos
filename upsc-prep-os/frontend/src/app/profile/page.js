@@ -291,15 +291,16 @@ export default function ProfilePage() {
 
         // Double confirm
 
-        const doubleConfirm =
-            prompt("Type 'DELETE MY ACCOUNT' to confirm:");
-
-        if (doubleConfirm !== "DELETE MY ACCOUNT") {
-
-            showToast.info("Account deletion cancelled");
-
-            return;
-        }
+       const confirmText = await promptModal({
+    title: "Delete your account permanently?",
+    message: "This will remove all your data — attempts, notes, files, planner, everything. This cannot be undone.",
+    placeholder: "Type DELETE MY ACCOUNT",
+    mustMatch: "DELETE MY ACCOUNT",
+    confirmText: "Delete Forever",
+    type: "danger",
+});
+if (!confirmText) return;
+        
 
         try {
 
