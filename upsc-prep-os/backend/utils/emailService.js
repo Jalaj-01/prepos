@@ -21,19 +21,23 @@ const getTransporter = () => {
     }
 
     transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
-        family: 4,                  // ← KEY FIX: force IPv4 (Render IPv6 routing fails)
-        connectionTimeout: 10000,   // 10s connection timeout
-        greetingTimeout: 10000,
-        socketTimeout: 10000,
-    });
-
+    host: "smtp.gmail.com",
+    port: 587,                  // ← STARTTLS port (Render allows this)
+    secure: false,              // ← Must be false for port 587 (STARTTLS upgrades after connect)
+    requireTLS: true,           // ← Force TLS encryption
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+    family: 4,                  // Force IPv4
+    connectionTimeout: 15000,   // Bumped to 15s for Render's slower network
+    greetingTimeout: 15000,
+    socketTimeout: 20000,
+    tls: {
+        // Don't fail on invalid certs (Render sometimes has cert quirks)
+        rejectUnauthorized: false,
+    },
+});
     return transporter;
 };
 
