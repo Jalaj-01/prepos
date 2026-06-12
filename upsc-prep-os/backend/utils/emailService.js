@@ -1,42 +1,38 @@
-const nodemailer =
-    require("nodemailer");
+const nodemailer = require("nodemailer");
 
 // =========================
 // EMAIL TRANSPORTER
+// (Cached, IPv4-forced for Render compatibility)
 // =========================
 
 let transporter = null;
 
 const getTransporter = () => {
-
     if (transporter) return transporter;
 
     if (
         !process.env.EMAIL_USER ||
         !process.env.EMAIL_PASS
     ) {
-
         console.warn(
             "⚠️ Email credentials not set in .env (EMAIL_USER, EMAIL_PASS)"
         );
-
         return null;
     }
 
-    transporter =
-        nodemailer.createTransport({
-
-            service: "gmail",
-
-            auth: {
-
-                user:
-                    process.env.EMAIL_USER,
-
-                pass:
-                    process.env.EMAIL_PASS
-            }
-        });
+    transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+        family: 4,                  // ← KEY FIX: force IPv4 (Render IPv6 routing fails)
+        connectionTimeout: 10000,   // 10s connection timeout
+        greetingTimeout: 10000,
+        socketTimeout: 10000,
+    });
 
     return transporter;
 };
@@ -344,6 +340,7 @@ exports.welcomeTemplate = (
 </html>
     `;
 };
+
 // =========================
 // CONTACT FORM EMAIL TEMPLATE
 // (Sent to admin when someone uses /contact)
