@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const { OAuth2Client } = require('google-auth-library');
+const { getTransporter } = require("../utils/emailTransporter");
 
 // Initialize Google Client
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -184,10 +185,17 @@ exports.forgotPasswordOTP = async (req, res) => {
         user.resetPasswordOTPExpire = Date.now() + 10 * 60 * 1000; 
         await user.save();
 
-        const transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-        });
+       const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+    // Force IPv4 — Render's IPv6 routing fails to reach Gmail SMTP
+    family: 4,
+});
 
         await transporter.sendMail({
             to: user.email,

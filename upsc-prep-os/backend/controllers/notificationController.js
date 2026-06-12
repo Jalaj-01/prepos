@@ -1,11 +1,22 @@
 const Notification = require("../models/Notification");
 
+// Reusable auth guard — extra safety net even though protect middleware should catch this
+const requireUser = (req, res) => {
+    if (!req.user?._id) {
+        res.status(401).json({ message: "Not authenticated" });
+        return false;
+    }
+    return true;
+};
+
 // =========================
 // LIST NOTIFICATIONS (last 10 by default)
 // GET /api/notifications?limit=10
 // =========================
 exports.listNotifications = async (req, res) => {
     try {
+        if (!requireUser(req, res)) return;
+
         const limit = Math.min(parseInt(req.query.limit) || 10, 50);
         const notes = await Notification.find({ userId: req.user._id })
             .sort({ createdAt: -1 })
@@ -24,6 +35,8 @@ exports.listNotifications = async (req, res) => {
 // =========================
 exports.unreadCount = async (req, res) => {
     try {
+        if (!requireUser(req, res)) return;
+
         const count = await Notification.countDocuments({
             userId: req.user._id,
             read: false,
@@ -41,6 +54,8 @@ exports.unreadCount = async (req, res) => {
 // =========================
 exports.markRead = async (req, res) => {
     try {
+        if (!requireUser(req, res)) return;
+
         const note = await Notification.findOneAndUpdate(
             { _id: req.params.id, userId: req.user._id },
             { $set: { read: true, readAt: new Date() } },
@@ -60,6 +75,8 @@ exports.markRead = async (req, res) => {
 // =========================
 exports.markAllRead = async (req, res) => {
     try {
+        if (!requireUser(req, res)) return;
+
         await Notification.updateMany(
             { userId: req.user._id, read: false },
             { $set: { read: true, readAt: new Date() } }
@@ -77,6 +94,8 @@ exports.markAllRead = async (req, res) => {
 // =========================
 exports.deleteNotification = async (req, res) => {
     try {
+        if (!requireUser(req, res)) return;
+
         await Notification.deleteOne({
             _id: req.params.id,
             userId: req.user._id,
@@ -103,6 +122,11 @@ exports.create = async ({
     actorIsAdmin = false,
 }) => {
     try {
+        if (!userId) {
+            console.warn("Notification.create called without userId — skipped");
+            return null;
+        }
+
         return await Notification.create({
             userId,
             type,

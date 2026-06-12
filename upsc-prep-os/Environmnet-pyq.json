@@ -724,8 +724,7 @@
     "sourcePage": 0,
     "sourceFile": "Pasted text(89).txt",
     "isPYQ": true
-  },
-[
+},
   {
     "questionId": "CEB_001",
     "questionText": "What can be the impact of excessive/inappropriate use of nitrogenous fertilizers in agriculture?\n1. Proliferation of nitrogen-fixing microorganisms in soil can occur.\n2. Increase in the acidity of soil can take place.\n3. Leaching of nitrate to the ground-water can occur.\nSelect the correct answer using the code given below:",
@@ -911,8 +910,7 @@
     "sourcePage": 0,
     "sourceFile": "Pasted text(90).txt",
     "isPYQ": true
-  },
-  [
+},
   {
     "questionId": "CEB_007",
     "questionText": "Consider the following statements:\n1. The Sustainable Development Goals were first proposed in 1972 by a global think tank called the 'Club of Rome'.\n2. The Sustainable Development Goals have to be achieved by 2030.\nWhich of the statements given above is/are correct?",
@@ -1092,8 +1090,8 @@
     "sourcePage": 0,
     "sourceFile": "Pasted text(90).txt",
     "isPYQ": true
-  },
-  [
+  
+},
   {
     "questionId": "CEB_013",
     "questionText": "In which one of the following States is Pakhui Wildlife Sanctuary located?",
@@ -1275,8 +1273,7 @@
     "sourcePage": 0,
     "sourceFile": "Pasted text(90).txt",
     "isPYQ": true
-  },
-  [
+},
   {
     "questionId": "CEB_019",
     "questionText": "Which of the following are the most likely places to find the musk deer in its natural habitat?\n1. Askot Wildlife Sanctuary\n2. Gangotri National Park\n3. Kishanpur Wildlife Sanctuary\n4. Manas National Park\nSelect the correct answer using the code given below:",
@@ -1513,3 +1510,4742 @@
     "sourceFile": "Pasted text(90).txt",
     "isPYQ": true
   },
+  {
+    "questionId": "ELG_001",
+    "questionText": "The Genetic Engineering Appraisal Committee is constituted under the:",
+    "options": [
+      "Food Safety and Standards Act, 2006",
+      "Geographical Indications of Goods (Registration and Protection) Act, 1999",
+      "Environment (Protection) Act, 1986",
+      "Wildlife (Protection) Act, 1972"
+    ],
+    "correctOption": "C",
+    "explanation": "The Genetic Engineering Appraisal Committee (GEAC) functions under the Environment (Protection) Act, 1986 and regulates activities involving genetically modified organisms and their products.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Environment Protection Act",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "GEAC",
+      "GMO",
+      "Environment Protection Act",
+      "Genetic Engineering"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_002",
+    "questionText": "According to the Wildlife (Protection) Act, 1972, which of the following animals cannot be hunted by any person except under some provisions provided by law?\n1. Gharial\n2. Indian wild ass\n3. Wild buffalo\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Gharial, Indian wild ass and wild buffalo are protected under the Wildlife (Protection) Act, 1972 and cannot be hunted except under specific legal provisions.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Wildlife Protection Act",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Wildlife Protection Act",
+      "Gharial",
+      "Indian Wild Ass",
+      "Wild Buffalo"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_003",
+    "questionText": "In India, if a species of tortoise is declared protected under Schedule I of the Wildlife (Protection) Act, 1972, what does it imply?",
+    "options": [
+      "It enjoys the same level of protection as the tiger.",
+      "It no longer exists in the wild, a few individuals are under captive protection; and now it is impossible to prevent its extinction.",
+      "It is endemic to a particular region of India.",
+      "Both b) and c) stated above are correct in this context."
+    ],
+    "correctOption": "A",
+    "explanation": "Species listed under Schedule I receive the highest degree of legal protection under the Wildlife (Protection) Act, similar to the protection provided to tigers.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Wildlife Protection Act",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Schedule I",
+      "Wildlife Protection Act",
+      "Tortoise",
+      "Protected Species"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_004",
+    "questionText": "Consider the following statements:\n1. Under Ramsar Convention, it is mandatory on the part of the Government of India to protect and conserve all the wetlands in the territory of India.\n2. The Wetlands (Conservation and Management) Rules, 2010 were framed by the Government of India based on the recommendations of Ramsar Convention.\n3. The Wetlands (Conservation and Management) Rules, 2010 also encompass the drainage area or catchment regions of the wetlands as determined by the authority.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "The Ramsar Convention does not mandate protection of all wetlands, and the 2010 Rules were not directly based on Ramsar recommendations. The Rules do include catchment and drainage areas.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Ramsar Convention and Wetlands",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Ramsar Convention",
+      "Wetlands Rules",
+      "Catchment Area",
+      "Wetland Conservation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_005",
+    "questionText": "Consider the following statements:\nThe Environment Protection Act, 1986 empowers the Government of India to:\n1. State the requirement of public participation in the process of environmental protection, and the procedure and manner in which it is sought.\n2. Lay down the standards for emission or discharge of environmental pollutants from various sources.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "B",
+    "explanation": "The Environment Protection Act empowers the Government to prescribe standards for emissions and discharges. The Act does not specifically mandate procedures for public participation.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Environment Protection Act",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Environment Protection Act",
+      "Pollution Standards",
+      "Environmental Governance",
+      "Emission Standards"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_006",
+    "questionText": "As per the Solid Waste Management Rules, 2016 in India, which one of the following statements is correct?",
+    "options": [
+      "A waste generator has to segregate waste into five categories.",
+      "The Rules are applicable to notified urban local bodies, notified towns and all industrial townships only.",
+      "The Rules provide for exact and elaborate criteria for the identification of sites for landfills and waste processing facilities.",
+      "It is mandatory on the part of the waste generator that the waste generated in one district cannot be moved to another district."
+    ],
+    "correctOption": "C",
+    "explanation": "The Solid Waste Management Rules, 2016 provide detailed criteria for identifying sites for landfills and waste processing facilities.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Solid Waste Management Rules",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Solid Waste Management Rules",
+      "Landfills",
+      "Waste Processing",
+      "Waste Management"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_007",
+    "questionText": "In India, ‘extended producer responsibility’ was introduced as an important feature in which of the following?",
+    "options": [
+      "The Bio-medical Waste (Management and Handling) Rules, 1998",
+      "The Recycled Plastic (Manufacturing and Usage) Rules, 1999",
+      "The e-Waste (Management and Handling) Rules, 2011",
+      "The Food Safety and Standard Regulations, 2011"
+    ],
+    "correctOption": "C",
+    "explanation": "Extended Producer Responsibility (EPR) was introduced through the e-Waste (Management and Handling) Rules, 2011, making producers responsible for end-of-life management of electronic products.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "E-Waste Management",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Extended Producer Responsibility",
+      "EPR",
+      "E-Waste Rules",
+      "Electronic Waste"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_008",
+    "questionText": "Consider the following statements:\n1. As per recent amendment to the Indian Forest Act, 1927, forest dwellers have the right to fell the bamboos grown on forest areas.\n2. As per the Scheduled Tribes and Other Traditional Forest Dwellers (Recognition of Forest Rights) Act, 2006, bamboo is a minor forest produce.\n3. The Scheduled Tribes and Other Traditional Forest Dwellers (Recognition of Forest Rights) Act, 2006 allows ownership of minor forest produce to forest dwellers.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "The Forest Rights Act recognizes bamboo as a minor forest produce and grants ownership rights over minor forest produce to forest dwellers. Statement 1 is incorrect.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Forest Rights Act",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Forest Rights Act",
+      "Bamboo",
+      "Minor Forest Produce",
+      "Forest Dwellers"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_009",
+    "questionText": "Consider the following statements:\n1. As per law, the Compensatory Afforestation Fund Management and Planning Authority exists at both National and State levels.\n2. People’s participation is mandatory in the compensatory afforestation programmes carried out under the Compensatory Afforestation Fund Act, 2016.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "A",
+    "explanation": "The Compensatory Afforestation Fund Management and Planning Authority (CAMPA) exists at both National and State levels. The Act does not make people's participation mandatory in compensatory afforestation programmes.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "CAMPA Act",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "CAMPA",
+      "Compensatory Afforestation",
+      "Forest Conservation",
+      "Afforestation Fund"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_010",
+    "questionText": "If a particular plant species is placed under Schedule VI of The Wildlife Protection Act, 1972, what is the implication?",
+    "options": [
+      "A license is required to cultivate that plant.",
+      "Such a plant cannot be cultivated under any circumstances.",
+      "It is a Genetically Modified crop plant.",
+      "Such a plant is invasive and harmful to the ecosystem."
+    ],
+    "correctOption": "A",
+    "explanation": "Plants listed under Schedule VI of the Wildlife (Protection) Act, 1972 can be cultivated, collected or traded only with appropriate authorization or license.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Wildlife Protection Act",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Schedule VI",
+      "Protected Plants",
+      "Wildlife Protection Act",
+      "Plant Conservation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_011",
+    "questionText": "According to India’s National Policy on Biofuels, which of the following can be used as raw materials for the production of biofuels?\n1. Cassava\n2. Damaged wheat grains\n3. Groundnut seeds\n4. Horse gram\n5. Rotten potatoes\n6. Sugar beet\nSelect the correct answer using the code given below:",
+    "options": [
+      "1, 2, 5 and 6 only",
+      "1, 3, 4 and 6 only",
+      "2, 3, 4 and 5 only",
+      "1, 2, 3, 4, 5 and 6"
+    ],
+    "correctOption": "A",
+    "explanation": "The National Policy on Biofuels permits feedstocks such as cassava, damaged food grains, rotten potatoes and sugar beet for biofuel production. Groundnut seeds and horse gram are not specified feedstocks under the policy.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "National Policy on Biofuels",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Biofuels",
+      "National Policy on Biofuels",
+      "Cassava",
+      "Sugar Beet",
+      "Bioethanol"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_012",
+    "questionText": "With reference to Indian laws about wildlife protection, consider the following statements:\n1. Wild animals are the sole property of the government.\n2. When a wild animal is declared protected, such animal is entitled for equal protection whether it is found in protected areas or outside.\n3. Apprehension of a protected wild animal becoming a danger to human life is sufficient ground for its capture or killing.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 2",
+      "2 only",
+      "1 and 3",
+      "3 only"
+    ],
+    "correctOption": "A",
+    "explanation": "Wild animals are government property under the Wildlife (Protection) Act and receive protection both inside and outside protected areas. Mere apprehension of danger is not sufficient ground for killing a protected animal.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Wildlife Protection Act",
+    "questionType": "MultipleStatement",
+    "difficulty": "Hard",
+    "keywords": [
+      "Wildlife Protection Act",
+      "Protected Animals",
+      "Wildlife Laws",
+      "Conservation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_013",
+    "questionText": "Consider the following statements:\nStatement-I: The Indian Flying Fox is placed under the 'vermin' category in the Wild Life (Protection) Act, 1972.\nStatement-II: The Indian Flying Fox feeds on the blood of other animals.\nWhich one of the following is correct in respect of the above statements?",
+    "options": [
+      "Both Statement-I and Statement-II are correct and Statement-II explains Statement-I",
+      "Both Statement-I and Statement-II are correct, but Statement-II does not explain Statement-I",
+      "Statement-I is correct, but Statement-II is incorrect",
+      "Statement-I is incorrect, but Statement-II is correct"
+    ],
+    "correctOption": "C",
+    "explanation": "As per the official UPSC answer key, Statement-I is correct and Statement-II is incorrect. The Indian Flying Fox is a fruit bat and does not feed on blood.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Wildlife Protection Act",
+    "questionType": "AssertionReason",
+    "difficulty": "Medium",
+    "keywords": [
+      "Indian Flying Fox",
+      "Fruit Bat",
+      "Wildlife Protection Act",
+      "Vermin"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_014",
+    "questionText": "Under the Scheduled Tribes and Other Traditional Forest Dwellers (Recognition of Forest Rights) Act, 2006, who shall be the authority to initiate the process for determining the nature and extent of individual or community forest rights or both?",
+    "options": [
+      "State Forest Department",
+      "District Collector/Deputy Commissioner",
+      "Tahsildar/Block Development Officer/Mandal Revenue Officer",
+      "Gram Sabha"
+    ],
+    "correctOption": "D",
+    "explanation": "The Forest Rights Act, 2006 designates the Gram Sabha as the authority responsible for initiating the process of determining individual and community forest rights.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Forest Rights Act",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Forest Rights Act",
+      "Gram Sabha",
+      "Community Rights",
+      "Forest Dwellers"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ELG_015",
+    "questionText": "Consider the following statements:\n1. Animal Welfare Board of India is established under the Environment (Protection) Act, 1986.\n2. National Tiger Conservation Authority is a statutory body.\n3. National Ganga River Basin Authority is chaired by the Prime Minister.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "2 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "The Animal Welfare Board of India was established under the Prevention of Cruelty to Animals Act, 1960. NTCA is a statutory body under the Wildlife (Protection) Act, and NGRBA was chaired by the Prime Minister.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Legislations and Governance",
+    "subtopicName": "Environmental Institutions",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Animal Welfare Board",
+      "NTCA",
+      "NGRBA",
+      "Environmental Governance"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(91).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_001",
+    "questionText": "With reference to the International Union for Conservation of Nature and Natural Resources (IUCN) and the Convention on International Trade in Endangered Species of Wild Fauna and Flora (CITES), which of the following statements is/are correct?\n1. IUCN is an organ of the United Nations and CITES is an international agreement between governments.\n2. IUCN runs thousands of field projects around the world to better manage natural environments.\n3. CITES is legally binding on the States that have joined it, but this Convention does not take the place of national laws.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "IUCN is not a UN organ but an international conservation organization. It runs numerous field projects globally. CITES is legally binding on member states but is implemented through national laws.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "IUCN and CITES",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "IUCN",
+      "CITES",
+      "Biodiversity",
+      "Wildlife Trade",
+      "Conservation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(92).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_002",
+    "questionText": "Which one the following is associated with the issue of control and phasing out of the use of ozone-depleting substances?",
+    "options": [
+      "Bretton Woods Conference",
+      "Montreal Protocol",
+      "Kyoto Protocol",
+      "Nagoya Protocol"
+    ],
+    "correctOption": "B",
+    "explanation": "The Montreal Protocol was adopted in 1987 to phase out ozone-depleting substances such as chlorofluorocarbons (CFCs).",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Montreal Protocol",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Montreal Protocol",
+      "Ozone Layer",
+      "ODS",
+      "CFCs"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(92).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_003",
+    "questionText": "Which of the statements regarding ‘Green Climate Fund’ is/are correct?\n1. It is intended to assist the developing countries in adaption and mitigation practices to counter climate change.\n2. It is founded under the aegis of UNEP, OECD, Asian Development Bank and World Bank.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "A",
+    "explanation": "The Green Climate Fund supports developing countries in climate adaptation and mitigation. It was established under the UNFCCC, not under UNEP, OECD, ADB or the World Bank.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Green Climate Fund",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Green Climate Fund",
+      "UNFCCC",
+      "Climate Finance",
+      "Adaptation",
+      "Mitigation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(92).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_004",
+    "questionText": "‘BioCarbon Fund Initiative for Sustainable Forest Landscapes’ is managed by the:",
+    "options": [
+      "Asian Development Bank",
+      "International Monetary Fund",
+      "United Nations Environment Programme",
+      "World Bank"
+    ],
+    "correctOption": "D",
+    "explanation": "The BioCarbon Fund Initiative for Sustainable Forest Landscapes is managed by the World Bank and supports sustainable land use and forest conservation.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "World Bank Initiatives",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "BioCarbon Fund",
+      "World Bank",
+      "Forest Landscapes",
+      "Climate Change"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(92).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_005",
+    "questionText": "With reference to an organization known as ‘BirdLife International’, which of the following statements is/are correct?\n1. It is a Global Partnership of Conservation Organizations.\n2. The concept of ‘biodiversity hotspots’ originated from this organization.\n3. It identifies the sites known/referred to as ‘Important Bird and Biodiversity Areas’.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "BirdLife International is a global partnership of conservation organizations and identifies Important Bird and Biodiversity Areas (IBAs). The biodiversity hotspot concept was proposed by Norman Myers.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "BirdLife International",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "BirdLife International",
+      "IBA",
+      "Bird Conservation",
+      "Biodiversity"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(92).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_006",
+    "questionText": "With reference to the Indian Renewable Energy Development Agency Limited (IREDA), which of the following statements is/are correct?\n1. It is a Public Limited Government Company.\n2. It is a Non-Banking Financial Company.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "C",
+    "explanation": "IREDA is a Public Limited Government Company under the Ministry of New and Renewable Energy and is registered as a Non-Banking Financial Company (NBFC).",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "IREDA",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "IREDA",
+      "Renewable Energy",
+      "NBFC",
+      "MNRE"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(92).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_007",
+    "questionText": "What is the Rio+20 Conference, often mentioned in the news?",
+    "options": [
+      "It is the United Nations Conference on Sustainable Development",
+      "It is a Ministerial Meeting of the World Trade Organization",
+      "It is a Conference of the Inter-governmental Panel on Climate Change",
+      "It is a Conference of the Member Countries of the Convention on Biological Diversity"
+    ],
+    "correctOption": "A",
+    "explanation": "Rio+20 was the United Nations Conference on Sustainable Development held in Rio de Janeiro in 2012, marking twenty years since the 1992 Earth Summit.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Rio+20 Conference",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Rio+20",
+      "UNCSD",
+      "Sustainable Development",
+      "Earth Summit"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(92).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_008",
+    "questionText": "With reference to ‘Forest Carbon Partnership Facility’, which of the following statements is/are correct?\n1. It is a global partnership of governments, businesses, civil society and indigenous peoples.\n2. It provides financial aid to universities, individual scientists and institutions involved in scientific forestry research to develop eco-friendly and climate adaptation technologies for sustainable forest management.\n3. It assists the countries in their ‘REDD+ (Reducing Emissions from Deforestation and Forest Degradation)’ efforts by providing them with financial and technical assistance.",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "The Forest Carbon Partnership Facility is a global partnership supporting REDD+ efforts through financial and technical assistance. It does not primarily fund universities or individual researchers.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Forest Carbon Partnership Facility",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "FCPF",
+      "REDD+",
+      "World Bank",
+      "Forest Carbon",
+      "Deforestation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_009",
+    "questionText": "What is/are the importance/importances of the 'United Nations Convention to Combat Desertification'?\n1. It aims to promote effective action through innovative national programmes and supportive international partnerships.\n2. It has a special/particular focus on South Asia and North Africa regions, and its secretariat facilitates the allocation of major portions of financial resources to these regions.\n3. It is committed to a bottom-up approach, encouraging the participation of local people in combating the desertification.",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "UNCCD promotes action through national programmes and international partnerships and follows a bottom-up participatory approach. It does not specifically prioritize South Asia and North Africa for resource allocation.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "UNCCD",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "UNCCD",
+      "Desertification",
+      "Land Degradation",
+      "Drought",
+      "Sustainable Land Management"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_010",
+    "questionText": "The FAO accords the status of 'Globally Important Agricultural Heritage Systems (GIAHS)' to traditional agricultural systems. What is the overall goal of this initiative?\n1. To provide modern technology, training in modern farming methods and financial support to local communities of identified GIAHS so as to greatly enhance their agricultural productivity.\n2. To identify and safeguard eco-friendly traditional farm practices and their associated landscapes, agricultural biodiversity and knowledge systems of the local communities.\n3. To provide Geographical Indication status to all the varieties of agricultural produce in such identified GIAHS.",
+    "options": [
+      "1 and 3 only",
+      "2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "GIAHS seeks to identify and safeguard traditional agricultural systems, associated biodiversity, landscapes and indigenous knowledge systems.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "GIAHS",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "GIAHS",
+      "FAO",
+      "Agricultural Heritage",
+      "Traditional Farming",
+      "Biodiversity"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_011",
+    "questionText": "Consider the following pairs:\nTerms sometimes seen in the news : Their origin\n1. Annex-I Countries : Cartagena Protocol\n2. Certified Emissions Reductions : Nagoya Protocol\n3. Clean Development Mechanism : Kyoto Protocol\nWhich of the pairs given above is/are correctly matched?",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "Only Clean Development Mechanism originates from the Kyoto Protocol. Annex-I Countries and CERs are also associated with the climate change framework and Kyoto Protocol, not Cartagena or Nagoya Protocols.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Kyoto Protocol",
+    "questionType": "Matching",
+    "difficulty": "Medium",
+    "keywords": [
+      "Kyoto Protocol",
+      "CDM",
+      "CER",
+      "Annex-I Countries",
+      "Climate Change"
+    ],
+    "tables": [
+      {
+        "title": "Terms and Origin",
+        "headers": [
+          "Term",
+          "Origin"
+        ],
+        "rows": [
+          ["Annex-I Countries", "Cartagena Protocol"],
+          ["Certified Emissions Reductions", "Nagoya Protocol"],
+          ["Clean Development Mechanism", "Kyoto Protocol"]
+        ]
+      }
+    ],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_012",
+    "questionText": "With reference to an initiative called 'The Economics of Ecosystems and Biodiversity (TEEB)', which of the following statements is/are correct?\n1. It is an initiative hosted by UNEP, IMF and World Economic Forum.\n2. It is a global initiative that focuses on drawing attention to the economic benefits of biodiversity.\n3. It presents an approach that can help decision-makers recognize, demonstrate and capture the value of ecosystems and biodiversity.",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "TEEB is a global initiative highlighting the economic value of biodiversity and ecosystems and helping decision-makers incorporate those values into policy and planning.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "TEEB",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "TEEB",
+      "Biodiversity",
+      "Ecosystem Services",
+      "Environmental Economics",
+      "UNEP"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_013",
+    "questionText": "With reference to 'Agenda 21', sometimes seen in the news, consider the following statements:\n1. It is a global action plan for sustainable development.\n2. It originated in the World Summit on Sustainable Development held in Johannesburg in 2002.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "A",
+    "explanation": "Agenda 21 is a global action plan for sustainable development adopted at the 1992 Earth Summit in Rio de Janeiro, not at Johannesburg in 2002.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Agenda 21",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Agenda 21",
+      "Earth Summit",
+      "Rio Summit",
+      "Sustainable Development"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_014",
+    "questionText": "With reference to the Agreement at the UNFCCC Meeting in Paris in 2015, which of the following statements is/are correct?\n1. The Agreement was signed by all the member countries of the UN and it will go into effect in 2017.\n2. The Agreement aims to limit greenhouse gas emissions so that the rise in average global temperature by the end of this century does not exceed 2°C or even 1.5°C above pre-industrial levels.\n3. Developed countries acknowledged their historical responsibility in global warming and committed to donate $1000 billion a year from 2020 to help developing countries to cope with climate change.",
+    "options": [
+      "1 and 3 only",
+      "2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "The Paris Agreement seeks to keep temperature rise well below 2°C and pursue efforts to limit it to 1.5°C. Statements 1 and 3 are incorrect.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Paris Agreement",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Paris Agreement",
+      "UNFCCC",
+      "Climate Change",
+      "Global Warming",
+      "Temperature Target"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_015",
+    "questionText": "Consider the following statements in respect of Trade Related Analysis of Fauna and Flora in Commerce (TRAFFIC):\n1. TRAFFIC is a bureau under the United Nations Environment Programme (UNEP).\n2. The mission of TRAFFIC is to ensure that trade in wild plants and animals is not a threat to the conservation of nature.\nWhich of the above statements is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "B",
+    "explanation": "TRAFFIC is not a bureau under UNEP. It is a wildlife trade monitoring network working with organizations such as IUCN and WWF. Its mission is to ensure that trade in wild plants and animals does not threaten nature conservation.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "TRAFFIC",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "TRAFFIC",
+      "Wildlife Trade",
+      "IUCN",
+      "WWF",
+      "Conservation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_016",
+    "questionText": "With reference to the role of UN-Habitat in the United Nations Programme working towards a better urban future, which of the statements is/are correct?\n1. UN-Habitat has been mandated by the United Nations General Assembly to promote socially and environmentally sustainable towns and cities to provide adequate shelter for all.\n2. Its partners are either governments or local urban authorities only.\n3. UN-Habitat contributed to the overall objective of the United Nations system to reduce poverty and to promote access to safe drinking water and basic sanitation.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1, 2 and 3",
+      "1 and 3 only",
+      "2 and 3 only",
+      "1 only"
+    ],
+    "correctOption": "B",
+    "explanation": "UN-Habitat promotes sustainable urban development and adequate shelter for all. It works with governments, civil society, academia and private organizations. It also contributes to poverty reduction and improved access to water and sanitation.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "UN-Habitat",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "UN-Habitat",
+      "Urban Development",
+      "Sustainable Cities",
+      "Sanitation",
+      "United Nations"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_017",
+    "questionText": "The Partnership for Action on Green Economy (PAGE), a UN mechanism to assist countries transition towards greener and more inclusive economies, emerged at:",
+    "options": [
+      "The Earth Summit on Sustainable Development 2002, Johannesburg",
+      "The United Nations Conference on Sustainable Development 2012, Rio de Janeiro",
+      "The United Nations Framework Convention on Climate Change 2015, Paris",
+      "The World Sustainable Development Summit 2016, New Delhi"
+    ],
+    "correctOption": "B",
+    "explanation": "PAGE was launched at the United Nations Conference on Sustainable Development (Rio+20) held in Rio de Janeiro in 2012.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "PAGE",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "PAGE",
+      "Green Economy",
+      "Rio+20",
+      "United Nations"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_018",
+    "questionText": "With reference to the New York Declaration on Forests, which of the following statements are correct?\n1. It was first endorsed at the United Nations Climate Summit in 2014.\n2. It endorses a global timeline to end the loss of forests.\n3. It is a legally binding international declaration.\n4. India was one of the signatories at its inception.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1, 2 and 4",
+      "1, 3 and 4",
+      "3 and 4",
+      "2 and 4"
+    ],
+    "correctOption": "A",
+    "explanation": "The declaration was endorsed at the 2014 UN Climate Summit, supports ending forest loss, and India was among the signatories. It is a voluntary, non-legally binding declaration.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "New York Declaration on Forests",
+    "questionType": "MultipleStatement",
+    "difficulty": "Hard",
+    "keywords": [
+      "New York Declaration on Forests",
+      "Deforestation",
+      "Forests",
+      "UN Climate Summit"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_019",
+    "questionText": "The ‘Common Carbon Metric’, supported by UNEP, has been developed for:",
+    "options": [
+      "Assessing the carbon footprint of building operations around the world",
+      "Enabling commercial farming entities around the world to enter carbon emission trading",
+      "Enabling governments to assess the overall carbon footprint caused by their countries",
+      "Assessing the overall carbon footprint caused by the use of fossil fuels by the world in a unit time"
+    ],
+    "correctOption": "A",
+    "explanation": "The Common Carbon Metric is a UNEP-supported tool developed for measuring and comparing the carbon footprint of building operations globally.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Common Carbon Metric",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Common Carbon Metric",
+      "UNEP",
+      "Carbon Footprint",
+      "Buildings"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_020",
+    "questionText": "‘Invasive Species Specialist Group’ (that develops Global Invasive Species Database) belongs to which one of the following organizations?",
+    "options": [
+      "The International Union for Conservation of Nature",
+      "The United Nations Environment Programme",
+      "The United Nations World Commission for Environment and Development",
+      "The World Wide Fund for Nature"
+    ],
+    "correctOption": "A",
+    "explanation": "The Invasive Species Specialist Group (ISSG) is a specialist group under the IUCN Species Survival Commission and maintains the Global Invasive Species Database.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "IUCN",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "ISSG",
+      "IUCN",
+      "Invasive Species",
+      "Global Invasive Species Database"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_021",
+    "questionText": "Consider the following statements:\nStatement-I: The European Parliament approved The Net-Zero Industry Act recently.\nStatement-II: The European Union intends to achieve carbon neutrality by 2040 and therefore aims to develop all of its own clean technology by that time.\nWhich one of the following is correct in respect of the above statements?",
+    "options": [
+      "Both Statement-I and Statement-II are correct and Statement-II explains Statement-I",
+      "Both Statement-I and Statement-II are correct, but Statement-II does not explain Statement-I",
+      "Statement-I is correct, but Statement-II is incorrect",
+      "Statement-I is incorrect, but Statement-II is correct"
+    ],
+    "correctOption": "C",
+    "explanation": "The European Parliament approved the Net-Zero Industry Act. However, the EU's carbon neutrality target is 2050, not 2040, making Statement-II incorrect.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "European Union Climate Policy",
+    "questionType": "AssertionReason",
+    "difficulty": "Medium",
+    "keywords": [
+      "Net-Zero Industry Act",
+      "European Union",
+      "Carbon Neutrality",
+      "Climate Policy"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_022",
+    "questionText": "If a wetland of international importance is brought under the 'Montreux Record', what does it imply?",
+    "options": [
+      "Changes in ecological character have occurred, are occurring or are likely to occur in the wetland as a result of human interference.",
+      "The country in which the wetland is located should enact a law to prohibit any human activity within five kilometers from the edge of the wetland.",
+      "The survival of the wetland depends on the cultural practices and traditions of certain communities living in its vicinity and therefore the cultural diversity therein should not be destroyed.",
+      "It is given the status of 'World Heritage Site'."
+    ],
+    "correctOption": "A",
+    "explanation": "The Montreux Record is a register under the Ramsar Convention for wetlands where changes in ecological character have occurred, are occurring, or are likely to occur due to human interference.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Ramsar Convention",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Montreux Record",
+      "Ramsar Convention",
+      "Wetlands",
+      "Ecological Character"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_023",
+    "questionText": "With reference to the Bombay Natural History Society (BNHS), consider the following statements:\n1. It is an autonomous organization under the Ministry of Environment and Forests.\n2. It strives to conserve nature through action-based research, education and public awareness.\n3. It organizes and conducts nature trails and camps for the general public.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 3 only",
+      "2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "BNHS is a non-governmental organization. It conducts conservation research, education programmes, public awareness initiatives, and organizes nature trails and camps.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "BNHS",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "BNHS",
+      "Conservation",
+      "Research",
+      "Public Awareness",
+      "Nature Trails"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_024",
+    "questionText": "With reference to 'Global Environment Facility', which of the following statements is/are correct?",
+    "options": [
+      "It serves as a financial mechanism for 'Convention on Biological Diversity' and 'United Nations Framework Convention on Climate Change'.",
+      "It undertakes scientific research on environmental issues at the global level.",
+      "It is an agency under OECD to facilitate the transfer of technology and funds to underdeveloped countries with the specific aim to protect their environment.",
+      "Both a) and b)"
+    ],
+    "correctOption": "A",
+    "explanation": "The Global Environment Facility (GEF) serves as a financial mechanism for major environmental conventions including CBD and UNFCCC. It does not itself conduct scientific research and is not an OECD agency.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Global Environment Facility",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "GEF",
+      "CBD",
+      "UNFCCC",
+      "Environmental Finance"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_025",
+    "questionText": "With reference to a conservation organization called 'Wetlands International', which of the following statements is/are correct?\n1. It is an intergovernmental organization formed by the countries which are signatories to the Ramsar Convention.\n2. It works at the field level to develop and mobilize knowledge and use practical experience to advocate for better policies.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "B",
+    "explanation": "Wetlands International is a global non-profit organization, not an intergovernmental body. It works on field projects, knowledge generation and policy advocacy for wetland conservation.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Wetlands International",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Wetlands International",
+      "Wetland Conservation",
+      "Ramsar",
+      "Policy Advocacy"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_026",
+    "questionText": "Consider the following international agreements:\n1. The International Treaty on Plant Genetic Resources for Food and Agriculture\n2. The United Nations Convention to Combat Desertification\n3. The World Heritage Convention\nWhich of the above has/have a bearing on biodiversity?",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "All three agreements have relevance to biodiversity through conservation of genetic resources, combating land degradation and protecting natural heritage sites.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "International Environmental Agreements",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Biodiversity",
+      "Plant Genetic Resources",
+      "UNCCD",
+      "World Heritage Convention"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ICTO_027",
+    "questionText": "Consider the following statements regarding 'Earth Hour':\n1. It is an initiative of UNEP and UNESCO.\n2. It is a movement in which the participants switch off the lights for one hour on a certain day every year.\n3. It is a movement to raise awareness about climate change and the need to save the planet.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 3 only",
+      "2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "Earth Hour is an initiative of WWF, not UNEP or UNESCO. Participants switch off non-essential lights for one hour to raise awareness about climate change and environmental sustainability.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Important Conventions, Treaties and Organizations",
+    "subtopicName": "Earth Hour",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Earth Hour",
+      "WWF",
+      "Climate Change",
+      "Environmental Awareness"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(94).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_001",
+    "questionText": "With reference to 'dugong', a mammal found in India, which of the following statements is/are correct?\n1. It is a herbivorous marine animal.\n2. It is found along the entire coast of India.\n3. It is given legal protection under Schedule I of the Wildlife (Protection) Act, 1972.\nSelect the correct answer using the codes given below:",
+    "options": [
+      "1 and 2",
+      "2 only",
+      "1 and 3",
+      "3 only"
+    ],
+    "correctOption": "C",
+    "explanation": "Dugong is a herbivorous marine mammal and is protected under Schedule I of the Wildlife (Protection) Act, 1972. It is not found along the entire Indian coast.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Marine Mammals",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Dugong",
+      "Marine Mammal",
+      "Schedule I",
+      "Seagrass",
+      "Wildlife Protection Act"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_002",
+    "questionText": "Which one of the following is the national aquatic animal of India?",
+    "options": [
+      "Saltwater crocodile",
+      "Olive ridley turtle",
+      "Gangetic dolphin",
+      "Gharial"
+    ],
+    "correctOption": "C",
+    "explanation": "The Gangetic dolphin is India's national aquatic animal and an important indicator of river ecosystem health.",
+    "year": 2015,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "National Symbols",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Gangetic Dolphin",
+      "National Aquatic Animal",
+      "River Ecosystem",
+      "Endangered"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_003",
+    "questionText": "In which of the following regions of India are you most likely to come across the 'Great Indian Hornbill' in its natural habitat?",
+    "options": [
+      "Sand deserts of northwest India",
+      "Higher Himalayas of Jammu and Kashmir",
+      "Salt marshes of western Gujarat",
+      "Western Ghats"
+    ],
+    "correctOption": "D",
+    "explanation": "The Great Indian Hornbill is primarily found in the Western Ghats and northeastern forest regions of India.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Bird Species",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Great Indian Hornbill",
+      "Western Ghats",
+      "Birds",
+      "Buceros bicornis"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_004",
+    "questionText": "With reference to 'Red Sanders', sometimes seen in the news, consider the following statements:\n1. It is a tree species found in a part of South India.\n2. It is one of the most important trees in the tropical rain forest areas of South India.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "A",
+    "explanation": "Red Sanders is endemic to parts of South India but is associated with dry deciduous forests rather than tropical rainforests.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Flora",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Red Sanders",
+      "Pterocarpus santalinus",
+      "Endemic Species",
+      "South India"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_005",
+    "questionText": "Recently, for the first time in our country, which of the following State has declared a particular butterfly as 'State Butterfly'?",
+    "options": [
+      "Arunachal Pradesh",
+      "Himachal Pradesh",
+      "Karnataka",
+      "Maharashtra"
+    ],
+    "correctOption": "D",
+    "explanation": "Maharashtra became the first Indian state to declare a State Butterfly, selecting the Blue Mormon.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Butterflies",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Blue Mormon",
+      "State Butterfly",
+      "Maharashtra",
+      "Butterflies"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_006",
+    "questionText": "What is/are unique about ‘Kharai camel’, a breed found in India?\n1. It is capable of swimming up to three kilometers in seawater.\n2. It survives by grazing on mangroves.\n3. It lives in the wild and cannot be domesticated.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "Kharai camels can swim in seawater and graze on mangroves. They are domesticated animals.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Camel Breeds",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Kharai Camel",
+      "Mangroves",
+      "Gujarat",
+      "Camel Breed"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_007",
+    "questionText": "Recently, our scientists have discovered a new and distinct species of banana plant which attains a height of about 11 meters and has orange-coloured fruit pulp. In which part of India has it been discovered?",
+    "options": [
+      "Andaman Islands",
+      "Anaimalai Forests",
+      "Maikala Hills",
+      "Tropical rain forests of northeast"
+    ],
+    "correctOption": "A",
+    "explanation": "The new banana species with orange-coloured pulp was discovered in the Andaman Islands.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Plant Species Discovery",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Banana Species",
+      "Andaman Islands",
+      "Biodiversity",
+      "Endemic Flora"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_008",
+    "questionText": "Due to some reasons, if there is a huge fall in the population of species of butterflies, what could be its likely consequence/consequences?\n1. Pollination of some plants could be adversely affected.\n2. There could be a drastic increase in the fungal infections of some cultivated plants.\n3. It could lead to a fall in the population of some species of wasps, spiders and birds.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "Butterflies aid pollination and serve as prey for various species. Their decline can affect both pollination and food chains.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Ecology",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Butterflies",
+      "Pollination",
+      "Food Chain",
+      "Biodiversity"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_009",
+    "questionText": "Consider the following:\n1. Birds\n2. Dust blowing\n3. Rain\n4. Wind blowing\nWhich of the above spread plant diseases?",
+    "options": [
+      "1 and 3 only",
+      "3 and 4 only",
+      "1, 2 and 4 only",
+      "1, 2, 3 and 4"
+    ],
+    "correctOption": "D",
+    "explanation": "Birds, dust, rain and wind can all act as vectors or carriers of plant pathogens and contribute to disease spread.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Plant Pathology",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Plant Diseases",
+      "Pathogens",
+      "Disease Transmission",
+      "Agriculture"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_010",
+    "questionText": "Which of the following leaf modifications occur(s) in the desert areas to inhibit water loss?\n1. Hard and waxy leaves\n2. Tiny leaves\n3. Thorns instead of leaves\nSelect the correct answer using the code given below:",
+    "options": [
+      "2 and 3 only",
+      "2 only",
+      "3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Desert plants reduce water loss through waxy leaves, reduced leaf area and leaf modification into thorns.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Plant Adaptations",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Desert Plants",
+      "Xerophytes",
+      "Leaf Modification",
+      "Water Conservation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_011",
+    "questionText": "If you want to see gharials in their natural habitat, which one of the following is the best place to visit?",
+    "options": [
+      "Bhitarkanika Mangroves",
+      "Chambal River",
+      "Pulicat Lake",
+      "Deepor Beel"
+    ],
+    "correctOption": "B",
+    "explanation": "The Chambal River supports one of the largest surviving wild populations of gharials and is a major conservation area for this critically endangered reptile.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Gharial",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Gharial",
+      "Chambal River",
+      "Crocodilians",
+      "Wildlife Sanctuary"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_012",
+    "questionText": "Why is a plant called Prosopis juliflora often mentioned in the news?",
+    "options": [
+      "Its extract is widely used in cosmetics.",
+      "It tends to reduce the biodiversity in the area in which it grows.",
+      "Its extract is used in the synthesis of pesticides.",
+      "None of these"
+    ],
+    "correctOption": "B",
+    "explanation": "Prosopis juliflora is an invasive species that spreads aggressively, suppresses native vegetation and reduces local biodiversity.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Invasive Species",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Prosopis juliflora",
+      "Invasive Species",
+      "Biodiversity",
+      "Mesquite"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_013",
+    "questionText": "Consider the following statements:\n1. Some species of turtles are herbivores.\n2. Some species of fish are herbivores.\n3. Some species of marine mammals are herbivores.\n4. Some species of snakes are viviparous.\nWhich of the statements given above are correct?",
+    "options": [
+      "1 and 3 only",
+      "2, 3 and 4 only",
+      "2 and 4 only",
+      "1, 2, 3 and 4"
+    ],
+    "correctOption": "D",
+    "explanation": "Herbivorous turtles, fish and marine mammals exist, and some snake species are viviparous, giving birth to live young.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Animal Characteristics",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Herbivores",
+      "Marine Mammals",
+      "Viviparous Snakes",
+      "Turtles"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_014",
+    "questionText": "Consider the following pairs:\nWildlife : Naturally found in\n1. Blue-finned Mahseer : Cauvery River\n2. Irrawaddy Dolphin : Chambal River\n3. Rusty-spotted Cat : Eastern Ghats\nWhich of the pairs given above are correctly matched?",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "Blue-finned Mahseer is found in the Cauvery River and Rusty-spotted Cat occurs in the Eastern Ghats. Irrawaddy Dolphin is not found in the Chambal River.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Species Distribution",
+    "questionType": "Matching",
+    "difficulty": "Medium",
+    "keywords": [
+      "Blue-finned Mahseer",
+      "Irrawaddy Dolphin",
+      "Rusty-spotted Cat",
+      "Species Distribution"
+    ],
+    "tables": [
+      {
+        "title": "Wildlife and Natural Habitat",
+        "headers": [
+          "Wildlife",
+          "Naturally Found In"
+        ],
+        "rows": [
+          [
+            "Blue-finned Mahseer",
+            "Cauvery River"
+          ],
+          [
+            "Irrawaddy Dolphin",
+            "Chambal River"
+          ],
+          [
+            "Rusty-spotted Cat",
+            "Eastern Ghats"
+          ]
+        ]
+      }
+    ],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_015",
+    "questionText": "Consider the following statements:\n1. Asiatic lion is naturally found in India only.\n2. Double-humped camel is naturally found in India only.\n3. One-horned rhinoceros is naturally found in India only.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "The Asiatic lion is naturally found only in India. Double-humped camels are native to Central Asia, and one-horned rhinoceroses are also found in Nepal.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Species Distribution",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Asiatic Lion",
+      "Bactrian Camel",
+      "One-horned Rhinoceros",
+      "Endemic Species"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_016",
+    "questionText": "With reference to India's biodiversity, Ceylon frogmouth, Coppersmith barbet, Gray-chinned minivet and White-throated redstart are:",
+    "options": [
+      "Birds",
+      "Primates",
+      "Reptiles",
+      "Amphibians"
+    ],
+    "correctOption": "A",
+    "explanation": "Ceylon frogmouth, Coppersmith barbet, Gray-chinned minivet and White-throated redstart are all bird species found in India.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Bird Species",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Ceylon Frogmouth",
+      "Coppersmith Barbet",
+      "Gray-chinned Minivet",
+      "Birds"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_017",
+    "questionText": "With reference to Indian elephants, consider the following statements:\n1. The leader of an elephant group is a female.\n2. The maximum gestation period can be 22 months.\n3. An elephant can normally go on calving till the age of 40 years only.\n4. Among the States in India, the highest elephant population is in Kerala.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 2 only",
+      "2 and 4 only",
+      "3 only",
+      "1, 3 and 4 only"
+    ],
+    "correctOption": "A",
+    "explanation": "Elephant herds are led by a matriarch, and elephants have a gestation period of up to 22 months. Statements 3 and 4 are incorrect.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Elephants",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Indian Elephant",
+      "Matriarch",
+      "Gestation Period",
+      "Elephant Population"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_018",
+    "questionText": "Consider the following animals:\n1. Hedgehog\n2. Marmot\n3. Pangolin\nTo reduce the chance of being captured by predators which of the above organisms rolls up/roll up and protects/protect its/their vulnerable parts?",
+    "options": [
+      "1 and 2",
+      "2 only",
+      "3 only",
+      "1 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Both hedgehogs and pangolins curl into a ball to protect vulnerable body parts from predators.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Animal Adaptations",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Hedgehog",
+      "Pangolin",
+      "Defense Mechanism",
+      "Adaptation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_019",
+    "questionText": "Which one of the following is a filter feeder?",
+    "options": [
+      "Catfish",
+      "Octopus",
+      "Oyster",
+      "Pelican"
+    ],
+    "correctOption": "C",
+    "explanation": "Oysters obtain food by filtering plankton and organic particles from water and are classic filter feeders.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Feeding Behaviour",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Oyster",
+      "Filter Feeder",
+      "Marine Biology",
+      "Feeding Adaptation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_020",
+    "questionText": "Which of the following are nitrogen-fixing plants?\n1. Alfalfa\n2. Amaranth\n3. Chickpea\n4. Clover\n5. Purslane (Kulfa)\n6. Spinach\nSelect the correct answer using the code given below:",
+    "options": [
+      "1, 3 and 4 only",
+      "1, 3, 5 and 6 only",
+      "2, 4, 5 and 6 only",
+      "1, 2, 4, 5 and 6"
+    ],
+    "correctOption": "A",
+    "explanation": "Alfalfa, chickpea and clover are legumes that form symbiotic associations with nitrogen-fixing bacteria.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Nitrogen Fixation",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Nitrogen Fixation",
+      "Alfalfa",
+      "Chickpea",
+      "Clover",
+      "Legumes"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "WSFF_021",
+    "questionText": "With reference to 'Gucchi' sometimes mentioned in the news, consider the following statements:\n1. It is a fungus.\n2. It grows in some Himalayan forest areas.\n3. It is commercially cultivated in the Himalayan foothills of north-eastern India.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "3 only",
+      "1 and 2",
+      "2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "Gucchi (Morel mushroom) is a fungus that grows naturally in Himalayan forests. It is largely collected from the wild and is not commercially cultivated on a significant scale.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Fungi",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Gucchi",
+      "Morel Mushroom",
+      "Fungus",
+      "Himalayas"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_022",
+    "questionText": "Which of the following is not a bird?",
+    "options": [
+      "Golden Mahseer",
+      "Indian Nightjar",
+      "Spoonbill",
+      "White Ibis"
+    ],
+    "correctOption": "A",
+    "explanation": "Golden Mahseer is a freshwater fish species. Indian Nightjar, Spoonbill and White Ibis are birds.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Bird Species",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Golden Mahseer",
+      "Indian Nightjar",
+      "Spoonbill",
+      "White Ibis"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_023",
+    "questionText": "Consider the following statements:\nStatement-I: Marsupials are not naturally found in India.\nStatement-II: Marsupials can thrive only in montane grasslands with no predators.\nWhich one of the following is correct in respect of the above statements?",
+    "options": [
+      "Both Statement-I and Statement-II are correct and Statement-II is the correct explanation for Statement-I",
+      "Both Statement-I and Statement-II are correct and Statement-II is not the correct explanation for Statement-I",
+      "Statement-I is correct but Statement-II is incorrect",
+      "Statement-I is incorrect but Statement-II is correct"
+    ],
+    "correctOption": "C",
+    "explanation": "Marsupials are not naturally found in India. However, they can survive in a variety of habitats and are not restricted to predator-free montane grasslands.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Marsupials",
+    "questionType": "AssertionReason",
+    "difficulty": "Easy",
+    "keywords": [
+      "Marsupials",
+      "Australia",
+      "Biodiversity",
+      "Animal Distribution"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_024",
+    "questionText": "Consider the following fauna:\n1. Lion-tailed Macaque\n2. Malabar Civet\n3. Sambar Deer\nHow many of the above are generally nocturnal or most active after sunset?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "B",
+    "explanation": "Malabar Civet is nocturnal and Sambar Deer is often active during dusk and night. Lion-tailed Macaque is primarily diurnal.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Animal Behaviour",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Lion-tailed Macaque",
+      "Malabar Civet",
+      "Sambar Deer",
+      "Nocturnal Animals"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_025",
+    "questionText": "Which of the following organisms perform waggle dance for others of their kin to indicate the direction and the distance to a source of their food?",
+    "options": [
+      "Butterflies",
+      "Dragonflies",
+      "Honeybees",
+      "Wasps"
+    ],
+    "correctOption": "C",
+    "explanation": "Honeybees use the waggle dance to communicate the direction and distance of food sources to other members of the hive.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Animal Communication",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Honeybee",
+      "Waggle Dance",
+      "Communication",
+      "Pollinators"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_026",
+    "questionText": "Consider the following statements:\n1. Some mushrooms have medicinal properties.\n2. Some mushrooms have psycho-active properties.\n3. Some mushrooms have insecticidal properties.\n4. Some mushrooms have bioluminescent properties.\nHow many of the above statements are correct?",
+    "options": [
+      "Only one",
+      "Only two",
+      "Only three",
+      "All four"
+    ],
+    "correctOption": "D",
+    "explanation": "Different mushroom species exhibit medicinal, psychoactive, insecticidal and bioluminescent properties.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Fungi",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Mushrooms",
+      "Bioluminescence",
+      "Medicinal Fungi",
+      "Psychoactive Fungi"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_027",
+    "questionText": "Consider the following statements regarding the Indian squirrels:\n1. They build nests by making burrows in the ground.\n2. They store their food materials like nuts and seeds in the ground.\n3. They are omnivorous.\nHow many of the above statements are correct?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "C",
+    "explanation": "Indian squirrels can make burrows or nests, store food and have an omnivorous diet consisting of plant and animal matter.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Squirrels",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Indian Squirrels",
+      "Omnivores",
+      "Food Storage",
+      "Burrows"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_028",
+    "questionText": "Which one of the following makes a tool with a stick to scrape insects from a hole in a tree or a log of wood?",
+    "options": [
+      "Fishing Cat",
+      "Orangutan",
+      "Otter",
+      "Sloth Bear"
+    ],
+    "correctOption": "B",
+    "explanation": "Orangutans are known to use sticks as tools to extract insects and obtain food from tree cavities and logs.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Tool Use in Animals",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Orangutan",
+      "Tool Use",
+      "Primates",
+      "Animal Intelligence"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_029",
+    "questionText": "Consider the following statements:\n1. Lions do not have a particular breeding season.\n2. Unlike most other big cats, cheetahs do not roar.\n3. Unlike male lions, male leopards do not proclaim their territory by scent marking.\nWhich of the statements given above are correct?",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "Lions breed throughout the year and cheetahs do not roar. Male leopards do mark their territories through scent marking.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Big Cats",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Lion",
+      "Cheetah",
+      "Leopard",
+      "Territorial Behaviour"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_030",
+    "questionText": "Consider the following:\n1. Cashew\n2. Papaya\n3. Red sanders\nHow many of the above trees are actually native to India?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "A",
+    "explanation": "Red Sanders is native to India, whereas Cashew originated in Brazil and Papaya originated in Central America.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Native Flora",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Red Sanders",
+      "Cashew",
+      "Papaya",
+      "Native Species"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_031",
+    "questionText": "The organisms 'Cicada, Froghopper and Pond skater' are:",
+    "options": [
+      "Birds",
+      "Fish",
+      "Insects",
+      "Reptiles"
+    ],
+    "correctOption": "C",
+    "explanation": "Cicada, Froghopper and Pond Skater are all insects belonging to different insect groups.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Insects",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Cicada",
+      "Froghopper",
+      "Pond Skater",
+      "Insects"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(95).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "WSFF_032",
+    "questionText": "Consider the following pairs:\nCountry : Animal found in its natural habitat\n1. Brazil : Indri\n2. Indonesia : Elk\n3. Madagascar : Bonobo\nHow many of the pairs given above are correctly matched?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "D",
+    "explanation": "Indri is found in Madagascar, Elk is not native to Indonesia, and Bonobo is native to the Democratic Republic of the Congo. Therefore, none of the pairs are correctly matched.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Species Distribution",
+    "questionType": "Matching",
+    "difficulty": "Medium",
+    "keywords": [
+      "Indri",
+      "Elk",
+      "Bonobo",
+      "Species Distribution"
+    ],
+    "tables": [
+      {
+        "title": "Country and Animal",
+        "headers": [
+          "Country",
+          "Animal"
+        ],
+        "rows": [
+          ["Brazil", "Indri"],
+          ["Indonesia", "Elk"],
+          ["Madagascar", "Bonobo"]
+        ]
+      }
+    ],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(96).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_033",
+    "questionText": "Which one of the following shows a unique relationship with an insect that has coevolved with it and that is the only insect that can pollinate this tree?",
+    "options": [
+      "Fig",
+      "Mahua",
+      "Sandalwood",
+      "Silk cotton"
+    ],
+    "correctOption": "A",
+    "explanation": "Fig trees have a highly specialized coevolutionary relationship with fig wasps. Specific fig species depend on specific fig wasps for pollination.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Plant-Animal Interaction",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Fig",
+      "Fig Wasp",
+      "Coevolution",
+      "Pollination"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(96).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_034",
+    "questionText": "Consider the following:\n1. Butterflies\n2. Fish\n3. Frogs\nHow many of the above have poisonous species among them?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "C",
+    "explanation": "Poisonous species occur among butterflies, fish and frogs. Examples include toxic butterflies, pufferfish and poison dart frogs.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Animal Adaptations",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Butterflies",
+      "Poisonous Fish",
+      "Poison Dart Frog",
+      "Toxic Species"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(96).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_035",
+    "questionText": "Consider the following fauna of India:\n1. Gharial\n2. Leatherback Turtle\n3. Swamp Deer\nWhich of the above is/are endangered?",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "1, 2 and 3",
+      "None"
+    ],
+    "correctOption": "C",
+    "explanation": "As per the source and UPSC key, all three species are considered endangered and require conservation attention.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Threatened Species",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Gharial",
+      "Leatherback Turtle",
+      "Swamp Deer",
+      "Endangered Species"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(96).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_036",
+    "questionText": "Consider the following:\n1. Star Tortoise\n2. Monitor Lizard\n3. Pygmy Hog\n4. Spider Monkey\nWhich of the above is found in India?",
+    "options": [
+      "1, 2 and 3 only",
+      "2 and 3 only",
+      "1 and 4 only",
+      "1, 2, 3 and 4"
+    ],
+    "correctOption": "A",
+    "explanation": "Star Tortoise, Monitor Lizard and Pygmy Hog are found in India. Spider Monkey is native to Central and South America.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Species Distribution",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Star Tortoise",
+      "Monitor Lizard",
+      "Pygmy Hog",
+      "Spider Monkey"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(96).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_037",
+    "questionText": "Consider the following pairs:\nNational Park : River flowing through the Park\n1. Corbett National Park : Ganga\n2. Kaziranga National Park : Manas\n3. Silent Valley National Park : Kaveri\nWhich of the above pairs is/are correctly matched?",
+    "options": [
+      "1 and 2",
+      "3 only",
+      "1 and 3",
+      "None"
+    ],
+    "correctOption": "D",
+    "explanation": "The correct rivers are Ramganga for Corbett, Brahmaputra for Kaziranga and Kunthipuzha for Silent Valley. Hence none of the given pairs are correct.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "National Parks",
+    "questionType": "Matching",
+    "difficulty": "Medium",
+    "keywords": [
+      "Corbett",
+      "Kaziranga",
+      "Silent Valley",
+      "National Parks"
+    ],
+    "tables": [
+      {
+        "title": "National Park and River",
+        "headers": [
+          "National Park",
+          "River"
+        ],
+        "rows": [
+          ["Corbett National Park", "Ganga"],
+          ["Kaziranga National Park", "Manas"],
+          ["Silent Valley National Park", "Kaveri"]
+        ]
+      }
+    ],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(96).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_038",
+    "questionText": "In which of the following States is lion-tailed macaque found in its natural habitat?\n1. Tamil Nadu\n2. Kerala\n3. Karnataka\n4. Andhra Pradesh\nSelect the correct answer using the codes given below.",
+    "options": [
+      "1, 2 and 3 only",
+      "2 only",
+      "1, 3 and 4 only",
+      "1, 2, 3 and 4"
+    ],
+    "correctOption": "A",
+    "explanation": "The lion-tailed macaque is endemic to the Western Ghats and is naturally found in Tamil Nadu, Kerala and Karnataka.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Primates",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Lion-tailed Macaque",
+      "Western Ghats",
+      "Endemic Species",
+      "Primates"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(96).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_039",
+    "questionText": "Other than poaching, what are the possible reasons for the decline in the population of Ganges River Dolphins?\n1. Construction of dams and barrages on rivers\n2. Increase in the population of crocodiles in rivers\n3. Getting trapped in fishing nets accidentally\n4. Use of synthetic fertilizers and other agricultural chemicals in crop fields in the vicinity of rivers\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1, 3 and 4 only",
+      "1, 2, 3 and 4"
+    ],
+    "correctOption": "C",
+    "explanation": "Habitat fragmentation by dams, accidental entanglement in fishing nets and water pollution from agricultural chemicals contribute to the decline of Ganges River Dolphins.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "River Dolphins",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Ganges River Dolphin",
+      "Dams",
+      "Fishing Nets",
+      "Water Pollution"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(96).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_040",
+    "questionText": "Consider the following:\n1. Bats\n2. Bears\n3. Rodents\nThe phenomenon of hibernation can be observed in which of the above kinds of animals?",
+    "options": [
+      "1 and 2 only",
+      "2 only",
+      "1, 2 and 3",
+      "Hibernation cannot be observed in any of the above"
+    ],
+    "correctOption": "C",
+    "explanation": "Various species of bats, bears and rodents exhibit hibernation or hibernation-like states to survive adverse seasonal conditions.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Animal Adaptations",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Hibernation",
+      "Bats",
+      "Bears",
+      "Rodents"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(96).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_041",
+    "questionText": "If you walk through the countryside, you are likely to see some birds stalking alongside the cattle to seize the insects disturbed by their movement through grasses. Which one of the following is/are such bird/birds?\n1. Painted Stork\n2. Common Myna\n3. Black-necked Crane\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2",
+      "2 only",
+      "2 and 3",
+      "3 only"
+    ],
+    "correctOption": "B",
+    "explanation": "Common Myna commonly follows grazing cattle to feed on insects disturbed by their movement.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Bird Behaviour",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Common Myna",
+      "Bird Behaviour",
+      "Foraging",
+      "Cattle Association"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(96).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WSFF_042",
+    "questionText": "Among the following organisms, which one does not belong to the class of the other three?",
+    "options": [
+      "Crab",
+      "Mite",
+      "Scorpion",
+      "Spider"
+    ],
+    "correctOption": "A",
+    "explanation": "Crab belongs to Crustacea, whereas Mite, Scorpion and Spider belong to Arachnida.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wildlife Species, Flora and Fauna",
+    "subtopicName": "Animal Classification",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Crab",
+      "Arachnida",
+      "Crustacea",
+      "Classification"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(96).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "POL_001",
+    "questionText": "In the cities of our country, which among the following atmospheric gases are normally considered in calculating the value of the Air Quality Index?\n1. Carbon dioxide\n2. Carbon monoxide\n3. Nitrogen dioxide\n4. Sulphur dioxide\n5. Methane\nSelect the correct answer using the code given below:",
+    "options": [
+      "1, 2 and 3 only",
+      "2, 3 and 4 only",
+      "1, 4 and 5 only",
+      "1, 2, 3, 4 and 5"
+    ],
+    "correctOption": "B",
+    "explanation": "AQI includes pollutants such as carbon monoxide, nitrogen dioxide and sulphur dioxide. Carbon dioxide and methane are greenhouse gases but are not used in AQI calculation.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Air Quality Index",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "AQI",
+      "Carbon Monoxide",
+      "Nitrogen Dioxide",
+      "Sulphur Dioxide",
+      "Air Pollution"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_002",
+    "questionText": "Consider the following statements:\n1. Climate and Clean Air Coalition (CCAC) to Reduce Short Lived Climate Pollutants is a unique initiative of G20 group of countries.\n2. The CCAC focuses on methane, black carbon and hydrofluorocarbons.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "B",
+    "explanation": "CCAC is a global coalition and not a G20 initiative. It focuses on reducing short-lived climate pollutants such as methane, black carbon and hydrofluorocarbons.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Climate and Clean Air Coalition",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "CCAC",
+      "Methane",
+      "Black Carbon",
+      "HFCs",
+      "Climate Pollutants"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_003",
+    "questionText": "Which of the following is/are the possible consequence/s of heavy sand mining in river beds?\n1. Decreased salinity in the river\n2. Pollution of groundwater\n3. Lowering of the water-table\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "Heavy sand mining can pollute groundwater and lower the water table. It does not directly cause decreased river salinity.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Sand Mining",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Sand Mining",
+      "Groundwater Pollution",
+      "Water Table",
+      "River Ecosystem"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_004",
+    "questionText": "Why is there a concern about copper smelting plants?\n1. They may release lethal quantities of carbon monoxide into the environment.\n2. The copper slag can cause the leaching of some heavy metals into the environment.\n3. They may release sulphur dioxide as a pollutant.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "Copper smelting may release sulphur dioxide and copper slag can leach heavy metals into the environment. Carbon monoxide is not the primary concern.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Industrial Pollution",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Copper Smelting",
+      "Sulphur Dioxide",
+      "Heavy Metals",
+      "Industrial Pollution"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_005",
+    "questionText": "With reference to furnace oil, consider the following statements:\n1. It is a product of oil refineries.\n2. Some industries use it to generate power.\n3. Its use causes sulphur emissions into environment.\nWhich of the statements given above are correct?",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Furnace oil is a refinery product, is used for power generation and emits sulphur compounds when burned.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Fuel Pollution",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Furnace Oil",
+      "Refineries",
+      "Sulphur Emissions",
+      "Power Generation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_006",
+    "questionText": "Among the following crops, which one is the most important anthropogenic source of both methane and nitrous oxide?",
+    "options": [
+      "Cotton",
+      "Rice",
+      "Sugarcane",
+      "Wheat"
+    ],
+    "correctOption": "B",
+    "explanation": "Flooded rice cultivation produces methane under anaerobic conditions and contributes to nitrous oxide emissions through fertilizer use.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Agricultural Emissions",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Rice",
+      "Methane",
+      "Nitrous Oxide",
+      "Greenhouse Gases"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_007",
+    "questionText": "“System of Rice Intensification” of cultivation, in which alternate wetting and drying of rice fields is practised, results in:\n1. Reduced seed requirement\n2. Reduced methane production\n3. Reduced electricity consumption\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "SRI reduces seed requirement, methane emissions and irrigation-related electricity consumption through alternate wetting and drying practices.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Sustainable Agriculture",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "SRI",
+      "Rice Cultivation",
+      "Methane",
+      "Water Conservation"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_008",
+    "questionText": "In the context of WHO Air Quality Guidelines, consider the following statements:\n1. The 24-hour mean of PM2.5 should not exceed 15 µg/m³ and annual mean of PM2.5 should not exceed 5 µg/m³.\n2. In a year, the highest levels of ozone pollution occur during the periods of inclement weather.\n3. PM10 can penetrate the lung barrier and enter the bloodstream.\n4. Excessive ozone in the air can trigger asthma.\nWhich of the statements given above are correct?",
+    "options": [
+      "1, 3 and 4",
+      "1 and 4 only",
+      "2, 3 and 4",
+      "1 and 2 only"
+    ],
+    "correctOption": "B",
+    "explanation": "Statements 1 and 4 are correct. Ozone pollution peaks during sunny weather and PM2.5, not PM10, is more likely to enter the bloodstream.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "WHO Air Quality Guidelines",
+    "questionType": "MultipleStatement",
+    "difficulty": "Hard",
+    "keywords": [
+      "PM2.5",
+      "Ozone",
+      "WHO",
+      "Air Quality"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_009",
+    "questionText": "Consider the following heavy industries:\n1. Fertilizer plants\n2. Oil refineries\n3. Steel plants\nGreen hydrogen is expected to play a significant role in decarbonizing how many of the above industries?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "C",
+    "explanation": "Green hydrogen can help decarbonize fertilizer production, oil refining and steel manufacturing.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Green Hydrogen",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Green Hydrogen",
+      "Steel Industry",
+      "Refineries",
+      "Fertilizer Industry"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_010",
+    "questionText": "According to the Environmental Protection Agency (EPA), which one of the following is the largest source of sulphur dioxide emissions?",
+    "options": [
+      "Locomotives using fossil fuels",
+      "Ships using fossil fuels",
+      "Extraction of metals from ores",
+      "Power plants using fossil fuels"
+    ],
+    "correctOption": "D",
+    "explanation": "Power plants burning fossil fuels are the largest source of sulphur dioxide emissions according to the EPA.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Air Pollutants",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Sulphur Dioxide",
+      "EPA",
+      "Power Plants",
+      "Air Pollution"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_011",
+    "questionText": "Consider the following statements:\nStatement-I: Many chewing gums found in the market are considered a source of environmental pollution.\nStatement-II: Many chewing gums contain plastic as gum base.\nWhich one of the following is correct in respect of the above statements?",
+    "options": [
+      "Both Statement-I and Statement-II are correct and Statement-II explains Statement-I",
+      "Both Statement-I and Statement-II are correct, but Statement-II does not explain Statement-I",
+      "Statement-I is correct, but Statement-II is incorrect",
+      "Statement-I is incorrect, but Statement-II is correct"
+    ],
+    "correctOption": "A",
+    "explanation": "Many commercial chewing gums contain synthetic plastic polymers as gum base, making them non-biodegradable and a source of environmental pollution.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Plastic Pollution",
+    "questionType": "AssertionReason",
+    "difficulty": "Easy",
+    "keywords": [
+      "Chewing Gum",
+      "Plastic Pollution",
+      "Microplastics",
+      "Waste Management"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "POL_012",
+    "questionText": "With reference to perfluoroalkyl and polyfluoroalkyl substances (PFAS) that are used in making many consumer products, consider the following statements:\n1. PFAS are found to be widespread in drinking water, food and food packaging material.\n2. PFAS are not easily degraded in the environment.\n3. Persistent exposure to PFAS can lead to bioaccumulation in animal bodies.\nWhich of the statements given above are correct?",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "PFAS are widely found in water, food and packaging materials. They are highly persistent due to strong carbon-fluorine bonds and can bioaccumulate in animals and humans.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "PFAS",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "PFAS",
+      "Forever Chemicals",
+      "Bioaccumulation",
+      "Water Pollution",
+      "Food Packaging"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_013",
+    "questionText": "Which one of the following is the exhaust pipe emission from Fuel Cell Electric Vehicles, powered by hydrogen?",
+    "options": [
+      "Hydrogen peroxide",
+      "Hydronium",
+      "Oxygen",
+      "Water vapour"
+    ],
+    "correctOption": "D",
+    "explanation": "Hydrogen fuel cells generate electricity through an electrochemical reaction between hydrogen and oxygen, producing water vapour as the only exhaust emission.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Hydrogen Fuel Cells",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Fuel Cell Vehicle",
+      "Hydrogen",
+      "Water Vapour",
+      "Clean Energy"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_014",
+    "questionText": "Which of the following can be found as pollutants in the drinking water in some parts of India?\n1. Arsenic\n2. Sorbitol\n3. Fluoride\n4. Formaldehyde\n5. Uranium\nSelect the correct answer using the codes given below.",
+    "options": [
+      "1 and 3 only",
+      "2, 4 and 5 only",
+      "1, 3 and 5 only",
+      "1, 2, 3, 4 and 5"
+    ],
+    "correctOption": "C",
+    "explanation": "Arsenic, fluoride and uranium contamination have been reported in groundwater in different parts of India. Sorbitol and formaldehyde are not common drinking water pollutants in this context.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Water Pollution",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Arsenic",
+      "Fluoride",
+      "Uranium",
+      "Groundwater Pollution",
+      "Drinking Water"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_015",
+    "questionText": "Due to improper/indiscriminate disposal of old and used computers or their parts, which of the following are released into the environment as e-waste?\n1. Beryllium\n2. Cadmium\n3. Chromium\n4. Heptachlor\n5. Mercury\n6. Lead\n7. Plutonium\nSelect the correct answer using the codes given below.",
+    "options": [
+      "1, 3, 4, 6 and 7 only",
+      "1, 2, 3, 5 and 6 only",
+      "2, 4, 5 and 7 only",
+      "1, 2, 3, 4, 5, 6 and 7"
+    ],
+    "correctOption": "B",
+    "explanation": "E-waste commonly contains toxic metals such as beryllium, cadmium, chromium, mercury and lead. Heptachlor and plutonium are not typical components of electronic waste.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "E-Waste",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "E-Waste",
+      "Cadmium",
+      "Mercury",
+      "Lead",
+      "Electronic Waste"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_016",
+    "questionText": "Acid rain is caused by the pollution of environment by",
+    "options": [
+      "carbon dioxide and nitrogen",
+      "carbon monoxide and carbon dioxide",
+      "ozone and carbon dioxide",
+      "nitrous oxide and sulphur dioxide"
+    ],
+    "correctOption": "D",
+    "explanation": "Acid rain results from emissions of sulphur dioxide and nitrogen oxides, which form sulphuric and nitric acids in the atmosphere.",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Acid Rain",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Acid Rain",
+      "Sulphur Dioxide",
+      "Nitrogen Oxides",
+      "Air Pollution"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_017",
+    "questionText": "Photochemical smog is a resultant of the reaction among",
+    "options": [
+      "NO₂, O₃ and peroxyacetyl nitrate in the presence of sunlight",
+      "CO, O₂ and peroxyacetyl nitrate in the presence of sunlight",
+      "CO, CO₂ and NO₂ at low temperature",
+      "High concentration of NO₂, O₃ and CO in the evening"
+    ],
+    "correctOption": "A",
+    "explanation": "Photochemical smog forms when nitrogen oxides and volatile organic compounds react in the presence of sunlight, producing ozone and peroxyacetyl nitrate (PAN).",
+    "year": 2013,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Photochemical Smog",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Photochemical Smog",
+      "PAN",
+      "Ozone",
+      "Nitrogen Dioxide",
+      "Air Pollution"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(97).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "CC_001",
+    "questionText": "The term Intended Nationally Determined Contribution is sometimes seen in the news in the context of:",
+    "options": [
+      "Pledge made by the European countries to rehabilitate refugees from the war affected Middle East",
+      "Plan of nation outlined by the countries of the world to combat climate changes",
+      "Capital contributed by the member countries in the establishment of the Asian Infrastructure Investment Bank",
+      "Plan of action outlined by the countries regarding Sustainable Development Goals"
+    ],
+    "correctOption": "B",
+    "explanation": "INDCs were voluntary pledges submitted by countries under the Paris Agreement framework outlining actions to reduce greenhouse gas emissions and address climate change.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Paris Agreement",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "INDC",
+      "Paris Agreement",
+      "Climate Change",
+      "NDC"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_002",
+    "questionText": "What is the Greenhouse Gas Protocol?",
+    "options": [
+      "It is an international accounting tool for government and business leaders to understand, quantify and manage greenhouse gas emissions",
+      "It is an initiative of the United Nations to offer financial incentives to developing countries to reduce greenhouse gas emissions and adopt eco-friendly technologies",
+      "It is an inter-governmental agreement ratified by all member countries of the United Nations to reduce greenhouse gas emissions to specified levels by the year 2022",
+      "It is one of the multilateral REDD initiatives hosted by the World Bank"
+    ],
+    "correctOption": "A",
+    "explanation": "The Greenhouse Gas Protocol is an internationally accepted framework for measuring, managing and reporting greenhouse gas emissions.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Greenhouse Gas Accounting",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "GHG Protocol",
+      "Emissions Accounting",
+      "WRI",
+      "WBCSD"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_003",
+    "questionText": "Consider the following statements:\n1. The International Solar Alliance was launched at the United Nations Climate Change Conference in 2015.\n2. The Alliance includes all the member countries of the United Nations.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "A",
+    "explanation": "The International Solar Alliance was launched at COP21 in Paris in 2015. It did not initially include all UN member countries.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "International Solar Alliance",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "ISA",
+      "Solar Energy",
+      "COP21",
+      "Paris"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_004",
+    "questionText": "In the context of mitigating the impending global warming due to anthropogenic emissions of carbon dioxide, which of the following can be the potential sites for carbon sequestration?\n1. Abandoned and uneconomic coal seams\n2. Depleted oil and gas reservoirs\n3. Subterranean deep saline formations\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Carbon dioxide can be stored in coal seams, depleted oil and gas reservoirs and deep saline aquifers for long-term sequestration.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Carbon Sequestration",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Carbon Sequestration",
+      "Coal Seams",
+      "Saline Aquifers",
+      "CCS"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_005",
+    "questionText": "With reference to the 'Global Alliance for Climate-Smart Agriculture (GACSA)', which of the following statements is/are correct?\n1. GACSA is an outcome of the Climate Summit held in Paris in 2015.\n2. Membership of GACSA does not create any binding obligations.\n3. India was instrumental in the creation of GACSA.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 3 only",
+      "2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "GACSA was launched in 2014 and membership is voluntary without binding obligations.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Climate Smart Agriculture",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "GACSA",
+      "Agriculture",
+      "Climate Adaptation",
+      "Climate Smart Agriculture"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_006",
+    "questionText": "Which of the following statements best describes 'carbon fertilization'?",
+    "options": [
+      "Increased plant growth due to increased concentration of carbon dioxide in the atmosphere",
+      "Increased temperature of Earth due to increased concentration of carbon dioxide in the atmosphere",
+      "Increased acidity of oceans as a result of increased concentration of carbon dioxide in the atmosphere",
+      "Adaptation of all living beings on Earth to the climate change brought about by increased concentration of carbon dioxide in the atmosphere"
+    ],
+    "correctOption": "A",
+    "explanation": "Carbon fertilization refers to enhanced plant growth resulting from increased atmospheric carbon dioxide concentrations.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Carbon Cycle",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Carbon Fertilization",
+      "Photosynthesis",
+      "CO2",
+      "Plant Growth"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_007",
+    "questionText": "With reference to 'Global Climate Change Alliance', which of the following statements is/are correct?\n1. It is an initiative of the European Union.\n2. It provides technical and financial support to targeted developing countries to integrate climate change into their development policies and budgets.\n3. It is coordinated by World Resources Institute (WRI) and World Business Council for Sustainable Development (WBCSD).\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "The Global Climate Change Alliance is an EU initiative providing technical and financial support to developing countries.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Global Climate Change Alliance",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "GCCA",
+      "European Union",
+      "Climate Finance",
+      "Developing Countries"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_008",
+    "questionText": "Momentum for Change: 'Climate Neutral Now' is an initiative launched by:",
+    "options": [
+      "The Intergovernmental Panel on Climate Change",
+      "The UNEP Secretariat",
+      "The UNFCCC Secretariat",
+      "The World Meteorological Organization"
+    ],
+    "correctOption": "C",
+    "explanation": "Climate Neutral Now is an initiative of the UNFCCC Secretariat encouraging climate neutrality through emission reduction and offsetting.",
+    "year": 2018,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "UNFCCC",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Climate Neutral Now",
+      "UNFCCC",
+      "Carbon Neutrality",
+      "Climate Action"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_009",
+    "questionText": "In the context of which of the following do some scientists suggest the use of cirrus cloud thinning technique and the injection of sulphate aerosol into the stratosphere?",
+    "options": [
+      "Creating artificial rains in some regions",
+      "Reducing the frequency and intensity of tropical cyclones",
+      "Reducing the adverse effects of solar wind on the Earth",
+      "Reducing global warming"
+    ],
+    "correctOption": "D",
+    "explanation": "Both cirrus cloud thinning and sulphate aerosol injection are geoengineering techniques proposed to reduce global warming.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Geoengineering",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Geoengineering",
+      "Cirrus Clouds",
+      "Sulphate Aerosols",
+      "Global Warming"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_010",
+    "questionText": "Which of the following statements are correct about the deposits of 'methane hydrate'?\n1. Global warming might trigger the release of methane gas from these deposits.\n2. Large deposits of methane hydrate are found in Arctic Tundra and under the seafloor.\n3. Methane in the atmosphere oxidizes to carbon dioxide after a decade or two.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Methane hydrates occur beneath seafloors and Arctic regions. Warming can destabilize them, and atmospheric methane eventually oxidizes to carbon dioxide.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Methane Hydrates",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Methane Hydrates",
+      "Arctic",
+      "Greenhouse Gas",
+      "Global Warming"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_011",
+    "questionText": "Which one of the following statements best describes the term 'Social Cost of Carbon'? It is a measure, in monetary value, of the:",
+    "options": [
+      "Long-term damage done by a tonne of CO₂ emissions in a given year",
+      "Requirement of fossil fuels for a country to provide goods and services to its citizens",
+      "Efforts put in by a climate refugee to adapt to live in a new place",
+      "Contribution of an individual person to the carbon footprint on the planet Earth"
+    ],
+    "correctOption": "A",
+    "explanation": "The Social Cost of Carbon estimates the economic damage associated with emitting one additional tonne of carbon dioxide into the atmosphere.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Climate Economics",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Social Cost of Carbon",
+      "Climate Economics",
+      "CO2",
+      "Carbon Pricing"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "CC_012",
+    "questionText": "In rural road construction, the use of which of the following is preferred for ensuring environmental sustainability or to reduce carbon footprint?\n1. Copper slag\n2. Cold mix asphalt technology\n3. Geotextiles\n4. Hot mix asphalt technology\n5. Portland cement\nSelect the correct answer using the code given below:",
+    "options": [
+      "1, 2 and 3 only",
+      "2, 3 and 4 only",
+      "4 and 5 only",
+      "1 and 5 only"
+    ],
+    "correctOption": "A",
+    "explanation": "Copper slag recycles industrial waste, cold mix asphalt reduces energy consumption, and geotextiles improve soil stability while reducing material requirements, making them environmentally sustainable options.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Sustainable Infrastructure",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Copper Slag",
+      "Cold Mix Asphalt",
+      "Geotextiles",
+      "Sustainable Roads",
+      "Carbon Footprint"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_013",
+    "questionText": "In the context of India's preparation for Climate-Smart Agriculture, consider the following statements:\n1. The 'Climate-Smart Village' approach in India is a part of a project led by the Climate Change, Agriculture and Food Security (CCAFS), an international research programme.\n2. The project of CCAFS is carried out under Consultative Group on International Agricultural Research (CGIAR) headquartered in France.\n3. The International Crops Research Institute for the Semi-Arid Tropics (ICRISAT) in India is one of the CGIAR's research centres.\nWhich of the statements given above are correct?",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "The Climate-Smart Village initiative is part of CCAFS under CGIAR, and ICRISAT is one of CGIAR's research centres.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Climate-Smart Agriculture",
+    "questionType": "MultipleStatement",
+    "difficulty": "Hard",
+    "keywords": [
+      "CCAFS",
+      "CGIAR",
+      "ICRISAT",
+      "Climate-Smart Village",
+      "Agriculture"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_014",
+    "questionText": "\"Climate Action Tracker\" which monitors the emission reduction pledges of different countries is a:",
+    "options": [
+      "Database created by coalition of research organisations",
+      "Wing of Intergovernmental Panel on Climate Change",
+      "Committee under United Nations Framework Convention on Climate Change",
+      "Agency promoted and financed by United Nations Environment Programme and World Bank"
+    ],
+    "correctOption": "A",
+    "explanation": "Climate Action Tracker is an independent scientific analysis and database maintained by a coalition of research organizations to assess national climate commitments.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Climate Action Tracker",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Climate Action Tracker",
+      "Emissions",
+      "Paris Agreement",
+      "Climate Commitments"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_015",
+    "questionText": "Consider the following statements:\n1. 'The Climate Group' is an international non-profit organization that drives climate action by building large networks and running them.\n2. The International Energy Agency in partnership with the Climate Group launched a global initiative 'EP100'.\n3. EP100 brings together leading companies committed to driving innovation in energy efficiency and increasing competitiveness while delivering on emission reduction goals.\n4. Some Indian companies are members of EP100.\n5. The International Energy Agency is the Secretariat to the 'Under2 Coalition'.\nWhich of the statements given above are correct?",
+    "options": [
+      "1, 2, 4 and 5",
+      "1, 3 and 4 only",
+      "2, 3 and 5 only",
+      "1, 2, 3, 4 and 5"
+    ],
+    "correctOption": "B",
+    "explanation": "The Climate Group drives climate action through global initiatives. EP100 promotes energy efficiency and includes Indian companies. The IEA is not the Secretariat of the Under2 Coalition.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Climate Organizations",
+    "questionType": "MultipleStatement",
+    "difficulty": "Hard",
+    "keywords": [
+      "Climate Group",
+      "EP100",
+      "Energy Efficiency",
+      "Under2 Coalition",
+      "IEA"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_016",
+    "questionText": "Consider the following statements:\nStatement-I: Carbon markets are likely to be one of the most widespread tools in the fight against climate change.\nStatement-II: Carbon markets transfer resources from the private sector to the State.\nWhich one of the following is correct in respect of the above statements?",
+    "options": [
+      "Both Statement-I and Statement-II are correct and Statement-II is the correct explanation for Statement-I",
+      "Both Statement-I and Statement-II are correct and Statement-II is not the correct explanation for Statement-I",
+      "Statement-I is correct but Statement-II is incorrect",
+      "Statement-I is incorrect but Statement-II is correct"
+    ],
+    "correctOption": "B",
+    "explanation": "Carbon markets are important climate mitigation tools. While they can involve resource transfers, that is not the primary reason for their widespread adoption.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Carbon Markets",
+    "questionType": "AssertionReason",
+    "difficulty": "Medium",
+    "keywords": [
+      "Carbon Market",
+      "Carbon Credits",
+      "Emission Trading",
+      "Climate Policy"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "CC_017",
+    "questionText": "Consider the following activities:\n1. Spreading finely ground basalt rock on farmlands extensively\n2. Increasing the alkalinity of oceans by adding lime\n3. Capturing carbon dioxide released by various industries and pumping it into abandoned subterranean mines in the form of carbonated waters\nHow many of the above activities are often considered and discussed for carbon capture and sequestration?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "C",
+    "explanation": "Enhanced weathering using basalt, ocean alkalinity enhancement and geological carbon storage are all proposed methods for carbon capture and sequestration.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Carbon Capture and Sequestration",
+    "questionType": "MultipleStatement",
+    "difficulty": "Hard",
+    "keywords": [
+      "Carbon Capture",
+      "Carbon Sequestration",
+      "Enhanced Weathering",
+      "Ocean Alkalinity",
+      "CCS"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(98).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "ETSP_001",
+    "questionText": "Which of the following is/are the advantage/advantages of practicing drip irrigation?\n1. Reduction in weed\n2. Reduction in soil salinity\n3. Reduction in soil erosion\nSelect the correct answer using the code given below.",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "1 and 3 only",
+      "None of the above is an advantage of practicing drip irrigation"
+    ],
+    "correctOption": "C",
+    "explanation": "Drip irrigation delivers water directly to plant roots, reducing weed growth and minimizing soil erosion by reducing runoff.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Drip Irrigation",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "Drip Irrigation",
+      "Water Conservation",
+      "Weed Control",
+      "Soil Erosion"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_002",
+    "questionText": "Recently, linking of which of the following rivers was undertaken?",
+    "options": [
+      "Cauvery and Tungabhadra",
+      "Godavari and Krishna",
+      "Mahanadi and Son",
+      "Narmada and Tapti"
+    ],
+    "correctOption": "B",
+    "explanation": "The Godavari-Krishna river linking project was undertaken to transfer surplus water from the Godavari basin to the Krishna basin.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "River Linking",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "River Linking",
+      "Godavari",
+      "Krishna",
+      "Water Resources"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_003",
+    "questionText": "On which of the following can you find the Bureau of Energy Efficiency Star Label?\n1. Ceiling fans\n2. Electric geysers\n3. Tubular fluorescent lamps\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "3 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "The BEE Star Label is used to indicate energy efficiency in appliances such as ceiling fans, electric geysers and tubular fluorescent lamps.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Energy Efficiency",
+    "questionType": "MultipleStatement",
+    "difficulty": "Easy",
+    "keywords": [
+      "BEE",
+      "Star Label",
+      "Energy Efficiency",
+      "Appliances"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_004",
+    "questionText": "‘Net metering’ is sometimes seen in the news in the context of promoting the:",
+    "options": [
+      "production and use of solar energy by the households/consumers",
+      "use of piped natural gas in the kitchens of households",
+      "installation of CNG kits in motor-cars",
+      "installation of water meters in urban households"
+    ],
+    "correctOption": "A",
+    "explanation": "Net metering allows consumers generating solar power to export surplus electricity to the grid and receive credits.",
+    "year": 2016,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Solar Energy",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Net Metering",
+      "Solar Energy",
+      "Renewable Energy",
+      "Electricity Grid"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_005",
+    "questionText": "It is possible to produce algae based biofuels, but what is/are the likely limitation(s) of developing countries in promoting this industry?\n1. Production of algae based biofuels is possible in seas only and not on continents.\n2. Setting up and engineering the algae based biofuel production requires high level of expertise/technology until the construction is completed.\n3. Economically viable production necessitates the setting up of large scale facilities which may raise ecological and social concerns.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "Algae biofuel production requires advanced technology and large-scale facilities. It is not restricted to marine environments.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Biofuels",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Algae Biofuel",
+      "Bioenergy",
+      "Renewable Fuel",
+      "Technology"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_006",
+    "questionText": "The term ‘Domestic Content Requirement’ is sometimes seen in the news with reference to:",
+    "options": [
+      "Developing solar power production in our country",
+      "Granting licences to foreign T.V. channels in our country",
+      "Exporting our food products to other countries",
+      "Permitting foreign educational institutions to set up their campuses in our country"
+    ],
+    "correctOption": "A",
+    "explanation": "Domestic Content Requirement policies promote domestic manufacturing of solar equipment and support local renewable energy industries.",
+    "year": 2017,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Solar Manufacturing",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "DCR",
+      "Solar Power",
+      "Make in India",
+      "Renewable Energy"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_007",
+    "questionText": "In India, the use of carbofuran, methyl parathion, phorate and triazophos is viewed with apprehension. These chemicals are used as:",
+    "options": [
+      "pesticides in agriculture",
+      "preservatives in processed foods",
+      "fruit-ripening agents",
+      "moisturising agents in cosmetics"
+    ],
+    "correctOption": "A",
+    "explanation": "Carbofuran, methyl parathion, phorate and triazophos are pesticides whose use raises environmental and health concerns.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Agricultural Chemicals",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Pesticides",
+      "Carbofuran",
+      "Phorate",
+      "Agriculture"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_008",
+    "questionText": "Why is there a great concern about the ‘microbeads’ that are released into the environment?",
+    "options": [
+      "They are considered harmful to marine ecosystems.",
+      "They are considered to cause skin cancer in children.",
+      "They are small enough to be absorbed by crop plants in irrigated fields.",
+      "They are often found to be used as food adulterants."
+    ],
+    "correctOption": "A",
+    "explanation": "Microbeads are non-biodegradable plastic particles that can enter aquatic food chains and harm marine ecosystems.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Microplastics",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Microbeads",
+      "Microplastics",
+      "Marine Pollution",
+      "Plastic Waste"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_009",
+    "questionText": "In the context of which one of the following are the terms ‘pyrolysis and plasma gasification’ mentioned?",
+    "options": [
+      "Extraction of rare earth elements",
+      "Natural gas extraction technologies",
+      "Hydrogen fuel-based automobiles",
+      "Waste-to-energy technologies"
+    ],
+    "correctOption": "D",
+    "explanation": "Pyrolysis and plasma gasification are waste-to-energy technologies that convert waste into useful fuels and energy.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Waste-to-Energy",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Pyrolysis",
+      "Plasma Gasification",
+      "Waste Management",
+      "Waste-to-Energy"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_010",
+    "questionText": "Recently, there was a growing awareness in our country about the importance of Himalayan nettle (Girardinia diversifolia) because it is found to be a sustainable source of:",
+    "options": [
+      "anti-malarial drug",
+      "biodiesel",
+      "pulp for paper industry",
+      "textile fibre"
+    ],
+    "correctOption": "D",
+    "explanation": "Himalayan nettle provides strong, biodegradable textile fibre and is considered an eco-friendly alternative to synthetic fibres.",
+    "year": 2019,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Sustainable Materials",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Himalayan Nettle",
+      "Girardinia Diversifolia",
+      "Textile Fibre",
+      "Sustainable Resource"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_011",
+    "questionText": "What is/are the advantage/advantages of zero tillage in agriculture?\n1. Sowing of wheat is possible without burning the residue of the previous crop.\n2. Without the need for a nursery of rice saplings, direct planting of paddy seeds in the wet soil is possible.\n3. Carbon sequestration in the soil is possible.\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Zero tillage reduces residue burning, enables direct seeding and enhances carbon sequestration by minimizing soil disturbance.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Conservation Agriculture",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Zero Tillage",
+      "Carbon Sequestration",
+      "Conservation Agriculture",
+      "Direct Seeding"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_012",
+    "questionText": "With reference to solar water pumps, consider the following statements:\n1. Solar power can be used for running surface pumps and not for submersible pumps.\n2. Solar power can be used for running centrifugal pumps and not the ones with piston.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 only",
+      "2 only",
+      "Both 1 and 2",
+      "Neither 1 nor 2"
+    ],
+    "correctOption": "D",
+    "explanation": "Solar energy can power both surface and submersible pumps, as well as centrifugal and piston pumps.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Solar Water Pumps",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Solar Pump",
+      "Irrigation",
+      "Renewable Energy",
+      "Agriculture"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_013",
+    "questionText": "In the context of India, which of the following is/are considered to be practice(s) of eco-friendly agriculture?\n1. Crop diversification\n2. Legume intensification\n3. Tensiometer use\n4. Vertical farming\nSelect the correct answer using the code given below:",
+    "options": [
+      "1, 2 and 3 only",
+      "3 only",
+      "4 only",
+      "1, 2, 3 and 4"
+    ],
+    "correctOption": "D",
+    "explanation": "Crop diversification, legume intensification, tensiometer use and vertical farming all contribute to sustainable and resource-efficient agriculture.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Eco-Friendly Agriculture",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Eco-Friendly Agriculture",
+      "Vertical Farming",
+      "Crop Diversification",
+      "Tensiometer"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_014",
+    "questionText": "Steel slag can be the material for which of the following?\n1. Construction of base road\n2. Improvement of agricultural soil\n3. Production of cement\nSelect the correct answer using the code given below:",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Steel slag is used in road construction, soil improvement and cement production, promoting recycling of industrial by-products.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Industrial By-products",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Steel Slag",
+      "Road Construction",
+      "Cement",
+      "Soil Improvement"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_015",
+    "questionText": "What is the use of biochar in farming?\n1. Biochar can be used as a part of the growing medium in vertical farming.\n2. When biochar is a part of the growing medium, it promotes the growth of nitrogen-fixing microorganisms.\n3. When biochar is a part of the growing medium, it enables the growing medium to retain water for a longer time.\nWhich of the statements given above is/are correct?",
+    "options": [
+      "1 and 2 only",
+      "2 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "D",
+    "explanation": "Biochar improves water retention, supports beneficial microorganisms and is used as a growing medium component in sustainable farming systems.",
+    "year": 2020,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Biochar",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Biochar",
+      "Vertical Farming",
+      "Soil Health",
+      "Water Retention"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(102).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "ETSP_016",
+    "questionText": "How is permaculture farming different from conventional chemical farming?\n1. Permaculture farming discourages monocultural practices but in conventional chemical farming, monoculture practices are predominant.\n2. Conventional chemical farming can cause an increase in soil salinity but the occurrence of such phenomenon is not observed in permaculture farming.\n3. Conventional chemical farming is easily possible in semi-arid regions but permaculture farming is not so easily possible in such regions.\n4. Practice of mulching is very important in permaculture farming but not necessarily so in conventional chemical farming.\nSelect the correct answer using the code given below.",
+    "options": [
+      "1 and 3",
+      "1, 2 and 4",
+      "4 only",
+      "2 and 3"
+    ],
+    "correctOption": "B",
+    "explanation": "Permaculture promotes biodiversity, discourages monoculture, reduces soil degradation and emphasizes practices such as mulching for soil health and moisture conservation.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Permaculture Farming",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Permaculture",
+      "Monoculture",
+      "Mulching",
+      "Sustainable Agriculture",
+      "Soil Health"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(104).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_017",
+    "questionText": "With reference to 'Water Credit', consider the following statements:\n1. It puts microfinance tools to work in the water and sanitation sector.\n2. It is a global initiative launched under the aegis of the World Health Organization and the World Bank.\n3. It aims to enable the poor people to meet their water needs without depending on subsidies.\nWhich of the statements given above are correct?",
+    "options": [
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "C",
+    "explanation": "WaterCredit uses microfinance mechanisms to improve access to water and sanitation and aims to help people meet their needs without relying on subsidies. It was not launched by WHO and the World Bank.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Water Management",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "WaterCredit",
+      "Microfinance",
+      "Water Access",
+      "Sanitation",
+      "Water.org"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(104).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_018",
+    "questionText": "'R2 Code of Practices' constitutes a tool available for promoting the adoption of:",
+    "options": [
+      "Environmentally responsible practices in electronics recycling industry",
+      "Ecological management of Wetlands of International Importance under the Ramsar Convention",
+      "Sustainable practices in the cultivation of agricultural crops in degraded lands",
+      "Environmental Impact Assessment in the exploitation of natural resources"
+    ],
+    "correctOption": "A",
+    "explanation": "The R2 Code of Practices establishes standards for responsible recycling and reuse of electronic products and e-waste.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "E-Waste Management",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "R2",
+      "Electronics Recycling",
+      "E-Waste",
+      "Responsible Recycling"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(104).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_019",
+    "questionText": "\"Biorock technology\" is talked about in which one of the following situations?",
+    "options": [
+      "Restoration of damaged coral reefs",
+      "Development of building materials using plant residues",
+      "Identification of areas for exploration/extraction of shale gas",
+      "Providing salt licks for wild animals in forests/protected areas"
+    ],
+    "correctOption": "A",
+    "explanation": "Biorock technology uses low-voltage electrical currents to accelerate coral growth and restore damaged coral reef ecosystems.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Coral Reef Restoration",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Biorock",
+      "Coral Reefs",
+      "Marine Conservation",
+      "Restoration"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(104).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_020",
+    "questionText": "The 'Miyawaki method' is well known for the:",
+    "options": [
+      "Promotion of commercial farming in arid and semi-arid areas",
+      "Development of gardens using genetically modified flora",
+      "Creation of mini forests in urban areas",
+      "Harvesting wind energy on coastal areas and on sea surfaces"
+    ],
+    "correctOption": "C",
+    "explanation": "The Miyawaki method is a technique for creating dense native forests in small urban spaces to improve biodiversity and ecological resilience.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Urban Forestry",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Miyawaki",
+      "Urban Forest",
+      "Afforestation",
+      "Biodiversity"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(104).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_021",
+    "questionText": "Which one of the following is the correct description of '100 Million Farmers'?",
+    "options": [
+      "It is a platform for accelerating the transition towards food and water systems that are net-zero (carbon), nature positive and that aims to increase farmer resilience.",
+      "It is an international alliance and a network of individuals and farming organisations interested in supporting and strengthening the development of organic animal husbandry.",
+      "It is a digital platform fully integrated with service providers and built on blockchain that lets buyers, sellers and third parties trade fertilizers quickly and securely.",
+      "It is a platform with the mission of encouraging farmers to form Farmer Producer Organisations or Agribusiness Consortiums and facilitating access to global markets."
+    ],
+    "correctOption": "A",
+    "explanation": "The 100 Million Farmers initiative promotes resilient, nature-positive and net-zero food and water systems while strengthening farmer resilience.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Sustainable Agriculture Initiatives",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "100 Million Farmers",
+      "Net Zero",
+      "Nature Positive",
+      "Farmer Resilience"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(104).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_022",
+    "questionText": "Consider the following materials:\n1. Agricultural residues\n2. Corn grain\n3. Wastewater treatment sludge\n4. Wood mill waste\nWhich of the above can be used as feedstock for producing Sustainable Aviation Fuel?",
+    "options": [
+      "1 and 2 only",
+      "3 and 4 only",
+      "1, 2, 3 and 4",
+      "1, 3 and 4 only"
+    ],
+    "correctOption": "C",
+    "explanation": "Agricultural residues, corn grain, wastewater treatment sludge and wood mill waste can all serve as feedstocks for Sustainable Aviation Fuel production.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Sustainable Aviation Fuel",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "SAF",
+      "Sustainable Aviation Fuel",
+      "Biofuel",
+      "Feedstock"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(104).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_023",
+    "questionText": "\"Membrane Bioreactors\" are often discussed in the context of:",
+    "options": [
+      "Assisted reproductive technologies",
+      "Drug delivery nanotechnologies",
+      "Vaccine production technologies",
+      "Wastewater treatment technologies"
+    ],
+    "correctOption": "D",
+    "explanation": "Membrane Bioreactors combine biological treatment and membrane filtration to achieve high-quality wastewater treatment.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Wastewater Treatment",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Membrane Bioreactor",
+      "Wastewater",
+      "Water Treatment",
+      "MBR"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(104).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "POL_017",
+    "questionText": "Which one of the following is used in preparing a natural mosquito repellent?",
+    "options": [
+      "Congress grass",
+      "Elephant grass",
+      "Lemongrass",
+      "Nut grass"
+    ],
+    "correctOption": "C",
+    "explanation": "Lemongrass contains citronella, a natural compound widely used in mosquito repellents due to its insect-repelling properties.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Natural Alternatives to Chemical Pollutants",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Lemongrass",
+      "Citronella",
+      "Mosquito Repellent",
+      "Natural Products"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(107).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_018",
+    "questionText": "Magnetite particles suspected to cause neurodegenerative problems, are generated as environmental pollutants from which of the following?\n1. Brakes of motor vehicles\n2. Engines of motor vehicles\n3. Microwave stoves within homes\n4. Power plants\n5. Telephone lines\nSelect the correct answer using the code given below.",
+    "options": [
+      "1, 2, 3 and 5 only",
+      "1, 2 and 4 only",
+      "3, 4 and 5 only",
+      "1, 2, 3, 4 and 5"
+    ],
+    "correctOption": "B",
+    "explanation": "Magnetite particles are generated mainly from vehicle brakes, vehicle engines and power plants. They are associated with air pollution and potential neurodegenerative health impacts.",
+    "year": 2021,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Air Pollution",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Magnetite",
+      "Air Pollution",
+      "Vehicle Emissions",
+      "Power Plants",
+      "Neurodegenerative Diseases"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(107).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_021",
+    "questionText": "With reference to polyethylene terephthalate, the use of which is so widespread in our daily lives, consider the following statements:\n1. Its fibres can be blended with wool and cotton fibres to reinforce their properties.\n2. Containers made of it can be used to store any alcoholic beverage.\n3. Bottles made of it can be recycled into other products.\n4. Articles made of it can be easily disposed of by incineration without causing greenhouse gas emissions.\nWhich of the statements given above are correct?",
+    "options": [
+      "1 and 3",
+      "2 and 4",
+      "1 and 4",
+      "2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "PET fibres can be blended with natural fibres and PET bottles are recyclable. PET is not suitable for storing all alcoholic beverages and incineration releases greenhouse gases.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Plastic Pollution and Recycling",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "PET",
+      "Plastic Recycling",
+      "Polyethylene Terephthalate",
+      "Plastic Pollution"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(107).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "POL_024",
+    "questionText": "Which one of the following best describes the term 'greenwashing'?",
+    "options": [
+      "Conveying a false impression that a company's products are eco-friendly and environmentally sound",
+      "Non-inclusion of ecological/environmental costs in the Annual Financial Statements of a country",
+      "Ignoring the disastrous ecological consequences while undertaking infrastructure development",
+      "Making mandatory provisions for environmental costs in a government project/programme"
+    ],
+    "correctOption": "A",
+    "explanation": "Greenwashing refers to misleading claims or marketing practices that create a false impression of environmental responsibility or sustainability.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Pollution",
+    "subtopicName": "Environmental Ethics and Corporate Responsibility",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Greenwashing",
+      "Environmental Claims",
+      "Sustainability",
+      "Corporate Responsibility"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(107).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "REM_025",
+    "questionText": "Consider the following statements:\n1. Gujarat has the largest solar park in India.\n2. Kerala has a fully solar powered International Airport.\n3. Goa has the largest floating solar photovoltaic project in India.\nWhich of the statements given below is/are correct?",
+    "options": [
+      "1 and 2",
+      "2 only",
+      "1 and 3",
+      "3 only"
+    ],
+    "correctOption": "B",
+    "explanation": "Cochin International Airport in Kerala is the world's first fully solar-powered international airport. Gujarat does not have the largest solar park in India, and Goa does not host the largest floating solar photovoltaic project.",
+    "year": 2022,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Renewable Energy & Energy Management",
+    "subtopicName": "Solar Energy",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Solar Park",
+      "Cochin International Airport",
+      "Solar Energy",
+      "Floating Solar",
+      "Renewable Energy"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(107).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "REM_027",
+    "questionText": "With reference to green hydrogen, consider the following statements:\n1. It can be used directly as a fuel for internal combustion.\n2. It can be blended with natural gas and used as fuel for heat or power generation.\n3. It can be used in the hydrogen fuel cell to run vehicles.\nHow many of the above statements are correct?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "C",
+    "explanation": "Green hydrogen can be used in internal combustion engines, blended with natural gas for heat and power generation, and used in hydrogen fuel cells to power vehicles.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Renewable Energy & Energy Management",
+    "subtopicName": "Green Hydrogen",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Green Hydrogen",
+      "Hydrogen Fuel Cell",
+      "Clean Energy",
+      "Decarbonization",
+      "Renewable Fuel"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(107).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "REM_029",
+    "questionText": "Consider the following:\n1. Battery storage\n2. Biomass generators\n3. Fuel cells\n4. Rooftop solar photovoltaic units\nHow many of the above are considered 'Distributed Energy Resources'?",
+    "options": [
+      "Only one",
+      "Only two",
+      "Only three",
+      "All four"
+    ],
+    "correctOption": "D",
+    "explanation": "Distributed Energy Resources (DERs) include localized energy generation and storage technologies such as battery storage, biomass generators, fuel cells and rooftop solar photovoltaic systems.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Renewable Energy & Energy Management",
+    "subtopicName": "Distributed Energy Resources",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "DER",
+      "Battery Storage",
+      "Fuel Cells",
+      "Rooftop Solar",
+      "Distributed Energy"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(107).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "CC_030",
+    "questionText": "One of the following regions has the world's largest tropical peatland, which holds about three years worth of global carbon emissions from fossil fuels; and the possible destruction of which can exert detrimental effects on the global climate. Which one of the following denotes that region?",
+    "options": [
+      "Amazon Basin",
+      "Congo Basin",
+      "Kikon Basin",
+      "Rio de la Plata Basin"
+    ],
+    "correctOption": "B",
+    "explanation": "The Congo Basin contains the world's largest tropical peatland complex. It stores vast amounts of carbon and acts as a major global carbon sink. Its degradation could release significant greenhouse gases and worsen climate change.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Climate Change",
+    "subtopicName": "Carbon Sinks and Peatlands",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "Congo Basin",
+      "Peatland",
+      "Carbon Sink",
+      "Climate Change",
+      "Greenhouse Gases"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(107).txt",
+    "isPYQ": true
+ },
+  {
+    "questionId": "ETSP_026",
+    "questionText": "With reference to the role of biofilters in Recirculating Aquaculture System, consider the following statements:\n1. Biofilters provide waste treatment by removing uneaten fish feed.\n2. Biofilters convert ammonia present in fish waste to nitrate.\n3. Biofilters increase phosphorus as nutrient for fish in water.\nHow many of the statements given above are correct?",
+    "options": [
+      "Only one",
+      "Only two",
+      "All three",
+      "None"
+    ],
+    "correctOption": "B",
+    "explanation": "Biofilters convert toxic ammonia from fish waste into less harmful nitrate through nitrification. They do not primarily remove uneaten feed and do not increase phosphorus levels.",
+    "year": 2023,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Recirculating Aquaculture Systems",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "Biofilters",
+      "Aquaculture",
+      "RAS",
+      "Nitrification",
+      "Water Quality"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(108).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_028",
+    "questionText": "Which one of the following is the correct description of '100 Million Farmers'?",
+    "options": [
+      "It is a platform for accelerating the transition towards food and water systems that are net-zero (carbon), nature positive and that aims to increase farmer resilience.",
+      "It is an international alliance and a network of individuals and farming organisations interested in supporting and strengthening the development of organic animal husbandry.",
+      "It is a digital platform fully integrated with service providers and built on blockchain that lets buyers, sellers and third parties trade fertilizers quickly and securely.",
+      "It is a platform with the mission of encouraging the farmers to form Farmer Producer Organisations or Agribusiness Consortiums, thus facilitating the access to global open markets to sell their products."
+    ],
+    "correctOption": "A",
+    "explanation": "The 100 Million Farmers initiative focuses on accelerating the transition to net-zero, nature-positive food and water systems while improving farmer resilience.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Sustainable Agriculture Initiatives",
+    "questionType": "MCQ",
+    "difficulty": "Medium",
+    "keywords": [
+      "100 Million Farmers",
+      "Sustainable Agriculture",
+      "Net Zero",
+      "Nature Positive",
+      "Farmer Resilience"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(108).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_031",
+    "questionText": "Consider the following materials:\n1. Agricultural residues\n2. Corn grain\n3. Wastewater treatment sludge\n4. Wood mill waste\nWhich of the above can be used as feedstock for producing Sustainable Aviation Fuel?",
+    "options": [
+      "1 and 2 only",
+      "3 and 4 only",
+      "1, 2, 3 and 4",
+      "1, 3 and 4 only"
+    ],
+    "correctOption": "C",
+    "explanation": "Agricultural residues, corn grain, wastewater treatment sludge and wood mill waste can all be used as feedstocks for Sustainable Aviation Fuel production.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Sustainable Aviation Fuel",
+    "questionType": "MultipleStatement",
+    "difficulty": "Medium",
+    "keywords": [
+      "SAF",
+      "Sustainable Aviation Fuel",
+      "Biofuel",
+      "Feedstock",
+      "Renewable Energy"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(108).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "ETSP_032",
+    "questionText": "\"Membrane Bioreactors\" are often discussed in the context of:",
+    "options": [
+      "Assisted reproductive technologies",
+      "Drug delivery nanotechnologies",
+      "Vaccine production technologies",
+      "Wastewater treatment technologies"
+    ],
+    "correctOption": "D",
+    "explanation": "Membrane Bioreactors combine biological treatment and membrane filtration to achieve efficient wastewater treatment with high-quality effluent.",
+    "year": 2024,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Environmental Technologies & Sustainable Practices",
+    "subtopicName": "Wastewater Treatment",
+    "questionType": "MCQ",
+    "difficulty": "Easy",
+    "keywords": [
+      "Membrane Bioreactor",
+      "MBR",
+      "Wastewater Treatment",
+      "Water Purification"
+    ],
+    "tables": [],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(108).txt",
+    "isPYQ": true
+  },
+  {
+    "questionId": "WAE_033",
+    "questionText": "Consider the following pairs:\nWetland : Confluence of Rivers\n1. Harike Wetlands : Confluence of Beas and Satluj/Sutlej\n2. Keoladeo Ghana National Park : Confluence of Banas and Chambal\n3. Kolleru Lake : Confluence of Musi and Krishna\nWhich of the above pairs is/are correctly matched?",
+    "options": [
+      "1 only",
+      "2 and 3 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    "correctOption": "A",
+    "explanation": "Harike Wetlands are located at the confluence of the Beas and Sutlej rivers. Keoladeo Ghana National Park and Kolleru Lake are not located at the river confluences mentioned.",
+    "year": 2014,
+    "paper": "GS1",
+    "subjectName": "Environment",
+    "topicName": "Wetlands & Aquatic Ecosystems",
+    "subtopicName": "Wetlands of India",
+    "questionType": "Matching",
+    "difficulty": "Medium",
+    "keywords": [
+      "Harike Wetlands",
+      "Kolleru Lake",
+      "Keoladeo Ghana",
+      "Wetlands",
+      "Rivers"
+    ],
+    "tables": [
+      {
+        "title": "Wetland and River Confluence",
+        "headers": [
+          "Wetland",
+          "Confluence of Rivers"
+        ],
+        "rows": [
+          [
+            "Harike Wetlands",
+            "Beas and Sutlej"
+          ],
+          [
+            "Keoladeo Ghana National Park",
+            "Banas and Chambal"
+          ],
+          [
+            "Kolleru Lake",
+            "Musi and Krishna"
+          ]
+        ]
+      }
+    ],
+    "images": [],
+    "sourcePage": 0,
+    "sourceFile": "Pasted text(108).txt",
+    "isPYQ": true
+  }
+]
