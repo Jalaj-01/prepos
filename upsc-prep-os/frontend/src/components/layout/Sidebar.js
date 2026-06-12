@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import axios from "axios";
+import useAuthSync from "@/hooks/useAuthSync";
 import {
     LayoutDashboard,
     Target,
@@ -183,6 +184,7 @@ const isLinkActive = (pathname, href, allHrefs) => {
 };
 
 export default function Sidebar({ isAdmin = false }) {
+     useAuthSync(); 
     const pathname = usePathname();
     const [collapsed, setCollapsed] = useState(() => {
         if (typeof window === "undefined") return false;

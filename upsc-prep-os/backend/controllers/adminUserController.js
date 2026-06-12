@@ -275,8 +275,17 @@ exports.changeRole = async (req, res) => {
         }
 
         target.isAdmin = role === "admin";
-        if (role === "admin") target.userTier = "admin";
-        await target.save();
+
+if (role === "admin") {
+    target.userTier = "admin";
+} else {
+    // Demoting — reset tier to free (or their previous tier if you track it)
+    if (target.userTier === "admin") {
+        target.userTier = "free";
+    }
+}
+
+await target.save();
 
         res.json({
             message: `User ${
