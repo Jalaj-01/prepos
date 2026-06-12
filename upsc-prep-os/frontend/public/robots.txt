@@ -4,6 +4,7 @@ Allow: /
 
 # Block private routes from indexing
 Disallow: /admin
+Disallow: /admin/*
 Disallow: /api
 Disallow: /vault
 Disallow: /(auth)/
@@ -14,4 +15,4 @@ Allow: /mains
 Allow: /about
 
 # Sitemap location (Google reads this)
-Sitemap: https://prepos-upsc.vercel.app/
+Sitemap: "https://theprepos.in

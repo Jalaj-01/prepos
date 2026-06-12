@@ -7,7 +7,7 @@ export default function sitemap() {
 
     const baseUrl =
         process.env.NEXT_PUBLIC_SITE_URL ||
-        "https://prepos.app";
+        "https://theprepos.in";
 
     const now = new Date();
 

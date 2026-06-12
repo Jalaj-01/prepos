@@ -85,13 +85,13 @@ app.set("trust proxy", 1);
 // =========================
 
 app.use(cors({
-
     origin: [
         "http://localhost:3000",
         "http://localhost:3001",
-        "https://prepos-upsc.vercel.app"
+        "https://prepos-upsc.vercel.app",
+        "https://theprepos.in",
+        "https://www.theprepos.in"
     ],
-
     credentials: true
 }));
 

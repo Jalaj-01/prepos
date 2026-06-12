@@ -20,7 +20,7 @@ export const metadata = {
     }),
 
     applicationName: "PrepOS",
-    authors: [{ name: "PrepOS", url: "https://prepos-upsc.vercel.app/" }],
+    authors: [{ name: "PrepOS", url: "https://theprepos.in" }],
     creator: "PrepOS",
     publisher: "PrepOS",
 
@@ -72,7 +72,7 @@ export const metadata = {
         title: "PrepOS — Your UPSC Command Center",
         description:
             "Daily MCQs, mains practice, smart revisions, planner & analytics — all in one place. 100% free for aspirants.",
-        url: "https://prepos-upsc.vercel.app",
+        url: "https://theprepos.in",
         siteName: "PrepOS",
         images: [
             {
@@ -153,7 +153,7 @@ export default function RootLayout({ children }) {
                             name: "PrepOS",
                             description:
                                 "All-in-one UPSC preparation platform with daily MCQs, mains practice, smart revisions, planner & analytics.",
-                            url: "https://prepos-upsc.vercel.app",
+                            url: "https://theprepos.in",
                             applicationCategory: "EducationalApplication",
                             operatingSystem: "Web, iOS, Android",
                             offers: {
