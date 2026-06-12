@@ -76,6 +76,10 @@ const {
 
 const app = express();
 
+// ─── Trust the hosting proxy (Render / Vercel / Cloudflare)
+//     This lets express-rate-limit read the real user IP from X-Forwarded-For
+app.set("trust proxy", 1);
+
 // =========================
 // 6. GLOBAL MIDDLEWARE
 // =========================
