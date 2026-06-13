@@ -80,6 +80,23 @@ const app = express();
 //     This lets express-rate-limit read the real user IP from X-Forwarded-For
 app.set("trust proxy", 1);
 
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
+const hpp = require("hpp");
+
+// ─── SECURITY MIDDLEWARE ───
+
+// Set security HTTP headers
+app.use(helmet());
+
+// Sanitize data — prevents NoSQL injection
+// e.g., someone sends { "email": { "$gt": "" } } to login endpoint
+app.use(mongoSanitize());
+
+// Prevent HTTP parameter pollution
+// e.g., someone sends ?sort=year&sort=name to confuse your queries
+app.use(hpp());
+
 // =========================
 // 6. GLOBAL MIDDLEWARE
 // =========================
