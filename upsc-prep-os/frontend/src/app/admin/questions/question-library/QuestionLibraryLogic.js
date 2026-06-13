@@ -350,7 +350,7 @@ const handleQuestionUpdated = (updated) => {
     // SAVE TO PRACTICE SET
     // =========================
 
-   JavaScript
+   
 
 const saveToPracticeSet = async (questionId) => {
     const title = await promptModal({
@@ -472,26 +472,29 @@ const allCount = totals.total;
 
                                 {/* YEAR */}
 
-                                <div className="mb-4 sm:mb-6">
+                                {/* YEAR */}
 
-                                    <label className="text-[10px] font-black uppercase text-brand-muted mb-2 block">
+<div className="mb-4 sm:mb-6">
 
-                                        Year
+    <label className="text-[10px] font-black uppercase text-brand-muted mb-2 block">
+        Year
+    </label>
 
-                                    </label>
+    <select
+        value={selectedYear}
+        onChange={(e) => setSelectedYear(e.target.value)}
+        className="w-full rounded-xl border border-brand-border px-3 py-2.5 bg-brand-light font-bold text-sm"
+    >
+        <option value="">All Years</option>
+        {Array.from(
+            { length: new Date().getFullYear() - 2012 },
+            (_, i) => new Date().getFullYear() - i
+        ).map(year => (
+            <option key={year} value={year}>{year}</option>
+        ))}
+    </select>
 
-                                    <select
-                                        value={selectedYear}
-                                        onChange={(e) => setSelectedYear(e.target.value)}
-                                        className="w-full rounded-xl border border-brand-border px-3 py-2.5 bg-brand-light font-bold text-sm"
-                                    >
-                                        <option value="">All Years</option>
-                                        {[2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017].map(year => (
-                                            <option key={year} value={year}>{year}</option>
-                                        ))}
-                                    </select>
-
-                                </div>
+</div>
 
                                 {/* PAPER */}
 

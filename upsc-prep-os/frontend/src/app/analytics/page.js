@@ -350,7 +350,34 @@ export default function AnalyticsPage() {
 
                         {/* LEFT — 8 cols */}
 
+                        {/* RECOMMENDATIONS */}
+
                         <div className="lg:col-span-8 space-y-4 sm:space-y-6">
+
+                             <div className="bg-gradient-to-br from-brand-dark to-gray-900 text-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-48 h-48 bg-brand-accent/10 rounded-full blur-3xl -translate-y-24 translate-x-24" />
+        <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
+                    <Sparkles size={18} className="text-brand-accent" />
+                </div>
+                <h2 className="font-black text-sm sm:text-base">Insights</h2>
+            </div>
+            {data?.recommendations?.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    {data.recommendations.slice(0, 3).map((rec, i) => (
+                        <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-3">
+                            <p className="text-xs font-bold text-white/80 leading-relaxed">{rec}</p>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="py-6 text-center">
+                    <p className="text-white/30 font-bold text-xs">✨ Practice more for personalized insights</p>
+                </div>
+            )}
+        </div>
+    </div>
 
                             {/* SUBJECT MASTERY */}
 
@@ -503,96 +530,7 @@ export default function AnalyticsPage() {
 
                             </div>
 
-                            {/* CONSISTENCY ROADMAP */}
-
-                            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-brand-border">
-
-                                <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-
-                                    <div className="flex items-center gap-3">
-
-                                        <div className="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center">
-                                            <Calendar size={18} className="text-blue-600" />
-                                        </div>
-
-                                        <div>
-                                            <h2 className="font-black text-base sm:text-lg text-brand-dark">365-Day Activity</h2>
-                                            <p className="text-[10px] text-brand-muted font-medium">Hover any cell for details</p>
-                                        </div>
-
-                                    </div>
-
-                                    <div className="flex gap-2 items-center bg-brand-light p-2 rounded-xl border border-brand-border text-[10px] font-black text-brand-muted">
-                                        <span>Less</span>
-                                        <div className="flex gap-1">
-                                            <div className="w-3 h-3 bg-brand-light rounded-[2px] border border-black/5" />
-                                            <div className="w-3 h-3 bg-brand-accent/30 rounded-[2px]" />
-                                            <div className="w-3 h-3 bg-brand-accent/70 rounded-[2px]" />
-                                            <div className="w-3 h-3 bg-brand-accent rounded-[2px]" />
-                                        </div>
-                                        <span>More</span>
-                                    </div>
-
-                                </div>
-
-                                <div className="overflow-x-auto pb-2">
-
-                                    <div className="min-w-[850px]">
-
-                                        <div className="flex text-[10px] font-bold text-brand-muted mb-3 ml-10">
-                                            {monthLabels.map((m, i) => (
-                                                <div key={i} className="flex-1">{m}</div>
-                                            ))}
-                                        </div>
-
-                                        <div className="flex gap-4">
-
-                                            <div className="flex flex-col justify-between text-[10px] font-black text-brand-muted/40 py-1 uppercase h-[130px]">
-                                                <span>Mon</span>
-                                                <span>Wed</span>
-                                                <span>Fri</span>
-                                            </div>
-
-                                            <div className="flex flex-1 gap-1.5">
-
-                                                {grid.map((week, wIdx) => (
-
-                                                    <div key={wIdx} className="flex flex-col gap-1.5">
-
-                                                        {week.map((day, dIdx) => (
-
-                                                            <motion.div
-                                                                key={dIdx}
-                                                                whileHover={day.isFuture ? {} : { scale: 1.5, zIndex: 10 }}
-                                                                title={day.isFuture ? "Future" : `${day.fullDate}\n${day.count} questions solved`}
-                                                                className={`w-3.5 h-3.5 rounded-[3px] border transition-colors duration-500 ${
-                                                                    day.isFuture
-                                                                        ? "bg-transparent border-dashed border-brand-border/50"
-                                                                        : day.count > 20
-                                                                        ? "bg-brand-accent border-brand-accent/50 cursor-pointer"
-                                                                        : day.count > 10
-                                                                        ? "bg-brand-accent/70 border-brand-accent/30 cursor-pointer"
-                                                                        : day.count > 0
-                                                                        ? "bg-brand-accent/30 border-brand-accent/20 cursor-pointer"
-                                                                        : "bg-brand-light border-black/5 cursor-pointer"
-                                                                }`}
-                                                            />
-
-                                                        ))}
-
-                                                    </div>
-                                                ))}
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
+                        
                         </div>
 
                         {/* RIGHT — 4 cols */}
@@ -749,58 +687,7 @@ export default function AnalyticsPage() {
 
                             </div>
 
-                            {/* RECOMMENDATIONS */}
-
-                            <div className="bg-gradient-to-br from-brand-dark to-gray-900 text-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden">
-
-                                <div className="absolute top-0 right-0 w-48 h-48 bg-brand-accent/10 rounded-full blur-3xl -translate-y-24 translate-x-24" />
-
-                                <div className="relative z-10">
-
-                                    <div className="flex items-center gap-3 mb-5">
-
-                                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
-                                            <Sparkles size={18} className="text-brand-accent" />
-                                        </div>
-
-                                        <h2 className="font-black text-sm sm:text-base">
-                                            Insights
-                                        </h2>
-
-                                    </div>
-
-                                    {data?.recommendations?.length > 0 ? (
-
-                                        <div className="space-y-2.5">
-
-                                            {data.recommendations.slice(0, 3).map((rec, i) => (
-
-                                                <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-3">
-
-                                                    <p className="text-xs font-bold text-white/80 leading-relaxed">
-                                                        {rec}
-                                                    </p>
-
-                                                </div>
-                                            ))}
-
-                                        </div>
-
-                                    ) : (
-
-                                        <div className="py-6 text-center">
-
-                                            <p className="text-white/30 font-bold text-xs">
-                                                ✨ Practice more for personalized insights
-                                            </p>
-
-                                        </div>
-                                    )}
-
-                                </div>
-
-                            </div>
-
+                            
                         </div>
 
                     </div>

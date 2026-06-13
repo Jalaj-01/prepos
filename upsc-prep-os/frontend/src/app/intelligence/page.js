@@ -38,7 +38,7 @@ import EmptyState from "@/components/ui/EmptyState";
 
 const TABS = [
 
-    { id: "trends", label: "Subject Trends", icon: BarChart3 },
+    // { id: "trends", label: "Subject Trends", icon: BarChart3 },
 
     { id: "repeated", label: "Repeated Themes", icon: Flame },
 
@@ -68,7 +68,7 @@ export default function IntelligencePage() {
 
     const [user, setUser] = useState(null);
 
-    const [activeTab, setActiveTab] = useState("trends");
+   const [activeTab, setActiveTab] = useState("repeated");
 
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -299,22 +299,7 @@ export default function IntelligencePage() {
 
                         </div>
 
-                        {activeTab === "repeated" && (
-
-                            <div className="flex items-center gap-2 flex-1 min-w-0">
-
-                                <Search size={14} className="text-brand-muted shrink-0" />
-
-                                <input
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    placeholder="Search themes..."
-                                    className="bg-transparent outline-none text-sm font-bold flex-1 min-w-0"
-                                />
-
-                            </div>
-                        )}
-
+                    
                     </div>
 
                     {/* TAB CONTENT */}

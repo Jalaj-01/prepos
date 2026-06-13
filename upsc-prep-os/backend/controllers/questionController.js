@@ -833,51 +833,30 @@ async (
 // (For dropdowns in free practice)
 // =========================
 
-exports.getQuestionFilters = async (
-    req,
-    res
-) => {
-
+exports.getQuestionFilters = async (req, res) => {
     try {
+        const { paper } = req.query;
 
-        const [
-            subjects,
-            topics,
-            years,
-            papers
-        ] = await Promise.all([
+        // Build base filter — if paper is specified, only return subjects/topics for that paper
+        const baseFilter = {};
+        if (paper) baseFilter.paper = paper;
 
-            Question.distinct("subjectName"),
-
-            Question.distinct("topicName"),
-
+        const [subjects, topics, years, papers] = await Promise.all([
+            Question.distinct("subjectName", baseFilter),
+            Question.distinct("topicName", baseFilter),
             Question.distinct("year"),
-
             Question.distinct("paper")
         ]);
 
         res.json({
-
-            subjects:
-                subjects.filter(Boolean).sort(),
-
-            topics:
-                topics.filter(Boolean).sort(),
-
-            years:
-                years.filter(Boolean).sort((a, b) => b - a),
-
-            papers:
-                papers.filter(Boolean).sort()
+            subjects: subjects.filter(Boolean).sort(),
+            topics: topics.filter(Boolean).sort(),
+            years: years.filter(Boolean).sort((a, b) => b - a),
+            papers: papers.filter(Boolean).sort()
         });
-
     } catch (error) {
-
         console.error("Question Filters Error:", error);
-
-        res.status(500).json({
-            message: error.message
-        });
+        res.status(500).json({ message: error.message });
     }
 };
 // =========================

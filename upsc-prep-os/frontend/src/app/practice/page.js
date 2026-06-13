@@ -137,15 +137,14 @@ function PracticeContent() {
             setLoading(true);
 
             const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/preparation-track/next-question?mode=${currentMode}`,
 
-                `${process.env.NEXT_PUBLIC_API_URL}/api/preparation-track/next-question?mode=${currentMode}`,
-
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.token}`
-                    }
-                }
-            );
+    {
+        headers: {
+            Authorization: `Bearer ${user.token}`
+        }
+    }
+);
 
             // Handle different statuses
 
@@ -784,10 +783,9 @@ function PracticeContent() {
 
                             </div>
 
-                            <h2 className="text-base sm:text-xl font-bold leading-relaxed text-brand-dark">
-                                {question.questionText}
-                            </h2>
-
+                           <h2 className="text-base sm:text-xl font-bold leading-relaxed text-brand-dark whitespace-pre-wrap">
+    {question.questionText}
+</h2>
                         </div>
 
                         {/* OPTIONS */}

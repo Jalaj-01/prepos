@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import Link from 'next/link';
+import { showToast } from "@/components/ui/Toast";
+import { confirmAction } from "@/components/ui/ConfirmModal";
 
 export default function BookDetails() {
     const { id } = useParams();
