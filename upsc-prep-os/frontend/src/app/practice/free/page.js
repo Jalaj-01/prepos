@@ -346,9 +346,9 @@ export default function FreePracticePage() {
             <QuestionStatusBadge attempted={true} />
         )}
     </div>
-    <h2 className="text-base sm:text-lg font-bold leading-relaxed text-brand-dark">
-        {question.questionText}
-    </h2>
+    <h2 className="text-base sm:text-xl font-bold leading-relaxed text-brand-dark whitespace-pre-wrap">
+    {question.questionText}
+</h2>
 </div>
 
                                     <div className="grid grid-cols-1 gap-3">
