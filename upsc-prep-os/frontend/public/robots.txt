@@ -15,4 +15,4 @@ Allow: /mains
 Allow: /about
 
 # Sitemap location (Google reads this)
-Sitemap: "https://theprepos.in
+Sitemap: https://theprepos.in/sitemap.xml
