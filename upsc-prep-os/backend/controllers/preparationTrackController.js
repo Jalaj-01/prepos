@@ -4,6 +4,8 @@ const PreparationTrack =
 const Question =
     require("../models/Question");
 
+const User = require("../models/User");
+
 // =========================
 // HELPERS
 // =========================
@@ -140,6 +142,26 @@ async (
         const totalQuestions =
             await Question.countDocuments(query);
 
+        // Recalculate daily target based on ACTUAL questions in this track
+const user = await User.findById(req.user._id);
+const targetDate = user.targetCompletionDate
+    ? new Date(user.targetCompletionDate)
+    : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000); // fallback 1 year
+
+const today = new Date();
+const daysRemaining = Math.max(
+    Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24)),
+    1  // minimum 1 day to avoid division by zero
+);
+
+const calculatedDailyTarget = Math.max(
+    Math.ceil(totalQuestions / daysRemaining),
+    1  // minimum 1 question per day
+);
+
+// Use the calculated value, or the user's override if they manually set one
+const finalDailyTarget = dailyQuestionTarget || calculatedDailyTarget;
+
         const remainingQuestions =
             await Question.find(query)
                 .sort({
@@ -163,7 +185,8 @@ async (
 
                 selectedTopics,
 
-                dailyQuestionTarget,
+                dailyQuestionTarget: finalDailyTarget,  
+
 
                 totalQuestions,
 
@@ -279,11 +302,16 @@ async (
 
                 dailySession: todaySession,
 
-                progress: {
-                    solved: track.solvedQuestions.length,
-                    remaining: track.remainingQuestionIds.length,
-                    total: track.totalQuestions
-                }
+               progress: {
+    solved: track.solvedQuestions.length,
+    remaining: track.remainingQuestionIds.length,
+    total: Math.max(
+        track.totalQuestions,
+        track.solvedQuestions.length + track.remainingQuestionIds.length
+    ),
+    dailyAttempted: todaySession.attempted,
+    dailyTarget: track.dailyQuestionTarget
+}
             });
         }
 

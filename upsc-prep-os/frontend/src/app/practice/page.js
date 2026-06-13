@@ -531,15 +531,15 @@ function PracticeContent() {
                                         <span className="text-xs font-black text-brand-muted uppercase tracking-widest">Overall Progress</span>
                                         <span className="text-xs font-black text-brand-accent">
                                             {progress.total > 0
-                                                ? Math.round((progress.solved / progress.total) * 100)
-                                                : 0}%
+    ? Math.min(Math.round((progress.solved / progress.total) * 100), 100)
+    : 0}%
                                         </span>
                                     </div>
 
                                     <div className="w-full bg-white h-2.5 rounded-full overflow-hidden">
                                         <div
                                             className="h-full bg-gradient-to-r from-brand-accent to-purple-500 rounded-full"
-                                            style={{ width: `${progress.total > 0 ? (progress.solved / progress.total) * 100 : 0}%` }}
+                                            style={{ width: `${progress.total > 0 ? Math.min((progress.solved / progress.total) * 100, 100) : 0}%` }}
                                         />
                                     </div>
 

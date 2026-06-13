@@ -774,22 +774,45 @@ exports.getUnifiedDashboard = async (req, res) => {
         // =====================================================
         // PRELIMS BLOCK
         // =====================================================
-        const [
-            gsTrack,
-            csatTrack,
-            prelimsTodayCount,
-            prelimsTotalSolved,
-            prelimsPoolSize
-        ] = await Promise.all([
-            PreparationTrack.findOne({ userId, mode: 'GS', isActive: true }),
-            PreparationTrack.findOne({ userId, mode: 'CSAT', isActive: true }),
-            Attempt.countDocuments({
-                userId,
-                createdAt: { $gte: startOfDay }
-            }),
-            Attempt.countDocuments({ userId }),
-            Question.countDocuments({ reviewStatus: 'Approved' }).catch(() => 0)
-        ]);
+       // =====================================================
+// PRELIMS BLOCK
+// =====================================================
+const [
+    gsTrack,
+    csatTrack,
+    prelimsTodayCount
+] = await Promise.all([
+    PreparationTrack.findOne({ userId, mode: 'GS', isActive: true }),
+    PreparationTrack.findOne({ userId, mode: 'CSAT', isActive: true }),
+    Attempt.countDocuments({
+        userId,
+        createdAt: { $gte: startOfDay }
+    })
+]);
+
+// Calculate track-based totals (not global)
+const gsSolved = gsTrack?.solvedQuestions?.length || 0;
+const csatSolved = csatTrack?.solvedQuestions?.length || 0;
+const prelimsTotalSolved = gsSolved + csatSolved;
+
+const gsTotal = gsTrack
+    ? Math.max(
+        gsTrack.totalQuestions || 0,
+        (gsTrack.solvedQuestions?.length || 0) + (gsTrack.remainingQuestionIds?.length || 0)
+    )
+    : 0;
+const csatTotal = csatTrack
+    ? Math.max(
+        csatTrack.totalQuestions || 0,
+        (csatTrack.solvedQuestions?.length || 0) + (csatTrack.remainingQuestionIds?.length || 0)
+    )
+    : 0;
+const prelimsPoolSize = gsTotal + csatTotal;
+
+// Daily target from track (not user profile)
+const gsDailyTarget = gsTrack?.dailyQuestionTarget || 0;
+const csatDailyTarget = csatTrack?.dailyQuestionTarget || 0;
+const dailyTarget = gsDailyTarget + csatDailyTarget;
 
         // Count revisions due across both tracks
         let prelimsRevisionsDue = 0;
@@ -818,8 +841,7 @@ exports.getUnifiedDashboard = async (req, res) => {
             weakestPrelims = null;
         }
 
-        // Daily target from user
-        const dailyTarget = req.user.dailyMcqTarget || 0;
+       
 
         // Prelims completion %
         const prelimsCompletionPercentage = prelimsPoolSize > 0
